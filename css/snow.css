@@ -1,0 +1,22 @@
+/* 本文件为白天背景雪花飘落特效css文件，在js文件夹中的snow.js文件里有对应雪花背景的js部分，在_config.butterfly.yml文件下被inject项目引入 */
+/* 雪花特效 */
+[data-theme="light"] #snow{
+    display: block;
+    position: fixed;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    outline: 0;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: -1;
+  }
+  
+  /* 雪花黑夜模式不显示 */
+  [data-theme="dark"] #snow{
+    display: none;
+  }
+  

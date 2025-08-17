@@ -1,0 +1,820 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>计算机网络（三）——数据链路层 | 无名高手🍭</title><meta name="author" content="liujinC"><meta name="copyright" content="liujinC"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="ffffff"><meta name="description" content="乐子人的计算机网络第三章学习笔记">
+<meta property="og:type" content="article">
+<meta property="og:title" content="计算机网络（三）——数据链路层">
+<meta property="og:url" content="http://bandit-ljc-1.github.io/2024/04/10/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%EF%BC%88%E4%B8%89%EF%BC%89%E2%80%94%E2%80%94%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AF%E5%B1%82/index.html">
+<meta property="og:site_name" content="无名高手🍭">
+<meta property="og:description" content="乐子人的计算机网络第三章学习笔记">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://bandit-ljc-1.github.io/myphotos/article_cover/4.jpg">
+<meta property="article:published_time" content="2024-04-10T04:53:00.000Z">
+<meta property="article:modified_time" content="2024-04-23T04:53:00.000Z">
+<meta property="article:author" content="liujinC">
+<meta property="article:tag" content="408学习笔记">
+<meta property="article:tag" content="计算机网络">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://bandit-ljc-1.github.io/myphotos/article_cover/4.jpg"><link rel="shortcut icon" href="/myphotos/icon.png"><link rel="canonical" href="http://bandit-ljc-1.github.io/2024/04/10/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%EF%BC%88%E4%B8%89%EF%BC%89%E2%80%94%E2%80%94%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AF%E5%B1%82/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css?v=4.12.0"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.5.1/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/node-snackbar@0.1.16/dist/snackbar.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0.32/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":true,"top_n_per_article":-1,"unescape":false,"languages":{"hits_empty":"找不到您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: undefined,
+  noticeOutdate: {"limitDay":365,"position":"top","messagePrev":"It has been","messageNext":"days since the last update, the content of the article may be outdated."},
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":230},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: {"chs_to_cht":"你已切换为繁体中文","cht_to_chs":"你已切换为简体中文","day_to_night":"你已切换为深色模式","night_to_day":"你已切换为浅色模式","bgLight":"#49b1f5","bgDark":"#1f1f1f","position":"top-right"},
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid@4.11.0/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyload: true,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '计算机网络（三）——数据链路层',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2024-04-23 12:53:00'
+}</script><script>(win=>{
+      win.saveToLocal = {
+        set: (key, value, ttl) => {
+          if (ttl === 0) return
+          const now = Date.now()
+          const expiry = now + ttl * 86400000
+          const item = {
+            value,
+            expiry
+          }
+          localStorage.setItem(key, JSON.stringify(item))
+        },
+      
+        get: key => {
+          const itemStr = localStorage.getItem(key)
+      
+          if (!itemStr) {
+            return undefined
+          }
+          const item = JSON.parse(itemStr)
+          const now = Date.now()
+      
+          if (now > item.expiry) {
+            localStorage.removeItem(key)
+            return undefined
+          }
+          return item.value
+        }
+      }
+    
+      win.getScript = (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        script.onerror = reject
+        script.onload = script.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          script.onload = script.onreadystatechange = null
+          resolve()
+        }
+
+        Object.keys(attr).forEach(key => {
+          script.setAttribute(key, attr[key])
+        })
+
+        document.head.appendChild(script)
+      })
+    
+      win.getCSS = (url, id = false) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onerror = reject
+        link.onload = link.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          link.onload = link.onreadystatechange = null
+          resolve()
+        }
+        document.head.appendChild(link)
+      })
+    
+      win.activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', 'ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          const now = new Date()
+          const hour = now.getHours()
+          const isNight = hour <= 6 || hour >= 18
+          if (t === undefined) isNight ? activateDarkMode() : activateLightMode()
+          else if (t === 'light') activateLightMode()
+          else activateDarkMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+      const detectApple = () => {
+        if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+          document.documentElement.classList.add('apple')
+        }
+      }
+      detectApple()
+    })(window)</script><link rel="stylesheet" href="/css/custom.css" media="defer" onload="this.media='all'"><link rel="stylesheet" href="/css/light.css" media="defer" onload="this.media='all'"><link rel="stylesheet" href="/css/snow.css"><link rel="stylesheet" href="/css/universe.css"><link rel="stylesheet" href="/css/mouse.css"><link rel="stylesheet" href="//at.alicdn.com/t/c/font_4451089_fok8y2foa3.css" media="defer" onload="this.media='all'"><link rel="stylesheet" href="/css/page_style.css"><span id="fps"></span><link rel="stylesheet" href="/css/pangu_control.css"><div id="myscoll"></div><!-- hexo injector head_end start --><link rel="stylesheet" href="/css/categorybar.css"><link rel="stylesheet" href="https://npm.elemecdn.com/hexo-butterfly-swiper/lib/swiper.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="/css/swiper/swiperstyle.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://unpkg.zhimg.com/hexo-butterfly-footer-beautify@1.0.0/lib/runtime.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="/css/wowjs/animate.min.css" media="print" onload="this.media='screen'"><!-- hexo injector head_end end --><meta name="generator" content="Hexo 6.3.0"></head><body><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/myphotos/avatar.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">29</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">8</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">3</div></a></div><hr class="custom-hr"/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> 列表</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音乐</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 电影</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/comments/"><i class="fa-fw fas fa-envelope-open"></i><span> 留言板</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('/myphotos/article_cover/4.jpg')"><nav id="nav"><span id="blog-info"><a href="/" title="无名高手🍭"><span class="site-name">无名高手🍭</span></a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search" href="javascript:void(0);"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> 列表</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音乐</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 电影</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/comments/"><i class="fa-fw fas fa-envelope-open"></i><span> 留言板</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">计算机网络（三）——数据链路层</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2024-04-10T04:53:00.000Z" title="发表于 2024-04-10 12:53:00">2024-04-10</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2024-04-23T04:53:00.000Z" title="更新于 2024-04-23 12:53:00">2024-04-23</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">学习笔记</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">18.6k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>56分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="计算机网络（三）——数据链路层"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h1 id="计算机网络（三）——数据链路层"><a href="#计算机网络（三）——数据链路层" class="headerlink" title="计算机网络（三）——数据链路层"></a>计算机网络（三）——数据链路层</h1><h2 id="1-数据链路层功能概述"><a href="#1-数据链路层功能概述" class="headerlink" title="1. 数据链路层功能概述"></a>1. 数据链路层功能概述</h2><h3 id="1-1-数据链路层的基本概念"><a href="#1-1-数据链路层的基本概念" class="headerlink" title="1.1 数据链路层的基本概念"></a>1.1 数据链路层的基本概念</h3><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/6616405d68eb93571324f390.png" alt="计算机网络（三）——数据链路层——数据链路研究思想.png">
+
+<p>当从A主机向B主机发送数据时，会经过自上而下的封装以及自下而上的解封装过程。而当我们去研究数据链路层时，很多情况下，我们只去关注协议栈中水平方向的数据链路层，所以当A向B发送数据时，我们就可以想象，数据从A的链路层水平向右发送的。这就是我们这一章研究数据链路层的思想。</p>
+<p>注意，这部分的研究思想很重要，说白了，这个思想就是抛去了下面的物理层，把数据链路层当成最底层来进行相互的数据传输。一定要搞明白这个思想，我一开始也没注意这个研究思想，但后来发现后面的很多东西要想理解，必须先搞清楚这个思想，不然就会感觉怪怪的，或者有疑惑。</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/66163fb768eb9357132393de.png" alt="计算机网络（三）——数据链路层——数据链路层基本概念.png">
+
+<p>上图给出了数据链路层的基本概念，<strong>注意区分链路和数据链路</strong>。</p>
+<p>数据链路层的主要任务是实现帧在一段链路上或一个网络中进行传输。数据链路层的协议有很多种，但有三个基本问题则是共同的，<font color=red><strong>即封装成帧、透明传输和差错检测</strong></font>。这三个问题，我们会在接下来的介绍中进行细说。</p>
+<h3 id="1-2-数据链路层的基本功能"><a href="#1-2-数据链路层的基本功能" class="headerlink" title="1.2 数据链路层的基本功能"></a>1.2 数据链路层的基本功能</h3><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/6616400868eb9357132446a2.png" alt="计算机网络（三）——数据链路层——数据链路层基本功能.png">
+
+<p>数据链路层有如上图所述的五种功能。这里简单说一下功能一。</p>
+<ol>
+<li>无确认无连接服务：源主机发送帧时不需要先建立链路连接，目的主机收到帧时不需要发回确认。数据传输的可靠性由高层负责。<font color=FFB3FF><strong>适用于误码率较低的信道</strong></font>，如以太网。</li>
+<li>有确认无连接服务：源主机发送帧时不需先建立链路连接，但目的主机收到帧时必须发回确认。源主机在所规定的时间内未收到确定信号时，就重传丢失的帧，以提高传输的可靠性。<font color=FFB3FF><strong>该服务适用于误码率较高的信道</strong></font>，如无线通信。</li>
+<li>有确认面向连接服务：帧传输过程分为三个阶段：建立链路、传输帧、释放链路。目的主机对收到的每一个帧都要返回确认。<font color=FFB3FF><strong>该服务适用于可靠性要求较高的场合</strong></font>。</li>
+</ol>
+<h2 id="2-组帧"><a href="#2-组帧" class="headerlink" title="2. 组帧"></a>2. 组帧</h2><h3 id="2-1-封装成帧"><a href="#2-1-封装成帧" class="headerlink" title="2.1 封装成帧"></a>2.1 封装成帧</h3><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/6616442268eb9357132d627e.png" alt="计算机网络（三）——数据链路层——封装成帧.png">
+
+<p>封装成帧就是在数据头部和尾部添加一组信息数据，这组数据包含控制信息，目标地址等信息。在数据传输时，每一组数据都会添加帧信息，这就导致，数据的传输会有大量无效数据，为了提高数据的传输效率，我们要尽可能的保证帧的数据部分足够大。因此每种链路层协议里都规定了帧的数据部分的长度上限，即最大传送单元。</p>
+<h3 id="2-2-透明传输"><a href="#2-2-透明传输" class="headerlink" title="2.2 透明传输"></a>2.2 透明传输</h3><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/6616447d68eb9357132dee06.png" alt="计算机网络（三）——数据链路层——透明传输.png">
+
+<h3 id="2-3-组帧的三种方法"><a href="#2-3-组帧的三种方法" class="headerlink" title="2.3 组帧的三种方法"></a>2.3 组帧的三种方法</h3><h4 id="2-3-1-字符计数法"><a href="#2-3-1-字符计数法" class="headerlink" title="2.3.1 字符计数法"></a>2.3.1 字符计数法</h4><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/661644fc68eb9357132f2a33.png" alt="计算机网络（三）——数据链路层——字符计数法.png">
+
+<p>字符计数法在每一个帧的首部使用一个计数字段，来记录当前帧里有多少位字符，如上图，这样就能确定帧结束位置，又因为帧与帧之间是连续传输的，所以也能确定下一帧的开始位置。但是字符计数法将所有数据放到了一起，一旦其中一组的帧边界划分出现错误，数据的传输就会出现灾难性错误。</p>
+<h4 id="2-3-2-字节填充法"><a href="#2-3-2-字节填充法" class="headerlink" title="2.3.2 字节填充法"></a>2.3.2 字节填充法</h4><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/6616459768eb935713308032.png" alt="计算机网络（三）——数据链路层——字符填充法.png">
+
+<p>字符填充法使用特定的字节来界定帧的开始与结束，如上图，使用SOH代表帧开始，EOT代表帧结束。但这样做的话会出现一个问题，如果中间数据存在于帧头或帧尾一样的数据，就可能会出现帧边界误判的情况。为了避免这种情况出现，我们可以通过加转义字符的方式来进行处理，在数据里如果出现与帧头或帧尾相同的数据，就在其前面加上ESC，这样在进行检测时，检测到ESC时，不管ESC下一位是什么，都当成数据进行传输。</p>
+<p>具体的字符填充法过程如下图所示：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/661645d668eb9357133109ea.png" alt="计算机网络（三）——数据链路层——字符填充法运行过程.png">
+
+
+
+<p>发送端先使用字符填充法将原始数据里与帧头帧尾相同的字符进行转义处理，然后发送给接收方，接收方收到数据以后，再去掉数据里的ESC，就得到了原始数据。</p>
+<h4 id="2-3-3-零比特填充法"><a href="#2-3-3-零比特填充法" class="headerlink" title="2.3.3 零比特填充法"></a>2.3.3 零比特填充法</h4><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/6616461768eb935713318669.png">
+
+<p>零比特填充法和字节填充法一样，都有帧头和帧尾，不同的是零比特填充法的帧头帧尾一样，都为01111110。但零比特填充法会将数据中扫描到的5个连续的1后面添0。这样做的目的是，将数据中连续5个1后面补0，那数据中出现1的连续最大值只能为5，就不会与帧头帧尾连续6个1相同。通过这样的设计，传送的比特流就可以任意组合，不会出现帧边界的判断错误。</p>
+<p>接收方接收到数据以后，会对数据进行还原，即每5个1后面删去1个0。</p>
+<h4 id="2-3-4-违规编码法"><a href="#2-3-4-违规编码法" class="headerlink" title="2.3.4 违规编码法"></a>2.3.4 违规编码法</h4><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/6616463b68eb93571331d13f.png" alt="计算机网络（三）——数据链路层——违规编码法.png">
+
+<p>违规编码法就是通过使用违规的数来充当帧头帧尾。例如上方曼彻斯特编码，将数据1和0分别编码成高-低或低-高（也可能相反）的样式。这个时候对于曼彻斯特编码来说，高-高或低-低就是违规的编码方式，所以可以使用高-高和低-低来充当帧头帧尾。</p>
+<h2 id="3-差错控制"><a href="#3-差错控制" class="headerlink" title="3. 差错控制"></a>3. 差错控制</h2><h3 id="3-1-差错产生的原因"><a href="#3-1-差错产生的原因" class="headerlink" title="3.1 差错产生的原因"></a>3.1 差错产生的原因</h3><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/661646ed68eb935713336016.png" alt="计算机网络（三）——数据链路层——差错产生原因.png">
+
+<p>差错产生的原因不是重点，可以用来扩充知识面。</p>
+<h3 id="3-1-检错编码"><a href="#3-1-检错编码" class="headerlink" title="3.1 检错编码"></a>3.1 检错编码</h3><h4 id="3-1-1-奇偶校验码"><a href="#3-1-1-奇偶校验码" class="headerlink" title="3.1.1 奇偶校验码"></a>3.1.1 奇偶校验码</h4><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/6616474768eb9357133470dc.png" alt="计算机网络（三）——数据链路层——奇偶校验.png">
+
+<p>奇偶校验很简单，在计组里有比这还详细的记录，可以去计算机组成原理（二）——数据的表示和运算中的8.奇偶校验里查看。</p>
+<h4 id="3-1-2-CRC冗余码"><a href="#3-1-2-CRC冗余码" class="headerlink" title="3.1.2 CRC冗余码"></a>3.1.2 CRC冗余码</h4><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/6616478568eb93571334daf3.png" alt="计算机网络（三）——数据链路层——CRC校验.png">
+
+<p>CRC循环冗余码是比较重要的一部分，这部分很简单，但一定要做几道题，熟悉一下，不然考试时估计会出现漏子。</p>
+<p>CRC编码里有三个核心地方，分别是要传的数据、生成多项式、FCS帧检验序列&#x2F;冗余码。</p>
+<p><font color=red><strong>冗余码等于待传数据与比生成多项式小一位的0串组成的数据除生成多项式所产生的余数。</strong></font></p>
+<p>发送的数据就是要传数据加上冗余码。</p>
+<p>接收方检验数据时，将收到的数据除生成多项式，查看余数，余数为0，接收正确；不为0，接收错误，丢弃。</p>
+<p>具体的传输与接收过程可以参考上图与文字进行理解。不理解的，也可以联系下面的例题进行学习。</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/661647d668eb935713353668.png" alt="计算机网络（三）——数据链路层——CRC校验示例.png">
+
+<p>上面为发送方数据生成，下面为接收方数据检验。</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/661647fb68eb9357133599c2.png" alt="计算机网络（三）——数据链路层——CRC接收端检错.png">
+
+<p>这里补充一个知识点，CRC差错检测技术，只能做到对帧的无差错接收（帧中数据比特无差错），但并不是可靠传输，因为中间还存在数据出错，被丢弃的情况。而可靠传输是指数据链路层发送端发什么，接收端就收什么，很显然CRC差错检测技术并不符合。</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/6616482268eb93571335c679.png" alt="计算机网络（三）——数据链路层——CRC知识补充.png">
+
+<h3 id="3-2-纠错编码"><a href="#3-2-纠错编码" class="headerlink" title="3.2 纠错编码"></a>3.2 纠错编码</h3><p>在3.1里说了奇偶校验码和CRC冗余码，但两种都是检错编码，只能检查出错误，而不能进行改正。而这部分讲的海明码则可以实现检错纠错功能。</p>
+<p>这里关于海明码的课，王道讲的不咋地，湖科大也没讲，所以我看的书，感觉书上的例子很好，跟着做一遍就知道怎么做海明码，所以贴在这里。</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/66264a470ea9cb1403c45050.jpg" alt="计算机网络（三）——数据链路层——海明码.png">
+
+<p>这里再分享两个我做题时回来找的学习课，第一个做题的好方法，直接套就行，第二个天勤的，讲的比较偏原理一点。</p>
+<p><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1tL4y1h7Fd/?spm_id_from=333.337.search-card.all.click&vd_source=7fb4b255ed876969a742738d7b84f461">最通俗的海明码计算方法，不需记公式，套步骤即可（可能都不需要理解）</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1Wd4y1z7ck/?spm_id_from=333.337.search-card.all.click">【天勤考研】十分钟搞定海明码</a></p>
+<h2 id="4-流量控制与可靠传输"><a href="#4-流量控制与可靠传输" class="headerlink" title="4. 流量控制与可靠传输"></a>4. 流量控制与可靠传输</h2><h3 id="4-1-数据链路层的流量控制"><a href="#4-1-数据链路层的流量控制" class="headerlink" title="4.1 数据链路层的流量控制"></a>4.1 数据链路层的流量控制</h3><p>由<strong>较高的发送速度和较低的接收能力</strong>的不匹配，会造成传输出错。因此流量控制也是数据链路层的一项重要工作。</p>
+<p>在第一章里我们说过，拥有流量控制功能的协议层有两个，一个是数据链路层，一个是传输层。但前面我们也说过，<font color=red><strong>数据链路层的流量控制是点对点的，而传输层的流量控制是端到端的。</strong></font></p>
+<p>在这里稍微解释一下，点到点与端到端。在物理层里讲解传输时，我们说过，当主机与主机进行通信时，中间作为转发结点的设备只有三层协议，即物理层、数据链路层、网络层，但两边传输的主机却又七层协议。所以这里的点对点是相邻结点的通信，即相邻结点间数据链路层的通信。而端到端通信，由于中间转发结点没有传输层，所以端到端指的是两台主机之间的通信。</p>
+<p>这里再补充一下两层控制流量手段的不同：</p>
+<p><font color=blue><strong>数据链路层流量控制手段：</strong></font>接收方如果接收下，就会返回一个确认指令（这个指令不包含任何数据），如果收不下，这个确认指令就不会发送，发送方收不到确认指令就不会进行下一次传输。</p>
+<p><font color=blue><strong>传输层流量控制手段：</strong></font>接收端给发送端发送一个窗口公告，这个窗口公告告诉发送方，当前窗口还有多少，缓冲区还有多大，让发送方根据当前缓冲区控制发送速度。</p>
+<h3 id="4-2-可靠传输的基本概念"><a href="#4-2-可靠传输的基本概念" class="headerlink" title="4.2 可靠传输的基本概念"></a>4.2 可靠传输的基本概念</h3><p>这部分全是基础概念，没什么好讲的，有问题跳转视频：<a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1c4411d7jb?p=24&vd_source=7fb4b255ed876969a742738d7b84f461">可靠传输的基本概念</a></p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/66194acd68eb935713e2f4a2.png" alt="计算机网络（三）——数据链路层——可靠传输.png">
+
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/66194b2168eb935713e3c8fa.png" alt="计算机网络（三）——数据链路层——可靠传输2.png">
+
+<h3 id="4-3-实现流量控制与可靠传输的三种协议"><a href="#4-3-实现流量控制与可靠传输的三种协议" class="headerlink" title="4.3 实现流量控制与可靠传输的三种协议"></a>4.3 实现流量控制与可靠传输的三种协议</h3><p>上面讲述了流量控制与可靠传输，接下来讲解一下实现数据链路层流量控制与可靠传输的三种协议，分别是停止-等待协议、后退N帧协议（GBN）、选择重传协议（SR）。</p>
+<p><font color=red>需要注意的是，这三种<strong>可靠传输</strong>实现机制的基本原理并不仅限于数据链路层，可以应用到计算机网络体系结构的各层协议中。</font></p>
+<h4 id="4-3-1-停止-等待协议"><a href="#4-3-1-停止-等待协议" class="headerlink" title="4.3.1 停止-等待协议"></a>4.3.1 停止-等待协议</h4><h5 id="4-3-1-1-停止-等待协议基础"><a href="#4-3-1-1-停止-等待协议基础" class="headerlink" title="4.3.1.1 停止-等待协议基础"></a>4.3.1.1 停止-等待协议基础</h5><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/661a358a68eb935713330037.png" alt="计算机网络（三）——数据链路层——停止-等待协议1.png">
+
+<p>首先介绍一下停止-等待协议，如图所示，双方基于互联网通信，纵坐标为时间。发送方给接收方发送数据分组，接收方收到后，对其进行差错检测，若没有误码，则接收该数据分组，并给发送方发送确认分组，简称为<font color=red>ACK</font>。假设这个数据分组在传输过程中出现了误码，接收方收到后对其进行差错检测，发现了误码，则丢弃该数据分组，并给发送方发送否认分组，简称为<font color=red>NAK</font>。发送方收到对所发送数据分组的否认分组后，就知道之前自己发送的分组出现了差错而被接收方拒绝，于是会立刻重传分组，因此发送方每发送完一个数据分组后，并不能立刻将数据分组从缓存中删除，只有在收到针对该数据分组的确认分组后，才能将其从缓存中删除。</p>
+<p><strong>发送方每发送一个分组后，都会停下来等待来自接收方的确认，若收到确认，则会发送下一个数据分组，若收到否认，则会重传上一个分组，这种发送协议就是<font color=blue>停止-等待协议。</font></strong></p>
+<p>上面说的只是理想情况，实际情况还会更复杂一点，比如下面的这种情况：发送方发送的数据分组在传输过程中丢失（这种情况在数据链路层的点对点之间不易出现，但对多个网络通过多个路由器互连的复杂互联网环境而言，这种情况是会经常出现的。</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/661a38f068eb935713390e4e.png" alt="计算机网络（三）——数据链路层——超时重传.png">
+
+<p>说了上面这种情况，其实还可以再考虑一下，既然发送会丢失，那接收方向发送方传输的确认信息会不会丢失呢？答案是肯定的。如果出现了这种情况，就会出现上面的那样，发送方接收不到接收方的确认信息，待重传时间到达以后，仍没有收到确认或否认分组信息，就会进行重传。此时接收方接收到新分组后，就无法确认该分组是重复传输上一个的，还是新的分组，为了避免这种情况，在发送时会给每个数据分组编号。接收方发现重复分组信息以后，就会丢弃该分组，并返还发送方针对于该分组的确认分组信息。</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/661a3b5468eb9357133d77f4.png" alt="计算机网络（三）——数据链路层——发送编号.png">
+
+<p>这里可以思考一下，既然发送分组需要编号，那么确认分组是否也需要编号呢？</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/661a3c3268eb9357133efc6d.png" alt="计算机网络（三）——数据链路层——确认迟到.png">
+
+<p>根据上图，不难发现，当接收方收到数据以后，返还分组确认信息时，可能会出现网络延迟等问题，导致发送方接收到的确认分组信息是在重传以后，这时候发送方已经发了重复分组DATA0，再收到ACK后，会发送下一个分组DATA1。当DATA1发送以后，接收方会收到重复的DATA0，此时接收方会前面所讲，将DATA0丢弃，并返还ACK，这个时候，如果我们不对ACK进行编号的话，发送方就不会知道这个ACK是对应DATA0还是DATA1的。当编号以后，接收方收到ACK0知道DATA0数据已确认，将不会再传输DATA0，并将DATA0从缓存删除。紧接着，接收方收到DATA1的确认分组信息ACK1时，会传输下一个数据分组DATA0，注意这个新传的DATA0和前面的DATA0并不是一组数据，这里编号为0，是因为上一个0号分组已经被确认，这是新的编号为0的分组（类似循环队列的从头开始插入），这样做是为了保证分组编号的有限性，否则分组序号会越来越大。</p>
+<p>这里补充一下，对于数据链路层的点对点信道来说，往返时间比较固定，不会出现确认迟到的情况，因此只在数据链路层实现停止-等待协议，可以不用给确认分组编号。</p>
+<p>接下来做个小结：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/661a3f1268eb935713424d68.png" alt="计算机网络（三）——数据链路层——停止-等待协议小结.png">
+
+<h5 id="4-3-1-2-停止-等待协议的信道利用率"><a href="#4-3-1-2-停止-等待协议的信道利用率" class="headerlink" title="4.3.1.2 停止-等待协议的信道利用率"></a>4.3.1.2 停止-等待协议的信道利用率</h5><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/661a3fce68eb93571342e67c.png" alt="计算机网络（三）——数据链路层——停止-等待协议信道利用率.png">
+
+<p>停止-等待协议的信道利用率如图所示，其中：</p>
+<p>T<sub>D</sub>：发送方发送数据分组所耗费的发送时延。</p>
+<p>T<sub>A</sub>：接收方发送确认分组所耗费的发送时延。</p>
+<p>RTT：收发双方之间的往返时间。</p>
+<p>注意，这里忽略了接收方对数据分组的处理时延，以及发送方对确认分组的处理时延。</p>
+<p>发送方从发送一个数据开始，到可以发送下一个数据经历的总时间为：T<sub>A</sub>+T<sub>D</sub>+RTT。</p>
+<p>信道利用率可以用图中所给的公式计算，T<sub>A</sub>一般远小于T<sub>D</sub>，可以忽略。当RTT远大于T<sub>D</sub>时，信道利用率会很低。这里举个例子看一下：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/661a41da68eb93571345ad30.png" alt="计算机网络（三）——数据链路层——停止-等待协议信道利用率举例.png">
+
+<p>当往返时延RTT远大于发送时延时，信道利用率就会很低，为了克服这种情况，就产生了GBN和SR协议。</p>
+<h5 id="4-3-1-3-停止-等待协议小结"><a href="#4-3-1-3-停止-等待协议小结" class="headerlink" title="4.3.1.3 停止-等待协议小结"></a>4.3.1.3 停止-等待协议小结</h5><p>补充一道例题：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/661a432668eb93571348025b.png" alt="计算机网络（三）——数据链路层——停止-等待协议信道利用率题目.png">
+
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/661a437c68eb93571348a309.png" alt="计算机网络（三）——数据链路层——停止-等待协议总结.png">
+
+<p>这里再补充一下，像停止-等待协议这种通过确认和重传机制实现的可靠传输协议，常称为自动请求重传协议ARQ，意思是重传的请求是自动的进行的，因为不需要接收方显示的请求发送方出错的某个分组。</p>
+<h4 id="4-3-2-回退N帧协议GBN"><a href="#4-3-2-回退N帧协议GBN" class="headerlink" title="4.3.2 回退N帧协议GBN"></a>4.3.2 回退N帧协议GBN</h4><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/661a566c68eb9357135f078b.png" alt="计算机网络（三）——数据链路层——停止-流水线.png">
+
+<p>在4.3.1里讲的停止-等待协议内，我们知道停止-等待协议的利用率很低，若出现超时重传时，信道利用率更低。但是，如果我们采用流水线的传输方式，在发送方收到确认分组信息前，发送多个数据分组，这样与停止-等待协议比较起来，相同时间内的发送的数据分组就会大大提升，信道利用率也会大大提高。</p>
+<p><font color=red><strong>在这部分讲的回退N帧协议GBN就是在流水线传输的基础上，利用发送窗口来限制发送方可连续发送数据分组的个数。</strong></font></p>
+<p>下面以一个例子贯穿该部分内容：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/661a584a68eb93571362d091.png" alt="计算机网络（三）——数据链路层——回退N帧协议GBN.png">
+
+<p><strong>如图所示，上面有两组分组序号，分别属于发送方和接收方，当序号增加到7时，下一个序号又从0开始。</strong></p>
+<p><strong>发送方要维持一个发送窗口，序号落在发送窗口内的数据分组可被连续发送，而不必等收到接收方的相应确认分组后再发送，如上图落在WT内的序号就可以连续发送。</strong></p>
+<p><strong>发送窗口的尺寸记为WT，对于本例来说，1&lt;WT&lt;&#x3D;2<sup>3</sup>-1。其中3是构成分组序号的比特数量。本例取WT的值为5。如果WT的取值为1，则是我们前面所说的停止-等待协议。如果WT的取值超过取值范围上限，则会造成严重错误。</strong></p>
+<p><strong>接收窗口尺寸记为WR，对与回退N帧协议，WR只能取一，这一点和停止-等待协议一样。如图，序号落在接收分组内的数据可以接收，而不在范围内的，不可以接收。</strong></p>
+<p><strong>接下来，同停止-等待协议一样，我们也说一下对于回退N帧协议数据传输过程中可能产生的几种情况：</strong></p>
+<h5 id="4-3-2-1-第一种情况：无差错情况"><a href="#4-3-2-1-第一种情况：无差错情况" class="headerlink" title="4.3.2.1 第一种情况：无差错情况"></a><strong>4.3.2.1 第一种情况：无差错情况</strong></h5><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/661a8af268eb9357139a5593.png" alt="计算机网络（三）——数据链路层——无差错情况.png">
+
+<p>首先发送方将落在发送窗口内的0<del>4号分组依次连续发送出去，它们经过互联网的传输，正确到达了接收方（即没有出现乱序和误码）。接收方正确接收以后，每接收一个，接收窗口就向前滑动一个位置，并给发送方发送针对所接收分组的确认分组。0</del>4号确认分组经过互联网的传输正确到达了发送方。发送方每接收一个，发送窗口就向前滑动一个位置，这样就有新的序号落入窗口，此时发送方就可以将收到确认的数据分组从缓存中删除。而接收方可以择机将已接收到的数据分组交付上层处理。</p>
+<p><strong>接下来，我们来说一下累计确认的概念：</strong></p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/661a8c7168eb9357139b3ba3.png" alt="计算机网络（三）——数据链路层——累计确认.png">
+
+<p>所谓累计确认，就是接收方不一定要对接收的数据分组逐个发送确认，而是可以在收到几个数据分组后，<font color=red><strong>对按序到达的最后一个数据分组发送确认</strong></font>。</p>
+<p>如上图例子，发送方将落在发送窗口内的0<del>4号分组依次连续发送出去，经过互联网传输到接收方，接收方按序接收，当接收完0和1号分组以后，给接收方返回了一个累计确认ACK1，当接收完2</del>4号分组以后，又给发送方发送了一个累计确认ACK4。</p>
+<p>在这里，如果我们假设ACK1丢失，ACK4正确达到接收方，接收方接收ACK4就知道序号为4及之前的数据分组都被接收方正确接收，于是将发送窗口向前滑动5个位置，这样就有新的序号落入了发送窗口。此时发送方就可以将收到确认的数据分组从缓存中删除。而接收方可以择机将已接收到的数据分组交付上层处理。</p>
+<p>此时我们可以知道累积确认的优点：即使确认分组丢失，发送方也可能不必重传。除此以外，累积确认还可以减小接收方的开销，减少对网络资源的占用。</p>
+<p>使用累计确认也有缺点：不能向发送方及时反映出接收方已经正确接收的数据分组信息。</p>
+<h5 id="4-3-2-2-第二种情况：有差错情况"><a href="#4-3-2-2-第二种情况：有差错情况" class="headerlink" title="4.3.2.2 第二种情况：有差错情况"></a><strong>4.3.2.2 第二种情况：有差错情况</strong></h5><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/661a8fa268eb9357139df929.png" alt="计算机网络（三）——数据链路层——有差错情况.png">
+
+<p>假设如图，发送方将56701序列的数据分组发送至接收方，接收方经过差错检测，发现5号分组数据出现差错，于是将其丢弃。而后序到达的4个数据分组的序号，与接收窗口中的序号不匹配，接收方同样也不能接收它们，将它们丢弃，并对之前按序接收的最后一个分组进行确认（即发送ACK4），每丢弃一个分组就要发送一个ACK4，这里发送4个是丢弃4个分组，大家可能会好奇为什么不是5个，原因是5号数据分组是由于差错丢弃的，而非序号匹配失败丢弃，这里返还ACK4的个数是接收窗口序号不匹配丢弃的数据个数。</p>
+<p>接收方接收到重复的确认就知道之前发送的分组有差错，就会不等超时重传而立刻发送。但至于收到几个重复确认就立刻重传，得由具体实现决定。</p>
+<p>在上面这个例子里，我们还可以假设这4个重复的确认并不会触发发送方立刻重传，一段时间后，超时计时器出现超时，发送方将发送窗口内已发送过的这些数据分组全部重传。<font color=red><strong>在本例中，尽管序号为6，7，0，1的数据分组正确到达接收方，但由于5号数据分组误码不被接受，它们也“受到牵连”而不被接受。发送方还要重传这些分组数据，这就是所谓的回退N帧。</strong></font></p>
+<p><font color=red><strong>可见，当通信线路质量不好时，回退N帧协议的信道利用率并不比停止-等待协议高。</strong></font></p>
+<h5 id="4-3-2-3-第三种情况：发送窗口WT超过取值上限"><a href="#4-3-2-3-第三种情况：发送窗口WT超过取值上限" class="headerlink" title="4.3.2.3 第三种情况：发送窗口WT超过取值上限"></a><strong>4.3.2.3 第三种情况：发送窗口WT超过取值上限</strong></h5><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/661a9a1468eb935713a9645a.png" alt="计算机网络（三）——数据链路层——超出上限.png">
+
+<p>上图是WT超出上限的情况，可以发现，如果发送窗口最大为7，而WT的取值超过7为8，此时发送方将数据发送给接收方，接收方收到数据以后，返回ACK7，但确认分组信息在传输过程中丢失，此时发送发超时重传，接收方收到数据以后，无法辨别此次数据是旧的重复分组还是新的数据分组。所以WT不能超过上限。</p>
+<h5 id="4-3-2-4-GBN小结"><a href="#4-3-2-4-GBN小结" class="headerlink" title="4.3.2.4 GBN小结"></a>4.3.2.4 GBN小结</h5><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/661a9b6068eb935713aacbd1.png" alt="计算机网络（三）——数据链路层——GBN小结.png">
+
+<p>注意，回退N帧协议在流水线传输的基础上利用发送窗口来限制发送方连续发送数据分组的数量，是一种连续ARQ协议。且在协议的工作过程中发送窗口和接收窗口不断向前滑动，因此这类协议又称为<font color=blue><strong>滑动窗口协议</strong></font>。</p>
+<h4 id="4-3-3-选择重传协议SR"><a href="#4-3-3-选择重传协议SR" class="headerlink" title="4.3.3 选择重传协议SR"></a>4.3.3 选择重传协议SR</h4><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/661b3f9068eb9357137150d2.png" alt="计算机网络（三）——数据链路层——选择重传协议引出.png">
+
+<p>选择重传协议相较于回退N帧协议，把接收窗口扩大，进而可以解决回退重传协议中，某位出现误码，则要连该误码位以后的数据一起重发的问题。而将接收窗口扩大，就可以实现对每组数据的判断返回确认，而发送方只需对没有进行确认的分组重传即可。</p>
+<p><strong>说到这里，其实可以知道三种可靠传输协议最基本的区别：</strong></p>
+<p>​	停止-等待协议中WT&#x3D;WR&#x3D;1，由于这样规定导致信道利率低，于是基于流水线式的传输协议回退N帧协议出现，回退N帧协议中WT已经不局限于1位，而是以窗口的形式实现多组传输，但WR&#x3D;1仍不变。这样的通讯协议会导致接收方只能按序接受正确到达的分组，一位出现差错，它以后的数据都要重传。进而提出了改进的选择传输协议，选择传输协议将WR也扩充为多位，解决了只能按序接收的问题。</p>
+<p>这部分有个关于选择传输协议的工作过程，我在这里就不写了，因为过程较多，我只说和贴图的话，比较难理解，所以推荐大家看视频，视频里动画演示简单易懂，视频13分钟，只看工作原理的话，看2~7分钟就好：<a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1c4411d7jb?p=27&vd_source=7fb4b255ed876969a742738d7b84f461">选择重传协议</a></p>
+<p>接下来我们再来讨论下窗口上限的问题：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/661b425268eb935713764690.png" alt="计算机网络（三）——数据链路层——SR的窗口上限.png">
+
+<p>从上图里，可看到发送窗口范围1&lt;WT&lt;&#x3D;2<sup>n-1</sup>，接收窗口范围1&lt;WR&lt;&#x3D;WT，注意这里的发送窗口取值范围，是与回退N帧协议不一样的，回退N帧的发送窗口取值范围是1&lt;WT&lt;&#x3D;2<sup>n</sup>-1，至于回退N帧协议的取值范围我们前面已经说过了，是为了避免新旧分组重复而设置的。那这里选择传输协议为什么是这个范围内，答案同回退N帧协议一样，也是为了避免新旧分组重复而设置的。</p>
+<p>如上图，这里n&#x3D;3，所以WT取值范围是（1,4]，如果我们令WT&#x3D;WR&#x3D;5，此时发送方发送0,1,2,3,4，接收方收到数据以后，确认无误返回每一个分组的分组确认信息，同时，接收方的接收窗口向前滑动5个，将5,6,5,0,1包含在内。此时，在返还过程中，序号0的分组的确认分组信息丢失，此时发送方未收到0的分组确认信息，待超时以后，会重传0分组的分组数据，这时接收方收到0分组，无法分辨这是上一个0分组的重传信息，还是这个分组的新的数据分组。</p>
+<p>所以，这里WT的取值范围是为了避免新旧分组无法辨别的问题。我的理解就是将数据最多按一半一半传输，这样两次传完一整个分组的所有序号，实质上就是让下一次传输的数据分组序号与上一组不出现存在某位相同的情况。</p>
+<p><strong>下面对SR进行一个小结：</strong></p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/661b473d68eb9357137e8f66.png" alt="计算机网络（三）——数据链路层——SR的小结.png">
+
+<h2 id="5-介质访问控制"><a href="#5-介质访问控制" class="headerlink" title="5. 介质访问控制"></a>5. 介质访问控制</h2><p>先介绍一个知识点——传输数据使用的两种链路。</p>
+<ol>
+<li>点对点链路：两个相邻节点通过一个链路相连，没有第三者。应用：PPP协议，常用于<font color=red><strong>广域网</strong></font>。</li>
+<li>广播式链路：所有主机共享通信介质。应用：早期的总线以太网、无线局域网，常用于<font color=red><strong>局域网</strong></font>。</li>
+</ol>
+<p>广播式链路典型的拓扑结构有总线型、星型等，这些结构有一个共同点，就是信号的传输不只目标主机会接收到，在该网络内其它主机也会接收到，只是其它主机接收到以后，发现信号里的目标地址不是本机以后会选择丢弃。</p>
+<p>另外，对于广播式链路的通信，一个链路连接多台主机，如果一个主机发送信号的同时，别的主机也发送，则两个节点之间的通信可能会因为相互干扰而失败。<font color=red><strong>为了避免这种问题的产生，于是设计了一个用来决定广播信道中信道分配的协议，该协议属于数据链路层的一个子层，称为介质访问控制（MAC）子层。</strong></font></p>
+<p><strong>常见的介质访问控制方法有：信道划分介质访问控制、随机访问介质访问控制和轮询访问介质访问控制。其中，第一种是静态划分信道的方法，后两种是动态分配信道的方法。</strong></p>
+<p>动态分配信道也叫动态媒体接入控制&#x2F;多点接入，特点是信道并非在用户通信时固定分配给用户。</p>
+<p><strong>下面用一种图来概述本部分的知识：</strong></p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/661b705c68eb935713c163ce.png" alt="计算机网络（三）——数据链路层——介质访问控制.png">
+
+<h3 id="5-1-信道划分介质访问控制"><a href="#5-1-信道划分介质访问控制" class="headerlink" title="5.1 信道划分介质访问控制"></a>5.1 信道划分介质访问控制</h3><p>信道划分介质访问控制将使用同一传输介质的多个设备的通信隔离开来，把时域和频域资源合理地分配给这些设备。</p>
+<p>信道划分介质访问控制通过复用技术实现。所谓复用，就是在发送端把多个发送方的信号组合在一条物理信道上传输，在接收端把收到的复用信号分离出来，并发送给对应的接收方。</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/661b71e368eb935713c5227a.png" alt="计算机网络（三）——数据链路层——信道划分介质访问控制.png">
+
+<p>信道划分介质访问控制有以下4种：频分复用（FDM）、时分复用（TDM）、波分复用（WDM）、码分复用（CDM）</p>
+<h4 id="5-1-1-频分复用（FDM）"><a href="#5-1-1-频分复用（FDM）" class="headerlink" title="5.1.1 频分复用（FDM）"></a>5.1.1 频分复用（FDM）</h4><p>频分复用就是将信道的总频带划分为多个子频带，每个子频带作为一个子信道，每对用户使用一个子信道进行通信。相邻信道间还要加入“隔离频带”。</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/661b730b68eb935713c77743.png" alt="计算机网络（三）——数据链路层——频分复用.png">
+
+<h4 id="5-1-2-时分复用（TDM）"><a href="#5-1-2-时分复用（TDM）" class="headerlink" title="5.1.2 时分复用（TDM）"></a>5.1.2 时分复用（TDM）</h4><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/661b742068eb935713c84730.png" alt="计算机网络（三）——数据链路层——TDM.png">
+
+<p>时分复用（TDM），将信道的传输时间划分为一段段等长的时间片，称为TDM帧。每个用户在TDM帧中占用固定序号的时隙，每个用户占用的时隙周期性地出现，所有用户在不同的时间占用同样的信道资源。</p>
+<p>由于时分复用是按固定次序给用户分配时隙的，当用户在某段时间暂无数据传输时，其他用户也无法使用这个暂时空闲的线路资源，所以时分复用后的信道利用率不高。进而提出了统计时分复用（STDM），又称异步时分复用。</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/661b756a68eb935713c908f7.png" alt="计算机网络（三）——数据链路层——STDM.png">
+
+<p>STDM按需分配时隙，可以大大提高传输效率。如果一条线路可以传输8000b&#x2F;s，使用TDM，则每个用户分到的最高速度只有2000b&#x2F;s；如果私用STDM，则每个用户的最高传输速率可以达到惊人的8000b&#x2F;s。</p>
+<h4 id="5-1-3-波分复用（WDM）"><a href="#5-1-3-波分复用（WDM）" class="headerlink" title="5.1.3 波分复用（WDM）"></a>5.1.3 波分复用（WDM）</h4><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/661b768368eb935713c9aa29.png" alt="计算机网络（三）——数据链路层——波分复用.png">
+
+<h4 id="5-1-4-码分复用（CDM）"><a href="#5-1-4-码分复用（CDM）" class="headerlink" title="5.1.4 码分复用（CDM）"></a>5.1.4 码分复用（CDM）</h4><p>码分复用是采用不同的编码来区分各路原始信号的一种复用方式，与FDM和TDM不同，它既共享信道的频率，又共享时间。</p>
+<p><strong>下面是CDM相关基础知识概念：</strong></p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/661b773968eb935713ca17d3.png" alt="计算机网络（三）——数据链路层——CDM基础1.png">
+
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/661b77f068eb935713ca9656.png" alt="计算机网络（三）——数据链路层——CDM基础2.png">
+
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/661b788068eb935713cb00f7.png" alt="计算机网络（三）——数据链路层——CDM基础3.png">
+
+<p>这里有个重点知识需要知道，就是码片以及码片序列，在考试中，常会考到码片序列相关比特发送的知识，如上图中的例子。顺带提一下，这种通信方式称为直接序列扩频DSSS。</p>
+<p>码片序列的挑选原则如下：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/661b79dc68eb935713ccb89e.png" alt="计算机网络（三）——数据链路层——码片序列挑选原则.png">
+
+<p>这里给个例题加深对码片选取加深理解：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/661b7a8168eb935713cd6a5e.png" alt="计算机网络（三）——数据链路层——码片序列挑选原则例题.png">
+
+<p>下面是CDM的应用：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/661b7b7b68eb935713ce8c6e.png" alt="计算机网络（三）——数据链路层——CDM应用举例.png">
+
+<h3 id="5-2-随机访问介质访问控制"><a href="#5-2-随机访问介质访问控制" class="headerlink" title="5.2 随机访问介质访问控制"></a>5.2 随机访问介质访问控制</h3><p>使用随机访问介质访问控制，则所有用户可随机发送信息，反送信息时占全部带宽，当然这种随机性也会导致不协调。比如多个用户在发送信息时，如果不协调就会导致可能同时发送，这样又回到了我们前面说的冲突问题，所以我们需要通过协议来解决这种问题。</p>
+<p>随机访问介质访问控制协议有四种，分别是ALOHA协议、CSMA协议、CSMA&#x2F;CD协议、CSMA&#x2F;CA协议。</p>
+<h4 id="5-2-1-ALOHA协议"><a href="#5-2-1-ALOHA协议" class="headerlink" title="5.2.1 ALOHA协议"></a>5.2.1 ALOHA协议</h4><p>ALOHA协议有两种，一种是纯ALOHA协议，一种是时隙ALOHA协议。</p>
+<p><strong>(1) 纯ALOHA协议</strong></p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/661b8b7268eb935713e05c7c.png" alt="计算机网络（三）——数据链路层——ALOHA协议.png">
+
+<p>在纯ALOHA协议中，帧长不用比特而用发送这个帧所需的时间来表示，如图中T<sub>0</sub>，这个T<sub>0</sub>既包括传输时间，也包括传播时间。</p>
+<p>纯ALOHA协议的思想：想发就发。</p>
+<p>由于纯ALOHA的思想，所以纯ALOHA协议的数据传输成功率很低。所以提出了改进的时隙ALOHA协议。</p>
+<p><strong>(2) 时隙ALOHA协议</strong></p>
+<p>时隙ALOHA协议就是纯ALOHA协议的基础上，控制了发送的随意性，用户想发送帧只能在当前时隙片开始时发送，若当前时隙片开始时没有发送，只能等到下一个时隙片开始，才能进行发送。</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/661b8e1e68eb935713e63022.png" alt="计算机网络（三）——数据链路层——时隙ALOHA协议.png">
+
+<p>到这里，小结一下ALOHA协议：</p>
+<ol>
+<li>纯ALOHA比时隙ALOHA吞吐量更低，效率更低。</li>
+<li>纯ALOHA想发就发，时隙ALOHA只有在时间片开始时才能发。</li>
+</ol>
+<h4 id="5-2-2-CSMA协议"><a href="#5-2-2-CSMA协议" class="headerlink" title="5.2.2 CSMA协议"></a>5.2.2 CSMA协议</h4><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/661b9ea068eb935713fd50e1.png" alt="计算机网络（三）——数据链路层——CSMA.png">
+
+<p>CSMA就是载波监听多路访问，相比ALOHA协议，CSMA站点在发送前会先监听公用信道，发现公用信道空闲后才会发送数据。</p>
+<p>对于监听结果有两种，若信道空闲，则站点发送完整帧；若信道忙，则站点推迟发送。至于信道空闲，站点是立即发送帧还是等待；信道忙，站点推迟发送要推迟多久，有三种协议规定。</p>
+<p>三种协议：1-坚持CSMA、非坚持CSMA、p-坚持CSMA。</p>
+<p><strong>(1)1- 坚持CSMA</strong></p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/661ba07468eb935713005870.png" alt="计算机网络（三）——数据链路层——1-坚持CSMA.png">
+
+<p>这里对缺点解释一下，两个及两个以上的站点在监听的话，就会一直处于监听状态，一旦信道空闲下来了，两个站点都会发送信息，那冲突就必然会产生了。</p>
+<p><strong>(2) 非坚持CSMA</strong></p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/661ba54668eb93571309f4db.png" alt="计算机网络（三）——数据链路层——非坚持CSMA.png">
+
+<p><strong>(3) p-坚持CSMA</strong></p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/661ba66368eb9357130c5a52.png" alt="计算机网络（三）——数据链路层——p-坚持CSMA.png">
+
+<p><strong>(4) 三种CSMA比较</strong></p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/661ba6f768eb9357130d7967.png" alt="计算机网络（三）——数据链路层——三种CSMA比较.png">
+
+<p>值得注意的是，这部分说的CSMA都只在发送方对信道进行监听，而发送方处于信道之上，无法对冲突进行检测，所以如果产生了冲突，发送方发现不了，就还是会坚持把数据帧发送完，这就造成了资源浪费。为了解决这个问题，就需要下面所说的CSMA&#x2F;CD协议来解决了。</p>
+<h4 id="5-2-3-CSMA-CD协议"><a href="#5-2-3-CSMA-CD协议" class="headerlink" title="5.2.3 CSMA&#x2F;CD协议"></a>5.2.3 CSMA&#x2F;CD协议</h4><p>CSMA&#x2F;CD协议，就是在CSMA的基础上，多了一个<font color=red><strong>边发边监听</strong></font>的功能。</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/661baed768eb9357131b0d5a.png" alt="计算机网络（三）——数据链路层——CS、MA、CD.png">
+
+<p>这里补充一个96比特时间的概念，96比特时间是指发送96比特所耗费的时间，也称为帧间最小间隔，其作用是使接收方可以检测出一个帧的结束。同时也使得所有其他站点都能有机会平等竞争信道并发送帧。</p>
+<p><strong>这里再解释一下产生碰撞产生的原因：</strong></p>
+<p>产生碰撞的原因是因为电磁波在总线上总是以有限的速率传播的（碰撞原因也可以理解为受传播时延影响），当某主机A向主机B发送帧时，B主机由于距离A主机较远，此时A主机发送的信号还没有传播到B，所以B还未检测到A的信号，然后B就也开始发送数据，之后A的数据与B的数据在信道上某个点相遇，就产生了碰撞。</p>
+<p><strong>下面对信道发生冲突进行分析：</strong></p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/661bb0e068eb9357131f2d7f.png" alt="计算机网络（三）——数据链路层——信道冲突的时间分析.png">
+
+<p>如图，在t&#x3D;0时，A检测信道空闲，便发送帧，一段时间后，数据还在传输中，但D发现信道也是空闲的，于是在t&#x3D;τ-δ时（<strong>这里，τ指以太网单程端到端的传播时延，δ指A的信号传播到D的时间与D开始发送的时间的差</strong>），D向信道传输帧。此时A的数据与B的数据在某个时刻发生如图所示的碰撞，碰撞以后原本的信号就产生了叠加变形，进而继续传送，在t&#x3D;τ时，A的信号传播到D，D经过检测发现出现碰撞，于是停止发送帧。在t&#x3D;2τ-δ时，D的信号传输到A，A经过检测，也发现数据出现碰撞，此时A也会停发。</p>
+<p>在这个过程中，我们可以发现，若δ&#x3D;0时，则A的数据分组刚好的D，而D才开始发送数据，所以我们可以知道A若想知道发生碰撞，最迟要在2τ时知道，换句话说，<strong>只要经过往返传播时延2τ时间还没有检测到碰撞，就能肯定这次发送不会发生碰撞。</strong></p>
+<p>以太网把端到端往返传播时延2τ称为<font color=red><strong>争用期</strong></font>或<font color=red><strong>碰撞窗口</strong></font>。</p>
+<p>下面便对这部分的知识点进行一个提炼：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/661bb45668eb93571323d6d4.png" alt="计算机网络（三）——数据链路层——信道冲突提炼.png">
+
+<p>从上面的了解中，不难看出，CSMA&#x2F;CD中的站不可能同时进行发送和接收，因此采用CSMA&#x2F;CD协议的以太网只能进行半双工通信。</p>
+<p><strong>了解CSMA&#x2F;CD的原理后，就可以说一下最短帧长的问题：</strong></p>
+<p>设想一下，A站发送了一个很短的帧，但发生了碰撞，不过碰撞的产生是在帧发送完毕以后的，这个时候就会出现一种很尴尬的情况，我们的CSMA&#x2F;CD协议里，是数据帧在发送时产生碰撞才可以暂停，现在A的数据帧已经发送完了，这个时候即使产生了碰撞，A也没法暂停了。为了避免这种情况，使A站能及时控制局面，所以要定义一个最短帧长，即检测到碰撞时，帧还没有发送完毕。</p>
+<p>通过这样的分析，就可以知道，要想检测到碰撞时，帧还没有发送完毕，就要求帧的传输时延至少要两倍于信号在总线的传播时延。</p>
+<p>所以我们可以得到公式：帧长&#x2F;数据传输速率&gt;&#x3D;2τ</p>
+<p>即：<font color=red><strong>最短帧长&#x3D;2×总线传播时延×数据传输速率</strong></font></p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/661bd15168eb9357133d2fe5.png" alt="计算机网络（三）——数据链路层——最小帧长.png">
+
+<p>同样的，既然有最小帧长，那相对于也应当存在最大帧长。</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/661bd1d868eb9357133d8004.png" alt="计算机网络（三）——数据链路层——最大帧长.png">
+
+<p>如图，当A传送很大的帧时，就会一直占用总线，这会导致总线上其它主机占用不了总线，另外由于数据帧很长，还可能导致D的接收缓存区无法装下该帧而产生溢出。所以，以太网的帧长应该有上限，具体上限多少应取决于以太网的传输协议。</p>
+<p>在前面，还遗留了一个问题，就是在两站发生冲突以后，两站都会停止数据发送，那两站的数据何时再次发送呢？若参与冲突的两个结点紧接着再次发送，就会陷入无休止的冲突中，为了避免这种情况，就可以使用截断二进制指数退避算法来确定冲突后的退避时间（即下次重传的时机），具体如下：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/661bd3f968eb9357133ebdb5.png" alt="计算机网络（三）——数据链路层——截断二进制指数退避算法.png">
+
+<p><strong>CSMA&#x2F;CD的信道利用率：</strong></p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/661bd54b68eb9357133f71a5.png" alt="计算机网络（三）——数据链路层——CSMA-CD信道利用率.png">
+
+<p><strong>CSMA&#x2F;CD部分小结：</strong></p>
+<p><strong>CSMA&#x2F;CD的帧发送流程：</strong></p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/661bd5fd68eb9357133ff87d.png" alt="计算机网络（三）——数据链路层——CSMA-CD帧发送.png">
+
+<p><strong>CDMA&#x2F;CD协议的帧接收流程：</strong></p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/661bd63668eb935713402ed7.png" alt="计算机网络（三）——数据链路层——CSMA-CD帧接收.png">
+
+<h4 id="5-2-4-CSMA-CA协议"><a href="#5-2-4-CSMA-CA协议" class="headerlink" title="5.2.4 CSMA&#x2F;CA协议"></a>5.2.4 CSMA&#x2F;CA协议</h4><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/661bd8cd68eb93571341c4f8.png" alt="计算机网络（三）——数据链路层——CSMA-CA.png">
+
+<p>前面说了在有线广播域内可以使用CSMA&#x2F;CD协议进行载波监听，碰撞检测。但是在无线局域网内虽然可以使用CSMA协议，但不能通过CD进行碰撞检测，理由如上图。这时候可以，又提出了CA（碰撞避免）协议，来实现无线局域网的载波监听、碰撞避免。</p>
+<p>这里补充一个隐蔽站的知识点：比如A、B、C三个站点在一条线上，A、B相距500米，B、C相距500米。若无线范围覆盖600米，显然，A可以覆盖B，C也可以覆盖B。但是A、C却不能彼此覆盖，所以A、C就互为彼此的隐蔽站。</p>
+<p><strong>802.11标准：</strong></p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/661bdca768eb93571343c5e5.png" alt="计算机网络（三）——数据链路层——CSMA-CA基础1.png">
+
+<p><strong>帧间间隔：</strong></p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/661bdd3868eb935713441024.png" alt="计算机网络（三）——数据链路层——帧间间隔.png">
+
+<p>这里再补充一个帧间间隔，PIFS（点协调IFS）：中等长度的IFS，在PCF操作中使用。</p>
+<p><strong>CSMA&#x2F;CA工作原理：</strong></p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/661bdeb568eb93571344c7e9.png" alt="计算机网络（三）——数据链路层——CSMA-CA的工作原理.png">
+
+<p>CSMA&#x2F;CA工作原理如上图，这里有几个问题需要讨论：</p>
+<p>​	1. 源站为什么在检测到信道空闲后还要再等待一段时间DIFS？</p>
+<p>这样做的目的是考虑到可能有其他的站有高优先级的帧要发送。若有，就要让高优先级帧先发送。</p>
+<p>​	2. 目的站为什么正确接收到数据帧后还要等待一段时间SIFS才能发送ACK帧？</p>
+<p>SIFS是最短的帧间间隔，用来分隔开属于一次对话的各帧。在这段时间内，一个站点应当能够从发送方式切换到接收方式。</p>
+<p>​	3. 信道由忙转为空闲且经过DIFS时间后，为什么还要退避一段随机时间才能使用信道？</p>
+<p>这是为了防止多个站点同时发送数据而产生碰撞。</p>
+<p><strong>同CSMA&#x2F;CD一样，CSMA&#x2F;CA也有自己的退避算法，退避算法使用场景如下：</strong></p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/661be28968eb93571346fc56.png" alt="计算机网络（三）——数据链路层——CSMA-CA的注意点.png">
+
+<p><strong>CSMA&#x2F;CA协议的退避算法内容如下：</strong></p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/661be35668eb9357134797ac.png" alt="计算机网络（三）——数据链路层——CSMA-CA的退避算法.png">
+
+<p><strong>下面对CSMA&#x2F;CA的工作过程进行举例：</strong></p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/661be45a68eb935713484707.png" alt="计算机网络（三）——数据链路层——CSMA-CA工作举例.png">
+
+<p>假设A、B、C、D、E是5个无线站点，如上图。A先占用无线信道发送数据帧，在A的发送过程中，B、C、D也要发送帧，这里用向上的箭头表示。于是B、C、D进行载波监听，发现信道忙，要进行退避，并根据退避算法选择一个要退避的时间，并在每一个时隙对信道进行一个检测。当检测到信道由忙状态转变为空闲状态，且经过帧间间隔DIFS后，退避计时器开始倒计时，假设C的退避时间最短，当C的退避时间到时后，C立即开始发送帧，此时信道再次由空闲状态转变为忙状态。当B，D检测到信道忙以后，就各自冻结自己剩余的退避时间，等待C传完以后再解冻计时，上图后面的工作过程我就不继续说了，可以根据我前面的介绍自己往后推，这样更能加深自己的理解，有问题的可以跳转视频10~14分钟，<a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1c4411d7jb?p=32&vd_source=7fb4b255ed876969a742738d7b84f461">CSMA-CA协议</a>。</p>
+<p><strong>接下来介绍CSMA&#x2F;CA协议的信道预约和虚拟载波监听：</strong></p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/661be88068eb9357134d6043.png" alt="计算机网络（三）——数据链路层——CSMA-CA协议的信道预约和虚拟载波监听1.png">
+
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/661be8b868eb9357134dba4d.png" alt="计算机网络（三）——数据链路层——CSMA-CA协议的信道预约和虚拟载波监听2.png">
+
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/661be8ff68eb9357134e1518.png" alt="计算机网络（三）——数据链路层——CSMA-CA协议的信道预约和虚拟载波监听3.png">
+
+<p>对于虚拟载波监听机制带来的减少隐蔽站碰撞问题，这里稍微说一下。如图，A、C互为隐蔽站，彼此收不到对方的信号，但是A发送给B一个RTS帧以后，B会发送CTS帧，C虽然收不到A的RTS帧，却可以收到B的CTS帧，这样C就知道了信道会被占用，占用多久，这段时间内C就不不会送帧，即A向B发送信道时，不会受到C的干扰。</p>
+<p>这里有道题感觉很好，能把这部分几个易混淆的协议总结一下，所以贴在这里分享一下：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/661bea1068eb93571350012f.png" alt="计算机网络（三）——数据链路层——CSMA-CA例题.png">
+
+<h3 id="5-3-轮询访问介质访问控制"><a href="#5-3-轮询访问介质访问控制" class="headerlink" title="5.3 轮询访问介质访问控制"></a>5.3 轮询访问介质访问控制</h3><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/661cc61668eb9357137677cd.png" alt="计算机网络（三）——数据链路层——轮询访问介质访问控制.png">
+
+<p><strong>轮询访问介质访问控制有两种主要的协议：轮询协议和令牌传递协议，其中令牌传递协议比较重要。</strong></p>
+<p><strong>轮询协议：</strong></p>
+<p>在轮询协议中，在总线上，把某一台主机当做当前总线的主结点（主结点只能有一台），由该主结点去发送询问帧，询问每台主机是否要进行数据传输，被询问的主机如果要发送数据，则可以发送；而未被询问的主机，即使有数据也不可以发送。当主结点的主机询问当前的某台机器以后，才会继续询问下一台，若询问完一圈，则从头再询问。</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/661cc69b68eb93571376c792.png">
+
+<p>这种传输协议会有以下几个缺点：</p>
+<ol>
+<li>轮询开销。总线上会产生大量主结点对其余主机发送询问帧的开销。</li>
+<li>等待延迟。未被问到的主机如果有数据要发送，则不得不等待，就会产生等待延迟。</li>
+<li>单点故障。若主结点出现故障，则整条链路都会崩溃，不过一般会设置辅助结点去代替崩溃的主结点。</li>
+</ol>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/661cc6bf68eb93571376e446.png" alt="计算机网络（三）——数据链路层——令牌传递协议.png">
+
+<p>令牌传递协议与轮询协议很类似，不同的是，在令牌传递协议中，是通过一个令牌（特殊格式的MAC帧）来确定谁进行数据发送。该令牌在令牌环上传输，令牌在谁手里，谁就可以发数据，若发数据就会更改令牌中的设置，让当前信道处于忙状态，进而进行数据传输。但是需要注意的是，每个结点拥有令牌进行数据分组发送时，并不是发送完以后，才把令牌传给下一个主机。而是令牌会有令牌持有时间，一旦持有时间到达，即使拥有令牌的主机数据未发送完，也会停止数据发送，进而把令牌传给下一台主机。</p>
+<p>这里有一点要说一下，在令牌传递协议中，若某主机拥有令牌但不发送数据，主机的行为取决于协议的具体实现和设定。</p>
+<p>通常，如果主机拥有令牌但不发送数据，它应该主动将令牌传递给下一台主机，以便其他主机有机会发送数据。这种设计是为了确保网络资源的有效利用，避免因为某台主机长时间持有令牌而不发送数据导致的资源浪费和通信延迟。</p>
+<p>然而，也存在一些令牌传递协议的实现中，令牌在主机持有一定时间后会自动跳转到下一台主机。这种设计可以防止因为主机故障或程序错误导致令牌无法被正确传递的情况。</p>
+<p>因此，具体是主机会主动把令牌传输给下一台主机，还是等待令牌在当前主机的持有时间到达后自己跳转到下一台主机，取决于所使用的令牌传递协议的具体实现和设定。在实际应用中，需要根据网络环境和通信需求来选择合适的令牌传递协议，并进行相应的配置和管理。</p>
+<h2 id="6-局域网"><a href="#6-局域网" class="headerlink" title="6. 局域网"></a>6. 局域网</h2><h3 id="6-1-局域网的基本概念和体系结构"><a href="#6-1-局域网的基本概念和体系结构" class="headerlink" title="6.1 局域网的基本概念和体系结构"></a>6.1 局域网的基本概念和体系结构</h3><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/661cdb7f68eb93571396339d.png" alt="计算机网络（三）——数据链路层——局域网.png">
+
+<p><strong>局域网的特性主要由三个要素决定：<font color=red>拓扑结构、传输介质、介质访问控制方式</font>。</strong></p>
+<p>首先介绍一下局域网的拓扑结构，如下：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/661cdb9a68eb935713967db6.png" alt="计算机网络（三）——数据链路层——局域网拓扑结构.png">
+
+<p>常见的局域网拓扑结构主要有以上4大类，其中总线型拓扑相较于其他几种更有优势，且造价也不昂贵，所以总线型拓扑是我们现在局域网中比较常用的一种拓扑结构。</p>
+<p>接下来说一下局域网的传输介质：</p>
+<p>局域网分为有线局域网和无线局域网，在有线局域网中，常用介质为双绞线、同轴电缆、光纤，其中双绞线为主流传输介质。</p>
+<p>在无线局域网里，常用介质为电磁波。</p>
+<p>说完了拓扑结构、传输介质，还剩一个介质访问控制方式，如下：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/661ce02f68eb9357139f6629.png" alt="计算机网络（三）——数据链路层——局域网介质访问控制方式.png">
+
+<p>接下里对局域网进行一个分类：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/661ce08168eb9357139ff713.png" alt="计算机网络（三）——数据链路层——局域网分类.png">
+
+<p>这里要解释一下逻辑拓扑与物理拓扑。物理拓扑是实际上的接线结构。而逻辑拓扑则是数据传输时的真实路径（即逻辑上的数据是如何传输的）。</p>
+<p><strong>注意，同一段局域网的物理拓扑与逻辑拓扑并不一定相同。</strong></p>
+<p>这里贴一篇我感觉比较好的CSDN有关拓扑的资料：<a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_37171673/article/details/109558929">物理拓扑与逻辑拓扑</a></p>
+<p>这里还剩下最后一个知识点——IEEE 802标准。</p>
+<p>IEEE 802系列标准是IEEE 802 LAN&#x2F;MAN 标准委员会制定的局域网、城域网技术标准。其中最广泛使用的有以太网、令牌环、无线局域网等。这一系列标准中的每一个子标准都由委员会中的一个专门工作组负责。</p>
+<p>这里说几个在考研中比较重要的标准：</p>
+<ol>
+<li>IEEE 802.3：以太网介质访问控制协议（CSMA&#x2F;CD）及物理层技术规范。</li>
+<li>IEEE 802.5：令牌环网的介质访问控制协议及物理层技术规范。</li>
+<li>IEEE 802.8：光纤技术咨询组，提供有关光纤联网的技术咨询。</li>
+<li>IEEE 802.11：无线局域网（WLAN）的介质访问控制协议及物理层技术规范。</li>
+</ol>
+<p>IEEE 802.3标准将数据链路层拆分成MAC子层和LLC子层。</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/661ce39968eb935713a302f8.png" alt="计算机网络（三）——数据链路层——MAC和LLC.png">
+
+<h3 id="6-2-以太网与IEEE-802-3"><a href="#6-2-以太网与IEEE-802-3" class="headerlink" title="6.2 以太网与IEEE 802.3"></a>6.2 以太网与IEEE 802.3</h3><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/661ce42a68eb935713a3cf5e.png" alt="计算机网络（三）——数据链路层——以太网概述.png">
+
+<p>以太网是目前最流行的有线局域网技术。<font color=red><strong>以太网逻辑上采用总线型拓扑结构，物理上采用星型拓扑结构。</strong></font>所有计算机共享同一条总线，信息以广播方式发送，以太网使用CSMA&#x2F;CD方式对总线进行访问控制。</p>
+<p>以太网采用两项措施来简化通信，即采用无连接的工作方式和发送的数据都采用曼彻斯特编码。</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/661ce54c68eb935713a573bb.png" alt="计算机网络（三）——数据链路层——以太网提供的服务.png">
+
+<p>上图有需要注意的地方，无差错接收不等于可靠传输。无差错接收，只是数据帧发来以后，没有差错才接收，若有，则丢弃。但可靠传输不一样，可靠传输是发来啥收啥，而这数据里的误码，重复等问题，应由可靠传输来解决。可靠传输一般由运输层（传输层）实现，而无差错接收，主要是由负责物理层和数据链路层的以太网实现。</p>
+<p>接下来举个以太网中非常常见的以太网结构例子——10BASE-T以太网（10指标准传输速率为10MB&#x2F;S；BASE指基带以太网；T指双绞线，除了T可能还会遇到F，F指光纤）</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/661ce72268eb935713a7cee3.png" alt="计算机网络（三）——数据链路层——10BASE-T以太网.png">
+
+<p><strong>接下介绍适配器及以太网中的MAC地址相关知识：</strong></p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/661ce75668eb935713a81d23.png" alt="计算机网络（三）——数据链路层——以太网的MAC地址.png">
+
+<p><strong>在了解完MAC地址以后，可以对以太网中的MAC进一步探索——以太网的MAC帧：</strong></p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/661ce91a68eb935713aaf1c5.png" alt="计算机网络（三）——数据链路层——以太网的MAC帧.png">
+
+<p>MAC帧由6字节目的地址、6字节源地址、2字节类型、数据和4字节检验码（FCS）组成。</p>
+<p>其中源地址有三种情况，第一种情况是单播地址（专有的MAC地址），记录目的主机的MAC地址。第二种情况，是广播地址，目的地址里全1，这种情况会把数据发给所有主机，所有主机看到这样的地址都会接收下来。第三种是多播地址。</p>
+<p>类型里指明上层使用哪种协议，以便把MAC帧地址上交给上层协议。</p>
+<p>数据段范围是46~1500，承载上层的协议数据单元。</p>
+<p>这里有两点注意的地方：</p>
+<ol>
+<li>在以太网中，将数据打包到物理层，会在MAC帧前加上8字节的前导码。前导码分为两个字段：第一个字段是7字节的前同步码，用来实现MAC帧的比特同步；第二个字段是1字节的帧开始定界符，表示后面信息就是MAC帧。</li>
+<li>以太网不需要帧结束定界符，因为当以太网传送帧时，各帧之间必须有一定的间隙，接收方只要找到帧开始定界符，其后面连续到达的比特流就都属于同一帧。实际上，以太网采用违规编码的思想，因为以太网使用曼彻斯特编码，所以每个码元中间都有一次电压的跳变。发送完一个帧后，发送方网络接口上的电压不再变化，这样接收方就能很容易地找到帧结束位置，这个位置往前数4字节就是FCS字段，于是就能确定帧结束位置。</li>
+</ol>
+<p><strong>最后介绍一下高速以太网的知识点：</strong></p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/661ced7868eb935713b25e72.png" alt="计算机网络（三）——数据链路层——高速以太网.png">
+
+<h3 id="6-3-IEEE-802-11无线局域网"><a href="#6-3-IEEE-802-11无线局域网" class="headerlink" title="6.3 IEEE 802.11无线局域网"></a>6.3 IEEE 802.11无线局域网</h3><p>IEEE 802.11是无线局域网通用的标准，它是由IEEE所定义的无限网络通信的标准。</p>
+<p>注意WIFI与无线局域网是不一样的，无线局域网的覆盖范围要比wifi大的多，而只有满足IEEE 802.11b和IEEE 802.11g所定义的标准才能称为wifi。13</p>
+<h4 id="6-3-1-802-11局域网的MAC帧"><a href="#6-3-1-802-11局域网的MAC帧" class="headerlink" title="6.3.1 802.11局域网的MAC帧"></a>6.3.1 802.11局域网的MAC帧</h4><p>接下来看802.11的MAC帧帧头格式：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/662605ad0ea9cb14033d0364.png" alt="计算机网络（三）——数据链路层——802.11MAC帧头格式.png">
+
+<p>如图，是802.11MAC帧的帧头格式，其中最为重要的是4个地址及其含义。</p>
+<p>地址1：RA接收端。</p>
+<p>地址2：TA发送端。</p>
+<p>地址3：DA目的地址。</p>
+<p>地址4：SA源地址。</p>
+<p>现在以一个例子来了解这四个地址，假设主机A和B要进行通信。A附近有个基站是AP<sub>1</sub>，B附近也有个基站是AP<sub>2</sub>。（AP是无线接入点，也称为基站，设备想要通过无线访问网络就需要通过基站。）</p>
+<p>现在A和B进行无线通信，A就要将其信息通过电磁波发给AP1，然后AP1再发给AP2(AP1和AP2之间可以有线也可以无线)，最后AP2再以电磁波形式将信号传给B。这就是A和B通过接入点进行通信的过程。</p>
+<p>由于全国各地有非常多的基站，所以手持的手机设备，在行走过程中，手机号也要在基站的数据库中有更新。说白了，就是人在江苏时，手机号是存入江苏的基站中，而人到北京了，手机号就要更新到北京的基站中，所以每当我们去外地旅游时，手机上总会收到某某城市欢迎你，这就说明我们手机接入的基站更新了。</p>
+<p>现在回到例子，A和B通信，现在离A近的基站是AP<sub>1</sub>，离B近的基站是AP<sub>2</sub>。A发送信息给B，则帧里目的地址DA就是B的MAC地址，源地址SA就是A的MAC地址，接收端RA就是AP<sub>2</sub>的MAC地址，发送端TA就是AP<sub>1</sub>的MAC地址。</p>
+<p>上面所说的只是802.11标准当中的一种帧类似，实际上在802.11中会把帧类型分为以下4类：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/662609250ea9cb140342eaf0.png" alt="计算机网络（三）——数据链路层——802.11MAC4类帧头格式.png">
+
+<p>前面所说的帧格式就属于WDS，另外三种类型的帧格式只有三个地址，具体对应字段参考上表。其中BSSID就是基站的地址。SA和DA与前面所说一下，分别是源地址和目的地址。</p>
+<h4 id="6-3-2-无线局域网的组成（分类）"><a href="#6-3-2-无线局域网的组成（分类）" class="headerlink" title="6.3.2 无线局域网的组成（分类）"></a>6.3.2 无线局域网的组成（分类）</h4><p>无线局域网分为<strong>有固定基础设施无线局域网和无固定基础设施无线局网的自组织网络</strong>两类。</p>
+<p>(1) 有固定基础设施无线局域网</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/66260df20ea9cb14034dd661.png" alt="计算机网络（三）——数据链路层——有固定基础设施的无限局域网.png">
+
+<p>如图，是有固定基础设施无线局域网络结构，图中有两个基站，其作用是实现区域内以及区域间的数据通信（区域间数据通信也叫漫游）。</p>
+<p>一个基站及其覆盖范围就构成了一个基本服务集BSS，所有站在本服务集内都可以进行直接通信。在上图左边基本服务集里，主机与基站之间很宽阔，通信信号强度足够，但是如果有障碍物阻挡，通信信号强度就会大大衰弱，因为AP的无线转发信号受到阻碍。举个例子，现在A与AP之间无障碍物，信号传输就不会受到阻碍，信号强度就会很高；但如果A与AP之间有一面很高的墙，AP与A之间传输的无线信号就会受到阻碍，信号强度就会丢失，接收信号就会出现不稳定。</p>
+<p>如果两个基本服务集进行通信，就需要接入分配系统DS，这个分配系统就相当于把无线和有线结合在一起。假设上图左A和右A’进行通信，两者之间距离很远，A想发送信号给A’，A就会先把它的数据发送给基站AP<sub>1</sub>，然后基站就会接入一个有线的线缆上，接入线缆就进入了一个有线的分配系统当中，进行有线通信。此时数据可以通过线路进入AP<sub>2</sub>，AP2把数据发送给A‘。这就实现了有线和无线结合的通信过程。</p>
+<p>几个基本服务集组合在一起就形成了一个扩展的服务集。</p>
+<p>(2) 无固定基础设施无线局域网的自组织网络</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/662612d50ea9cb1403573e9c.png" alt="计算机网络（三）——数据链路层——无固定基础设施无线局域网的自组织网络.png">
+
+<p>无固定基础设施就是指没有任何的转发器、集线器、路由器和基站等，只有主机它们自己组成一个网络，这里每台主机都可以充当主机及路由器功能。</p>
+<h3 id="6-4-VLAN基本概念与基本原理"><a href="#6-4-VLAN基本概念与基本原理" class="headerlink" title="6.4 VLAN基本概念与基本原理"></a>6.4 VLAN基本概念与基本原理</h3><h4 id="6-4-1-传统局域网的局限性"><a href="#6-4-1-传统局域网的局限性" class="headerlink" title="6.4.1 传统局域网的局限性"></a>6.4.1 传统局域网的局限性</h4><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/662614d30ea9cb14035c5ef9.png" alt="计算机网络（三）——数据链路层——传统局域网的局限性.png">
+
+<p>这里对上图三个局限问题做个具象的说明：</p>
+<ol>
+<li>缺乏流量隔离：在上图右边网络结构中，左上角的组流量交互即使局域化在左上角的交换机中，但流量信号也会贯穿整个网络结构。</li>
+<li>管理用户不便：如果想把左上角组里的用户移动右上角组里，需要改动物理布线才可以。</li>
+<li>路由器成本较高：因为有很多广播帧在线路上传输，这时就希望能把数据隔离，诞生多个广播域，这就需要路由器来支持。如果一个很大的组想要隔离开来，所需要的路由器数量也会翻倍增多。</li>
+</ol>
+<p>为了解决这些问题，就诞生了VLAN。</p>
+<h4 id="6-4-2-VLAN基本概念"><a href="#6-4-2-VLAN基本概念" class="headerlink" title="6.4.2 VLAN基本概念"></a>6.4.2 VLAN基本概念</h4><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/6626166b0ea9cb14035f1ac1.png" alt="计算机网络（三）——数据链路层——VLAN基本概念.png">
+
+<p>使用了VLAN技术，就可以将局域网内的设备划分为与物理位置无关的逻辑组，只有在同一个VLAN下的设备才能进行相互通信。</p>
+<h4 id="6-4-3-VLAN的实现"><a href="#6-4-3-VLAN的实现" class="headerlink" title="6.4.3 VLAN的实现"></a>6.4.3 VLAN的实现</h4><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/662624180ea9cb14037c4526.png" alt="计算机网络（三）——数据链路层——基于接口的VLAN.png">
+
+<p>交换机上生成的各VLAN是互不相通的，若想实现不同VLAN间的通信需要借助路由器或三层交换机。</p>
+<p>那么同VLAN下各主机是如何进行通信的呢？</p>
+<p>这是因为交换机上有转发表，基于MAC和端口会有一个相互映射。又因为交换机上配置了虚拟局域网，所以会附加一个VLAN表，VLAN表里表名哪个端口处在何VLAN下。</p>
+<p>如果上图A主机发送一个广播帧，交换机通过转发表可以知道A主机对应的是1号端口，再通过VLAN表，可以知道1号端口在VLAN1下，所以交换机进行广播帧转发时，会先查看VLAN表，查找里面所有VLAN1下的端口，然后将A的广播帧转发到所有VLAN1下的端口。</p>
+<p>如果A只给B发送数据帧，交换机仍会先通过转发表知道A主机对应的是1号端口，再通过VLAN表，知道1号端口在VLAN1下，然后通过转发表知道B端口为2，再通过VLAN表确认端口2在VLAN1下。</p>
+<p>到现在我们说的都是基于接口技术的VLAN。</p>
+<p>下面说一下基于MAC地址的VLAN技术。</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/662624630ea9cb14037cd6df.png" alt="计算机网络（三）——数据链路层——基于MAC的VLAN.png">
+
+<p>基于MAC地址的VLAN技术与基于接口技术的VLAN都一样，只是把VLAN表里的端口号改为MAC地址。不过基于MAC的方式相对于基于端口的方式来说做的更死，使用基于MAC地址的VLAN技术相当于固定了通信的主机，即使该主机换个端口，它也属于该VLAN ID下，而基于端口的，只要主机换个端口就不属于该VLAN ID下了。</p>
+<p>讨论完同一个交换机下的VLAN内通信，现在要讨论在不同交换机下同VLAN的通信。</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/662628920ea9cb140385f069.png" alt="计算机网络（三）——数据链路层——不同交换机下的VLAN通信.png">
+
+<p>如图假设A主机想发送信息给E主机，首先A会准备一个帧（这个帧就是之前在链路层学过的普通的以太网帧），到了交换机这，交换机会知道这是从VLAN1传输过来的，因此会在该帧上添加一个标记字段（标签tag，当tag&#x3D;1时表示来自vlan1）。然后交换机1会通过链路发给交换机2（交换机与交换机之间的连接常用trunk端口，trunk端口会把包含标签的数据直接发送到交换机2）。交换机2识别标签以后知道该数据是VLAN1下的，然后会结合其他MAC地址字段等将数据发送至主机E。</p>
+<p>提到了标签的概念，接下来对贴标签进行一个介绍：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/66262b490ea9cb14038aa9e7.png" alt="计算机网络（三）——数据链路层——802.1Q帧.png">
+
+<p>对于普通的以太网MAC帧，在经过交换机转发时，会被插入VLAN标价，形成802.1Q帧，帧格式如上图。</p>
+<p>这个VLAN标记由4个字节组成，前两个字节表情是IEEE 802.1Q帧，接下里4位没用，后面12位是VLAN标识符，表面该以太网帧属于哪个VLAN。</p>
+<p>另外，IEEE 802.1Q帧是由交换机来处理的，而不是由用户主机处理的，这意味着，在主机和交换机之间还是用普通的以太网MAC帧通信，而交换机与交换机之间是使用有VLAN标记的802.1Q帧。所以当交换机知道要把数据传给主机时，会把VLAN标记去掉，将802.1Q帧转换为以太网帧，再发送给主机。</p>
+<h2 id="7-广域网及相关协议"><a href="#7-广域网及相关协议" class="headerlink" title="7. 广域网及相关协议"></a>7. 广域网及相关协议</h2><h3 id="7-1-广域网"><a href="#7-1-广域网" class="headerlink" title="7.1 广域网"></a>7.1 广域网</h3><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/662632b80ea9cb140397e6b2.png" alt="计算机网络（三）——数据链路层——广域网.png">
+
+<p>广域网可以看成是由多个局域网组建而成的一个大型网络。</p>
+<p>从上图中，可以看到广域网中间有许多结点交换机，结点交换机是链路层设备，属于交换机，但是和路由器的功能很像，都是用来转发分组的。不同于路由器，结点交换机只能在单个网络中转发分组，而路由器可以在多个网络之间转发分组。</p>
+<p>在广域网当中除了交换机，也可以有集线器，更可以有网络层的路由器，所以广域网和局域网的一大区别就是，广域网可以覆盖物理层、链路层、网络层，而局域网只能覆盖链路层和物理层。</p>
+<p><font color=green><strong>局域网当中普遍采用多点接入技术，广域网普遍采用点对点的通信方式。</strong></font></p>
+<p>另外，广域网的数据传输速率要比局域网的高，因为广域网要实现远距离通信，所以速度不能太慢，但又因为通信距离远，所以导致广域网的传播延迟要比局域网的传播延迟更长。因此广域网强调<font color=red><strong>数据共享</strong></font>，而局域网强调<font color=red><strong>数据传输</strong></font>。</p>
+<h3 id="7-2-PPP协议"><a href="#7-2-PPP协议" class="headerlink" title="7.2 PPP协议"></a>7.2 PPP协议</h3><p>发现一个写的挺好的PPP协议笔记，贴一下：<a target="_blank" rel="noopener" href="https://blog.csdn.net/HinsCoder/article/details/130781224">网络协议讲解-PPP协议</a></p>
+<h4 id="7-2-1-PPP协议概念"><a href="#7-2-1-PPP协议概念" class="headerlink" title="7.2.1 PPP协议概念"></a>7.2.1 PPP协议概念</h4><p>点对点协议PPP（Point-to-Point Protocol）是目前使用最广泛的数据链路层协议，用户使用拨号电话接入因特网时一般都使用PPP协议。</p>
+<p>注意，<font color=red><strong>PPP协议只支持全双工链路</strong></font>。</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/662638040ea9cb1403a1d1a3.png" alt="计算机网络（三）——数据链路层——PPP.png">
+
+<p>PPP由三部分组成：</p>
+<ol>
+<li>一个链路控制协议LCP。</li>
+<li>一套网络控制协议NCP。</li>
+<li>一种将IP数据报封装到串行链路的方法。</li>
+</ol>
+<p>从网络体系结构的角度看，PPP是数据链路层协议，它将上层交付下来的数据单元封装成PPP帧。</p>
+<p>为了支持不同的网络层协议，PPP协议包含了一套网络控制协议NCP，其中的每一个协议支持不同的网络层协议。</p>
+<p>链路控制协议LCP，用于建立、配置以及测试数据链路的连接。PPP协议能够在多种类型的点对点链路上运行，例如，面向字节的异步链路，面向比特的同步链路。</p>
+<p>接下来讨论PPP协议的帧格式。</p>
+<h4 id="7-2-2-PPP协议帧格式"><a href="#7-2-2-PPP协议帧格式" class="headerlink" title="7.2.2 PPP协议帧格式"></a>7.2.2 PPP协议帧格式</h4><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/66263a4b0ea9cb1403a61d33.png" alt="计算机网络（三）——数据链路层——PPP帧.png">
+
+<p>注意，在PPP帧里，地址字段和控制字段暂时没有作用，只有固定表示0xFF和0x03，并没有含义。</p>
+<h4 id="7-2-3-PPP协议的透明传输"><a href="#7-2-3-PPP协议的透明传输" class="headerlink" title="7.2.3 PPP协议的透明传输"></a>7.2.3 PPP协议的透明传输</h4><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/66263c4c0ea9cb1403a9778d.png" alt="计算机网络（三）——数据链路层——PPP协议透明传输.png">
+
+<p>当PPP帧的数据部分出现帧首和帧尾中的标志字段时，如果不采取措施，则会造成接收方对PPP帧是否结束的误判。这里就需要PPP协议采用透明传输来解决误判问题。PPP协议实现透明传输的方法取决于所使用的链路类型，如果是面向字节的异步链路，则使用字节填充法；如果是面向比特的同步链路，则采用比特填充法。</p>
+<p>接下来分别举例展示字节填充法和比特填充法：</p>
+<p>字节填充法：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/66263e4a0ea9cb1403ace59b.png" alt="计算机网络（三）——数据链路层——PPP字节填充法.png">
+
+<p>比特填充法：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/66263e5e0ea9cb1403ad0ac2.png" alt="计算机网络（三）——数据链路层——PPP比特填充法.png">
+
+<h4 id="7-2-4-PPP协议的差错检测"><a href="#7-2-4-PPP协议的差错检测" class="headerlink" title="7.2.4 PPP协议的差错检测"></a>7.2.4 PPP协议的差错检测</h4><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/66263fca0ea9cb1403af8dd2.png" alt="计算机网络（三）——数据链路层——PPP差错检测.png">
+
+<h4 id="7-2-5-PPP协议工作状态"><a href="#7-2-5-PPP协议工作状态" class="headerlink" title="7.2.5 PPP协议工作状态"></a>7.2.5 PPP协议工作状态</h4><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/662641e80ea9cb1403b3421e.png" alt="计算机网络（三）——数据链路层——PPP协议工作状态.png">
+
+<p>PPP链路的开始和结束状态都是“静止”状态，这时并不存在物理层的连接。当检测到调制解调器的载波信号，并建立物理层连接后，PPP就进入链路的“建立”状态。这是链路控制协议LCP开始协商一些配置选项，若协商成功，则进入“鉴别”状态；若协商失败，则退回到“静止状态”。所协商的配置选项包括最大帧长、鉴别协议等，可以不使用鉴别，也可以使用口令鉴别协议PAP或挑战握手鉴别协议CHAP。若通信双方无需鉴别或鉴别身份成功，则进入”网络“状态；若鉴别失败，则进入”终止“状态。进入网络状态后，进行NCP配置，配置完成后，就进入”打开“状态，PPP链路两端通过互相交换网络层特定的NCP分组来进行NCP配置，如果PPP链路上运行的是IP协议，则使用IP控制协议IPCP来对PPP链路的每一端配置IP模块。只要链路处于”打开“状态就可以进行数据通信，当出现故障或链路的一端发出终止请求时，就进入”终止“状态，当载波停止后则回到”静止“状态。</p>
+<h2 id="8-链路层设备"><a href="#8-链路层设备" class="headerlink" title="8. 链路层设备"></a>8. 链路层设备</h2><p>首先设想一个场景，一个集线器上连接多台主机，一般情况下主机与集线器之间不能超过100m，如果超过100m，失帧就会非常严重，再怎么恢复也恢复不了。为了使距离较远的主机能够通信，就要先在物理层上把以太网扩展。</p>
+<p>这时我们可以采用如下图两种方式：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/6627427c0ea9cb1403565576.png" alt="计算机网络（三）——数据链路层——物理层拓展设备.png">
+
+<p>第一种，通过光纤。因为光纤长度非常长，而且光纤信号损耗小，所以可以用光纤拓展以太网。</p>
+<p>第二种，利用集线器把很多个集线器二次组合起来。这里注意一点，每个集线器所构成的区域称为冲突域。冲突域指某一时间只能有一台主机发送信息。而主干集线器把很多集线器连接起来就成了一个更大的冲突域。这样虽然扩展了以太网，但也带来了更大的冲突（发生冲突的概率增大）。</p>
+<p>要想减少冲突，又要扩大以太网，就可以通过链路层扩展，手段主要是通过网桥或交换机。</p>
+<h3 id="8-1-网桥（非考点）"><a href="#8-1-网桥（非考点）" class="headerlink" title="8.1 网桥（非考点）"></a>8.1 网桥（非考点）</h3><p>写在开头：网桥并不是408考试内容，408要求的链路层设备只有交换机。但网桥和交换机的工作原理很类似，甚至可以说交换机就是多个端口的网桥，所以在这里说一下网桥知识，这样可以帮助理解交换机。</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/6627449f0ea9cb14035a0408.png" alt="计算机网络（三）——数据链路层——网桥.png">
+
+<p>从网桥的工作过程来看，网桥比集线器要聪明，集线器收到一个信号会从所有端口进行转发，而网桥会考虑要不要转发，从哪个端口转发。</p>
+<p>上图是网桥的结构，可以看到通过网桥可以把几个以太网连接起来，因此就构成一个更大的以太网。原来的一个以太网就是一个冲突域，也叫一个网段。</p>
+<p>网桥的端口并不是像上图那样只有两个，也有三个、四个的，但一般来说都是比较少的。</p>
+<p><strong>网桥的优点：</strong></p>
+<p>(1) 网桥工作在链路层，它可以把各个冲突域分隔开，所以不同网段上的数据通信是不会相互干扰的，所以网桥可以过滤通信量。又因为各网段互不干扰，所以以太网吞吐量也被扩大，是所有冲突域的和。</p>
+<p>(2) 扩大物理传输范围。如图，通过网桥A可以和F通信。</p>
+<p>(3) 提高了可靠性。这里指当一个网段出现故障，只有一个网段会受到影响。</p>
+<p>(4) 可互连不同物理层、不同MAC子层和不同速率的以太网。</p>
+<p><strong>网桥的分类：</strong></p>
+<p>(1) 透明网桥。</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/66274b400ea9cb1403664c4e.png" alt="计算机网络（三）——数据链路层——透明网桥.png">
+
+<p>这里要说一下网桥的自学习。假设现在把网桥插入网段中，网桥会先自己构造一个转发表，一开始转发表里什么内容都没有，只有地址和接口两个字段，而自学习就是将该表丰满的过程。</p>
+<p>这里我们以一个例子来说明自学习算法的执行过程：</p>
+<p>现在A要给B发送一个数据帧，A发送的数据会在它自己的网段中广播出去，数据会传到B主机和网桥1的接口1，网桥1收到数据帧以后，会根据帧里信息来决定丢弃还是从哪个接口转发。网桥1会先按照源地址A的MAC地址来查找转发表，发现转发表里没有A地址，就会把A的地址及收到接口1写入转发表中。接下里网桥再按接口B来查找转发表，发现没有B地址，网桥就会通过A接口以外的所以接口转发出去。上图是从2接口转发。这个帧会被传到C、D以及网桥2的1号接口，网桥2同网桥1一样，记录A地址及接收接口1，然后再次转发出去。</p>
+<p>接下来若B给A发送数据，帧到网桥1的接口1时的时候，网桥1会先查找源地址，把B及接口1写进转发表，再查找目的地址A及A的接口，发现是接口1，就会直接丢弃该数据帧。</p>
+<p>(2) 源路由网桥</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/66274b8f0ea9cb1403671630.png" alt="计算机网络（三）——数据链路层——源路由网桥.png">
+
+<p>源站会先以广播方式发送发送帧，发送帧到达目的站会发回响应帧或发送帧原路返回，到达起点会告诉起点有多少种路由选择的方案，这些方案里肯定有一个路由最少&#x2F;时间最短的，这时候就可以把这个方案放在帧首部，以后发送帧到目的站时，都可以通过这种方案发送。</p>
+<h3 id="8-2-交换机"><a href="#8-2-交换机" class="headerlink" title="8.2 交换机"></a>8.2 交换机</h3><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/66274bdc0ea9cb140367ca22.png" alt="计算机网络（三）——数据链路层——交换机.png">
+
+<p>以太网交换机就是多接口的网桥，因为网桥接口少，若要拓展以太网就需要很多网桥，这样比较浪费。随着技术发展，网桥接口越来越多，渐渐地就变成现在所说的交换机。以太网交换机一般有十几个接口。如果网络比较复杂，可以先通过集线器连接主机，再通过交换机连接集线器实现以太网拓展。</p>
+<p>注意，<strong>以太网交换机是可以独占传输媒体带宽的。举例解释一下，如果以太网传输速率是10Mb&#x2F;s，现在又4台主机，如果使用集线器连接，每个主机只能分到2.5Mb&#x2F;s。如果使用以太网交换机，则每个主机可以分到10Mb&#x2F;s。</strong></p>
+<p>以太网交换机有以下两种交换方式，其含义即优缺点都写在下图中：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/66274c210ea9cb140368751b.png">
+
+<p>交换机是多接口的网桥，所以交换机也存在自学习功能。交换机的自学习功能和网桥一样，可以往上翻看网桥的自学习部分，这里跳过。</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/66274c480ea9cb140368be6e.png" alt="计算机网络（三）——数据链路层——以太网交换机的自学习.png">
+
+<h3 id="8-3-冲突域和广播域"><a href="#8-3-冲突域和广播域" class="headerlink" title="8.3 冲突域和广播域"></a>8.3 冲突域和广播域</h3><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/66274ca00ea9cb140369870d.png" alt="计算机网络（三）——数据链路层——广播域和冲突域.png">
+
+<p>这个图，我感觉挺好，说明了广播域和冲突域，同时也标注了各个层的设备及其能否隔离冲突域和广播域。</p>
+<p>目前学到这，按照我的理解对下三层设备做一个解读的话就应该如下面这样。首先物理层设备，就是集线器、双绞线等，用来构成网段（也是冲突域），但物理层设备构成的冲突域太小，所以需要进行扩展。扩展也可以通过物理层设备扩展，但物理层设备拓展会形成更大冲突域，这会导致冲突域越来越大，数据冲突会愈发严重，所以需要链路层来帮助。而网桥和交换机就是来实现拓展和冲突问题，网桥和交换机在扩展的同时，能隔离各冲突域，这样就可以实现以太网拓展而不产生更大冲突。但是各网段内部是通过广播的方式传输数据帧，这样就导致数据帧即使不是给某台主机的，该主机也会收到，所以就需要网络层的路由器实现广播域的隔离。(这是我的理解，我也不清楚对不对，但还是那句话，能自圆其说就好。)</p>
+<h3 id="8-4-链路层设备脑图"><a href="#8-4-链路层设备脑图" class="headerlink" title="8.4 链路层设备脑图"></a>8.4 链路层设备脑图</h3><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/66274cd90ea9cb140369f876.png" alt="计算机网络（三）——数据链路层——里路程设备脑图.png"></article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="http://bandit-ljC-1.github.io">liujinC</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="http://bandit-ljc-1.github.io/2024/04/10/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%EF%BC%88%E4%B8%89%EF%BC%89%E2%80%94%E2%80%94%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AF%E5%B1%82/">http://bandit-ljc-1.github.io/2024/04/10/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%EF%BC%88%E4%B8%89%EF%BC%89%E2%80%94%E2%80%94%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AF%E5%B1%82/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://bandit-ljC-1.github.io" target="_blank">无名高手🍭</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/408%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">408学习笔记</a><a class="post-meta__tags" href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">计算机网络</a></div><div class="post_share"><div class="social-share" data-image="/myphotos/article_cover/4.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2024/04/15/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%EF%BC%88%E5%9B%9B%EF%BC%89%E2%80%94%E2%80%94%E6%A0%91%E4%B8%8E%E4%BA%8C%E5%8F%89%E6%A0%91/" title="数据结构（四）——树与二叉树"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/myphotos/article_cover/7.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">数据结构（四）——树与二叉树</div></div></a></div><div class="next-post pull-right"><a href="/2024/04/10/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86%EF%BC%88%E4%B8%89%EF%BC%89%E2%80%94%E2%80%94%E5%AD%98%E5%82%A8%E7%B3%BB%E7%BB%9F/" title="计算机组成原理（三）——存储系统"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/myphotos/article_cover/5.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">计算机组成原理（三）——存储系统</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2024/03/31/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%EF%BC%88%E4%BA%8C%EF%BC%89%E2%80%94%E2%80%94%E7%89%A9%E7%90%86%E5%B1%82/" title="计算机网络（二）——物理层"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/myphotos/article_cover/7.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2024-03-31</div><div class="title">计算机网络（二）——物理层</div></div></a></div><div><a href="/2024/03/17/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%EF%BC%88%E4%B8%80%EF%BC%89%E2%80%94%E2%80%94%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84/" title="计算机网络（一）——计算机网络体系结构"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/myphotos/article_cover/8.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2024-03-17</div><div class="title">计算机网络（一）——计算机网络体系结构</div></div></a></div><div><a href="/2024/05/12/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%EF%BC%88%E5%85%AD%EF%BC%89%E2%80%94%E2%80%94%E5%BA%94%E7%94%A8%E5%B1%82/" title="计算机网络（六）——应用层"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/myphotos/article_cover/1.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2024-05-12</div><div class="title">计算机网络（六）——应用层</div></div></a></div><div><a href="/2024/05/10/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%EF%BC%88%E4%BA%94%EF%BC%89%E2%80%94%E2%80%94%E4%BC%A0%E8%BE%93%E5%B1%82/" title="计算机网络（五）——传输层"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/myphotos/article_cover/4.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2024-05-10</div><div class="title">计算机网络（五）——传输层</div></div></a></div><div><a href="/2024/04/24/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%EF%BC%88%E5%9B%9B%EF%BC%89%E2%80%94%E2%80%94%E7%BD%91%E7%BB%9C%E5%B1%82/" title="计算机网络（四）——网络层"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/myphotos/article_cover/12.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2024-04-24</div><div class="title">计算机网络（四）——网络层</div></div></a></div><div><a href="/2024/03/22/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%EF%BC%88%E4%B8%80%EF%BC%89%E2%80%94%E2%80%94%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F%E6%A6%82%E8%BF%B0/" title="操作系统（一）——计算机系统概述"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/myphotos/article_cover/3.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2024-03-22</div><div class="title">操作系统（一）——计算机系统概述</div></div></a></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/myphotos/avatar.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">liujinC</div><div class="author-info__description"></div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">29</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">8</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">3</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://home.liujinc.cn"><i class="fab fa-github"></i><span>网站主页</span></a><div class="card-info-social-icons is-center"><a class="social-icon faa-parent animated-hover" href="/myphotos/WeChat.png" target="_blank" title="微信"><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon-weixin"></use></svg></a><a class="social-icon faa-parent animated-hover" href="/myphotos/QQ.jpg" target="_blank" title="QQ"><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon-QQ"></use></svg></a><a class="social-icon faa-parent animated-hover" href="https://space.bilibili.com/1941048387?spm_id_from=333.1007.0.0" target="_blank" title="B站"><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon-bilibili"></use></svg></a><a class="social-icon faa-parent animated-hover" href="https://blog.csdn.net/qq_63040545?spm=1000.2115.3001.5343" target="_blank" title="CSDN"><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon-csdn"></use></svg></a><a class="social-icon faa-parent animated-hover" href="https://github.com/Bandit-ljC-1" target="_blank" title="GitHub"><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon-github1"></use></svg></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">今年18岁傍50岁富婆，来年50岁包18岁姑娘。</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%EF%BC%88%E4%B8%89%EF%BC%89%E2%80%94%E2%80%94%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AF%E5%B1%82"><span class="toc-text">计算机网络（三）——数据链路层</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AF%E5%B1%82%E5%8A%9F%E8%83%BD%E6%A6%82%E8%BF%B0"><span class="toc-text">1. 数据链路层功能概述</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-1-%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AF%E5%B1%82%E7%9A%84%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5"><span class="toc-text">1.1 数据链路层的基本概念</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-2-%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AF%E5%B1%82%E7%9A%84%E5%9F%BA%E6%9C%AC%E5%8A%9F%E8%83%BD"><span class="toc-text">1.2 数据链路层的基本功能</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-%E7%BB%84%E5%B8%A7"><span class="toc-text">2. 组帧</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#2-1-%E5%B0%81%E8%A3%85%E6%88%90%E5%B8%A7"><span class="toc-text">2.1 封装成帧</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-2-%E9%80%8F%E6%98%8E%E4%BC%A0%E8%BE%93"><span class="toc-text">2.2 透明传输</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-3-%E7%BB%84%E5%B8%A7%E7%9A%84%E4%B8%89%E7%A7%8D%E6%96%B9%E6%B3%95"><span class="toc-text">2.3 组帧的三种方法</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#2-3-1-%E5%AD%97%E7%AC%A6%E8%AE%A1%E6%95%B0%E6%B3%95"><span class="toc-text">2.3.1 字符计数法</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-3-2-%E5%AD%97%E8%8A%82%E5%A1%AB%E5%85%85%E6%B3%95"><span class="toc-text">2.3.2 字节填充法</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-3-3-%E9%9B%B6%E6%AF%94%E7%89%B9%E5%A1%AB%E5%85%85%E6%B3%95"><span class="toc-text">2.3.3 零比特填充法</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-3-4-%E8%BF%9D%E8%A7%84%E7%BC%96%E7%A0%81%E6%B3%95"><span class="toc-text">2.3.4 违规编码法</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-%E5%B7%AE%E9%94%99%E6%8E%A7%E5%88%B6"><span class="toc-text">3. 差错控制</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#3-1-%E5%B7%AE%E9%94%99%E4%BA%A7%E7%94%9F%E7%9A%84%E5%8E%9F%E5%9B%A0"><span class="toc-text">3.1 差错产生的原因</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-1-%E6%A3%80%E9%94%99%E7%BC%96%E7%A0%81"><span class="toc-text">3.1 检错编码</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#3-1-1-%E5%A5%87%E5%81%B6%E6%A0%A1%E9%AA%8C%E7%A0%81"><span class="toc-text">3.1.1 奇偶校验码</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-1-2-CRC%E5%86%97%E4%BD%99%E7%A0%81"><span class="toc-text">3.1.2 CRC冗余码</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-2-%E7%BA%A0%E9%94%99%E7%BC%96%E7%A0%81"><span class="toc-text">3.2 纠错编码</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-%E6%B5%81%E9%87%8F%E6%8E%A7%E5%88%B6%E4%B8%8E%E5%8F%AF%E9%9D%A0%E4%BC%A0%E8%BE%93"><span class="toc-text">4. 流量控制与可靠传输</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#4-1-%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AF%E5%B1%82%E7%9A%84%E6%B5%81%E9%87%8F%E6%8E%A7%E5%88%B6"><span class="toc-text">4.1 数据链路层的流量控制</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-2-%E5%8F%AF%E9%9D%A0%E4%BC%A0%E8%BE%93%E7%9A%84%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5"><span class="toc-text">4.2 可靠传输的基本概念</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-3-%E5%AE%9E%E7%8E%B0%E6%B5%81%E9%87%8F%E6%8E%A7%E5%88%B6%E4%B8%8E%E5%8F%AF%E9%9D%A0%E4%BC%A0%E8%BE%93%E7%9A%84%E4%B8%89%E7%A7%8D%E5%8D%8F%E8%AE%AE"><span class="toc-text">4.3 实现流量控制与可靠传输的三种协议</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#4-3-1-%E5%81%9C%E6%AD%A2-%E7%AD%89%E5%BE%85%E5%8D%8F%E8%AE%AE"><span class="toc-text">4.3.1 停止-等待协议</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#4-3-1-1-%E5%81%9C%E6%AD%A2-%E7%AD%89%E5%BE%85%E5%8D%8F%E8%AE%AE%E5%9F%BA%E7%A1%80"><span class="toc-text">4.3.1.1 停止-等待协议基础</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#4-3-1-2-%E5%81%9C%E6%AD%A2-%E7%AD%89%E5%BE%85%E5%8D%8F%E8%AE%AE%E7%9A%84%E4%BF%A1%E9%81%93%E5%88%A9%E7%94%A8%E7%8E%87"><span class="toc-text">4.3.1.2 停止-等待协议的信道利用率</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#4-3-1-3-%E5%81%9C%E6%AD%A2-%E7%AD%89%E5%BE%85%E5%8D%8F%E8%AE%AE%E5%B0%8F%E7%BB%93"><span class="toc-text">4.3.1.3 停止-等待协议小结</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-3-2-%E5%9B%9E%E9%80%80N%E5%B8%A7%E5%8D%8F%E8%AE%AEGBN"><span class="toc-text">4.3.2 回退N帧协议GBN</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#4-3-2-1-%E7%AC%AC%E4%B8%80%E7%A7%8D%E6%83%85%E5%86%B5%EF%BC%9A%E6%97%A0%E5%B7%AE%E9%94%99%E6%83%85%E5%86%B5"><span class="toc-text">4.3.2.1 第一种情况：无差错情况</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#4-3-2-2-%E7%AC%AC%E4%BA%8C%E7%A7%8D%E6%83%85%E5%86%B5%EF%BC%9A%E6%9C%89%E5%B7%AE%E9%94%99%E6%83%85%E5%86%B5"><span class="toc-text">4.3.2.2 第二种情况：有差错情况</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#4-3-2-3-%E7%AC%AC%E4%B8%89%E7%A7%8D%E6%83%85%E5%86%B5%EF%BC%9A%E5%8F%91%E9%80%81%E7%AA%97%E5%8F%A3WT%E8%B6%85%E8%BF%87%E5%8F%96%E5%80%BC%E4%B8%8A%E9%99%90"><span class="toc-text">4.3.2.3 第三种情况：发送窗口WT超过取值上限</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#4-3-2-4-GBN%E5%B0%8F%E7%BB%93"><span class="toc-text">4.3.2.4 GBN小结</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-3-3-%E9%80%89%E6%8B%A9%E9%87%8D%E4%BC%A0%E5%8D%8F%E8%AE%AESR"><span class="toc-text">4.3.3 选择重传协议SR</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-%E4%BB%8B%E8%B4%A8%E8%AE%BF%E9%97%AE%E6%8E%A7%E5%88%B6"><span class="toc-text">5. 介质访问控制</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#5-1-%E4%BF%A1%E9%81%93%E5%88%92%E5%88%86%E4%BB%8B%E8%B4%A8%E8%AE%BF%E9%97%AE%E6%8E%A7%E5%88%B6"><span class="toc-text">5.1 信道划分介质访问控制</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#5-1-1-%E9%A2%91%E5%88%86%E5%A4%8D%E7%94%A8%EF%BC%88FDM%EF%BC%89"><span class="toc-text">5.1.1 频分复用（FDM）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#5-1-2-%E6%97%B6%E5%88%86%E5%A4%8D%E7%94%A8%EF%BC%88TDM%EF%BC%89"><span class="toc-text">5.1.2 时分复用（TDM）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#5-1-3-%E6%B3%A2%E5%88%86%E5%A4%8D%E7%94%A8%EF%BC%88WDM%EF%BC%89"><span class="toc-text">5.1.3 波分复用（WDM）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#5-1-4-%E7%A0%81%E5%88%86%E5%A4%8D%E7%94%A8%EF%BC%88CDM%EF%BC%89"><span class="toc-text">5.1.4 码分复用（CDM）</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-2-%E9%9A%8F%E6%9C%BA%E8%AE%BF%E9%97%AE%E4%BB%8B%E8%B4%A8%E8%AE%BF%E9%97%AE%E6%8E%A7%E5%88%B6"><span class="toc-text">5.2 随机访问介质访问控制</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#5-2-1-ALOHA%E5%8D%8F%E8%AE%AE"><span class="toc-text">5.2.1 ALOHA协议</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#5-2-2-CSMA%E5%8D%8F%E8%AE%AE"><span class="toc-text">5.2.2 CSMA协议</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#5-2-3-CSMA-CD%E5%8D%8F%E8%AE%AE"><span class="toc-text">5.2.3 CSMA&#x2F;CD协议</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#5-2-4-CSMA-CA%E5%8D%8F%E8%AE%AE"><span class="toc-text">5.2.4 CSMA&#x2F;CA协议</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-3-%E8%BD%AE%E8%AF%A2%E8%AE%BF%E9%97%AE%E4%BB%8B%E8%B4%A8%E8%AE%BF%E9%97%AE%E6%8E%A7%E5%88%B6"><span class="toc-text">5.3 轮询访问介质访问控制</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#6-%E5%B1%80%E5%9F%9F%E7%BD%91"><span class="toc-text">6. 局域网</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#6-1-%E5%B1%80%E5%9F%9F%E7%BD%91%E7%9A%84%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5%E5%92%8C%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84"><span class="toc-text">6.1 局域网的基本概念和体系结构</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6-2-%E4%BB%A5%E5%A4%AA%E7%BD%91%E4%B8%8EIEEE-802-3"><span class="toc-text">6.2 以太网与IEEE 802.3</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6-3-IEEE-802-11%E6%97%A0%E7%BA%BF%E5%B1%80%E5%9F%9F%E7%BD%91"><span class="toc-text">6.3 IEEE 802.11无线局域网</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#6-3-1-802-11%E5%B1%80%E5%9F%9F%E7%BD%91%E7%9A%84MAC%E5%B8%A7"><span class="toc-text">6.3.1 802.11局域网的MAC帧</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#6-3-2-%E6%97%A0%E7%BA%BF%E5%B1%80%E5%9F%9F%E7%BD%91%E7%9A%84%E7%BB%84%E6%88%90%EF%BC%88%E5%88%86%E7%B1%BB%EF%BC%89"><span class="toc-text">6.3.2 无线局域网的组成（分类）</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6-4-VLAN%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5%E4%B8%8E%E5%9F%BA%E6%9C%AC%E5%8E%9F%E7%90%86"><span class="toc-text">6.4 VLAN基本概念与基本原理</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#6-4-1-%E4%BC%A0%E7%BB%9F%E5%B1%80%E5%9F%9F%E7%BD%91%E7%9A%84%E5%B1%80%E9%99%90%E6%80%A7"><span class="toc-text">6.4.1 传统局域网的局限性</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#6-4-2-VLAN%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5"><span class="toc-text">6.4.2 VLAN基本概念</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#6-4-3-VLAN%E7%9A%84%E5%AE%9E%E7%8E%B0"><span class="toc-text">6.4.3 VLAN的实现</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#7-%E5%B9%BF%E5%9F%9F%E7%BD%91%E5%8F%8A%E7%9B%B8%E5%85%B3%E5%8D%8F%E8%AE%AE"><span class="toc-text">7. 广域网及相关协议</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#7-1-%E5%B9%BF%E5%9F%9F%E7%BD%91"><span class="toc-text">7.1 广域网</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#7-2-PPP%E5%8D%8F%E8%AE%AE"><span class="toc-text">7.2 PPP协议</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#7-2-1-PPP%E5%8D%8F%E8%AE%AE%E6%A6%82%E5%BF%B5"><span class="toc-text">7.2.1 PPP协议概念</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#7-2-2-PPP%E5%8D%8F%E8%AE%AE%E5%B8%A7%E6%A0%BC%E5%BC%8F"><span class="toc-text">7.2.2 PPP协议帧格式</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#7-2-3-PPP%E5%8D%8F%E8%AE%AE%E7%9A%84%E9%80%8F%E6%98%8E%E4%BC%A0%E8%BE%93"><span class="toc-text">7.2.3 PPP协议的透明传输</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#7-2-4-PPP%E5%8D%8F%E8%AE%AE%E7%9A%84%E5%B7%AE%E9%94%99%E6%A3%80%E6%B5%8B"><span class="toc-text">7.2.4 PPP协议的差错检测</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#7-2-5-PPP%E5%8D%8F%E8%AE%AE%E5%B7%A5%E4%BD%9C%E7%8A%B6%E6%80%81"><span class="toc-text">7.2.5 PPP协议工作状态</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#8-%E9%93%BE%E8%B7%AF%E5%B1%82%E8%AE%BE%E5%A4%87"><span class="toc-text">8. 链路层设备</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#8-1-%E7%BD%91%E6%A1%A5%EF%BC%88%E9%9D%9E%E8%80%83%E7%82%B9%EF%BC%89"><span class="toc-text">8.1 网桥（非考点）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#8-2-%E4%BA%A4%E6%8D%A2%E6%9C%BA"><span class="toc-text">8.2 交换机</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#8-3-%E5%86%B2%E7%AA%81%E5%9F%9F%E5%92%8C%E5%B9%BF%E6%92%AD%E5%9F%9F"><span class="toc-text">8.3 冲突域和广播域</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#8-4-%E9%93%BE%E8%B7%AF%E5%B1%82%E8%AE%BE%E5%A4%87%E8%84%91%E5%9B%BE"><span class="toc-text">8.4 链路层设备脑图</span></a></li></ol></li></ol></li></ol></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2024 - 2025 By liujinC</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js?v=4.12.0"></script><script src="/js/main.js?v=4.12.0"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0.32/dist/fancybox/fancybox.umd.min.js"></script><script src="https://cdn.jsdelivr.net/npm/instant.page@5.2.0/instantpage.min.js" type="module"></script><script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@17.8.5/dist/lazyload.iife.min.js"></script><script src="https://cdn.jsdelivr.net/npm/node-snackbar@0.1.16/dist/snackbar.min.js"></script><script>function panguFn () {
+  if (typeof pangu === 'object') pangu.autoSpacingPage()
+  else {
+    getScript('https://cdn.jsdelivr.net/npm/pangu@4.0.7/dist/browser/pangu.min.js')
+      .then(() => {
+        pangu.autoSpacingPage()
+      })
+  }
+}
+
+function panguInit () {
+  if (false){
+    GLOBAL_CONFIG_SITE.isPost && panguFn()
+  } else {
+    panguFn()
+  }
+}
+
+document.addEventListener('DOMContentLoaded', panguInit)</script><div class="js-pjax"></div><canvas id="snow"></canvas><script async src="/js/snow.js"></script><canvas id="universe"></canvas><script defer src="/js/universe.js"></script><script defer src="/js/mouse.js"></script><script async src="//at.alicdn.com/t/c/font_4451089_fok8y2foa3.js"></script><script defer type="text/javascript" src="https://cdn1.tianli0.top/npm/sweetalert2@8.19.0/dist/sweetalert2.all.js"></script><script defer src="/js/festival/lunar.js"></script><script defer src="/js/festival/day.js"></script><script async src="/js/fps.js"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="is-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据库加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div id="local-search-results"></div><div id="local-search-stats-wrap"></div></div></div><div id="search-mask"></div><script src="/js/search/local-search.js?v=4.12.0"></script></div></div><!-- hexo injector body_end start --> <script data-pjax>if(document.getElementById('recent-posts') && (location.pathname ==='/'|| '/' ==='all')){
+    var parent = document.getElementById('recent-posts');
+    var child = '<div class="recent-post-item" style="width:100%;height: auto"><div id="catalog_magnet"><div class="magnet_item"><a class="magnet_link" href="http://bandit-ljC-1.github.io/tags/408学习笔记/"><div class="magnet_link_context" style=""><span style="font-weight:500;flex:1">🐱‍👓 路漫漫其修远，我探索不了一点。 (25)</span><span style="padding:0px 4px;border-radius: 8px;"><i class="fas fa-arrow-circle-right"></i></span></div></a></div><div class="magnet_item"><a class="magnet_link" href="http://bandit-ljC-1.github.io/tags/前端/"><div class="magnet_link_context" style=""><span style="font-weight:500;flex:1">🍨 前端UI到转行平面设计 (2)</span><span style="padding:0px 4px;border-radius: 8px;"><i class="fas fa-arrow-circle-right"></i></span></div></a></div><a class="magnet_link_more"  href="http://bandit-ljC-1.github.io/tags" style="flex:1;text-align: center;margin-bottom: 10px;">查看更多...</a></div></div>';
+    console.log('已挂载magnet')
+    parent.insertAdjacentHTML("afterbegin",child)}
+     </script><style>#catalog_magnet{flex-wrap: wrap;display: flex;width:100%;justify-content:space-between;padding: 10px 10px 0 10px;align-content: flex-start;}.magnet_item{flex-basis: calc(50% - 5px);background: #f2f2f2;margin-bottom: 10px;border-radius: 8px;transition: all 0.2s ease-in-out;}.magnet_item:hover{background: #b30070}.magnet_link_more{color:#555}.magnet_link{color:black}.magnet_link:hover{color:white}@media screen and (max-width: 600px) {.magnet_item {flex-basis: 100%;}}.magnet_link_context{display:flex;padding: 10px;font-size:16px;transition: all 0.2s ease-in-out;}.magnet_link_context:hover{padding: 10px 20px;}</style>
+    <style></style><script data-pjax>
+    function butterfly_categories_card_injector_config(){
+      var parent_div_git = document.getElementById('recent-posts');
+      var item_html = '<style>li.categoryBar-list-item{width:32.3%;}.categoryBar-list{max-height: 380px;overflow:auto;}.categoryBar-list::-webkit-scrollbar{width:0!important}@media screen and (max-width: 650px){.categoryBar-list{max-height: 320px;}}</style><div class="recent-post-item" style="height:auto;width:100%;padding:0px;"><div id="categoryBar"><ul class="categoryBar-list"><li class="categoryBar-list-item" style="background:url(/myphotos/article_cover/1.jpg);"> <a class="categoryBar-list-link" href="categories/网页开发/">网页开发</a><span class="categoryBar-list-count">2</span><span class="categoryBar-list-descr">优秀的设计师</span></li><li class="categoryBar-list-item" style="background:url(/myphotos/article_cover/2.jpg);"> <a class="categoryBar-list-link" href="categories/hexo/">hexo</a><span class="categoryBar-list-count">2</span><span class="categoryBar-list-descr">五等分的blog</span></li><li class="categoryBar-list-item" style="background:url(/myphotos/article_cover/3.jpg);"> <a class="categoryBar-list-link" href="categories/学习笔记/">学习笔记</a><span class="categoryBar-list-count">25</span><span class="categoryBar-list-descr">埼玉的成长之路</span></li></ul></div></div>';
+      console.log('已挂载butterfly_categories_card')
+      parent_div_git.insertAdjacentHTML("afterbegin",item_html)
+      }
+    if( document.getElementById('recent-posts') && (location.pathname ==='/'|| '/' ==='all')){
+    butterfly_categories_card_injector_config()
+    }
+  </script><script data-pjax>
+  function butterfly_swiper_injector_config(){
+    var parent_div_git = document.getElementById('recent-posts');
+    var item_html = '<div class="recent-post-item" style="height: auto;width: 100%"><div class="blog-slider swiper-container-fade swiper-container-horizontal" id="swiper_container"><div class="blog-slider__wrp swiper-wrapper" style="transition-duration: 0ms;"><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" href="2024/01/01/Markdown语法/" alt=""><img width="48" height="48" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="myphotos/article_cover/6.jpg" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/></a><div class="blog-slider__content"><span class="blog-slider__code">2024-01-01</span><a class="blog-slider__title" href="2024/01/01/Markdown语法/" alt="">青春男大遇到不会写的Markdown语法</a><div class="blog-slider__text">本文是博主写博客时遇到的一些不会写的Markdown语法，特在此汇总</div><a class="blog-slider__button" href="2024/01/01/Markdown语法/" alt="">详情   </a></div></div><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" href="2024/03/07/数据结构（一）——线性表/" alt=""><img width="48" height="48" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="myphotos/article_cover/3.jpg" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/></a><div class="blog-slider__content"><span class="blog-slider__code">2024-03-07</span><a class="blog-slider__title" href="2024/03/07/数据结构（一）——线性表/" alt="">数据结构（一）——线性表</a><div class="blog-slider__text">本文是数据结构中有关线性表的复习笔记，因此只记录一些重点知识与兄弟们交流，并不适合零基础的兄弟。</div><a class="blog-slider__button" href="2024/03/07/数据结构（一）——线性表/" alt="">详情   </a></div></div><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" href="2024/03/02/基于hexo搭建的个人博客常见问题处理/" alt=""><img width="48" height="48" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="myphotos/article_cover/6.jpg" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/></a><div class="blog-slider__content"><span class="blog-slider__code">2024-03-02</span><a class="blog-slider__title" href="2024/03/02/基于hexo搭建的个人博客常见问题处理/" alt="">基于hexo搭建的个人博客常见问题处理</a><div class="blog-slider__text">该文主要是站长对使用hexo搭建博客时出现的一些问题进行了整理</div><a class="blog-slider__button" href="2024/03/02/基于hexo搭建的个人博客常见问题处理/" alt="">详情   </a></div></div><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" href="2024/02/08/CSS基础语法及应用/" alt=""><img width="48" height="48" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="myphotos/article_cover/6.jpg" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/></a><div class="blog-slider__content"><span class="blog-slider__code">2024-02-08</span><a class="blog-slider__title" href="2024/02/08/CSS基础语法及应用/" alt="">CSS基础语法及应用</a><div class="blog-slider__text">本文主要整理CSS的基本语法，可以搭配HTML5基本语法进行学习</div><a class="blog-slider__button" href="2024/02/08/CSS基础语法及应用/" alt="">详情   </a></div></div><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" href="2024/02/01/HTML5基础语法大全/" alt=""><img width="48" height="48" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="myphotos/article_cover/13.jpg" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/></a><div class="blog-slider__content"><span class="blog-slider__code">2024-02-01</span><a class="blog-slider__title" href="2024/02/01/HTML5基础语法大全/" alt="">HTML5基本语法大全</a><div class="blog-slider__text">本文主要整理了HTML5的基本语法，方便初学者快速入门</div><a class="blog-slider__button" href="2024/02/01/HTML5基础语法大全/" alt="">详情   </a></div></div></div><div class="blog-slider__pagination swiper-pagination-clickable swiper-pagination-bullets"></div></div></div>';
+    console.log('已挂载butterfly_swiper')
+    parent_div_git.insertAdjacentHTML("afterbegin",item_html)
+    }
+  var elist = 'undefined'.split(',');
+  var cpage = location.pathname;
+  var epage = '/';
+  var flag = 0;
+
+  for (var i=0;i<elist.length;i++){
+    if (cpage.includes(elist[i])){
+      flag++;
+    }
+  }
+
+  if ((epage ==='all')&&(flag == 0)){
+    butterfly_swiper_injector_config();
+  }
+  else if (epage === cpage){
+    butterfly_swiper_injector_config();
+  }
+  </script><script defer src="https://npm.elemecdn.com/hexo-butterfly-swiper/lib/swiper.min.js"></script><script defer data-pjax src="https://npm.elemecdn.com/hexo-butterfly-swiper/lib/swiper_init.js"></script><script data-pjax>
+  function butterfly_footer_beautify_injector_config(){
+    var parent_div_git = document.getElementById('footer-wrap');
+    var item_html = '<div id="workboard"></div><p id="ghbdages"><a class="github-badge" target="_blank" href="https://hexo.io/" style="margin-inline:5px" data-title="博客框架为Hexo_v6.2.0" title=""><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img.shields.io/badge/Frame-Hexo-blue?style=flat&amp;logo=hexo" alt=""/></a><a class="github-badge" target="_blank" href="https://butterfly.js.org/" style="margin-inline:5px" data-title="主题版本Butterfly_v4.3.1" title=""><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img.shields.io/badge/Theme-Butterfly-6513df?style=flat&amp;logo=bitdefender" alt=""/></a><a class="github-badge" target="_blank" href="https://vercel.com/" style="margin-inline:5px" data-title="本站采用多线部署，主线路托管于Vercel" title=""><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img.shields.io/badge/Hosted-Vercel-brightgreen?style=flat&amp;logo=Vercel" alt=""/></a><a class="github-badge" target="_blank" href="https://dashboard.4everland.org/" style="margin-inline:5px" data-title="本站采用多线部署，备用线路托管于4EVERLAND" title=""><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img.shields.io/badge/Hosted-4EVERLAND-22DDDD?style=flat&amp;logo=IPFS" alt=""/></a><a class="github-badge" target="_blank" href="https://github.com/" style="margin-inline:5px" data-title="本站项目由Github托管" title=""><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img.shields.io/badge/Source-Github-d021d6?style=flat&amp;logo=GitHub" alt=""/></a><a class="github-badge" target="_blank" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" style="margin-inline:5px" data-title="本站采用知识共享署名-非商业性使用-相同方式共享4.0国际许可协议进行许可" title=""><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img.shields.io/badge/Copyright-BY--NC--SA%204.0-d42328?style=flat&amp;logo=Claris" alt=""/></a></p>';
+    console.log('已挂载butterfly_footer_beautify')
+    parent_div_git.insertAdjacentHTML("beforeend",item_html)
+    }
+  var elist = 'null'.split(',');
+  var cpage = location.pathname;
+  var epage = 'all';
+  var flag = 0;
+
+  for (var i=0;i<elist.length;i++){
+    if (cpage.includes(elist[i])){
+      flag++;
+    }
+  }
+
+  if ((epage ==='all')&&(flag == 0)){
+    butterfly_footer_beautify_injector_config();
+  }
+  else if (epage === cpage){
+    butterfly_footer_beautify_injector_config();
+  }
+  </script><script async src="/js/clock.js"></script><div class="js-pjax"><script async="async">var arr = document.getElementsByClassName('recent-post-item');
+for(var i = 0;i<arr.length;i++){
+    arr[i].classList.add('wow');
+    arr[i].classList.add('animate__zoomIn');
+    arr[i].setAttribute('data-wow-duration', '2s');
+    arr[i].setAttribute('data-wow-delay', '1s');
+    arr[i].setAttribute('data-wow-offset', '100');
+    arr[i].setAttribute('data-wow-iteration', '1');
+  }</script><script async="async">var arr = document.getElementsByClassName('card-widget');
+for(var i = 0;i<arr.length;i++){
+    arr[i].classList.add('wow');
+    arr[i].classList.add('animate__zoomIn');
+    arr[i].setAttribute('data-wow-duration', '');
+    arr[i].setAttribute('data-wow-delay', '');
+    arr[i].setAttribute('data-wow-offset', '');
+    arr[i].setAttribute('data-wow-iteration', '');
+  }</script></div><script defer src="/css/wowjs/wow.min.js"></script><script defer src="/css/wowjs/wow_init.js"></script><!-- hexo injector body_end end --></body></html>

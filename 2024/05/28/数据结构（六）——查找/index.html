@@ -1,0 +1,1097 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>数据结构（六）——查找 | 无名高手🍭</title><meta name="author" content="liujinC"><meta name="copyright" content="liujinC"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="ffffff"><meta name="description" content="本文主要记录数据结构中有关查找的相关知识。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="数据结构（六）——查找">
+<meta property="og:url" content="http://bandit-ljc-1.github.io/2024/05/28/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%EF%BC%88%E5%85%AD%EF%BC%89%E2%80%94%E2%80%94%E6%9F%A5%E6%89%BE/index.html">
+<meta property="og:site_name" content="无名高手🍭">
+<meta property="og:description" content="本文主要记录数据结构中有关查找的相关知识。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://bandit-ljc-1.github.io/myphotos/article_cover/5.jpg">
+<meta property="article:published_time" content="2024-05-28T14:00:00.000Z">
+<meta property="article:modified_time" content="2024-06-03T05:18:00.000Z">
+<meta property="article:author" content="liujinC">
+<meta property="article:tag" content="408学习笔记">
+<meta property="article:tag" content="数据结构">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://bandit-ljc-1.github.io/myphotos/article_cover/5.jpg"><link rel="shortcut icon" href="/myphotos/icon.png"><link rel="canonical" href="http://bandit-ljc-1.github.io/2024/05/28/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%EF%BC%88%E5%85%AD%EF%BC%89%E2%80%94%E2%80%94%E6%9F%A5%E6%89%BE/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css?v=4.12.0"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.5.1/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/node-snackbar@0.1.16/dist/snackbar.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0.32/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":true,"top_n_per_article":-1,"unescape":false,"languages":{"hits_empty":"找不到您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: undefined,
+  noticeOutdate: {"limitDay":365,"position":"top","messagePrev":"It has been","messageNext":"days since the last update, the content of the article may be outdated."},
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":230},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: {"chs_to_cht":"你已切换为繁体中文","cht_to_chs":"你已切换为简体中文","day_to_night":"你已切换为深色模式","night_to_day":"你已切换为浅色模式","bgLight":"#49b1f5","bgDark":"#1f1f1f","position":"top-right"},
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid@4.11.0/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyload: true,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '数据结构（六）——查找',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2024-06-03 13:18:00'
+}</script><script>(win=>{
+      win.saveToLocal = {
+        set: (key, value, ttl) => {
+          if (ttl === 0) return
+          const now = Date.now()
+          const expiry = now + ttl * 86400000
+          const item = {
+            value,
+            expiry
+          }
+          localStorage.setItem(key, JSON.stringify(item))
+        },
+      
+        get: key => {
+          const itemStr = localStorage.getItem(key)
+      
+          if (!itemStr) {
+            return undefined
+          }
+          const item = JSON.parse(itemStr)
+          const now = Date.now()
+      
+          if (now > item.expiry) {
+            localStorage.removeItem(key)
+            return undefined
+          }
+          return item.value
+        }
+      }
+    
+      win.getScript = (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        script.onerror = reject
+        script.onload = script.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          script.onload = script.onreadystatechange = null
+          resolve()
+        }
+
+        Object.keys(attr).forEach(key => {
+          script.setAttribute(key, attr[key])
+        })
+
+        document.head.appendChild(script)
+      })
+    
+      win.getCSS = (url, id = false) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onerror = reject
+        link.onload = link.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          link.onload = link.onreadystatechange = null
+          resolve()
+        }
+        document.head.appendChild(link)
+      })
+    
+      win.activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', 'ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          const now = new Date()
+          const hour = now.getHours()
+          const isNight = hour <= 6 || hour >= 18
+          if (t === undefined) isNight ? activateDarkMode() : activateLightMode()
+          else if (t === 'light') activateLightMode()
+          else activateDarkMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+      const detectApple = () => {
+        if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+          document.documentElement.classList.add('apple')
+        }
+      }
+      detectApple()
+    })(window)</script><link rel="stylesheet" href="/css/custom.css" media="defer" onload="this.media='all'"><link rel="stylesheet" href="/css/light.css" media="defer" onload="this.media='all'"><link rel="stylesheet" href="/css/snow.css"><link rel="stylesheet" href="/css/universe.css"><link rel="stylesheet" href="/css/mouse.css"><link rel="stylesheet" href="//at.alicdn.com/t/c/font_4451089_fok8y2foa3.css" media="defer" onload="this.media='all'"><link rel="stylesheet" href="/css/page_style.css"><span id="fps"></span><link rel="stylesheet" href="/css/pangu_control.css"><div id="myscoll"></div><!-- hexo injector head_end start --><link rel="stylesheet" href="/css/categorybar.css"><link rel="stylesheet" href="https://npm.elemecdn.com/hexo-butterfly-swiper/lib/swiper.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="/css/swiper/swiperstyle.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://unpkg.zhimg.com/hexo-butterfly-footer-beautify@1.0.0/lib/runtime.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="/css/wowjs/animate.min.css" media="print" onload="this.media='screen'"><!-- hexo injector head_end end --><meta name="generator" content="Hexo 6.3.0"></head><body><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/myphotos/avatar.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">29</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">8</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">3</div></a></div><hr class="custom-hr"/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> 列表</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音乐</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 电影</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/comments/"><i class="fa-fw fas fa-envelope-open"></i><span> 留言板</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('/myphotos/article_cover/5.jpg')"><nav id="nav"><span id="blog-info"><a href="/" title="无名高手🍭"><span class="site-name">无名高手🍭</span></a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search" href="javascript:void(0);"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> 列表</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音乐</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 电影</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/comments/"><i class="fa-fw fas fa-envelope-open"></i><span> 留言板</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">数据结构（六）——查找</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2024-05-28T14:00:00.000Z" title="发表于 2024-05-28 22:00:00">2024-05-28</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2024-06-03T05:18:00.000Z" title="更新于 2024-06-03 13:18:00">2024-06-03</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">学习笔记</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">21.1k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>63分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="数据结构（六）——查找"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h1 id="数据结构（六）——查找"><a href="#数据结构（六）——查找" class="headerlink" title="数据结构（六）——查找"></a>数据结构（六）——查找</h1><h2 id="1-查找的基本概念"><a href="#1-查找的基本概念" class="headerlink" title="1. 查找的基本概念"></a>1. 查找的基本概念</h2><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/6655e4d4d9c307b7e9075464.png" alt="数据结构（六）——查找——查找的基本概念.png">
+
+<p>在学习查找相关工作前，首先要知道查找的基本概念，这里需要注意一下关键字。</p>
+<p>关键字是数据元素中<font color=red><strong>唯一标识</strong></font>该元素的某个数据项的值，要注意，使用关键字查找的结果应该唯一，若结果不唯一，则说明不是使用关键字查找的。</p>
+<p>接下来看一下对查找表的常见操作：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/6655e5f2d9c307b7e908a4ba.png" alt="数据结构（六）——查找——对查找表的常见操作.png">
+
+<p>对查找表的常见操作有两种，第一种只是单纯的查找，并不对表中数据进行修改；第二种会对查找表进行插入、删除等操作，会导致查找表数据发生修改。</p>
+<p>如果一个查找表只需要进行查的操作，这种查找表称为静态查找表。</p>
+<p>如果一个查找表不仅需要进行查的操作，还要对表中数据进行修改，则这种查找表称为动态查找表。</p>
+<p>接下来看一下怎么评价一个查找算法的优劣：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/6655e708d9c307b7e909e788.png" alt="数据结构（六）——查找——查找算法的评价指标.png">
+
+<p>评价一个查找算法的优劣主要是看一个查找算法的平均查找长度（ASL），评价查找长度的相关概念及计算公式如上图。</p>
+<p><strong>另外补充两点：</strong></p>
+<ol>
+<li><strong>ASL的数量级反应了查找算法的时间复杂度。</strong></li>
+<li><strong>评价一个查找算法的效率时，通常考虑查找成功和查找失败两种情况的ASL。</strong></li>
+</ol>
+<p>最后对查找的基本概念进行小结：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/6655e7dfd9c307b7e90b2825.png" alt="数据结构（六）——查找——查找的基本概念小结.png">
+
+<h2 id="2-顺序查找"><a href="#2-顺序查找" class="headerlink" title="2. 顺序查找"></a>2. 顺序查找</h2><p>首先，看一下顺序查找的算法思想：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/6655e831d9c307b7e90bb214.png" alt="数据结构（六）——查找——顺序查找算法思想.png">
+
+<p>顺序查找的算法思想很简单，就是从线性表头开始依次往后查找，直到找到与目标相同的元素。</p>
+<p>基于这个思想，来看一下顺序查找如何实现：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/6655e8d3d9c307b7e90cc3e5.png" alt="数据结构（六）——查找——普通顺序查找的实现.png">
+
+<p>上图给出了顺序表存储结构的顺序查找实现方式，可以看到，算法的实现是不论查找成功与否都返回查找指针下标，若下标等于数组长度，则说明查找失败，返回-1；否则说明查找成功，返回数组下标。（这里给的写法是这样，但也可以不按照这种写法，只要按照顺序查找思路写的就行。）</p>
+<p>接下来看一下另一种添加哨兵的顺序查找实现思路：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/6655e9ffd9c307b7e90e6a3f.png" alt="数据结构（六）——查找——哨兵顺序查找的实现.png">
+
+<p>与之前的不同，这种添加了哨兵的顺序查找思路是将数组首位空出，用来存放查找目标，也就是所谓的哨兵，然后从数组尾部向前查找，如果查找到与哨兵相同的数据元素的数组下标不是0，则查找成功，否则查找失败。</p>
+<p>这种带有哨兵的查找算法与之前相比无需进行越界判断，执行效率会更高一些，但从时间复杂度上来看其实并没有质的提升。</p>
+<p>下面看一下这种带哨兵的顺序查找算法的查找效率：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/6655eb55d9c307b7e910a83a.png" alt="数据结构（六）——查找——哨兵顺序查找的效率.png">
+
+<p>要看一个查找算法的查找效率，就是计算一个查找算法的平均查找长度。这里以查找成功为例，由于算法是从后往前查找的，假设有n个数，最后一个为37，所以37被查找成功需要进行1次，概率为1&#x2F;n。倒数第二个元素被查找的成功，需要进行2次，查找概率为1&#x2F;n。按照这种方式递推，最后可得到上图的查找成功公式。查找失败同理。</p>
+<p>另外，前面说过，ASL的数量级反应了查找算法的时间复杂度，所以这个算法的查找成功与失败的时间复杂度都为O(n)。</p>
+<p>接下来看一下，顺序查找算法可不可以继续优化。</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/6655eb89d9c307b7e910f473.png" alt="数据结构（六）——查找——顺序查找优化.png">
+
+<p>如果查找表中的元素有序存放，如图，现在要查找21，则可以不用从头扫到尾才能确定查找表中没有该元素，只要扫到29时就可以确定。</p>
+<p>基于这种思想，我们可以对有序表的顺序查找构造出一个如上图下的查找判定树，在这个判定树里查找21，只需要从根开始（上图的7）判断与21的大小，如果小于21则继续向右孩子走；如果大于21则继续向左孩子走，当向左孩子走就意味着落入一个区间内，此时查找失败。</p>
+<p>从上图，显然可以看到，如果这个有序表有n个元素，则总共有可能出现n+1种失败的情况。所以在这种情况下要计算查找失败的评价查找长度，则可以认为出现这n+1种情况的概率是相等的。如果想找查找的关键字的值落在第一个区间内，则只需要对比1次关键字，而发生这种情况的概率是1&#x2F;(n+1)。如果想找查找的关键字的值落在第二个区间内，则需要对比2次关键字，发生这种情况的概率也是1&#x2F;(n+1)。如此递推，把n+1种情况都考虑进去，最后可以得到一个查找失败情况下的平均查找长度，如上图。</p>
+<p>另外，这里需要体会一下如何画查找判定树：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/6655ebbed9c307b7e9113a13.png" alt="数据结构（六）——查找——查找判定树.png">
+
+<p>如上图的查找判定树，我们把圆形的结点称为成功结点，方形结点称为失败结点。</p>
+<p>如果我们查找的关键字在某一个成功结点当中，那么查找这样一个关键字的查找成功长度应该等于这个结点自身所在的层数。</p>
+<p>如果我们查找的关键字在某一个失败结点当中，那么查找这样一个关键字的查找失败长度应该等于这个结点的父结点所在的层数。</p>
+<p>接下来看一下如果各个关键字被查找的概率不同的情况：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/6655ebf2d9c307b7e91174e8.png" alt="数据结构（六）——查找——被查概率不同的顺序查找.png">
+
+<p>如果各个关键字被查找的概率不同，则可以把被查找概率大的关键字放在靠前位置。当然，按照这种策略来给各个数据排序的话，则这些关键字又会变成乱序的。所以对于这种策略，提高了查找成功的ASL，但对于查找失败的ASL，又需要从头查找到尾才行。</p>
+<p>因此，使用什么样的查找策略还是需要结合具体实际分析才行。</p>
+<p>最后，对这小节进行总结：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/6655ec1dd9c307b7e911a73d.png" alt="数据结构（六）——查找——顺序查找小结.png">
+
+<h2 id="3-折半查找"><a href="#3-折半查找" class="headerlink" title="3. 折半查找"></a>3. 折半查找</h2><p>折半查找，又称“二分查找”，仅适用于**<font color=red>有序的顺序表</font>**。</p>
+<p>折半查找的算法思想就是，用两个指针low和high分别指向顺序表的表头和表尾，再用一个mid指针指向表头表尾指针的中间位置，将查找目标与mid指针所指位置的数据相比，若相等，则直接返还mid下标，若大于，则令low指针指向mid+1处，然后让mid指针再次指向表头表尾指针的中间位置，进行第二轮查找；若小于，则令high指针指向mid-1处，同样让mid指针再次指向表头表尾指针的中间位置，进行第二轮查找。</p>
+<p>下面以一个具体的例子来学习折半查找的过程：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/665723c8d9c307b7e94fcd54.png" alt="数据结构（六）——查找——折半查找1.png">
+
+<p>在上图的例子里，low指针指向表头，high指针指向表尾，mid指针指向(low+high)&#x2F;2处。然后让目标数33与mid指针所指位置比较，发现33大于mid所指处的29，所以33只能在mid右边区域，接下来要让low指针指向mid+1处进行第二轮查找。</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/665725add9c307b7e951da18.png" alt="数据结构（六）——查找——折半查找2.png">
+
+<p>在第二轮中，low指向下标为6处，high指向下标为10处，所以mid要指向(10+6)&#x2F;2&#x3D;8处，然后将mid所指数据与33比较，发现大于33，所以33只能在mid左边区域，接下来要让high指向mid-1处。</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/66572621d9c307b7e95263d3.png" alt="数据结构（六）——查找——折半查找3.png">
+
+<p>在第三轮中，low指向下标为6处，high指向下标为7处，所以mid要指向(6+7)&#x2F;2&#x3D;6<strong>（在算法里除不尽的要取整）</strong>处，然后将mid所指数据32与33比较，发现小于33，所以33只能在mid右边区域，接下来要让llow指向mid+1处。</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/66572691d9c307b7e952edc3.png" alt="数据结构（六）——查找——折半查找4.png">
+
+<p>在第三轮中，low指向下标为7处，high指向下标为7处，所以mid要指向(7+7)&#x2F;2&#x3D;14处，然后将mid所指数据33与33比较，发现等于33，所以查找成功。</p>
+<p>上面是查找成功的例子，下面看一下查找失败的例子：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/665726edd9c307b7e9547095.png" alt="数据结构（六）——查找——折半查找失败1.png">
+
+<p>这里以查找目标12为例，第一轮让12与mid所指29比较，发现12小于29，所以12在mid左边。</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/66572e17d9c307b7e95d87dc.png" alt="数据结构（六）——查找——折半查找失败2.png">
+
+<p>第二轮同理，我就不在叙述。</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/66572e3dd9c307b7e95dada2.png" alt="数据结构（六）——查找——折半查找失败3.png">
+
+<p>第三轮同理。</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/66572e7dd9c307b7e95e001b.png" alt="数据结构（六）——查找——折半查找失败4.png">
+
+<p>第四轮如上图，发现low&#x3D;high&#x3D;mid所指小于12，所以low会指向mid+1处，如下图：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/66572ed4d9c307b7e95e6b7e.png" alt="数据结构（六）——查找——折半查找失败5.png">
+
+<p>这个时候low大于high，我们就认为查找失败。</p>
+<p>结合一开始所说的算法思想并结合上面的例子，我们可以设计如下的折半查找算法：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/66572f5fd9c307b7e95f1544.png" alt="数据结构（六）——查找——折半查找算法实现.png">
+
+<p>注意，这里给出的是升序排列的顺序表的实现。在一开始我们也说，折半查找适用于**<font color=red>有序的顺序表</font>**，是因为顺序表具有随机访问的特性，而链表没有，所以折半查找无法基于链表实现。</p>
+<p>接下来分析一下折半查找的查找效率：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/665730a0d9c307b7e96088ac.png" alt="数据结构（六）——查找——折半查找的效率分析.png">
+
+<p>根据折半查找的实现流程，如果第一轮就查找成功，则查找到的应该是29；如果第二轮查找成功，则查找到的应该是13和37。按照这样的方式往下推，再结合在2.顺序查找里的判定树构造，我们可以构造出如上图的上例折半查找判定树。</p>
+<p>基于这个判定树我们就可以计算出上例查找成功与失败的查找长度分别是3和11&#x2F;3。</p>
+<p>接下来，继续研究一下折半查找判定树有怎么样的特性（或者说怎么样构造）：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/6657329ed9c307b7e963098c.png" alt="数据结构（六）——查找——折半查找判定树特性.png">
+
+<p>之前给出的例子，low和high之间有奇数个元素，所以mid指针可以刚好指向中间位置。这里我们给出一个low和high之间有偶数个元素的例子，此时mid指针会指向中间偏左的位置，继而可以得到上图的查找判定树。</p>
+<p>结合之前的例子，可以发现下面两个规则：</p>
+<ol>
+<li>如果当前low和high之间有奇数个元素，则 mid分隔后，左右两部分元素个数相等。</li>
+<li>如果当前low和high之间有偶数个元素，则mid分隔后，左半部分比右半部分少一个元素。</li>
+</ol>
+<p>基于这两个规则，我们可以得到如下图的有关折半查找判定树的结论（特性）：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/6657340bd9c307b7e964e60b.png" alt="数据结构（六）——查找——折半查找判定树结论.png">
+
+<p>基于上图的这个结论，我们可以推演一下如果有1个元素、2个元素、3个元素、……、16个元素，那折半查找判定树分别应该如何构造？</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/6657346cd9c307b7e9655d64.png" alt="数据结构（六）——查找——折半查找判定树特性的构造.png">
+
+<p>上图就给出了1~16个元素的折半查找判定树的构造，需要注意的是，结点上的数字代表的是结点的编号。根据编号的构造规律，可以进一步验证我们上面得出折半查找判定树的结论（即折半查找判定树的特性）。</p>
+<p>另外，在构造这个折半查找判定树的过程中，不难发现，这个折半查找判定树一定是一个**<font color=red>平衡二叉树</font>**。</p>
+<p>此外，**折半查找的判定树和完全二叉树一样，只有最下面一层是不满的。因此，元素个数为n时树高<font color=red>h &#x3D; [log<sub>2</sub>(n +1)]</font>**。（公式的推导可以参考 数据结构（四）——树与二叉树 中的完全二叉树的树高推导。）</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/66573748d9c307b7e96a221c.png" alt="数据结构（六）——查找——折半查找判定树构造.png">
+
+<p>再回到之前这个例子，我们可以发现，失败结点就是二叉树的空链域，在树一节我们学过，一个有n个结点的二叉树，总共会有n+1个空链域，所以总共会有n+1个失败结点。</p>
+<p>搞清楚这些以后，我们可以很容易分析出，有n个结点的折半查找的效率是怎么样的：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/66573840d9c307b7e96b58cc.png" alt="数据结构（六）——查找——折半查找效率.png">
+
+<p>在知道树高以后，我们可以知道，不论查找是成功还是失败，所查找结点的对比次数肯定不会超过树高h，而树高h &#x3D; [log<sub>2</sub>(n +1)]，所以折半查找的时间复杂度(也就是查找需要对比的次数)&#x3D;O(log<sub>2</sub>n)。它比顺序查找的时间复杂度要优秀的多。</p>
+<p>接下来对该部分进行小结：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/66573981d9c307b7e96ceb67.png" alt="数据结构（六）——查找——折半查找小结.png">
+
+<p>接下来拓展思考两个问题：</p>
+<p>(1) 折半查找的速度一定比顺序查找更快嘛？</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/665739d5d9c307b7e96d56f7.png" alt="数据结构（六）——查找——折半查找拓展思考1.png">
+
+<p>根据上图，我们可以轻易得到答案，答案显然是否定的，在上图的例子里，如果查找7，顺序查找只需要对比一次，而折半查找要对比多次。因此，我们可以说，大部分情况下折半查找的表现要比顺序查找优秀，但是不能说任何情况下，折半查找都一定优秀。</p>
+<p>(2) 刚刚构造折半查找判定树是向下取整，如果向上取整，则判定树是什么样的呢？</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/66573a86d9c307b7e96e31d8.png" alt="数据结构（六）——查找——折半查找拓展思考2.png">
+
+<p>如果采用向上取整，那么与之前相比，特性要倒过来，即mid左子树的结点数-mid右子树的结点数&#x3D;1或0，与之前刚好相反。</p>
+<h2 id="4-分块查找"><a href="#4-分块查找" class="headerlink" title="4. 分块查找"></a>4. 分块查找</h2><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/66573d25d9c307b7e971416b.png" alt="数据结构（六）——查找——分块查找.png">
+
+<p>分块查找将无序数组分块，每一个块中的元素虽然无序，但都比前一个块中元素大（或小），然后每个块都有一个对应的索引，多个块的索引就构成索引表，索引表中保存每个分块的最大关键字和分块的存储区间。</p>
+<p>下面以一个例子来介绍分块查找的工作流程：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/66573e3bd9c307b7e9729de4.png" alt="数据结构（六）——查找——分块查找成功示例1.png">
+
+<p>比如查找22，则先查找索引表，查找到第3个分块，该分块的最大数为30，大于22，这说明22如果存在，则应该存储在这个分块中。接下来根据这个分块区间，去依次查找6,7,8三个编号处的数据，最终在7处查找到目标数据。</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/66573f50d9c307b7e973e027.png" alt="数据结构（六）——查找——分块查找成功示例2.png">
+
+<p>上面给出的是查找成功的例子，下面看一下查找失败的情况：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/66573f70d9c307b7e9740838.png" alt="数据结构（六）——查找——分块查找失败示例1.png">
+
+<p>如果查找29，则先查找索引表，最终确定在第三个块内，然后查找块内。</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/66573f89d9c307b7e97428e7.png" alt="数据结构（六）——查找——分块查找失败示例2.png">
+
+<p>按照顺序把块内数据查找完以后，发现指针的指向超出分块范围，则说明查找失败。</p>
+<p>所以分块查找的思想就是先查找索引表，确定目标在哪个分块，然后再块内进行顺序查找。</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/6657403dd9c307b7e9751d31.png" alt="数据结构（六）——查找——分块查找思想.png">
+
+<p>注意，这里对索引表的查找可以是顺序查找也可以是折半查找，之前我们给的例子是顺序查找，下面看一下折半查找的情况：</p>
+<p>第一种情况：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/665740c7d9c307b7e975c92c.png" alt="数据结构（六）——查找——分块查找与折半查找示例1.png">
+
+<p>这里是对索引表进行折半查找的第一种情况，可以看到查找目标是30，刚好与mid所指的索引表上的数据相同，则说明30一定在该块内，下面只需要直接对该块内进行顺序查找即可。</p>
+<p>下面看一下第二种情况，如果查找的目标是19，则对索引表进行折半查找，最后high与low指针会如下图所示：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/66574197d9c307b7e976ba7b.png" alt="数据结构（六）——查找——分块查找与折半查找示例2.png">
+
+<p>此时low&gt;high，但并不能说明查找失败，我们还要对low所指分块进行块内查找，如果查找不到才能说明查找失败。这是因为排除前面的例子给出的直接查找到的情况，不论怎样，最后low所指的关键字一定会大于目标关键字，这个时候目标关键字可能会存储在low所指分块内，所以需要对该块进行查找。</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/665742dbd9c307b7e9784257.png" alt="数据结构（六）——查找——分块查找与折半查找示例2——成功.png">
+
+<p>最后，可以在该块内查找到目标元素，则说明查找成功。补充一下，如果在块内没有查找到，则说明查找失败。</p>
+<p>下面看一下第三种情况：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/66574350d9c307b7e979888f.png" alt="数据结构（六）——查找——分块查找与折半查找示例3.png">
+
+<p>如果查找54，经过对索引表的折半查找，最后low会超出索引表，此时会认为查找失败。</p>
+<p>下面看一下分块查找的查找效率分析：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/665743d4d9c307b7e97a4ec2.png" alt="数据结构（六）——查找——分块查找的ASL.png">
+
+<p>如果索引表采用顺序查找，则可以从头开始可以数出每个元素需要进行的查找次数，然后根据ASL公式可以计算查找效率。</p>
+<p>如果索引表采用折半查找，则要根据折半查找的工作流程来计算查找每个元素的次数，比如查找27，不是对比2次就可以的，索引表会经过多次折半查找，最后当low指向30分块时，才会进行块内查找，才能找到27。所以索引表采用折半查找的ASL计算起来比较复杂，一般不考，当然不排除给一个简单的例子，然后让索引表使用顺序查找来计算ASL。</p>
+<p>这里给出的都是查找成功的ASL，并没有给出失败的计算方法，是因为很难对查找失败的情况进行划分，也并没有像之前折半查找那样能很明确一个失败的区间，所以失败的ASL分析起来更麻烦，考试一般也不会进行考察。</p>
+<p>接下来看一个可能被考察的比较特别的情况：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/665745c8d9c307b7e97d5ce6.png" alt="数据结构（六）——查找——分块查找的查找效率1.png">
+
+<p>如果长度为n的查找表可以被均分为b个块，每个块s个元素，则分块查找的平均长度&#x3D;索引表的平均查找长度+块内查找的平均查找长度。</p>
+<p>上图给出了索引表采用顺序查找的方式得到的分块查找的平均查找长度，令b&#x3D;s&#x2F;n代入可以化简，如上图得出的ASL。将得出的式子进行求导，最后可以得到当s&#x3D;sqrt(n)时，ASL最小，即效率最高。</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/665745f4d9c307b7e97d91d9.png" alt="数据结构（六）——查找——分块查找的查找效率2.png">
+
+<p>上面给出的是索引表采用折半查找时的ASL，分析方式同前面采用顺序表的一样。</p>
+<p>下面对分块查找进行小结：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/66574615d9c307b7e97db713.png" alt="数据结构（六）——查找——分块查找小结.png">
+
+<p>这里进行一个拓展：如果查找表式动态查找表，有没有更好的实现方式？</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/665747a4d9c307b7e97fa894.png" alt="数据结构（六）——查找——分块查找拓展.png">
+
+<p>比如上图，如果现在要插入8，则要插入第一个块内，那数组中在第一个块后的每一个元素都要向后移动，这样就显得很麻烦，所以我们可以采用如下图的链式存储来实现分块。</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/66574819d9c307b7e98030a5.png" alt="数据结构（六）——查找——分块查找拓展1.png">
+
+<p>采用链式存储，让索引表的各个表项使用指针连接起来，然后各个分块的元素也可以使用指针连接起来，如上图。这个时候如果插入8，只需要先找到8要插入第一个分块，然后再该分块的最后插上8即可。同样删除一个元素有很简单。甚至采用这种方式，当某一个分块内的元素过多时，也可以很方便的调整。</p>
+<p>总之，还是那句话，算法是学不尽的，只要能结合具体问题具体分析实现即可，考试时也只需要根据题目要求来就行，题目若很开放只要思路清晰言之有理就行。</p>
+<h2 id="5-二叉排序树"><a href="#5-二叉排序树" class="headerlink" title="5. 二叉排序树"></a>5. 二叉排序树</h2><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/665a815cd9c307b7e9924d51.png" alt="数据结构（六）——查找——二叉排序树的定义.png">
+
+<p>二叉排序树又称二叉查找树，缩写是BST。</p>
+<p>二叉排序树需满足的特性：左子树结点值&lt;根结点值&lt;右子树结点值。</p>
+<p>基于二叉树排序树的特性，如果进行中序遍历，可以得到一个递增的有序序列。</p>
+<p>接下来看一下二叉排序树的查找：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/665a825ad9c307b7e9933207.png" alt="数据结构（六）——查找——二叉排序树的查找（非递归）.png">
+
+<p>二叉排序树的查找就是从树的根结点开始，依次与目标值相比较，如果结点值小于目标值，则向右查找，如果大于，则向左查找。比如上图的查找12，先与19相比，小于19，向左查找。与13比，小于13，向左查找。与11比，大于11，向右查找，查找到NULL，则说明查找失败。</p>
+<p>上面是非递归的实现，基于树的递归性，也可以采用递归的方式来实现二叉排序树的查找：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/665a833ad9c307b7e993f2b0.png" alt="数据结构（六）——查找——二叉排序树的查找（递归）.png">
+
+<p>显然采用非递归的算法只需要常数级的辅助空间，但是如果采用递归算法，一棵树有多高，递归算法就有可能往下深入几层，而每深入一层，都要在递归栈里多分配一层的空间，因此用递归实现的空间复杂度应该为O(h)量级。</p>
+<p>接下来看怎么插入一个结点：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/665a84e1d9c307b7e9959a6a.png" alt="数据结构（六）——查找——二叉排序树插入）.png">
+
+<p>二叉排序树插入以后，要保证二叉排序树的特性，所以要先查找到在什么地方插入结点，然后进行插入操作。</p>
+<p>上图给出了递归算法的实现，要注意，新插入的结点一定是叶子结点。另外，此递归算法的最坏空间复杂度为O(h)。</p>
+<p>这里还需注意，要是某个结点已经存在，再插入就是插入失败。</p>
+<p>基于二叉排序的插入，现在来看一下如何构造一个二叉排序树（就是不断插入新结点的一个过程）：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/665a85bed9c307b7e996aca3.png" alt="数据结构（六）——查找——二叉排序树构造1.png">
+
+<p>上图给出了一个二叉排序树构造的例子，需要注意的是，不同的关键字序列可能得到同款二叉排序树。</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/665a8609d9c307b7e996eb93.png" alt="数据结构（六）——查找——二叉排序树构造2.png">
+
+<p>当然，不同的关键字序列也可能得到不同款二叉排序树。</p>
+<p>接下来看一下删除的操作：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/665a8691d9c307b7e9977dfa.png" alt="数据结构（六）——查找——二叉排序树删除.png">
+
+<p>对于上图的二叉排序树，如果删除一个结点，需要保证二叉排序树的特性，所以要看是删除哪个结点，然后分情况处理。</p>
+<p>(1) 如果删除的是叶子结点：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/665a86e4d9c307b7e997cb32.png" alt="数据结构（六）——查找——二叉排序树删除叶子结点.png">
+
+<p>如果删除的是叶子结点，只需要找到目标结点，然后删除即可。如上图是删除8,21,65三个叶子结点。</p>
+<p>(2) 如果删除的结点只有一棵左子树和右子树：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/665a874cd9c307b7e9983370.png" alt="数据结构（六）——查找——二叉排序树删除2.png">
+
+<p>若结点z只有一棵左子树或右子树，则让z的子树成为z父结点的子树，替代z的位置。如上图是删除13和60两个结点</p>
+<p>(3) 如果删除的结点既有左子树又有右子树：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/665a8806d9c307b7e998dbea.png" alt="数据结构（六）——查找——二叉排序树删除3.png">
+
+<p>如果删除的结点既有左子树又有右子树，这时候有两种处理方法，一种是找前驱，一种是找后继。上图给出了删除50结点找后继的方法。</p>
+<p>找后继，就是从结点的右子树里找到最小的一个结点，即中序遍历的第一个结点（可以通过中序遍历找后继）。然后把后继的值赋值到要被删除结点里，然后把后继当做删除结点进行处理。</p>
+<p>比如上图，删除50结点，找到后继为60，将60赋值到50的位置，然后把原60的结点当做被删除结点处理，最后得到上图的结果。</p>
+<p>下面看一下找前驱的处理方式：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/665a8944d9c307b7e999fcc9.png" alt="数据结构（六）——查找——二叉排序树删除4.png">
+
+<p>找后继，就是从结点的左子树里找到最大的一个结点，即中序遍历的最后一个结点（可以通过中序遍历找前驱）。然后把前驱的值赋值到要被删除结点里，然后把前驱当做删除结点进行处理。</p>
+<p>比如上图，删除50结点，找到前驱为30，将30赋值到50的位置，然后把原30的结点当做被删除结点处理，最后得到上图的结果。</p>
+<p>接下来分析一下查找效率：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/665a8fb8d9c307b7e9a111f1.png" alt="数据结构（六）——查找——二叉排序树查找效率.png">
+
+<p>根据上图的两个例子可以发现，树高越小，查找成功的平均查找长度就越小。另外在树一章学过，二叉树的最小高度为(log<sub>2</sub>n)+1，所以在构建二叉排序树树时，为了保证查找效率最高，就应该尽可能的让树的高度接近期待的最小值，基于这种思想就引出了平衡二叉树（平衡二叉树的知识参考6.平衡二叉树）。</p>
+<p>下面看一下查找失败的平均ASL：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/665a916dd9c307b7e9a2979e.png" alt="数据结构（六）——查找——二叉排序树查找效率失败.png">
+
+<p>显然，查找失败的效率也是树高越小，效率越高。这进一步说明了，我们在构建二叉排序树时，要让树的高度尽可能小。</p>
+<p>最后对二叉排序树进行小结：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/665a91cad9c307b7e9a2ec8e.png" alt="数据结构（六）——查找——二叉排序树小结.png">
+
+<h2 id="6-平衡二叉树"><a href="#6-平衡二叉树" class="headerlink" title="6. 平衡二叉树"></a>6. 平衡二叉树</h2><h3 id="6-1-平衡二叉树的定义"><a href="#6-1-平衡二叉树的定义" class="headerlink" title="6.1 平衡二叉树的定义"></a>6.1 平衡二叉树的定义</h3><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/665aa928d9c307b7e9ba1c55.png" alt="数据结构（六）——查找——平衡二叉树定义.png">
+
+<p>平衡二叉树，简称平衡树（AVL树）――树上任一结点的左子树和右子树的高度之差不超过1。</p>
+<p>在平衡二叉树里，每个结点都有一个平衡因子，结点的平衡因子&#x3D;左子树高-右子树高。根据平衡二叉树定义可以知道平衡因子只能取1，0，-1。</p>
+<p>在5. 二叉排序树里我们了解到，让一个二叉排序树保持平衡，就可以让这个二叉排序树的查找效率达到O(log<sub>2</sub>n)数量级。因此这部分需要着重研究的是，在插入一个新结点后，如何让二叉树保持平衡。</p>
+<h3 id="6-2-平衡二叉树的插入"><a href="#6-2-平衡二叉树的插入" class="headerlink" title="6.2 平衡二叉树的插入"></a>6.2 平衡二叉树的插入</h3><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/665aadfed9c307b7e9c06d55.png" alt="数据结构（六）——查找——平衡二叉树插入.png">
+
+<p>如上图，我们在二叉平衡树里插入一个67结点，则67结点的所有祖先的平衡因子都受到影响。为了让这个树恢复平衡，我们需要从新插入的结点向上找，找到第一个不平衡的结点，调整以该结点为根的子树。而由这个结点和其子树构成的树就是最小不平衡子树。</p>
+<p>在二叉平衡树的插入操作里，每次调整的对象都是最小不平衡子树。</p>
+<p>接下来要讨论，如何调整最小不平衡子树：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/665aaf26d9c307b7e9c19f1f.png" alt="数据结构（六）——查找——调整最小不平衡子树.png">
+
+<p>最小不平衡子树的调整有上面四种情况，接下来分别看一下。</p>
+<p><strong>(1) LL</strong></p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/665aaf72d9c307b7e9c1f44d.png" alt="数据结构（六）——查找——调整最小不平衡子树LL.png">
+
+<p>上图下已经介绍了LL型的调整方法，我就不再叙述。需要注意，图中给的都是最小不平衡子树，并不是完整的一棵树。</p>
+<p>另外，这里思考一点，为什么在一开始时假定所有的子树的高度都是H？注意，我们探讨的是加入一个新结点以后才出现不平衡的情况，如果AR&#x3D;H+1也是可以的，但这个时候如果加入一个结点是不会导致不平衡的情况出现的；如果AR&#x3D;H-1，则现在已经出现不平衡的情况，应该即刻调整而不是我们探讨的插入以后才调整。如果BL或BR等于H+1，则也应该即刻调整。如果BL或BR等于H-1，则可能出现添加新结点无需调整的情况。综合来看，为了满足探索要求，应该将所有子树的高度都假定为H。</p>
+<p><strong>(2) RR</strong></p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/665ab1efd9c307b7e9c49da9.png" alt="数据结构（六）——查找——调整最小不平衡子树RR.png">
+
+<p>上图下已经介绍了RR型的调整方法，我就不再叙述。</p>
+<p>接下来看一下如何用代码实现刚刚说的左旋和右旋操作：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/665ab264d9c307b7e9c51f6f.png" alt="数据结构（六）——查找——左旋右旋的代码思路.png">
+
+<p><strong>(3) LR</strong></p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/665ab2d1d9c307b7e9c58f05.png" alt="数据结构（六）——查找——调整最小不平衡子树LR.png">
+
+<p>LR型调整方法如上图所说，调整结果如下：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/665ab37fd9c307b7e9c643f6.png" alt="数据结构（六）——查找——调整最小不平衡子树LR1.png">
+
+<p>这里有一点需要说一下，对于LR型的插入，以该例为例，新插入的结点可以是插入到C的左子树也可以是右子树，但无论插入哪个，都是LR型，只要是LR型，其调整方法都一样。</p>
+<p><strong>(4) RL</strong></p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/665ab3dcd9c307b7e9c6a69a.png" alt="数据结构（六）——查找——调整最小不平衡子树RL.png">
+
+<p>RL型调整方法如上图所说，调整结果如下：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/665ab40ad9c307b7e9c6d7f0.png" alt="数据结构（六）——查找——调整最小不平衡子树RL1.png">
+
+<p>类似的，对于RL型的插入，以该例为例，新插入的结点可以是插入到C的左子树也可以是右子树，但无论插入哪个，都是RL型，只要是RL型，其调整方法都一样。</p>
+<p>下面对这四种情况进行一个汇总：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/665ab471d9c307b7e9c73cdd.png" alt="数据结构（六）——查找——调整最小不平衡子树小结.png">
+
+<p>接下来填一个小坑，为什么在插入操作中，只要将最小不平衡子树调整平衡，则其他祖先结点都会恢复平衡？</p>
+<p>这是因为插入操作导致“最小不平衡子树”高度+1，经过调整后高度恢复，相应的祖先的平衡因子也会恢复。</p>
+<p>接下来看一下查找效率：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/665ab55fd9c307b7e9c83583.png" alt="数据结构（六）——查找——二叉平衡树的效率分析.png">
+
+<p>在一棵树里进行查找，主要影响查找效率的是树的高度，若树高为h，则查找一个关键字最多需要对比h次，则查找的时间复杂度最多不会超过O(h)。因此分析效率就是分析一棵平衡二叉树的高度有多高。</p>
+<p>基于平衡二叉树的特性，可以假设n<sub>h</sub>是深度为h的平衡树中含有的最少结点数。显然h&#x3D;0时，n<sub>0</sub>&#x3D;0；h&#x3D;1时，n<sub>1</sub>&#x3D;1；h&#x3D;2时，n<sub>2</sub>&#x3D;2；由此可以递推，高度为h的二叉树，结点数最少的情况是一个根结点加上一个结点最少的高为h-1的左（右）子树和一个高为h-2的右（左）子树。</p>
+<p>所以可得递推公式：<strong>n<sub>h</sub>&#x3D;n<sub>h-1</sub>+n<sub>h-2</sub>+1</strong>。</p>
+<p>基于这个公式，如果结点总数为n，那么它的最高大度应为**O(log<sub>2</sub>n)**数量级。而最大高度反应了最坏情况下的查找时间的复杂度，因此平衡二叉树的平均查找长度或时间复杂度应该和树高是同一个数量级的。</p>
+<p>另外补充一点，如何通过递推公式来证明最大高度是**O(log<sub>2</sub>n)**数量级，这个证明很麻烦，知道是由递推公式得出的就好。</p>
+<p>最后小结一下这部分：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/665ab7e7d9c307b7e9caeb26.png" alt="数据结构（六）——查找——二叉平衡树小结.png">
+
+<h3 id="6-3-平衡二叉树的删除"><a href="#6-3-平衡二叉树的删除" class="headerlink" title="6.3 平衡二叉树的删除"></a>6.3 平衡二叉树的删除</h3><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/665ab853d9c307b7e9cb579f.png" alt="数据结构（六）——查找——平衡二叉树的删除.png">
+
+<p>平衡二叉树进行删除结点的操作和二叉排序树一样，但是删除完一个以后要保证树仍是二叉平衡树，所以和平衡二叉树的插入一样，平衡二叉树在删除结点以后也需要对不平衡性进行调整，这里先给出了平衡二叉树删除一个结点的步骤，如上图。接下来用具体的示例来进行解读。</p>
+<p>例1：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/665abae7d9c307b7e9cf480b.png" alt="数据结构（六）——查找——平衡二叉树的删除例1.png">
+
+<p>在上图，删除9这个结点，根据步骤1可以知道，删的是叶子结点，直接删除。然后进行第二步，发现找不到最小平衡子树，则表明不需要调整，删除成功。</p>
+<p>例2：</p>
+<p>在例题1删除9的基础上，要再次删除55这个结点：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/665abb95d9c307b7e9d01088.png" alt="数据结构（六）——查找——平衡二叉树的删除例2-1.png">
+
+<p>发现55是叶子结点，根据第一步骤，直接删除。进入第二步，找到最小不平衡子树以75为根结点。然后进入第三步，以75为根，找到个头最高的儿子和孙子，如下图：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/665abbdbd9c307b7e9d06b8b.png" alt="数据结构（六）——查找——平衡二叉树的删除例2-2.png">
+
+<p>然后进入第四步，发现孙子在RR的位置，于是进行儿子左单旋调整，调整结果如下图：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/665abc69d9c307b7e9d11a6f.png" alt="数据结构（六）——查找——平衡二叉树的删除例2-3.png">
+
+<p>这个时候最小不平衡子树就恢复了平衡状态。现在要进行第五步，发现没有向上传导不平衡，于是删除结点成功。</p>
+<p>例3：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/665abcd4d9c307b7e9d1b227.png" alt="数据结构（六）——查找——平衡二叉树的删除例3-1.png">
+
+<p>如上图，删除32这个结点，根据步骤1可以知道，删的是叶子结点，直接删除。然后进行第二步，找到最小不平衡子树以44为根结点。然后进入第三步，以44为根，找到个头最高的儿子和孙子，如下图：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/665abd4dd9c307b7e9d232de.png" alt="数据结构（六）——查找——平衡二叉树的删除例3-2.png">
+
+<p>接下来进入第四步，根据孙子所处位置为RL，然后进行RL型平衡调整，先右旋再左旋。</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/665abd8dd9c307b7e9d277ec.png" alt="数据结构（六）——查找——平衡二叉树的删除例3-3.png">
+
+<p>显然，这个时候最小不平衡子树就恢复了平衡状态。且没有向上传导不平衡，于是删除结点成功。</p>
+<p>例4（有不平衡传导）：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/665abde3d9c307b7e9d2d383.png" alt="数据结构（六）——查找——平衡二叉树的删除例4-1.png">
+
+<p>如上图，删除32这个结点，可以看到，上图根结点的右子树就是例3，所以这部分的调整过程省略，直接看调整后的结果。</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/665b1fd7d9c307b7e9447cb8.png" alt="数据结构（六）——查找——平衡二叉树的删除例4-2.png">
+
+<p>可以看到，在对最小不平衡子树调整以后，不平衡向上传导到根结点33，这时候要从刚刚调整的子树的根出发，一路向北找到最小不平衡子树，然后按照步骤继续执行。</p>
+<p>找到最小不平衡子树的根结点是33，这时候就要进行第三步，找个头最高的儿子和孙子，查找结果如下图：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/665b2063d9c307b7e9451f9f.png" alt="数据结构（六）——查找——平衡二叉树的删除例4-3.png">
+
+<p>接下来进入第四步，根据孙子所处位置为LR，然后进行LR型平衡调整，先左旋再右旋。最后结果如下图：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/665b20ead9c307b7e945c5bc.png" alt="数据结构（六）——查找——平衡二叉树的删除例4-4.png">
+
+<p>此时进行第五步，发现没有不平衡，则删除成功。</p>
+<p>例5：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/665b213dd9c307b7e94629f5.png" alt="数据结构（六）——查找——平衡二叉树的删除例5-1.png">
+
+<p>例5删除的结点是75，这个结点既有左子树也有右子树。由于平衡二叉树的删除和二叉排序树一样，所以这里用前驱和后继来顶替被删结点，然后转换为对前驱和后继的删除。</p>
+<p>假设用前驱代替，及用60代替75，然后转换为删除60这个结点。</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/665b2554d9c307b7e94afafe.png" alt="数据结构（六）——查找——平衡二叉树的删除例5-2.png">
+
+<p>此时60只有左子树，即删除60，并用左子树顶替即可，之后按步骤进行调整即可，这里就不再演示。</p>
+<p>如果用后继代替，则用77覆盖75，然后转换为删除77这个结点：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/665b25a9d9c307b7e94b575c.png" alt="数据结构（六）——查找——平衡二叉树的删除例5-3.png">
+
+<p>可以看到77是叶子结点，所以直接删除即可，然后按步骤找最小不平衡子树调整平衡即可。</p>
+<p>最后对该部分做个汇总：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/665b2627d9c307b7e94bdf9a.png" alt="数据结构（六）——查找——平衡二叉树的删除小结.png">
+
+<h2 id="7-红黑树"><a href="#7-红黑树" class="headerlink" title="7. 红黑树"></a>7. 红黑树</h2><h3 id="7-1-红黑树的定义和性质"><a href="#7-1-红黑树的定义和性质" class="headerlink" title="7.1 红黑树的定义和性质"></a>7.1 红黑树的定义和性质</h3><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/665b2bc3d9c307b7e9535426.png" alt="数据结构（六）——查找——红黑树.png">
+
+<p>由于平衡二叉树的插入&#x2F;删除很容易破坏“平衡”特性，需要频繁调整树的形态，这导致时间开销很大，所以引入红黑树的概念。</p>
+<p>红黑树的插入&#x2F;删除很多时候不会破坏“红黑”特性，无需频繁调整树的形态。即使需要调整，也可以在常数级时间内完成。所以红黑树的实用性更强。</p>
+<p>接下来具体看一下红黑树的定义：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/665b2c91d9c307b7e9545422.png" alt="数据结构（六）——查找——红黑树的定义.png">
+
+<p><strong>满足上面五个性质的二叉排序树就是红黑树</strong>。红黑树的程序结构描述上图也给出。</p>
+<p>对于红黑树的性质可以总结为：左根右，根叶黑，不红红，黑路同，这12个字。</p>
+<p>这里需要注意第三条，红黑树里的叶结点（外部结点、NULL结点、失败结点）均是黑色的。这里的叶结点并不是我们平常说的普通树上的叶结点，而是指失败结点，也叫NULL结点。下面给个图理解：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/665b2ec0d9c307b7e9570d07.png" alt="数据结构（六）——查找——红黑树的例子.png">
+
+<p>如上图，每个有关键字的结点若是没有左子树或右子树则会连上对应的NULL结点，这些结点也叫叶结点或失败结点。</p>
+<p>另外，从这个图里，也可以看到，红黑树的其它性质，比如根结点是黑色的等。可以结合这个例子加深对红黑树性质的理解。</p>
+<p>考试时可能会出现辨别红黑树的题，比如下图给出的题：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/665b2f7bd9c307b7e957fcb8.png" alt="数据结构（六）——查找——辨别红黑树.png">
+
+<p>这道题里，左上的树不满足不红红的性质，所以不是红黑树。右上的树根结点不是黑的，所以也不是红黑树。左下的不满足黑路同性质，所以也不是红黑树。所以只有右下的是红黑树。</p>
+<p>补充一个概念——结点的“黑高”</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/665b3c41d9c307b7e968a2bc.png" alt="数据结构（六）——查找——黑高.png">
+
+<p>所谓黑高就是从某结点出发（不含该结点）到达任一空叶结点的路径上黑结点总数。</p>
+<p>下面看一下红黑树的性质：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/665b3c8dd9c307b7e968f317.png" alt="数据结构（六）——查找——红黑树的性质.png">
+
+<p>解释一下第一条性质，从根结点到叶结点的最短路径就是只有黑结点，如果是最长路径，则应该存在红结点，且根据红黑树的不红红和黑路同的性质，最长路径就是红结点依次穿插进黑结点的路径。所以，<strong>从根结点到叶结点的最长路径不大于最短路径的2倍</strong>。这也说明红黑树的左右子树高度之差不会超过两倍，相比于平衡二叉树左右子树高度之差不能超过1，所以红黑树在进行插入删除操作时，由于其要求相比于平衡二叉树来说较宽，所以红黑性不容易被破坏，这也就是为什么红黑树的插入删除比平衡二叉树更高效的原因。</p>
+<p>对于第二条性质，这里先记一下关系式，在7.3讲完红黑树的插入操作，了解了红黑树的构造，对红黑树有了更深一层的理解以后，再解释如何得到这个关系式。由于树高反应时间复杂度，所以红黑树的查找时间复杂度是O(log<sub>2</sub>n)数量级。</p>
+<h3 id="7-2-红黑树的查找"><a href="#7-2-红黑树的查找" class="headerlink" title="7.2 红黑树的查找"></a>7.2 红黑树的查找</h3><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/665b3e3ed9c307b7e96ad1cc.png" alt="数据结构（六）——查找——红黑树的查找.png">
+
+<p>红黑树的查找操作与平衡二叉树、二叉排序树一样，这里就不说了。重点看一下插入操作。</p>
+<h3 id="7-3-红黑树的插入"><a href="#7-3-红黑树的插入" class="headerlink" title="7.3 红黑树的插入"></a>7.3 红黑树的插入</h3><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/665b3ef2d9c307b7e96b95e0.png" alt="数据结构（六）——查找——红黑树的插入步骤.png">
+
+<p>先给出红黑树的插入步骤，结合这个步骤，我们再以上图上抛出的问题充当例子来具体讲解红黑树的插入过程。</p>
+<p>需要注意一下，上图给出的步骤里，所谓染色就是将当前结点的颜色染上另一种颜色。比如如果原来是红，就染成黑；如果原来是黑，就染成红。</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/665bdc91d9c307b7e9ee5bc1.png" alt="数据结构（六）——查找——红黑树的插入1.png">
+
+<p>首先插入20，20是根结点，根据步骤直接染成黑色。</p>
+<p>插入10，根据步骤是叶子结点，先染成红色，得到上图中第二棵树，该树满足红黑树定义，插入成功。</p>
+<p>插入5，根据步骤是叶子结点，先染成红色，得到上图中第三棵树，但该树不满足红黑树的性质中不红红的特性，所以需要调整红黑树。按照步骤，这个时候需要根据新插入结点的叔叔结点的颜色来进行调整。可以从图中看的叔叔结点是黑色的，这时候再根据新插入结点是LL型，进行右单旋操作，用父亲换爷爷，最后再将父亲和爷爷分别染色（即染上原颜色的相反色）。这个时候就得到了上图中右下角满足红黑树性质的树。</p>
+<p>接下来插入30结点：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/665bf526d9c307b7e9079fcd.png" alt="数据结构（六）——查找——红黑树的插入2.png">
+
+<p>插入30，根据步骤是叶子结点，先染成红色，得到上图中第一棵树，但该树不满足红黑树的性质中不红红的特性，所以需要调整红黑树。按照步骤，这个时候需要根据新插入结点的叔叔结点的颜色来进行调整。可以从图中看的叔叔结点是红色的，这时候需要让叔父爷染色，并让爷结点充当新结点，此时爷结点是根结点且是红色，所以染黑即可。这个时候就得到了上图右满足红黑树性质的树。</p>
+<p>接下来插入40结点：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/665bf66ed9c307b7e908abdc.png" alt="数据结构（六）——查找——红黑树的插入3.png">
+
+<p>插入40，是叶子结点，先染成红色，得到上图中第一棵树，但该树不满足红黑树的性质中不红红的特性，所以需要调整红黑树。按照步骤，这个时候需要根据新插入结点的叔叔结点的颜色来进行调整。可以从图中看的叔叔结点是黑色的，这时候再根据新插入结点是RR型，进行左单旋操作，用父亲换爷爷，最后再将父亲和爷爷分别染色（即染上原颜色的相反色）。这个时候就得到了上图右角满足红黑树性质的树。</p>
+<p>接下来插入57结点：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/665bf6e1d9c307b7e9090a41.png" alt="数据结构（六）——查找——红黑树的插入4.png">
+
+<p>插入57，根据步骤是叶子结点，先染成红色，得到上图中第一棵树，但该树不满足红黑树的性质中不红红的特性，所以需要调整红黑树。按照步骤，这个时候需要根据新插入结点的叔叔结点的颜色来进行调整。可以从图中看的叔叔结点是红色的，这时候需要让叔父爷染色，并让爷结点充当新结点，新得到树没有不满足红黑树的性质。这个时候就得到了上图右满足红黑树性质的树。</p>
+<p>接下来插入3结点：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/665bf7b0d9c307b7e909beea.png" alt="数据结构（六）——查找——红黑树的插入5.png">
+
+<p>新插入的3结点没有破坏红黑树的性质，所以不需要调整，直接插入成功。</p>
+<p>接下来插入2结点：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/665bf7f2d9c307b7e90a1f0c.png" alt="数据结构（六）——查找——红黑树的插入6.png">
+
+<p>插入2，是叶子结点，先染成红色，得到上图中第一棵树，但该树不满足红黑树的性质中不红红的特性，所以需要调整红黑树。按照步骤，这个时候需要根据新插入结点的叔叔结点的颜色来进行调整。可以从图中看的叔叔结点是黑色的，这时候再根据新插入结点是LL型，进行右单旋操作，用父亲换爷爷，最后再将父亲和爷爷分别染色（即染上原颜色的相反色）。这个时候就得到了上图下满足红黑树性质的树。</p>
+<p>接下来插入4结点：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/665bf851d9c307b7e90a842f.png" alt="数据结构（六）——查找——红黑树的插入7.png">
+
+<p>插入4，根据步骤是叶子结点，先染成红色，得到上图中第一棵树，但该树不满足红黑树的性质中不红红的特性，所以需要调整红黑树。按照步骤，这个时候需要根据新插入结点的叔叔结点的颜色来进行调整。可以从图中看的叔叔结点是红色的，这时候需要让叔父爷染色，并让爷结点充当新结点，新得到树没有不满足红黑树的性质。这个时候就得到了上图右满足红黑树性质的树。</p>
+<p>接下来插入35，25，18结点：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/665bf8f7d9c307b7e90b2446.png" alt="数据结构（六）——查找——红黑树的插入8.png">
+
+<p>这三个结点都不需要调整，所以直接给结果。</p>
+<p>接下来插入22结点：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/665bf939d9c307b7e90b64fb.png" alt="数据结构（六）——查找——红黑树的插入9.png">
+
+<p>插入22，根据步骤是叶子结点，先染成红色，得到上图中第一棵树，但该树不满足红黑树的性质中不红红的特性，所以需要调整红黑树。按照步骤，这个时候需要根据新插入结点的叔叔结点的颜色来进行调整。可以从图中看的叔叔结点是红色的，这时候需要让叔父爷染色，并让爷结点充当新结点。</p>
+<p>以爷爷结点为新结点时发现不满足红黑树的性质中不红红的特性，所以需要进一步调整红黑树。按照步骤，这个时候需要根据新结点的叔叔结点的颜色来进行调整。可以从图中看的叔叔结点是红色的，这时候需要让叔父爷染色，并再让爷结点充当新结点，此时爷结点变为根结点，需要染黑。这个时候就得到了上图右下满足红黑树性质的树。</p>
+<p>接下来插入23结点：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/665bf9dad9c307b7e90c02bf.png" alt="数据结构（六）——查找——红黑树的插入10_1.png">
+
+<p>插入23，是叶子结点，先染成红色，得到上图中的树，但该树不满足红黑树的性质中不红红的特性，所以需要调整红黑树。按照步骤，这个时候需要根据新插入结点的叔叔结点的颜色来进行调整。可以从图中看的叔叔结点是黑色的，这时候再根据新插入结点是LR型，先进行左旋，再进行右旋，用儿子换爷爷，最后再将儿子和爷爷分别染色（即染上原颜色的相反色）。就得到了下图：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/665bfa54d9c307b7e90c7786.png" alt="数据结构（六）——查找——红黑树的插入10_2.png">
+
+<p>此时满足红黑树的特性，插入成功。</p>
+<p>接下来插入24结点：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/665bfa80d9c307b7e90ca3f8.png" alt="数据结构（六）——查找——红黑树的插入11_1.png">
+
+<p>插入24，是叶子结点，先染成红色，得到上图中的树，但该树不满足红黑树的性质中不红红的特性，所以需要调整红黑树。按照步骤，这个时候需要根据新插入结点的叔叔结点的颜色来进行调整。可以从图中看的叔叔结点是红色的，这时候需要让叔父爷染色，并让爷结点充当新结点，就得到了下图：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/665bfadbd9c307b7e90d0b98.png" alt="数据结构（六）——查找——红黑树的插入11_2.png">
+
+<p>这个时候把爷结点视作新结点加入后，显然又破坏了不红红的性质，这个时候需要进一步进行调整，从图中看的叔叔结点是黑色的，这时候再根据新插入结点是LR型，进行先左旋再右旋操作，用儿子换爷爷，最后再将儿子和爷爷分别染色（即染上原颜色的相反色）。如下图：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/665bfb6dd9c307b7e90db3e6.png" alt="数据结构（六）——查找——红黑树的插入11_3.png">
+
+<p>经过调整以后满足红黑树的性质，就不需再调整。</p>
+<p>接下来插入19结点：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/665bfb9ed9c307b7e90de6de.png" alt="数据结构（六）——查找——红黑树的插入12.png">
+
+<p>显然19没有破坏红黑树的性质，直接插入即可。</p>
+<p>接下来插入18结点：</p>
+<p>这个时候会发现，原先已经有18这个结点了，此时18应该插入哪个地方，这个时候可以根据具体的应用场景自己定位，可以插到18的左边，有可以插到18的右边。</p>
+<p>比如插到18的右边，如下图：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/665bfc39d9c307b7e90e92f6.png" alt="数据结构（六）——查找——红黑树的插入13.png">
+
+<p>此时不满足红黑树的性质中不红红的特性，所以需要调整红黑树。按照步骤，这个时候需要根据新插入结点的叔叔结点的颜色来进行调整。可以从图中看的叔叔结点是黑色的，这时候再根据新插入结点是RL型，进行先右旋再左旋的操作，用儿子换爷爷，最后再将儿子和爷爷分别染色（即染上原颜色的相反色）。这个时候就得到了下图满足红黑树性质的树。</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/665bfc9ad9c307b7e90f7e6f.png" alt="数据结构（六）——查找——红黑树的插入13_1.png">
+
+<p>当然也可以选择插在左边，这个时候结果和上图一样，但是要注意中间的变换过程不一样，如果是直接插入左边，则上图红色的18是新插入的结点。如果是插入右边，则上图红色的18是原来的爷结点。</p>
+<p>接下来做个小结：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/665bfd1ed9c307b7e910181a.png" alt="数据结构（六）——查找——红黑树的插入小结.png">
+
+<p>接下来填补一个坑，就是红黑树的第二条性质：有n个内部节点的红黑树高度**h&lt;&#x3D;2log<sub>2</sub> (n+1)**这个关系是如何求出来的：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/665bff6ad9c307b7e912e6e1.png" alt="数据结构（六）——查找——黑高理论.png">
+
+<p>首先看一下黑高理论，若黑高为h的红黑树，<strong>内部结点数最少的情况是总共h层全是黑结点的满树形态</strong>。</p>
+<p>这里补充两个易错点：</p>
+<ol>
+<li>计算黑高时，是从某结点出发计算，但不算该结点。而算内部结点数时，是不算NULL结点的，应该NULL结点是外部结点。</li>
+<li>这里有一个疑问，就是内部结点数最少的情况是总共h层全是黑结点的满树形态，为什么一定是满树形态，是因为如果不是满树，就满足不了黑路同的性质。比如上图黑高为2的树，如果右边没有带关键字的结点，就是NULL结点，此时黑路同的性子就不满足了。</li>
+</ol>
+<p>根据内部结点数最少的情况是总共h层全是黑结点的满树形态，可以得到一个结论，<strong>若根节点黑高为h，内部结点数（关键字）最少有2<sup>h</sup>-1个。</strong></p>
+<p>知道上面的结论以后，可以证明性质2，证明如下：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/665c014dd9c307b7e914b6fd.png" alt="数据结构（六）——查找——红黑树性质2证明.png">
+
+<p>若红黑树总高度&#x3D;h，则根据红黑树的特点，根节点的黑高至少得是h&#x2F;2，因此内部结点数n&gt;&#x3D;2<sup>h&#x2F;2</sup>-1，将此式化简，便可得到h&lt;&#x3D;2log<sub>2</sub>(n+1)。</p>
+<h3 id="7-4-红黑树的删除"><a href="#7-4-红黑树的删除" class="headerlink" title="7.4 红黑树的删除"></a>7.4 红黑树的删除</h3><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/665c02ead9c307b7e9167d1e.png" alt="数据结构（六）——查找——红黑树的删除.png">
+
+<p>上面便是红黑树的删除需要知道的考点，由于红黑树的删除比插入还要复杂，考试时不大可能会去考查，所以知道上面的知识点足够了，如果复习留有余力的，且担心会考察具体操作的，可以自己再搜集资料进行学习。</p>
+<h2 id="8-B树"><a href="#8-B树" class="headerlink" title="8. B树"></a>8. B树</h2><h3 id="8-1-B树的定义与性质"><a href="#8-1-B树的定义与性质" class="headerlink" title="8.1 B树的定义与性质"></a>8.1 B树的定义与性质</h3><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/665c32a4d9c307b7e94922ef.png" alt="数据结构（六）——查找——五叉查找树.png">
+
+<p>对于一个二叉排序树，是结点里面只有一个关键字，然后分出两个区间，即有两个孩子。我们将其扩展，如图，如果扩展成一个五叉排序树，则每个结点里最多有4个关键字，然后划分出5个区间，即有5个孩子，当然在五叉排序树里，每个结点也可以只有一个关键字，然后有两个孩子。所以五叉排序树的结构描述可以如上图左上，通过num来记录结点里有几个关键字，孩子个数可以通过num+1求得。</p>
+<p>在此我们思考一下，如果在一个五叉排序树里，每个结点都存储一个关键字，这就又退化成了二叉排序树。显然，如果关键字个数一定，则结点里存储的关键字个数越少，树就越高，要查找的层次就更高，效率就低。</p>
+<p>为此我们可以引入下面的这样一个策略：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/665c344ed9c307b7e94ab44f.png" alt="数据结构（六）——查找——m叉查找树策略1.png">
+
+<p>为了保证查找的效率，**<font color=red>在m叉查找树中，规定除了根节点外，任何结点至少有[m&#x2F;2]个分叉，即至少含有[m&#x2F;2]-1个关键字</font>**。引入了这个策略，就可以保证树高（也就是保证查找效率），不会出现一个多叉查找树退化成二叉查找树的情况。</p>
+<p>注意一点，在策略里说除根节点以外，任何结点至少有[m&#x2F;2]个分叉。这里为什么要强调除根节点，是因为根节点无法满足至少有[m&#x2F;2]个分叉。比如，一个五叉查找树，除根节点外，每个节点都要有[5&#x2F;2]&#x3D;3个分支（“[ ]”是向上取整符号），那么在构造一个五叉查找树的时候，只插入一个22，显然22这个关键字只能放在根节点里，而且也只能引出两个孩子，无法引出3个分支，所以规定中把根节点排除。</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/665c365fd9c307b7e94d5587.png" alt="数据结构（六）——查找——m叉查找树策略2.png">
+
+<p>上图给出第二种情况，对于这样一个五叉查找树，显然满足了前面所说的特性，但是它的高度依然很高，是因为它没有满足平衡性。这个时候回想到二叉平衡树的定义，二叉平衡树定义里要让左右子树高度之差不超过1。但是对于一个五叉树来说，这样的比较会比较麻烦，所以引入了第二条简化策略，**<font color=red>m叉查找树中，规定对于任何一个结点，其所有子树的高度都要相同</font>**。</p>
+<p>综合这两种策略，我们就可以保证m叉查找树的效率，同时可以得到下图的B树的概念：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/665c37bad9c307b7e94e9dc4.png" alt="数据结构（六）——查找——B树.png">
+
+<p>注意一点，在B树里，我们通常会把最下面一层的失败结点叫做叶子结点，而在失败结点上面一层的结点叫做终端结点。</p>
+<p>对B树的非叶结点的结构描述如下图：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/665c3876d9c307b7e94f671a.png" alt="数据结构（六）——查找——B树结点结构.png">
+
+<p>将上面的信息压缩一下，我们可以总结出下面的B树的核心特性：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/665c38bcd9c307b7e94fb014.png" alt="数据结构（六）——查找——B树核心特性.png">
+
+<p>接下来思考一下如何计算B树的最大最小高度：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/665c3908d9c307b7e94ff99c.png" alt="数据结构（六）——查找——B树的最小高度.png">
+
+<p><strong>需要注意，没有特别说明，算B树的高度一般不包括叶子结点。</strong></p>
+<p>对于一个含n个关键字的m阶B树，最小高度就是每一层都有m个结点，每个结点都存储m-1个关键字。所以最小高度的计算如上图。这里稍微解释一下，每个结点最多有m-1个关键字，第一层最多有1个结点，第二层最多m个，第三层最多m<em>m，依次类推，将每一层的最多结点数加起来乘上每个结点的最多关键字数，可以得到一个h层的m叉查找树所存储的最大关键字字数。由此可以得到公式n&lt;&#x3D;(m-1)(1+m+m*m+……+m<sup>h-1</sup>)&#x3D;m<sup>h</sup>-1，化简这个公式可以得到</em>*<font color=red>含n个关键字的m阶B树的最小高度为h&gt;&#x3D;log<sub>m</sub>(n+1)</font>**。</p>
+<p>下面看一下B树的最大高度：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/665c3b56d9c307b7e9525b99.png" alt="数据结构（六）——查找——B树的最大高度.png">
+
+<p>B树的最大高度就是根节点只有1个关键字，这样第二层只有两个结点，然后每一层结点的个数都是[m&#x2F;2]，即除了根节点是1个关键字外，每个结点都只有[m&#x2F;2]-1个关键字。</p>
+<p>根据上面所述，这样得到的每层结点数都是最少数，则第h层有2([m&#x2F;2])<sup>h-2</sup>个结点，所以第h+1层至少有2([m&#x2F;2])<sup>h-1</sup>个失败结点。</p>
+<p>这里再补充一个特性，**<font color=red>对于一个n个关键字的B树必有n+1个叶子结点</font>**。这是因为，n个关键字相当于把数域划分为n+1个区间，这n+1个区间就是查找失败的失败区间，也就是失败结点。</p>
+<p>根据特性以及我们求得的第h+1层的最小失败结点数，可以得到这样一个关系式：2([m&#x2F;2])<sup>h-1</sup>&lt;&#x3D;n+1。把这个关系式化简，就可以得到**<font color=red>h&lt;&#x3D;log<sub>[m&#x2F;2]</sub>(n+1&#x2F;2)+1</font>**。</p>
+<p>上面是从结点入手求最大高度，这里再给另一种B树最大高度的求解思路，即从关键字入手：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/665c3f62d9c307b7e956864c.png" alt="数据结构（六）——查找——B树的最大高度2.png">
+
+<p>从关键字入手的思路就是假设每一层的关键字数都是最少的，这样可以求得一个h层B树的最小关键字数，如果小于这个数，则达不到h这个高度。具体的求解过程参考上图。</p>
+<p>下面对该部分进行一个小结：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/665c40abd9c307b7e957cf03.png" alt="数据结构（六）——查找——B树性质小结.png">
+
+<h3 id="8-2-B树的插入与删除"><a href="#8-2-B树的插入与删除" class="headerlink" title="8.2 B树的插入与删除"></a>8.2 B树的插入与删除</h3><h4 id="8-2-1-B树的插入"><a href="#8-2-1-B树的插入" class="headerlink" title="8.2.1 B树的插入"></a>8.2.1 B树的插入</h4><p>这里以一个五阶B树为例，来进行插入操作：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/665c4a94d9c307b7e9619267.png" alt="数据结构（六）——查找——B树插入1.png">
+
+<p>如上图，首先插入25，则直接放到根节点里，需要注意，这里省略了失败结点。接下来依次插入38、49、60都放入到根节点里。到目前为止，根节点里所能存储的关键字个数已经到达了上限。此时如果继续往里插入关键字，就会导致关键字超出上限，对于这种情况就要把当前根节点分裂成两个结点。</p>
+<p>假设插入80这个关键字，分裂的结果如下图：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/665c4b9bd9c307b7e9627eea.png" alt="数据结构（六）——查找——B树插入2.png">
+
+<p>在插入关键字后，若导致原结点关键字数超过上限，则从结点中间位置([m&#x2F;2]）将其中的关键字分为两部分，左部分包含的关键字放在原结点中，右部分包含的关键字放到新结点中，中间位置([m&#x2F;2])的结点插入原结点的父结点。</p>
+<p>接下来插入990这个元素，需要注意每次插入新元素，一定是插入到最底层“终端节点”，所以要用“查找”来确定插入位置：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/665c4c77d9c307b7e9633ee0.png" alt="数据结构（六）——查找——B树插入3.png">
+
+<p>这里说一下为什么要插入最底层，如果没有插到最底层，如下图：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/665c4cd7d9c307b7e963897b.png" alt="数据结构（六）——查找——B树插入4.png">
+
+<p>如果没有插到最底层，会发现失败结点不在同一层，且失败结点没有出现在最下面一层，这与B树的特性相矛盾，所新结点要插入最底层。</p>
+<p>接下来插入99：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/665c4d54d9c307b7e963f301.png" alt="数据结构（六）——查找——B树插入5.png">
+
+<p>接下来插入88：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/665c4e6cd9c307b7e964f2e9.png" alt="数据结构（六）——查找——B树插入6.png">
+
+<p>发现88插入的结点关键字数达到上限，所以要进行分裂，得到结果如下图：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/665c4ebbd9c307b7e9653a06.png" alt="数据结构（六）——查找——B树插入7.png">
+
+<p>接下来插入70、83、87：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/665c4f55d9c307b7e965d2a7.png" alt="数据结构（六）——查找——B树插入8.png">
+
+<p>插完以后发现结点出现上限，所以要分裂，但这里分裂的80要考虑一下放到父节点的哪个位置，为了保证顺序性，所以80要放到49与88之间，分裂结果如下图：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/665c4fddd9c307b7e9665b44.png" alt="数据结构（六）——查找——B树插入9.png">
+
+<p>接下来插入92,93,94分裂结果如下图：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/665c5011d9c307b7e96688d9.png" alt="数据结构（六）——查找——B树插入10.png">
+
+<p>现在要插入73,74,75同样会导致结点达到上限，如下图：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/665c5070d9c307b7e966fa5b.png" alt="数据结构（六）——查找——B树插入11.png">
+
+<p>经过分裂，形成下图的结果：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/665c509ad9c307b7e967249f.png" alt="数据结构（六）——查找——B树插入12.png">
+
+<p>此时根节点由于提上来一个关键字而达到上限，所以需要进一步分裂根节点：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/665c50f0d9c307b7e967739d.png" alt="数据结构（六）——查找——B树插入13.png">
+
+<p>到此，对B树的插入操作就完成，下面总结一下B树的插入操作：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/665c5196d9c307b7e96849be.png" alt="数据结构（六）——查找——B树插入总结.png">
+
+<h4 id="8-2-2-B树的删除"><a href="#8-2-2-B树的删除" class="headerlink" title="8.2.2 B树的删除"></a>8.2.2 B树的删除</h4><p>以下图的5阶B树为例，来看一下如何进行删除操作：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/665c524fd9c307b7e9690dc0.png" alt="数据结构（六）——查找——B树删除.png">
+
+<p>假设删除60这个结点：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/665c5297d9c307b7e9694d0e.png" alt="数据结构（六）——查找——B树删除1.png">
+
+<p>60在终端节点里，直接删除该关键字，且删完该关键字以后，该节点的关键字个数没有低于下限，所以删除成功。</p>
+<p>接下来删除80这个关键字，由于80不在终端节点里，所以需要用其前驱或后继来代替80的位置：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/665c536ed9c307b7e96a0aa7.png" alt="数据结构（六）——查找——B树删除2_1.png">
+
+<p>这里是用直接前驱来代替80，80的直接前驱就是其左侧指针所指子树中最右下的元素，即77，所以用77代替80，并从原位置删除77。</p>
+<p>下面看一下用后继代替的例子：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/665c53c9d9c307b7e96a5015.png" alt="数据结构（六）——查找——B树删除2_2.png">
+
+<p>80的后继就是其右侧指针所指子树中最左下的元素，即82，所以用82代替80，并从原位置删除82。</p>
+<p>经过这两个例子可以知道，如果删除一个非终端节点，要找其前驱和后继，即找到最下面一层的结点，所以对非终端结点关键字的删除，必然可以转化为对终端结点的删除操作。</p>
+<p>接下来看一个删除某个关键字以后，结点里的关键字低于下限的情况。</p>
+<p>删除38，此时出现低于下限的情况，这时又要划分为多种情况讨论：</p>
+<p><strong>(1) 兄弟够借</strong></p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/665c54f3d9c307b7e96b45f2.png" alt="数据结构（六）——查找——B树删除3_1.png">
+
+<p>若被删除关键字所在结点删除前的关键字个数低于下限，且与此结点右（或左）兄弟结点的关键字个数还很宽裕，则需要调整该结点、右(或左）兄弟结点及其双亲结点(父子换位法)。</p>
+<p>比如上图删除38，此时该结点只剩一个25，低于下限，这时候兄弟结点还有很多关键字，可以向兄弟借一个关键字。但注意，不是直接从兄弟结点里拿一个70放到该结点中，因为这样该结点里的关键字的最大值就是70，显然不属于49的左侧区间。所以要把70放到父节点的49处，然后把49放到该结点里。</p>
+<p>调整后的结果如下图：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/665c562cd9c307b7e96c5e32.png" alt="数据结构（六）——查找——B树删除3_2.png">
+
+<p>总结一下这种情况，如果右兄弟结点很宽裕时，可以用右兄弟结点里的最小关键字顶替父节点，然后把父节点放到当前低于下限的结点里。</p>
+<p>刚刚看的是借右兄弟关键字的例子，接下来看一下借左兄弟关键字的例子，比如删除90：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/665c5742d9c307b7e96d5ff1.png" alt="数据结构（六）——查找——B树删除3_3.png">
+
+<p>删完90以后，该节点出现空缺，此时右节点兄弟不富裕，但左兄弟富裕，可以从左兄弟处借走一个关键字。</p>
+<p>注意，这里有右兄弟相反，当左兄弟结点很宽裕时，可以用左兄弟结点里的最大关键字顶替父节点，然后把父节点放到当前低于下限的结点里，调整结果如下：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/665c57b8d9c307b7e96dcc21.png" alt="数据结构（六）——查找——B树删除3_4.png">
+
+<p>总结下来，不论是哪种，其调整的本质都是要保证左边的子树关键字值小于与之对应的父节点的关键字值小于父节点右边的子树的关键字值。</p>
+<p><strong>(2) 兄弟不够借</strong></p>
+<p>上面说的都是兄弟够借的情况，接下来看一下兄弟不够借的情况。</p>
+<p>还是上面的例子，现在如果删除49，会发现，如果删除49，则49所在节点低于下限，但兄弟结点又没有富裕结点，如下图：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/665c6f4cd9c307b7e988a1cc.png" alt="数据结构（六）——查找——B树删除4_1.png">
+
+<p>对于这种被删除关键字所在结点删除前的关键字个数低于下限，且此时与该结点相邻的左、右兄弟结点的关键字个数均&#x3D;[m&#x2F;2]-1，则将关键字删除后与左(或右)兄弟结点及双亲结点中的关键字进行合并。</p>
+<p>如上例，删除49以后出现兄弟不够借，这个时候将该低于下限的结点中的25与兄弟结点的71,72和双亲结点里的70合并，合并结果如下图：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/665c705ed9c307b7e989e1ff.png" alt="数据结构（六）——查找——B树删除4_2.png">
+
+<p>由于合并从父节点里扣了一个值出来，所以此时父节点也出现自身低于下限，兄弟不富裕的情况，这个时候需要再进行合并。合并完以后，根节点没有关键字，所以可以把根节点删除，最后得到的结果如下图：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/665c7f79d9c307b7e99c3689.png" alt="数据结构（六）——查找——B树删除4_3.png">
+
+<h4 id="8-2-3-小结"><a href="#8-2-3-小结" class="headerlink" title="8.2.3 小结"></a>8.2.3 小结</h4><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/665c7fd5d9c307b7e99ca631.png" alt="数据结构（六）——查找——B树插入与删除的小结.png">
+
+<h3 id="8-3-B-树"><a href="#8-3-B-树" class="headerlink" title="8.3 B+树"></a>8.3 B+树</h3><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/665c8154d9c307b7e99e8270.png" alt="数据结构（六）——查找——B+树.png">
+
+<p>首先，看一下什么是B+树，满足上图五个条件的树就是B+树。不难发现，B+树和分块查找很相似。</p>
+<p>在B+树中，一般会把最下面一层称为叶子结点，其余结点称为分支结点。</p>
+<p>这里解释一下第二点，非叶根结点至少有两棵子树，其他每个分支结点至少有「m&#x2F;2]棵子树：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/665c8213d9c307b7e99f702d.png" alt="数据结构（六）——查找——B+树第二条性质.png">
+
+<p>从上图可以看到，第一个结点是根结点，当然也是叶结点，所以它的下面可以没有子树。但是如果该根节点不是叶子结点，它的下面至少要有两棵子树，如上图第三个。至于中间第二个，由于根节点不是叶子结点，而且根节点只有一棵子树，所以这个树不能称之为B+树。</p>
+<p>至于为什么要求其他每个分支结点至少有「m&#x2F;2]棵子树，原理同B树一样，为了保证树高不会太高(即保证查找效率)。</p>
+<p>另外，第三条，<strong>结点的子树个数域关键字个数相等</strong>，这一点也很容易考到，注意与B树区分。</p>
+<p>第四条，在B+树里，所有叶结点包含全部关键字及指向相应记录的指针，叶结点中将关键字按大小顺序排列，并且相邻叶结点按大小顺序相互链接起来，这也就意味着我们可以通过指针P，从第一个叶子节点开始，一个一个往后遍历，然后把所有的叶子结点都遍历完，即B+树支持顺序查找。</p>
+<p>另外补充一点，B+树里的叶子结点，是一个整体，里面包含的都是关键字，同B树一样。</p>
+<p>接下来看一下B+树怎么查找：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/665c8704d9c307b7e9a51f32.png" alt="数据结构（六）——查找——B+树查找.png">
+
+<p>假设查找9，就会从根节点开始，先对比15，发现9小于15，然后就会向15对应的块进行查找。第一个比对3，3小于9，指针后移，第二个比对9，9和9相同，所以去9下面的块查找，然后遍历6,8,9最终找到9的位置。</p>
+<p>到这里，不难发现，B+树的查找和分块查找很相似，所以可以结合分块查找进行理解，如果能结合分快查找进行理解，会发现B+树并不是很难。</p>
+<p>接下来看一个查找失败的情况：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/665c8807d9c307b7e9a6533c.png" alt="数据结构（六）——查找——B+树查找失败.png">
+
+<p>假设查找7，就会从根节点开始，先对比15，发现7小于15，然后就会向15对应的块进行查找。第一个比对3，3小于7，指针后移，第二个比对9，9大于7，所以7可能存在于9对应的话，然后去9下面的块查找，然后遍历6,8,9最终没有找到7，则查找失败。</p>
+<p>可以看到，在B+树中，无论查找成功与否，最终一定都要走到最下面一层叶子结点。而在B树里，查找成功可能会停留在任何一层。</p>
+<p>接下来看一下B+树的另一种查找方法——顺序查找，如下图：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/665c88e1d9c307b7e9a73e3a.png" alt="数据结构（六）——查找——B+树的顺序查找.png">
+
+<p>可以通过指针P向后遍历叶子结点，最终可以遍历到9的位置。</p>
+<p>B+树有很多东西和分块查找很类似，也有很多东西和B树类似，但是考研里喜欢将B+树和B树放到一起考，所以接下来看一下B+树和B树的区别：</p>
+<ol>
+<li>m阶B+树里，结点中的n个关键字对应n棵子树，而m阶B树里，结点中的n个关键字对应n+1棵子树。</li>
+<li>m阶B树里，根节点的关键字数n&#x3D;[1, m-1]，其他结点的关键字数n&#x3D;[ [m&#x2F;2]-1, m-1]。而m阶B+树，根节点的关键字数n&#x3D;[1, m]，其他结点的关键字数n&#x3D;[ [m&#x2F;2], m]。</li>
+<li>在B+树中，叶结点包含全部关键字，非叶结点中出现过的关键字也会出现在叶结点中。在B树中，各结点中包含的关键字是不重复的。</li>
+<li>在B+树中，叶结点包含信息，所有非叶结点仅起索引作用)非叶结点中的每个索引项只含有对应子树的最大关键字和指向该子树的指针，不含有该关键字对应记录的存储地址。B树的结点中都包含了关键字对应的记录的存储地址。</li>
+</ol>
+<p>接下来补充一个知识点，如下图：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/665c8cc5d9c307b7e9ac2236.png" alt="数据结构（六）——查找——B+树与B树的磁盘应用.png">
+
+<p>在B+树里，这些一个一个的结点是存放在磁盘里的（即外存当中），而操作系统对磁盘的读写一般以磁盘块为单位。所以一般来说，B+树的一个结点，就会存放在某一个磁盘块当中，所有的结点都是存放在不同的磁盘块里。</p>
+<p>因此对B+树的查找其实是这样的一个过程：先从根节点查找，系统在背后做的事情是会找到根节点到底存放在哪个磁盘块当中，接下来会把该磁盘块读到内存中，然后处理其中数据找到下一步去哪个分支找到数据，系统会把该分支的磁盘块读到内存里，像这样推进下去，直到系统找到数据最终存放位置为止。</p>
+<p>从上面的过程可以看到，对于B+树的查找，每查找一层节点，都要从磁盘读入一次数据，对于B树也是一样的。由于磁盘是慢速设备，所以计算机读磁盘开销是很大的。这也就意味着，如果B+树越高，读磁盘的次数就越多，查找效率就越低。如何处理这个问题呢？如果每个结点包含的关键字越多，也就意味着树的高度就越低，而这些结点是存放在一个一个磁盘块里，磁盘块的大小是固定的，所以需要在有限的磁盘块里存储足够多的关键字，这也就是B+树为什么要这么设计的原因。</p>
+<p>在B+树里，每一个非叶子结点，并不包含关键字对应记录的存储地址，这也就导致这样一份数据可以花更少的空间存储。而在B树里，每一个非叶子结点，都包含关键字对应记录的存储地址。所以同样一个磁盘块，B+树能存储更多的关键字，这就导致B+树的高度会更矮，读取磁盘的次数会更少，查找也会更快。这就是B+树与B树的本质区别。</p>
+<p>最后将B+树与B树放在一起对比，做个小结：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/665c9029d9c307b7e9b0912b.png" alt="数据结构（六）——查找——B+树小结.png">
+
+<p>考试时，B+树考察不会太深，一般考察相关概念，多数会和B树放在一起考察选择题辨析等。</p>
+<h2 id="9-散列查找"><a href="#9-散列查找" class="headerlink" title="9. 散列查找"></a>9. 散列查找</h2><h3 id="9-1-散列表的基本概念与散列函数的构造方法"><a href="#9-1-散列表的基本概念与散列函数的构造方法" class="headerlink" title="9.1 散列表的基本概念与散列函数的构造方法"></a>9.1 散列表的基本概念与散列函数的构造方法</h3><p>散列查找这个算法需要基于一个叫散列表的数据结构，所以接下来先看一下什么是散列表：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/665d165b5e6d1bfa057bbd5d.png" alt="数据结构（六）——查找——散列表的概念.png">
+
+<p>散列表的特点就是<strong>数据元素的关键字与其存储地址直接相关</strong>。那如何建立关键字与存储地址的联系？通常是通过**散列函数(哈希函数)**实现两者间的映射关系。</p>
+<p>接下来看一个例子：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/665d17075e6d1bfa057c4386.png" alt="数据结构（六）——查找——散列表例子.png">
+
+<p>如上图的一堆关键字，可以设置这样一个散列函数：用关键字的值对13取余。因此，任何一个关键字通过这个散列函数的处理，最终肯定能被映射到0~12这个区间内。</p>
+<p>比如19%13&#x3D;6，所以19放在6内。14%13&#x3D;1，所以14放在1内。23%13&#x3D;10，所以23放在10内。接下来1%13&#x3D;1，所以1也要放到1内。这时候1和14发生了冲突，如下图：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/665d17f75e6d1bfa057cfc8b.png" alt="数据结构（六）——查找——散列表冲突.png">
+
+<p>这里补充两个概念：</p>
+<ol>
+<li>若不同的关键字通过散列函数映射到同一个值，则称它们为“同义词”。</li>
+<li>通过散列函数确定的位置已经存放了其他元素，则称这种情况为“冲突”。</li>
+</ol>
+<p>面对这种冲突，可以使用如下的拉链法来解决：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/665d18945e6d1bfa057d80cf.png" alt="数据结构（六）——查找——散列表冲突处理拉链法.png">
+
+<p>所谓拉链法，就是区间内不存储数据，而是存储这向这些数据元素的指针，即把所有同义词存储在一个链表中，通过区间指针来找到这些链表。</p>
+<p>接下来看一下如何基于散列表进行查找操作：</p>
+<p>假设查找27：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/665d19345e6d1bfa057e0cf0.png" alt="数据结构（六）——查找——散列表查找1.png">
+
+<p>首先通过哈希函数确定27处于1区间内，然后通过1内的指针找到对应的存储链表，然后遍历链表找到27，这里需要对比3次，所以27的查找长度为3。</p>
+<p>现在看查找21的情况：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/665d198a5e6d1bfa057e4f00.png" alt="数据结构（六）——查找——散列表查找2.png">
+
+<p>通过哈希函数确定21处于8区间内，然后发现8区间内没有存储数据，所以查找失败。</p>
+<p>这里需要强调的是查找长度是0，并不是没有查找长度，所谓查找长度就是在查找运算中，需要对比关键字的次数，查找21没有进行对比，所以21的查找长度为0。但是要注意，这个查找长度有的自命题学校会认为是1，就是把查找8这个区间当做一次查找，所以对于这种情况，查找长度是0还是1，需要看一下往年的评卷的标准，如果没有就按第一种情况来做（查找长度为0）。</p>
+<p>接下里看查找66的情况：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/665d1ab55e6d1bfa057f4794.png" alt="数据结构（六）——查找——散列表查找3.png">
+
+<p>同样，先通过哈希函数确定66处于1区间内，然后通过1内的指针找到对应的存储链表，然后遍历链表查找66，发现没有，则查找失败。这里需要对比4次，所以66的查找失败长度为4。</p>
+<p>下面看一下查找成功的平均查找长度：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/665d1b745e6d1bfa057fd05c.png" alt="数据结构（六）——查找——散列表查找成功ASL.png">
+
+<p>上图提供了两种计算方法，第一种是按层计算，第二种是按单个计算。这里看一下第二种计算里红框圈出的冲突部分，思考一下如果没有冲突，则分子应当是全为1相加，最终计算出来的ASL应该是1，如下图：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/665d1c755e6d1bfa05809303.png" alt="数据结构（六）——查找——散列表查找成功ASL1.png">
+
+<p>可以看到，冲突越多，查找效率越低，而最理想的情况是散列表查找时间复杂度可达到O(1)，即上图的情况。理论上，如果哈希函数设计的够好，是可以达到这个标准，那如何设计冲突更少的散列函数呢？在探讨这个问题前，先看一下查找失败的ASL。</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/665d1d305e6d1bfa05812600.png" alt="数据结构（六）——查找——散列表查找失败ASL.png">
+
+<p>通过计算失败的平均查找长度可以发现，分子是表中记录数，而分母是散列表的长度，计算出来的结果就是失败的ASL。</p>
+<p>同时我们也把表中记录数&#x2F;散列表的长度的结果称为装填因子，装填因子会直接影响散列表的查找效率。这是因为，装填因子如果增大，则说明表中记录数变多，冲突也会变多，这时候不论查找成功还是失败的ASL都会增加。</p>
+<p>接下来看一下如何设计散列函数：</p>
+<p><strong>(1) 除留余数法</strong></p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/665d22085e6d1bfa05855598.png" alt="数据结构（六）——查找——除留余数法.png">
+
+<p>对于散列函数可以采用除留余数法设计，如上图，对于其中的除数p，选取不大于散列表表长但最接近于散列表表长的质数。</p>
+<p>这个时候可以发现一个问题，如上图给出的两种情况，对于第一种情况，表长是13，选取的p可以直接选取13。但是对于第二种情况，表长为15，按照规则来说p只能选取13，此时取余的结果就是0~12，会有13和14空出，所以为什么p不直接取15呢？首先要明白散列函数设计的目的是为了让不同关键字的冲突尽可能地少，而在除留余数法里，选取最接近表长的质数其避免冲突效果最好。</p>
+<p>举例说明一下：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/665d242b5e6d1bfa05877a7e.png" alt="数据结构（六）——查找——除留余数法举例0.png">
+
+<p>看到上面这个例子可以发现，结果并不像我们想的那样，取质数的效率最好，这是因为关键字是顺序出现的，如果换一组关键字，如下图：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/665d24015e6d1bfa05875179.png" alt="数据结构（六）——查找——除留余数法举例.png">
+
+<p>此时就可以发现用质数取模分布会更均匀，冲突更少。所以这也说明散列函数的设计要根据关键字的分布特点考虑。当然对于考试时，除留余数法p的取值，给出的标准答案还是选取不大于散列表表长但最接近于散列表表长的质数。</p>
+<p><strong>(2) 直接定址法</strong></p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/665d274a5e6d1bfa058a757e.png" alt="数据结构（六）——查找——直接定址法.png">
+
+<p>直接定址法如上图，这种方法构造出一个直线函数，不会产生冲突，适合关键字分布基本连续的情况。如果关键之分布不连续，则空出会很多，空间会被浪费。</p>
+<p><strong>(3) 数字分析法</strong></p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/665d28055e6d1bfa058b1e5c.png" alt="数据结构（六）——查找——数码分析法.png">
+
+<p>注意，数码分析法选取分布较均匀的若干位作为散列地址，但并不代表不会产生冲突。</p>
+<p><strong>(4) 平方取中法</strong></p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/665d28e65e6d1bfa058bf331.png" alt="数据结构（六）——查找——平方取中法.png">
+
+<p>同样，平方取中法使得散列地址分布比较均匀，但也并不代表不会产生冲突。</p>
+<p>下面提供一种不会产生冲突的方法：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/665d29765e6d1bfa058c7150.png" alt="数据结构（六）——查找——无冲突.png">
+
+<p>比如存储身份证信息，可以用一个足够长的表存储，然后用每个学生的身份证号做散列地址，这样做绝对不会产生冲突，而且查找时间复杂度为O(1)。但这样做显然不合理，因为这样做需要的存储空间是海量的。</p>
+<p>从这里可以看到，散列查找是典型的“用空间换时间”的算法，只要散列函数设计的合理，则散列表越长，冲突的概率越低，查找所需时间就越低。</p>
+<h3 id="9-2-处理冲突的方法"><a href="#9-2-处理冲突的方法" class="headerlink" title="9.2 处理冲突的方法"></a>9.2 处理冲突的方法</h3><p>在上面已经介绍过一种处理冲突的方法——拉链法。接下来会介绍另一种处理冲突的方法——开放定址法。</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/665d323f5e6d1bfa0594f1e2.png" alt="数据结构（六）——查找——开放定址法.png">
+
+<p>使用开放定址法处理冲突的大致思想就是，数组当中依然存放一个一个数据元素，但数组当中空闲的地址既向同义词开放，也向非同义词开放。假设如上图的散列表，现在要插入元素1，那么1和3在这个哈希函数的映射下，显然不是同义词。但是采用开放定址法的意思就是允许把非同义词1放到3的位置。</p>
+<p><strong>这里会确定一个冲突放置规则：当发生第i次冲突时，会用原本哈希函数算得的地址作为起始，然后加上一个增量，再对哈希表的表长取模（公式如上图）。</strong>而至于增量怎么设计，需要掌握三种方法，分别是线性探测法、平方探测法、伪随机序列法。</p>
+<p><strong>(1) 线性探测法</strong></p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/665d342e5e6d1bfa0596ae51.png" alt="数据结构（六）——查找——线性探测法.png">
+
+<p>如果采用线性探测法，则每次发生冲突时，往后探测相邻的下一个单元是否为空。可以看到插入1时，通过散列函数计算到起始地址，然后将该起始地址放到开放定址法的线性探测函数里，进而确定放置位置。插入1，通过散列函数计算到起始地址H(key)，然后发生第0次冲突，d&#x3D;0，通过线性探测计算得到放置地址为1，与14产生冲突，发生第一次冲突，所以d&#x3D;1，通过线性探测计算得到放置地址为2，无冲突，所以1放到2的位置。</p>
+<p>按照上述思路，最后插入完成的结果如下图：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/665d359d5e6d1bfa0597e1fd.png" alt="数据结构（六）——查找——线性探测法插入完成.png">
+
+<p><strong>这里注意一个细节，在计算哈希函数时，除数取得是最接近表长的质数。而使用开放定址法处理哈希冲突时，除数取得是表长。</strong></p>
+<p>下面看一下查找操作：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/665d360e5e6d1bfa05983bf5.png" alt="数据结构（六）——查找——线性探测法查找.png">
+
+<p>假设查找27，需要先通过哈希函数确定查找的位置，如果发生冲突，则通过线性探测法的处理公式依次往后查找，最后可以找到27。查找过程中需要对比14,1,68,27四个数，所以查找长度为4。</p>
+<p>这里说一点，在查找过程中，14,1,27才是同义词，而68这个元素和27并不是同义词。所以用开放定址法计算下一个存放地址时，既有可能和同义词冲突，也可能和非同义词冲突。所以在查找时，同义词、非同义词都需要被检查。</p>
+<p>下面看一个查找失败的情况：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/665d370b5e6d1bfa059910b8.png" alt="数据结构（六）——查找——线性探测法查找失败.png">
+
+<p>假设查找21，通过哈希函数确定查找的起始位置是8，然后依次向后对比，对比84,79,23,11,10五个数据，但是要注意，我们还需要和13处的空数据进行对比，这也要算做一次对比，所以21的查找长度是5+1&#x3D;6。</p>
+<p><strong>这里想强调的是空位置的判断也要算作一次对比，与拉链法是不同的。</strong></p>
+<p>对于线性探测法，由于查找失败需要查找到空位置，所以如果让很多元素扎堆的存储在一块，则查找效率会受到影响，如果这些元素之间存在空缺，则查找效率可能会得到提升。同样的上例，如果把10处的元素干掉，如下图：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/665d381a5e6d1bfa0599fdf9.png" alt="数据结构（六）——查找——线性探测法查找失败1.png">
+
+<p>可以发现，如果10处没有元素，查找失败的效率会得到提升。</p>
+<p>接下来看怎么删除一个元素：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/665d38885e6d1bfa059a5507.png" alt="数据结构（六）——查找——线性探测法删除.png">
+
+<p>假设删除1，如果直接删除，这个时候在查找27，会发现，确定27的起始位置是1，但与14冲突以后，就遇到空位置，直接判定查找失败，但实际上27在散列表里，如下图：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/665d3a4b5e6d1bfa059bcbbc.png" alt="数据结构（六）——查找——线性探测法删除1.png">
+
+<p>如何处理这个问题？这就需要再删除时进行标记操作，如下图：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/665d3aaf5e6d1bfa059c119a.png" alt="数据结构（六）——查找——线性探测法删除2.png">
+
+<p>采用“开放定址法”时，删除结点不能简单地将被删结点的空间置为空，否则将截断在它之后填入散列表的同义词结点的查找路径，可以做一个“删除标记”，进行逻辑删除。如下图：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/665d3b045e6d1bfa059c4e5b.png" alt="数据结构（六）——查找——线性探测法删除3.png">
+
+<p>当做完标记以后，再查找该位置时，会继续向后查找，而不是认为是空然后判断查找失败。</p>
+<p>接下来看另一个问题，如下图：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/665d3b455e6d1bfa059c8f49.png" alt="数据结构（六）——查找——线性探测法删除4.png">
+
+<p>此时查找79时，会从1开始查找，由于前面的都被删除，即使空了，79也需要查找到9处才能查找到。所以这个散列表看起来很满，但实际上很空，这也是用开放定址法解决冲突的一个弊端。</p>
+<p>下面看一下查找效率：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/665d3be65e6d1bfa059d1106.png" alt="数据结构（六）——查找——线性探测法查找成功的查找效率.png">
+
+<p>上面是查找成功的查找效率，把每个数查找成功的查找长度加起来再乘每个关键字被查找到的概率即可。</p>
+<p>下面看一下查找失败的效率：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/665d3c775e6d1bfa059d8113.png" alt="数据结构（六）——查找——线性探测法查找失败的查找效率.png">
+
+<p>查找失败的效率计算方法，就是从0开始，计算每一个查找失败的长度，把他们加起来，然后乘上每个关键字被查找的概率即可。</p>
+<p>可以看到，该例的查找失败的效率是7，这个效率已经很低了。</p>
+<p>造成这种低效率的原因是：<strong>线性探测法很容易造成同义词、非同义词的“聚集(堆积)”现象，严重影响查找效率</strong>。产生这种现象的原因是因为当产生冲突后，每次都是往后一个一个的寻找。所以发生冲突后，再探测一定是放在某个连续的位置，这就导致大量数据的堆积。</p>
+<p>面对上述问题，该如何解决呢？这就要引入接下来的方法——平方探测法。</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/665d4af75e6d1bfa05aae070.png" alt="数据结构（六）——查找——平方探测法1.png">
+
+<p>所谓平方探测法，就是发生冲突以后，d的取值不再是依次取0,1,2,3,4,……，而是取0,+1,-1,+2<sup>2</sup>,-2<sup>2</sup>,……+k<sup>2</sup>,-k<sup>2</sup>。</p>
+<p>如上图，假设有一堆数据存储到6的位置，这时就会发生碰撞，所以要进行平方探测，最后存储结果如下图：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/665d4bf45e6d1bfa05abb8e7.png" alt="数据结构（六）——查找——平方探测法2.png">
+
+<p>这里要说一点，84存储时，d&#x3D;-9，这里6的左边没有9个位置，但是84却存储到了24的位置，这是因为进行的是模运算，所以不够的会从后面补。</p>
+<p>到这里可以看到，平方探测法相较于线性探测来说，更不容易产生“堆积”问题。</p>
+<p>接下来看一下查找的过程：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/665d4d005e6d1bfa05acc06a.png" alt="数据结构（六）——查找——平方探测法查找.png">
+
+<p>假设查找71，则会从6开始，依次查找6,19,32,45,58,71然后找到数据。这里想强调的是即使采用开发定址法，当采用的增量序列不同时，查找的方法也不同。</p>
+<p>接下来说一个不是重点但又难以理解的小地方：当采用平方探测法时，散列表长度m必须是一个可以表示成4j＋3的素数，才能探测到所有位置。举个例子说明，如下图：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/665d4ebb5e6d1bfa05b002c6.png" alt="数据结构（六）——查找——平方探测法散列表确定.png">
+
+<p>看上面两个例子，左边一个表长满足4j+3，而右面一个不满足。当以5为起始时，可以看到左边的可以遍历完所以的位置。而右边的会出现重复探测，但却无法探测到7的位置。所以散列表长度m必须是一个可以表示成4j＋3的素数。至于更具体的原因，这涉及到数论，有兴趣可以去数论里查找，而考研只需要了解到这里即可。</p>
+<p>接下来看第三种探测法——伪随机序列法。</p>
+<p><strong>(3) 伪随机序列法</strong></p>
+<p>所谓伪随机序列法就是定义一个伪随机的增量序列d，然后每次根据这个序列所指明的位置进行探测。如下图：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/665d4fd15e6d1bfa05b114e4.png" alt="数据结构（六）——查找——伪随机序列法.png">
+
+<p>如上图有一组数据发生冲突，现在要根据伪随机序列d进行探测，探测存饭的结果就如下图：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/665d50155e6d1bfa05b1532a.png" alt="数据结构（六）——查找——伪随机序列法1.png">
+
+<p>到这里我们就了解完了开放定址法，这里进行一个开放定址法的小结：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/665d50455e6d1bfa05b18122.png" alt="数据结构（六）——查找——开放定址法小结.png">
+
+<p>接下来看最后一个处理冲突的方法——再散列法（再哈希法）：</p>
+<p>所谓再散列法，就是除了原始的散列函数H(key)之外，多准备几个散列函数，当散列函数冲突时，用下一个散列函数计算一个新地址，直到不冲突为止。</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/665d50f15e6d1bfa05b22275.png" alt="数据结构（六）——查找——再散列法.png">
+
+<p>这部分最容易被考察的是线性探测法和平方探测法，所以着重学习这两种方法。</p>
+<h3 id="9-3-散列查找小结"><a href="#9-3-散列查找小结" class="headerlink" title="9.3 散列查找小结"></a>9.3 散列查找小结</h3><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/665d51535e6d1bfa05b27fd5.png" alt="数据结构（六）——查找——散列查找小结.png">
+
+<p>这里补充一个小问题，看一下对拉链法的优化：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/665d51965e6d1bfa05b2bd0f.png" alt="数据结构（六）——查找——拉链法优化.png">
+
+<p>如果我们在进行拉链法处理冲突时，能保持关键字有序，那么可以微微提高查找的效率，具体的原因在顺序查找里已经说过，可以翻到上面去看看顺序查找，这里就不再过多赘述。</p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="http://bandit-ljC-1.github.io">liujinC</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="http://bandit-ljc-1.github.io/2024/05/28/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%EF%BC%88%E5%85%AD%EF%BC%89%E2%80%94%E2%80%94%E6%9F%A5%E6%89%BE/">http://bandit-ljc-1.github.io/2024/05/28/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%EF%BC%88%E5%85%AD%EF%BC%89%E2%80%94%E2%80%94%E6%9F%A5%E6%89%BE/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://bandit-ljC-1.github.io" target="_blank">无名高手🍭</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/408%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">408学习笔记</a><a class="post-meta__tags" href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/">数据结构</a></div><div class="post_share"><div class="social-share" data-image="/myphotos/article_cover/5.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2024/06/04/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%EF%BC%88%E4%B8%83%EF%BC%89%E2%80%94%E2%80%94%E6%8E%92%E5%BA%8F/" title="数据结构（七）——排序"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/myphotos/article_cover/6.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">数据结构（七）——排序</div></div></a></div><div class="next-post pull-right"><a href="/2024/05/18/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%EF%BC%88%E4%B8%89%EF%BC%89%E2%80%94%E2%80%94%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86/" title="操作系统（三）——内存管理"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/myphotos/article_cover/8.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">操作系统（三）——内存管理</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2024/03/07/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%EF%BC%88%E4%B8%80%EF%BC%89%E2%80%94%E2%80%94%E7%BA%BF%E6%80%A7%E8%A1%A8/" title="数据结构（一）——线性表"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/myphotos/article_cover/3.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2024-03-07</div><div class="title">数据结构（一）——线性表</div></div></a></div><div><a href="/2024/04/09/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%EF%BC%88%E4%B8%89%EF%BC%89%E2%80%94%E2%80%94%E4%B8%B2/" title="数据结构（三）——串"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/myphotos/article_cover/8.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2024-04-09</div><div class="title">数据结构（三）——串</div></div></a></div><div><a href="/2024/06/04/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%EF%BC%88%E4%B8%83%EF%BC%89%E2%80%94%E2%80%94%E6%8E%92%E5%BA%8F/" title="数据结构（七）——排序"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/myphotos/article_cover/6.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2024-06-04</div><div class="title">数据结构（七）——排序</div></div></a></div><div><a href="/2024/05/14/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%EF%BC%88%E4%BA%94%EF%BC%89%E2%80%94%E2%80%94%E5%9B%BE/" title="数据结构（五）——图"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/myphotos/article_cover/10.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2024-05-14</div><div class="title">数据结构（五）——图</div></div></a></div><div><a href="/2024/03/28/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%EF%BC%88%E4%BA%8C%EF%BC%89%E2%80%94%E2%80%94%E6%A0%88%E4%B8%8E%E9%98%9F%E5%88%97%E4%B8%8E%E6%95%B0%E7%BB%84/" title="数据结构（二）——栈与队列与数组"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/myphotos/article_cover/11.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2024-03-28</div><div class="title">数据结构（二）——栈与队列与数组</div></div></a></div><div><a href="/2024/04/15/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%EF%BC%88%E5%9B%9B%EF%BC%89%E2%80%94%E2%80%94%E6%A0%91%E4%B8%8E%E4%BA%8C%E5%8F%89%E6%A0%91/" title="数据结构（四）——树与二叉树"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/myphotos/article_cover/7.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2024-04-15</div><div class="title">数据结构（四）——树与二叉树</div></div></a></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/myphotos/avatar.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">liujinC</div><div class="author-info__description"></div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">29</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">8</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">3</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://home.liujinc.cn"><i class="fab fa-github"></i><span>网站主页</span></a><div class="card-info-social-icons is-center"><a class="social-icon faa-parent animated-hover" href="/myphotos/WeChat.png" target="_blank" title="微信"><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon-weixin"></use></svg></a><a class="social-icon faa-parent animated-hover" href="/myphotos/QQ.jpg" target="_blank" title="QQ"><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon-QQ"></use></svg></a><a class="social-icon faa-parent animated-hover" href="https://space.bilibili.com/1941048387?spm_id_from=333.1007.0.0" target="_blank" title="B站"><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon-bilibili"></use></svg></a><a class="social-icon faa-parent animated-hover" href="https://blog.csdn.net/qq_63040545?spm=1000.2115.3001.5343" target="_blank" title="CSDN"><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon-csdn"></use></svg></a><a class="social-icon faa-parent animated-hover" href="https://github.com/Bandit-ljC-1" target="_blank" title="GitHub"><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon-github1"></use></svg></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">今年18岁傍50岁富婆，来年50岁包18岁姑娘。</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%EF%BC%88%E5%85%AD%EF%BC%89%E2%80%94%E2%80%94%E6%9F%A5%E6%89%BE"><span class="toc-text">数据结构（六）——查找</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-%E6%9F%A5%E6%89%BE%E7%9A%84%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5"><span class="toc-text">1. 查找的基本概念</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-%E9%A1%BA%E5%BA%8F%E6%9F%A5%E6%89%BE"><span class="toc-text">2. 顺序查找</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-%E6%8A%98%E5%8D%8A%E6%9F%A5%E6%89%BE"><span class="toc-text">3. 折半查找</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-%E5%88%86%E5%9D%97%E6%9F%A5%E6%89%BE"><span class="toc-text">4. 分块查找</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-%E4%BA%8C%E5%8F%89%E6%8E%92%E5%BA%8F%E6%A0%91"><span class="toc-text">5. 二叉排序树</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#6-%E5%B9%B3%E8%A1%A1%E4%BA%8C%E5%8F%89%E6%A0%91"><span class="toc-text">6. 平衡二叉树</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#6-1-%E5%B9%B3%E8%A1%A1%E4%BA%8C%E5%8F%89%E6%A0%91%E7%9A%84%E5%AE%9A%E4%B9%89"><span class="toc-text">6.1 平衡二叉树的定义</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6-2-%E5%B9%B3%E8%A1%A1%E4%BA%8C%E5%8F%89%E6%A0%91%E7%9A%84%E6%8F%92%E5%85%A5"><span class="toc-text">6.2 平衡二叉树的插入</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6-3-%E5%B9%B3%E8%A1%A1%E4%BA%8C%E5%8F%89%E6%A0%91%E7%9A%84%E5%88%A0%E9%99%A4"><span class="toc-text">6.3 平衡二叉树的删除</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#7-%E7%BA%A2%E9%BB%91%E6%A0%91"><span class="toc-text">7. 红黑树</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#7-1-%E7%BA%A2%E9%BB%91%E6%A0%91%E7%9A%84%E5%AE%9A%E4%B9%89%E5%92%8C%E6%80%A7%E8%B4%A8"><span class="toc-text">7.1 红黑树的定义和性质</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#7-2-%E7%BA%A2%E9%BB%91%E6%A0%91%E7%9A%84%E6%9F%A5%E6%89%BE"><span class="toc-text">7.2 红黑树的查找</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#7-3-%E7%BA%A2%E9%BB%91%E6%A0%91%E7%9A%84%E6%8F%92%E5%85%A5"><span class="toc-text">7.3 红黑树的插入</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#7-4-%E7%BA%A2%E9%BB%91%E6%A0%91%E7%9A%84%E5%88%A0%E9%99%A4"><span class="toc-text">7.4 红黑树的删除</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#8-B%E6%A0%91"><span class="toc-text">8. B树</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#8-1-B%E6%A0%91%E7%9A%84%E5%AE%9A%E4%B9%89%E4%B8%8E%E6%80%A7%E8%B4%A8"><span class="toc-text">8.1 B树的定义与性质</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#8-2-B%E6%A0%91%E7%9A%84%E6%8F%92%E5%85%A5%E4%B8%8E%E5%88%A0%E9%99%A4"><span class="toc-text">8.2 B树的插入与删除</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#8-2-1-B%E6%A0%91%E7%9A%84%E6%8F%92%E5%85%A5"><span class="toc-text">8.2.1 B树的插入</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#8-2-2-B%E6%A0%91%E7%9A%84%E5%88%A0%E9%99%A4"><span class="toc-text">8.2.2 B树的删除</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#8-2-3-%E5%B0%8F%E7%BB%93"><span class="toc-text">8.2.3 小结</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#8-3-B-%E6%A0%91"><span class="toc-text">8.3 B+树</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#9-%E6%95%A3%E5%88%97%E6%9F%A5%E6%89%BE"><span class="toc-text">9. 散列查找</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#9-1-%E6%95%A3%E5%88%97%E8%A1%A8%E7%9A%84%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5%E4%B8%8E%E6%95%A3%E5%88%97%E5%87%BD%E6%95%B0%E7%9A%84%E6%9E%84%E9%80%A0%E6%96%B9%E6%B3%95"><span class="toc-text">9.1 散列表的基本概念与散列函数的构造方法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#9-2-%E5%A4%84%E7%90%86%E5%86%B2%E7%AA%81%E7%9A%84%E6%96%B9%E6%B3%95"><span class="toc-text">9.2 处理冲突的方法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#9-3-%E6%95%A3%E5%88%97%E6%9F%A5%E6%89%BE%E5%B0%8F%E7%BB%93"><span class="toc-text">9.3 散列查找小结</span></a></li></ol></li></ol></li></ol></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2024 - 2025 By liujinC</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js?v=4.12.0"></script><script src="/js/main.js?v=4.12.0"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0.32/dist/fancybox/fancybox.umd.min.js"></script><script src="https://cdn.jsdelivr.net/npm/instant.page@5.2.0/instantpage.min.js" type="module"></script><script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@17.8.5/dist/lazyload.iife.min.js"></script><script src="https://cdn.jsdelivr.net/npm/node-snackbar@0.1.16/dist/snackbar.min.js"></script><script>function panguFn () {
+  if (typeof pangu === 'object') pangu.autoSpacingPage()
+  else {
+    getScript('https://cdn.jsdelivr.net/npm/pangu@4.0.7/dist/browser/pangu.min.js')
+      .then(() => {
+        pangu.autoSpacingPage()
+      })
+  }
+}
+
+function panguInit () {
+  if (false){
+    GLOBAL_CONFIG_SITE.isPost && panguFn()
+  } else {
+    panguFn()
+  }
+}
+
+document.addEventListener('DOMContentLoaded', panguInit)</script><div class="js-pjax"></div><canvas id="snow"></canvas><script async src="/js/snow.js"></script><canvas id="universe"></canvas><script defer src="/js/universe.js"></script><script defer src="/js/mouse.js"></script><script async src="//at.alicdn.com/t/c/font_4451089_fok8y2foa3.js"></script><script defer type="text/javascript" src="https://cdn1.tianli0.top/npm/sweetalert2@8.19.0/dist/sweetalert2.all.js"></script><script defer src="/js/festival/lunar.js"></script><script defer src="/js/festival/day.js"></script><script async src="/js/fps.js"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="is-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据库加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div id="local-search-results"></div><div id="local-search-stats-wrap"></div></div></div><div id="search-mask"></div><script src="/js/search/local-search.js?v=4.12.0"></script></div></div><!-- hexo injector body_end start --> <script data-pjax>if(document.getElementById('recent-posts') && (location.pathname ==='/'|| '/' ==='all')){
+    var parent = document.getElementById('recent-posts');
+    var child = '<div class="recent-post-item" style="width:100%;height: auto"><div id="catalog_magnet"><div class="magnet_item"><a class="magnet_link" href="http://bandit-ljC-1.github.io/tags/408学习笔记/"><div class="magnet_link_context" style=""><span style="font-weight:500;flex:1">🐱‍👓 路漫漫其修远，我探索不了一点。 (25)</span><span style="padding:0px 4px;border-radius: 8px;"><i class="fas fa-arrow-circle-right"></i></span></div></a></div><div class="magnet_item"><a class="magnet_link" href="http://bandit-ljC-1.github.io/tags/前端/"><div class="magnet_link_context" style=""><span style="font-weight:500;flex:1">🍨 前端UI到转行平面设计 (2)</span><span style="padding:0px 4px;border-radius: 8px;"><i class="fas fa-arrow-circle-right"></i></span></div></a></div><a class="magnet_link_more"  href="http://bandit-ljC-1.github.io/tags" style="flex:1;text-align: center;margin-bottom: 10px;">查看更多...</a></div></div>';
+    console.log('已挂载magnet')
+    parent.insertAdjacentHTML("afterbegin",child)}
+     </script><style>#catalog_magnet{flex-wrap: wrap;display: flex;width:100%;justify-content:space-between;padding: 10px 10px 0 10px;align-content: flex-start;}.magnet_item{flex-basis: calc(50% - 5px);background: #f2f2f2;margin-bottom: 10px;border-radius: 8px;transition: all 0.2s ease-in-out;}.magnet_item:hover{background: #b30070}.magnet_link_more{color:#555}.magnet_link{color:black}.magnet_link:hover{color:white}@media screen and (max-width: 600px) {.magnet_item {flex-basis: 100%;}}.magnet_link_context{display:flex;padding: 10px;font-size:16px;transition: all 0.2s ease-in-out;}.magnet_link_context:hover{padding: 10px 20px;}</style>
+    <style></style><script data-pjax>
+    function butterfly_categories_card_injector_config(){
+      var parent_div_git = document.getElementById('recent-posts');
+      var item_html = '<style>li.categoryBar-list-item{width:32.3%;}.categoryBar-list{max-height: 380px;overflow:auto;}.categoryBar-list::-webkit-scrollbar{width:0!important}@media screen and (max-width: 650px){.categoryBar-list{max-height: 320px;}}</style><div class="recent-post-item" style="height:auto;width:100%;padding:0px;"><div id="categoryBar"><ul class="categoryBar-list"><li class="categoryBar-list-item" style="background:url(/myphotos/article_cover/1.jpg);"> <a class="categoryBar-list-link" href="categories/网页开发/">网页开发</a><span class="categoryBar-list-count">2</span><span class="categoryBar-list-descr">优秀的设计师</span></li><li class="categoryBar-list-item" style="background:url(/myphotos/article_cover/2.jpg);"> <a class="categoryBar-list-link" href="categories/hexo/">hexo</a><span class="categoryBar-list-count">2</span><span class="categoryBar-list-descr">五等分的blog</span></li><li class="categoryBar-list-item" style="background:url(/myphotos/article_cover/3.jpg);"> <a class="categoryBar-list-link" href="categories/学习笔记/">学习笔记</a><span class="categoryBar-list-count">25</span><span class="categoryBar-list-descr">埼玉的成长之路</span></li></ul></div></div>';
+      console.log('已挂载butterfly_categories_card')
+      parent_div_git.insertAdjacentHTML("afterbegin",item_html)
+      }
+    if( document.getElementById('recent-posts') && (location.pathname ==='/'|| '/' ==='all')){
+    butterfly_categories_card_injector_config()
+    }
+  </script><script data-pjax>
+  function butterfly_swiper_injector_config(){
+    var parent_div_git = document.getElementById('recent-posts');
+    var item_html = '<div class="recent-post-item" style="height: auto;width: 100%"><div class="blog-slider swiper-container-fade swiper-container-horizontal" id="swiper_container"><div class="blog-slider__wrp swiper-wrapper" style="transition-duration: 0ms;"><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" href="2024/01/01/Markdown语法/" alt=""><img width="48" height="48" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="myphotos/article_cover/6.jpg" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/></a><div class="blog-slider__content"><span class="blog-slider__code">2024-01-01</span><a class="blog-slider__title" href="2024/01/01/Markdown语法/" alt="">青春男大遇到不会写的Markdown语法</a><div class="blog-slider__text">本文是博主写博客时遇到的一些不会写的Markdown语法，特在此汇总</div><a class="blog-slider__button" href="2024/01/01/Markdown语法/" alt="">详情   </a></div></div><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" href="2024/03/07/数据结构（一）——线性表/" alt=""><img width="48" height="48" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="myphotos/article_cover/3.jpg" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/></a><div class="blog-slider__content"><span class="blog-slider__code">2024-03-07</span><a class="blog-slider__title" href="2024/03/07/数据结构（一）——线性表/" alt="">数据结构（一）——线性表</a><div class="blog-slider__text">本文是数据结构中有关线性表的复习笔记，因此只记录一些重点知识与兄弟们交流，并不适合零基础的兄弟。</div><a class="blog-slider__button" href="2024/03/07/数据结构（一）——线性表/" alt="">详情   </a></div></div><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" href="2024/03/02/基于hexo搭建的个人博客常见问题处理/" alt=""><img width="48" height="48" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="myphotos/article_cover/6.jpg" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/></a><div class="blog-slider__content"><span class="blog-slider__code">2024-03-02</span><a class="blog-slider__title" href="2024/03/02/基于hexo搭建的个人博客常见问题处理/" alt="">基于hexo搭建的个人博客常见问题处理</a><div class="blog-slider__text">该文主要是站长对使用hexo搭建博客时出现的一些问题进行了整理</div><a class="blog-slider__button" href="2024/03/02/基于hexo搭建的个人博客常见问题处理/" alt="">详情   </a></div></div><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" href="2024/02/08/CSS基础语法及应用/" alt=""><img width="48" height="48" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="myphotos/article_cover/6.jpg" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/></a><div class="blog-slider__content"><span class="blog-slider__code">2024-02-08</span><a class="blog-slider__title" href="2024/02/08/CSS基础语法及应用/" alt="">CSS基础语法及应用</a><div class="blog-slider__text">本文主要整理CSS的基本语法，可以搭配HTML5基本语法进行学习</div><a class="blog-slider__button" href="2024/02/08/CSS基础语法及应用/" alt="">详情   </a></div></div><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" href="2024/02/01/HTML5基础语法大全/" alt=""><img width="48" height="48" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="myphotos/article_cover/13.jpg" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/></a><div class="blog-slider__content"><span class="blog-slider__code">2024-02-01</span><a class="blog-slider__title" href="2024/02/01/HTML5基础语法大全/" alt="">HTML5基本语法大全</a><div class="blog-slider__text">本文主要整理了HTML5的基本语法，方便初学者快速入门</div><a class="blog-slider__button" href="2024/02/01/HTML5基础语法大全/" alt="">详情   </a></div></div></div><div class="blog-slider__pagination swiper-pagination-clickable swiper-pagination-bullets"></div></div></div>';
+    console.log('已挂载butterfly_swiper')
+    parent_div_git.insertAdjacentHTML("afterbegin",item_html)
+    }
+  var elist = 'undefined'.split(',');
+  var cpage = location.pathname;
+  var epage = '/';
+  var flag = 0;
+
+  for (var i=0;i<elist.length;i++){
+    if (cpage.includes(elist[i])){
+      flag++;
+    }
+  }
+
+  if ((epage ==='all')&&(flag == 0)){
+    butterfly_swiper_injector_config();
+  }
+  else if (epage === cpage){
+    butterfly_swiper_injector_config();
+  }
+  </script><script defer src="https://npm.elemecdn.com/hexo-butterfly-swiper/lib/swiper.min.js"></script><script defer data-pjax src="https://npm.elemecdn.com/hexo-butterfly-swiper/lib/swiper_init.js"></script><script data-pjax>
+  function butterfly_footer_beautify_injector_config(){
+    var parent_div_git = document.getElementById('footer-wrap');
+    var item_html = '<div id="workboard"></div><p id="ghbdages"><a class="github-badge" target="_blank" href="https://hexo.io/" style="margin-inline:5px" data-title="博客框架为Hexo_v6.2.0" title=""><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img.shields.io/badge/Frame-Hexo-blue?style=flat&amp;logo=hexo" alt=""/></a><a class="github-badge" target="_blank" href="https://butterfly.js.org/" style="margin-inline:5px" data-title="主题版本Butterfly_v4.3.1" title=""><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img.shields.io/badge/Theme-Butterfly-6513df?style=flat&amp;logo=bitdefender" alt=""/></a><a class="github-badge" target="_blank" href="https://vercel.com/" style="margin-inline:5px" data-title="本站采用多线部署，主线路托管于Vercel" title=""><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img.shields.io/badge/Hosted-Vercel-brightgreen?style=flat&amp;logo=Vercel" alt=""/></a><a class="github-badge" target="_blank" href="https://dashboard.4everland.org/" style="margin-inline:5px" data-title="本站采用多线部署，备用线路托管于4EVERLAND" title=""><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img.shields.io/badge/Hosted-4EVERLAND-22DDDD?style=flat&amp;logo=IPFS" alt=""/></a><a class="github-badge" target="_blank" href="https://github.com/" style="margin-inline:5px" data-title="本站项目由Github托管" title=""><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img.shields.io/badge/Source-Github-d021d6?style=flat&amp;logo=GitHub" alt=""/></a><a class="github-badge" target="_blank" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" style="margin-inline:5px" data-title="本站采用知识共享署名-非商业性使用-相同方式共享4.0国际许可协议进行许可" title=""><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img.shields.io/badge/Copyright-BY--NC--SA%204.0-d42328?style=flat&amp;logo=Claris" alt=""/></a></p>';
+    console.log('已挂载butterfly_footer_beautify')
+    parent_div_git.insertAdjacentHTML("beforeend",item_html)
+    }
+  var elist = 'null'.split(',');
+  var cpage = location.pathname;
+  var epage = 'all';
+  var flag = 0;
+
+  for (var i=0;i<elist.length;i++){
+    if (cpage.includes(elist[i])){
+      flag++;
+    }
+  }
+
+  if ((epage ==='all')&&(flag == 0)){
+    butterfly_footer_beautify_injector_config();
+  }
+  else if (epage === cpage){
+    butterfly_footer_beautify_injector_config();
+  }
+  </script><script async src="/js/clock.js"></script><div class="js-pjax"><script async="async">var arr = document.getElementsByClassName('recent-post-item');
+for(var i = 0;i<arr.length;i++){
+    arr[i].classList.add('wow');
+    arr[i].classList.add('animate__zoomIn');
+    arr[i].setAttribute('data-wow-duration', '2s');
+    arr[i].setAttribute('data-wow-delay', '1s');
+    arr[i].setAttribute('data-wow-offset', '100');
+    arr[i].setAttribute('data-wow-iteration', '1');
+  }</script><script async="async">var arr = document.getElementsByClassName('card-widget');
+for(var i = 0;i<arr.length;i++){
+    arr[i].classList.add('wow');
+    arr[i].classList.add('animate__zoomIn');
+    arr[i].setAttribute('data-wow-duration', '');
+    arr[i].setAttribute('data-wow-delay', '');
+    arr[i].setAttribute('data-wow-offset', '');
+    arr[i].setAttribute('data-wow-iteration', '');
+  }</script></div><script defer src="/css/wowjs/wow.min.js"></script><script defer src="/css/wowjs/wow_init.js"></script><!-- hexo injector body_end end --></body></html>

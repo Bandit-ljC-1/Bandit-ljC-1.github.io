@@ -1,0 +1,628 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>计算机组成原理（三）——存储系统 | 无名高手🍭</title><meta name="author" content="liujinC"><meta name="copyright" content="liujinC"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="ffffff"><meta name="description" content="计组的第三章">
+<meta property="og:type" content="article">
+<meta property="og:title" content="计算机组成原理（三）——存储系统">
+<meta property="og:url" content="http://bandit-ljc-1.github.io/2024/04/10/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86%EF%BC%88%E4%B8%89%EF%BC%89%E2%80%94%E2%80%94%E5%AD%98%E5%82%A8%E7%B3%BB%E7%BB%9F/index.html">
+<meta property="og:site_name" content="无名高手🍭">
+<meta property="og:description" content="计组的第三章">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://bandit-ljc-1.github.io/myphotos/article_cover/5.jpg">
+<meta property="article:published_time" content="2024-04-10T01:39:00.000Z">
+<meta property="article:modified_time" content="2024-04-21T13:43:00.000Z">
+<meta property="article:author" content="liujinC">
+<meta property="article:tag" content="408学习笔记">
+<meta property="article:tag" content="计算机组成原理">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://bandit-ljc-1.github.io/myphotos/article_cover/5.jpg"><link rel="shortcut icon" href="/myphotos/icon.png"><link rel="canonical" href="http://bandit-ljc-1.github.io/2024/04/10/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86%EF%BC%88%E4%B8%89%EF%BC%89%E2%80%94%E2%80%94%E5%AD%98%E5%82%A8%E7%B3%BB%E7%BB%9F/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css?v=4.12.0"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.5.1/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/node-snackbar@0.1.16/dist/snackbar.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0.32/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":true,"top_n_per_article":-1,"unescape":false,"languages":{"hits_empty":"找不到您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: undefined,
+  noticeOutdate: {"limitDay":365,"position":"top","messagePrev":"It has been","messageNext":"days since the last update, the content of the article may be outdated."},
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":230},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: {"chs_to_cht":"你已切换为繁体中文","cht_to_chs":"你已切换为简体中文","day_to_night":"你已切换为深色模式","night_to_day":"你已切换为浅色模式","bgLight":"#49b1f5","bgDark":"#1f1f1f","position":"top-right"},
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid@4.11.0/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyload: true,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '计算机组成原理（三）——存储系统',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2024-04-21 21:43:00'
+}</script><script>(win=>{
+      win.saveToLocal = {
+        set: (key, value, ttl) => {
+          if (ttl === 0) return
+          const now = Date.now()
+          const expiry = now + ttl * 86400000
+          const item = {
+            value,
+            expiry
+          }
+          localStorage.setItem(key, JSON.stringify(item))
+        },
+      
+        get: key => {
+          const itemStr = localStorage.getItem(key)
+      
+          if (!itemStr) {
+            return undefined
+          }
+          const item = JSON.parse(itemStr)
+          const now = Date.now()
+      
+          if (now > item.expiry) {
+            localStorage.removeItem(key)
+            return undefined
+          }
+          return item.value
+        }
+      }
+    
+      win.getScript = (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        script.onerror = reject
+        script.onload = script.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          script.onload = script.onreadystatechange = null
+          resolve()
+        }
+
+        Object.keys(attr).forEach(key => {
+          script.setAttribute(key, attr[key])
+        })
+
+        document.head.appendChild(script)
+      })
+    
+      win.getCSS = (url, id = false) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onerror = reject
+        link.onload = link.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          link.onload = link.onreadystatechange = null
+          resolve()
+        }
+        document.head.appendChild(link)
+      })
+    
+      win.activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', 'ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          const now = new Date()
+          const hour = now.getHours()
+          const isNight = hour <= 6 || hour >= 18
+          if (t === undefined) isNight ? activateDarkMode() : activateLightMode()
+          else if (t === 'light') activateLightMode()
+          else activateDarkMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+      const detectApple = () => {
+        if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+          document.documentElement.classList.add('apple')
+        }
+      }
+      detectApple()
+    })(window)</script><link rel="stylesheet" href="/css/custom.css" media="defer" onload="this.media='all'"><link rel="stylesheet" href="/css/light.css" media="defer" onload="this.media='all'"><link rel="stylesheet" href="/css/snow.css"><link rel="stylesheet" href="/css/universe.css"><link rel="stylesheet" href="/css/mouse.css"><link rel="stylesheet" href="//at.alicdn.com/t/c/font_4451089_fok8y2foa3.css" media="defer" onload="this.media='all'"><link rel="stylesheet" href="/css/page_style.css"><span id="fps"></span><link rel="stylesheet" href="/css/pangu_control.css"><div id="myscoll"></div><!-- hexo injector head_end start --><link rel="stylesheet" href="/css/categorybar.css"><link rel="stylesheet" href="https://npm.elemecdn.com/hexo-butterfly-swiper/lib/swiper.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="/css/swiper/swiperstyle.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://unpkg.zhimg.com/hexo-butterfly-footer-beautify@1.0.0/lib/runtime.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="/css/wowjs/animate.min.css" media="print" onload="this.media='screen'"><!-- hexo injector head_end end --><meta name="generator" content="Hexo 6.3.0"></head><body><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/myphotos/avatar.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">29</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">8</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">3</div></a></div><hr class="custom-hr"/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> 列表</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音乐</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 电影</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/comments/"><i class="fa-fw fas fa-envelope-open"></i><span> 留言板</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('/myphotos/article_cover/5.jpg')"><nav id="nav"><span id="blog-info"><a href="/" title="无名高手🍭"><span class="site-name">无名高手🍭</span></a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search" href="javascript:void(0);"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> 列表</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音乐</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 电影</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/comments/"><i class="fa-fw fas fa-envelope-open"></i><span> 留言板</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">计算机组成原理（三）——存储系统</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2024-04-10T01:39:00.000Z" title="发表于 2024-04-10 09:39:00">2024-04-10</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2024-04-21T13:43:00.000Z" title="更新于 2024-04-21 21:43:00">2024-04-21</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">学习笔记</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">16.1k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>48分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="计算机组成原理（三）——存储系统"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h1 id="计算机组成原理（三）——存储系统"><a href="#计算机组成原理（三）——存储系统" class="headerlink" title="计算机组成原理（三）——存储系统"></a>计算机组成原理（三）——存储系统</h1><h2 id="1-存储系统基本结构"><a href="#1-存储系统基本结构" class="headerlink" title="1. 存储系统基本结构"></a>1. 存储系统基本结构</h2><h3 id="1-1-存储器的层次化结构"><a href="#1-1-存储器的层次化结构" class="headerlink" title="1.1 存储器的层次化结构"></a>1.1 存储器的层次化结构</h3><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/6615ee6b68eb9357135efab1.png" alt="计算机组成原理（三）——存储系统——存储器层次结构.png">
+
+<p>辅存里存储APP等应用软件的信息，所以辅存容量比较大，相应的，辅存的读取速度就比较慢。而CPU的读写速度很快，如果让CPU直接读写辅存，会被辅存的读写速度所拖累。所以一般不让CPU直接读写辅存。</p>
+<p>通常情况下，我们将要执行的程序信息，先从辅存调入主存，然后让CPU访问主存进行读写。</p>
+<p>在图里，我们看到，在辅存和主存之间仍有一个高速缓冲存储器（Cache），存在这个的原因是因为，即使主存读写速度比较快，但仍不能满足CPU的读写速度，为了缓解这种矛盾，计算机就会将当前主存里频繁被访用的部分放到cache里，然后CPU就会直接读取cache里的副本数据。</p>
+<p>举个实例：某同学想使用微信，在辅存里选中微信以后，计算机将微信程序调用到主存，此时CPU可以访问主存，加载微信。若该同学频繁使用视频通话功能，计算机就会将该功能程序段放入cache里，方便频繁调用。</p>
+<p>需要注意一点，主存数据放到cache里，CPU可以调用cache数据，也可以修改cache数据，被修改的数据，cache会更新回主存。</p>
+<h3 id="1-2-存储器分类"><a href="#1-2-存储器分类" class="headerlink" title="1.2 存储器分类"></a>1.2 存储器分类</h3><h4 id="1-2-1-按层次分类"><a href="#1-2-1-按层次分类" class="headerlink" title="1.2.1 按层次分类"></a>1.2.1 按层次分类</h4><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/6615f54a68eb935713700ed3.png" alt="计算机组成原理（三）——存储系统——按层次分类.png">
+
+<h4 id="1-2-2-按存储介质分类"><a href="#1-2-2-按存储介质分类" class="headerlink" title="1.2.2 按存储介质分类"></a>1.2.2 按存储介质分类</h4><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/6615f5a168eb935713710088.png" alt="计算机组成原理（三）——存储系统——按存储介质.png">
+
+<h4 id="1-2-3-按存取方式分类"><a href="#1-2-3-按存取方式分类" class="headerlink" title="1.2.3 按存取方式分类"></a>1.2.3 按存取方式分类</h4><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/6615f5cc68eb93571371509b.png" alt="计算机组成原理（三）——存储系统——按存取方式.png">
+
+<h4 id="1-2-4-按信息可更改性分类"><a href="#1-2-4-按信息可更改性分类" class="headerlink" title="1.2.4 按信息可更改性分类"></a>1.2.4 按信息可更改性分类</h4><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/6615f61168eb93571371d239.png" alt="计算机组成原理（三）——存储系统——按信息可更改性.png">
+
+<h4 id="1-2-5-按信息的可保存性分类"><a href="#1-2-5-按信息的可保存性分类" class="headerlink" title="1.2.5 按信息的可保存性分类"></a>1.2.5 按信息的可保存性分类</h4><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/6615f64b68eb9357137247bb.png" alt="计算机组成原理（三）——存储系统——按信息可保存性.png">
+
+<h3 id="1-3-存储器性能指标"><a href="#1-3-存储器性能指标" class="headerlink" title="1.3 存储器性能指标"></a>1.3 存储器性能指标</h3><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/6615f69168eb93571372d77f.png" alt="计算机组成原理（三）——存储系统——存储器性能指标.png">
+
+<p>存储器的性能主要有三个，分别是存储容量，单位成本，存储速度。这里需要注意的就是存储速度，牵扯到一个存储周期的概念，存储周期包含存取时间以及存储器恢复时间，只有存储器恢复以后，才能进行下次存取。</p>
+<h3 id="1-4-存储器基本概念小结"><a href="#1-4-存储器基本概念小结" class="headerlink" title="1.4 存储器基本概念小结"></a>1.4 存储器基本概念小结</h3><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/6615f6bf68eb93571373360f.png" alt="计算机组成原理（三）——存储系统——存储器基本概念小结.png">
+
+<h2 id="2-主存储器基本组成"><a href="#2-主存储器基本组成" class="headerlink" title="2. 主存储器基本组成"></a>2. 主存储器基本组成</h2><h3 id="2-1-存储元原理"><a href="#2-1-存储元原理" class="headerlink" title="2.1 存储元原理"></a>2.1 存储元原理</h3><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/6616000e68eb93571385ec84.png" alt="计算机组成原理（三）——存储系统——存储元.png">
+
+<p>在第一章我们了解过，存储容量&#x3D;存储字数×字长，这里的字长就是指存储元的数量。存储元结构如上图左，是由mos管和电容组成，电容里面存储高电平和低电平来代表二进制的1和0。</p>
+<p>MOS管是一种特殊的元件，当MOS管输入端电压达到一定阈值时，会接通电路；否则电路会断开。</p>
+<p>接下来说一下存储元的读出过程，当电容里存在高电荷，此时接通MOS管，电容会将里面的电荷信息通过电路传输出来，当在线路另一端检测到高电平时，会转换成二进制1；否则为0。</p>
+<p>写入过程同理，接通mos管以后，通过电路向电容里面充电，写1就接通高电平充电，写0就低电平。</p>
+<p>了解完单个存储元的结构以后，就可以将存储元拼接在一起，就形成了存储单元，多个存储单元并列就构成了存储体，如上图所示。而存储单元里存储的数据就是我们所说的存储字。</p>
+<h3 id="2-2-存储器芯片的基本原理"><a href="#2-2-存储器芯片的基本原理" class="headerlink" title="2.2 存储器芯片的基本原理"></a>2.2 存储器芯片的基本原理</h3><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/661602f068eb9357138d4369.png" alt="计算机组成原理（三）——存储系统——存储器基本原理译码器.png">
+
+<p>经过2.1的了解以后，接下里我们需要考虑的问题是，如何通过CPU给的地址信息，去读取或写入对应的存储字。这里就牵扯到了我们对译码器的使用。</p>
+<p>译码器一端接输入线，这些输入线与地址总线相连，用来接收CPU传来的地址信息。另一端接输出线，这些输出线与存储字相连，用来进行字选，所以这些线也叫字选线。</p>
+<p>当译码器接收到来自CPU的二进制地址信息时，会将其转换成对应编码的输出线输出高电平。所以在译码器里，一般有n位地址输入线，就要有2<sup>n</sup>个字选输出线。例如3-8译码器，地址输入线有3根，则字选输出线有8根，若输入001，则输出线编码为1的线输出高电平。</p>
+<p>此外，还有上图中绿色的线子，该线称为数据线，也叫位线，用来读出或写入每个存储元中的二进制信息，采集到的每个存储元的数据放到MDR里构成存储字。</p>
+<p>知道了如何选择存储单元，那怎么知道是进行什么操作呢？这就需要我们接下来所说的控制电路。</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/6616058868eb93571392c3b3.png" alt="计算机组成原理（三）——存储系统——存储器基本原理控制器.png">
+
+<p>控制电路接接入片选线与读选控制信号，然后通过控制电路控制MAR、译码器以及MDR。因为数据传输使用电信号，而电信号具有不稳定的特性，当地址总线的数据输入到MAR中，在稳定前，是不能送入到译码器的。控制电路会控制MAR的输送，待MAR稳定以后，才会让MAR的数据进入译码器。同理，当数据输出时，只有电信号稳定以后，控制电路才认为此时的数据是正确的，这时才会把数据送到数据总线。</p>
+<p>而控制电路主要用来控制读写操作，读写线的设计有两种情况，上图里给出了其中一种——两根读&#x2F;写线，一跟控制读、一根控制写。还有另一种情况——一根读写线，通过该读写线的高低电平来确定读写操作。</p>
+<p>注意上图里，CS和ES上面有横线，这个代表着该信号低电平有效；如果没有就代表高电平有效。</p>
+<p>片选线的作用：大家会发现这里的片选线还没被介绍，其实片选线是用来选中存储芯片的，在计算机的主板上，不只一个存储器芯片，这个时候，需要通过片选线来决定选中哪一个芯片。</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/661615a068eb935713b5e323.png" alt="计算机组成原理（三）——存储系统——存储器芯片.png">
+
+<p>通过对存储器基本原理的了解，我们就可以把存储器封装成上图左下角的样子，外接地址线、数据线、片选线以及读写控制线。考试时，可能会出题让我们计算引脚数量，到时候需要注意读写控制线的设计方法。除此以外，芯片还会包含电源引脚、地引脚，需要具体题目具体分析。</p>
+<h3 id="2-3-寻址"><a href="#2-3-寻址" class="headerlink" title="2.3 寻址"></a>2.3 寻址</h3><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/661616e868eb935713ba1382.png" alt="计算机组成原理（三）——存储系统——寻址.png">
+
+<p>接下来讲下寻址，现代计算机一般采用按字节编址，所以我们在进行寻址时，一般查找其字节地址。假设存储矩阵如图所示，每个小方框代表一个字节（1B），每行表示一个存储字，则存储字长为4B。到这里其实就可以发现这是一个32位系统。总容量为1KB的话，说明一共有256行，即256个存储字。</p>
+<p>如果采用字节寻址，则有1K个单元，每个单元1B，只需根据字节号查找即可。</p>
+<p>如果采用字寻址，则相当于把每4个字节地址合并成一个字地址，有256个单元，每个单元4B，这时进行查找操作，需要将字号左移两位，转换成与之对应的字节地址，才可以查找到。</p>
+<p>按半字和双字寻址方法与按字寻址一样，只是半字左移1位，双字左移4位。</p>
+<h3 id="2-4-主存储器基本组成小结"><a href="#2-4-主存储器基本组成小结" class="headerlink" title="2.4 主存储器基本组成小结"></a>2.4 主存储器基本组成小结</h3><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/6616199368eb935713bdcac8.png" alt="计算机组成原理（三）——存储系统——主存储器组成小结.png">
+
+<h2 id="3-SRAM和DRAM"><a href="#3-SRAM和DRAM" class="headerlink" title="3. SRAM和DRAM"></a>3. SRAM和DRAM</h2><p>首先说一下，不论是SRAM还是DRAM，其实都是RAM芯片，而RAM芯片，它的特点就是<font color=red><strong>随机存取</strong></font>。</p>
+<p>SRAM和DRAM虽然都是RAM芯片，但他们并不一样，其中一个最核心的区别就是他们的<font color=red><strong>存储元不一样</strong></font>。</p>
+<p>DRAM的存储元使用<font color=green><strong>栅极电容</strong></font>存储信息，像我们2.2 存储器芯片的基本原理里说的就是DRAM芯片。</p>
+<p>SRAM的存储元使用<font color=green><strong>双稳态触发器</strong></font>存储信息，在下图DRAM和SRAM的比较图里，右边的就是SRAM芯片的基本原理。</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/6618dc0d68eb93571337c44a.png" alt="计算机组成原理（三）——存储系统——SRAM与DRAM.png">
+
+<p>在如图的双稳态触发器里，A高B低，代表存储二进制1；A低B高，代表存储二进制0。</p>
+<p>在进行读出操作时，如果双稳态触发器里面存储了0，则BL会输出低电平，BLX无输出；如果存储1，则BLX会输出低电平，BL无输出。</p>
+<p>在进行写入操作时，如果想写输入0，只需给左边触发器加低电平，右边加高电平，使A低B高即可。同理写1，让A高B低即可。</p>
+<p>在电路结构中，我们就可以看出，DRAM芯片使用删减电容存储，电容信息放电读取，读取以后会消失，也就是破坏性读出，想要保留还需要进行读写操作，也就是“再生”。而SRAM芯片使用双稳态触发器，读出的数据不会消失，所以不用重写。这里就可以看出，相交而言，SRAM的读写速度会快于DRAM的读写速度。</p>
+<p>从上图结构中不难看出，DRAM的存储元相对于SRAM的存储元更为简单，所以DRAM的存储元制造成本更低，集成度高，功耗低；相反SRAM芯片的存储元制造成功更高，集成度低，功耗大。</p>
+<p>综合以上来看，SRAM芯片一般用来制作cache芯片，而DRAM一般用来当主存。</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/6618dff868eb9357133d47c5.png" alt="计算机组成原理（三）——存储系统——SRAM与DRAM比较.png">
+
+<p>上面为DRAM和SRAM两种类型存储芯片的比较，但是有两点需要补充一下，一是刷新，二是行列地址。</p>
+<p>首先说一下刷新，RAM芯片属于易失性存储器，一般断电后里面的信息就会消失，但是对于DRAM芯片，即使不断电，里面的信息可能也会丢失，而SRAM芯片，只要不断电，触发器的状态就不会改变，信息就不会丢失。刷新一般常用在DRAM芯片里，由于DRAM芯片使用电容存储信息，而电容我们都知道，里面的电量是每时每刻都在流失的，也就是说，当我们存储完信息以后，如果不进行操作的话，电容里面的电量会流失完尽，举个例子，我们在DRAM的一个存储元里存储1，一段时间后，电容电量流失，这个存储元的信息可能就从1变成0。</p>
+<p>一般电容内的电荷只能维持2ms，即便不断电，2ms后，电容内的信息也会消失。所以，在2ms内，我们需要进行一次刷新。</p>
+<p>DRAM的刷新策略如下图，题目中也经常会考三种策略，所以这部分可以关注一下，另外，题目里没有给刷新周期的话，一般默认2ms。</p>
+<p>这里有一个知识点补充一下，<font color=red><strong>刷新由存储器独立完成，不需要CPU的介入</strong></font>。</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/6618e42e68eb93571342deb0.png" alt="计算机组成原理（三）——存储系统——刷新策略.png">
+
+<p>接下来，说一下行列地址的问题，在前面2.2存储器基本原理一节，我们介绍过译码器，通过译码器，我们可以选中读写哪一个存储单元。但是如果存储单元过多，比如存储单元有256个的时候，我们的译码器就要引出256跟字选线（256根按照如今的技术是很轻松就可以做到的，我这里举个例子方便理解），这样做起来稍显麻烦，为了解决这种麻烦，我们可以将这256个存储单元划分成16×16的行与列，这样我们使用两个译码器，一个表示行，一个表示列，每个译码器只需要引出16根字选线即可。所以通过行列地址方法的使用，我们就可以轻松的解决基数很大的存储单元的寻址问题。如今，技术发展，也出现了在三维空间上的存储方式，使用三个译码器，分别确定行列与垂直方向Z值，从而解决更大基数的寻址问题。</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/6618e4e868eb935713440962.png" alt="计算机组成原理（三）——存储系统——地址复用技术.png">
+
+<p>说完了行列地址的划分，这里我们要讲一下DRAM的地址线复用技术问题，前面我们光讨论了译码器的输出，但没有说过行列译码器的输入问题，行列地址的输送有两种方式，第一种同时送，第二种分两次送。</p>
+<p>如上图，使用同时送的方式会丢掉左边的缓冲器，地址信息会同时被送入到行地址译码器和列地址译码器，比如地址0000 0000，前4位是行地址，后四位是列地址，但同时送的方式会将0000 0000同时送入列地址和行地址译码器。如果有n个位，就要有n根线接入行列地址译码器。</p>
+<p>如果使用两次传送的方式，就可以如上图所示，第一次将行地址信息存入行地址缓冲器，第二次将列地址信息存入列地址缓冲器，再通过缓冲器向译码器发送数据时，行缓冲器会向行译码器传输0000，而列会也会传输0000，如果有n位地址，那行列译码器只需接n&#x2F;2个线子即可。</p>
+<p><font color=red><strong>使用地址复用技术让行列分两次送，可使地址线更少，芯片引脚更少。</strong></font></p>
+<h2 id="4-只读存储器ROM"><a href="#4-只读存储器ROM" class="headerlink" title="4. 只读存储器ROM"></a>4. 只读存储器ROM</h2><p>ROM芯片就是我们常说的只读存储器，虽然对其的定义为是只读存储器（只可读，不可写），但实际上，随着科技的发展，现在的ROM芯片也支持进行写操作。</p>
+<p>对于各种ROM芯片的了解放在下图，可以结合理解记忆。（这部分可能会在选择题里考察）</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/6618ecc068eb935713525c81.png" alt="计算机组成原理（三）——存储系统——ROM.png">
+
+<p>除了上面的ROM芯片，我们还要说一个比较重要的ROM芯片，那就是BIOS芯片。在前面的RAM芯片里，我们介绍过，主存是采用DRAM芯片制造，作为RAM芯片，那必然逃不掉断电后，芯片内数据的丢失。所以在我们的计算机开机时，主存里没有任何信息，这个时候CPU会从主板上的一块ROM芯片里读取开机指令，而这块存储开机指令的ROM芯片，就是BIOS芯片（BIOS芯片里存储了“自举装入程序”，负责引导装入操作系统，即开机），BIOS芯片会引导主存去辅存里读取操作系统相关信息，将操作系统里的相关数据放到主存里。</p>
+<p>补充一点，虽然BIOS芯片集成在主板上，但逻辑上会把他看成主存的一部分。所以，在接下来的这门课中，如果谈到主存，那应该是ROM+RAM组成的。而且CPU会把二者统一编址，这里举个简单易懂的例子，如果ROM芯片的大小是1KB，那ROM芯片的地址是0~1023，而RAM芯片会从1024开始编址。</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/6618edb768eb935713543094.png" alt="计算机组成原理（三）——存储系统——ROM-BIOS.png">
+
+<p>下面是关于ROM的总结，贴在这里方便有个宏观的概念。</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/6618f20268eb9357135b5808.png" alt="计算机组成原理（三）——存储系统——ROM小结.png">
+
+<h2 id="5-双端口RAM和多模块存储"><a href="#5-双端口RAM和多模块存储" class="headerlink" title="5. 双端口RAM和多模块存储"></a>5. 双端口RAM和多模块存储</h2><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/661e4faf0ea9cb14035fd619.png" alt="计算机组成原理（三）——存储系统——CPU存储周期.png">
+
+<p>在1.3里，我们有了解过存储器的性能指标中存取周期一概念，如上图。而在3.SRAM和DRAM里，又可以知道，DRAM芯片是以栅极电容作为电路中的存储元件，常用来做主存，数据读取时是破坏性读取，每次读取完还需要一个恢复时间。所以对于DRAM芯片来说，存取周期中的恢复时间比较长，有可能是存取时间的几倍。</p>
+<p>但如今的设备大多具备多核CPU，如果按照这样的访问情况进行访问的话，第一个CPU访问完以后，第二个CPU依然要等待存取周期才能进行访问。这样就大大浪费了CPU资源。</p>
+<p>除此以外，CPU的读写速度比主存快的多，如果主存恢复时间很长，CPU只能等待，这样会导致主存读取效率很低。</p>
+<p>为了解决上面所说的两个问题，我们可以引入双端口RAM来解决第一个问题，使用多模块存储器来处理第二个问题。</p>
+<h3 id="5-1-双端口RAM"><a href="#5-1-双端口RAM" class="headerlink" title="5.1 双端口RAM"></a>5.1 双端口RAM</h3><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/661e52d90ea9cb1403655d13.png" alt="计算机组成原理（三）——存储系统——双端口RAM.png">
+
+<p>双端口RAM会出现写入错误和读出错误，如上图3,4两条，出现这种情况时，双端口RAM的控制电路会置忙信号，这时由判断逻辑决定关闭哪边端口，留哪边端口进行正常访问。</p>
+<h3 id="5-2-多模块存储器"><a href="#5-2-多模块存储器" class="headerlink" title="5.2 多模块存储器"></a>5.2 多模块存储器</h3><p>多模块存储器是一种空间并行技术，利用多个结构完全相同的存储模块并行工作来提高存储器的吞吐效率。常用的有单体多字存储器和多体低位交叉存储器。</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/661e53ec0ea9cb1403673d8b.png" alt="计算机组成原理（三）——存储系统——多模块存储器.png">
+
+<p><strong>这里着重说一下多体并行存储器，这是考研的重点。</strong></p>
+<p>多体并行存储器由多体模块组成，每个模块都有相同的容量和存取速度，各模块都有独立读&#x2F;写控制电路、地址寄存器和数据寄存器。如下图，下图是由4个存储器构成的多体并行存储器。</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/661e55140ea9cb1403694b7b.png" alt="计算机组成原理（三）——存储系统——多体并行存储.png">
+
+<p>多体并行存储器分为高位交叉编址的多体存储器（上图左）和低位交叉编址的多体存储器（上图右）。</p>
+<p><font color=red><strong>高位交叉编址的多体存储器的高位地址表示模块号（或体号），低位地址为存储体的内地址。</strong></font></p>
+<p><font color=red><strong>低位交叉编址的多体存储器的低位地址表示模块号（或体号），高位地址为存储体的内地址。</strong></font></p>
+<p>假设每个存储体有8个单元，那么对应的高位交叉编址和低位交叉编址的编址序号分别如上图左右所示。</p>
+<p>现在假设每个存储体存取周期为T，存取时间为r，假设T&#x3D;4r，如果连续读取00000~00100。在高位交叉编址中，由于这些数据全部存储在一个存储体里，所以每次读取都要经过一个存取周期T，所以读完5个数据要5T（这里算上了最后一次读取恢复时间，如果不算的话其实只有4T+r）。在低位交叉编址中，由于这些数据分开存储在不同的存储体里，所以每次读取互不干扰，而且读完4个数据以后，第一个存储体存取时间结束可以二次读取，所以对于上面所示的低位交叉编址的多体存储器读完5个数据只要T+4r（这里算上了最后一次读取恢复时间，如果不算的话就是5r），进一步我们可以把其扩展为连续存取n个存储字，则耗时T+(n-1)r。从这里就可以看出，当进行连续数据的读取时，低位交叉编址的读取时间要高于高位交叉编址。</p>
+<p>由于低位交叉编址的优越性，我们生活中，也常采用此编址方式进行主存设计。</p>
+<p>接下里，要讨论一下另一个重点问题，那就是在多位并行存储器里，存储体的个数如何确定？</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/661e5b690ea9cb1403765805.png" alt="计算机组成原理（三）——存储系统——存储体个数.png">
+
+<p>假设存储体个数为m，存取周期为T，存取时间为r。当m&lt;T&#x2F;r时，仍会出现CPU等待的情况；当m&gt;T&#x2F;r时，会出现存储体闲置的情况；当m&#x3D;T&#x2F;r时，资源利用率最高；所以，最优的方法是选择第三种。（这里我直接说结论，具体过程联系图示理解，感觉这部分不难，就速速过一下，有问题跳转：<a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1ps4y1d73V?p=35&vd_source=7fb4b255ed876969a742738d7b84f461">双端口RAM和多模块存储</a>）。</p>
+<h2 id="6-主存储器与CPU的连接"><a href="#6-主存储器与CPU的连接" class="headerlink" title="6. 主存储器与CPU的连接"></a>6. 主存储器与CPU的连接</h2><p>在2.主存储器基本组成中，我们有学过存储器芯片的基本原理，不过在我们学习的时候，多是些8k×8位的芯片，这对于我们如今的64位机器来说，是远远不够的，所以在这部分我们需要了解一下，主存储器与CPU之间如何通过字扩展或位扩展的方式来实现主CPU的连接。（这部分的知识点比较重要，建议还是联合视频一起学习：<a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1ps4y1d73V?p=36&vd_source=7fb4b255ed876969a742738d7b84f461">主存储器与CPU连接</a>）</p>
+<h3 id="6-1-位扩展"><a href="#6-1-位扩展" class="headerlink" title="6.1 位扩展"></a>6.1 位扩展</h3><p>当数据总线长度&gt;存储器芯片字长时，我们就需要通过位扩展的方式，来实现存储器字长与总线长度的一致。</p>
+<p>补充一点，我们在前面介绍的时候将MAR和MDR划分在存储器芯片里，但现在的计算机都是把MAR和MDR划分到CPU内部，而原本我们说的存储器里的MAR和MDR的位置，就变成普通的寄存器（可以参考2.2存储器基本原理的结构图）。</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/661e5f400ea9cb14037d1a53.png" alt="计算机组成原理（三）——存储系统——位扩展.png">
+
+<p>上图是存储字长的位扩展方式，我们将两个8k×1位的芯片串联，就可以实现如图的数据位拓展，另外，由于是字扩展，所以对于两个芯片的地址线及片选信号都应该是一样的（说白了就可以理解成在一个芯片上多焊了个引脚用来接通CPU上的第二位数据位）。</p>
+<h3 id="6-2-字扩展"><a href="#6-2-字扩展" class="headerlink" title="6.2 字扩展"></a>6.2 字扩展</h3><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/661e609b0ea9cb14037fe7b6.png" alt="计算机组成原理（三）——存储系统——字扩展线选法.png">
+
+<p>如上图是字拓展方式，两个芯片的数据位一样，但是在地址总线处，通过对片选信号CS的选取，决定哪个芯片用来存取信息。如上图这种，<strong>通过使用不同地址总线来确定不同芯片的方式叫线选法</strong>。</p>
+<p>在这张使用线选法进行字拓展的图中，第一个芯片的地址范围为010 0000 0000 0000<del>011 1111 1111 1111，第二个芯片的地址范围为100 0000 0000 0000</del>101 1111 1111 1111。通过比对我们发现，开头为00和11的两种地址类型没有任何作用，这也意味着这两种地址被浪费，对此，我们可以通过添加门电路进行如下图的优化：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/661e62730ea9cb140383eaeb.png" alt="计算机组成原理（三）——存储系统——译码片选法.png">
+
+<p>在这里，我们将上面所说的线选法进行优化，使用一个取反门电路来让1个地址线同时控制两个芯片。这时我们在看两个芯片的地址时，就可以看到没有地址被浪费。而这里的取反电路设计也就是我们1-2译码器的前身。</p>
+<p>这里我们就需要学会将译码器的内容与片选信号进行连通，使用合适的译码器可以将有限的地址线进行级数般的扩大，从而可以产生更多的片选信号控制更多的存储芯片。</p>
+<h3 id="6-3-位、字同时扩展"><a href="#6-3-位、字同时扩展" class="headerlink" title="6.3 位、字同时扩展"></a>6.3 位、字同时扩展</h3><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/661e646e0ea9cb14038827dd.png" alt="计算机组成原理（三）——存储系统——字位同时拓展.png">
+
+<h3 id="6-4-译码器"><a href="#6-4-译码器" class="headerlink" title="6.4 译码器"></a>6.4 译码器</h3><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/661e64c20ea9cb1403883cde.png" alt="计算机组成原理（三）——存储系统——译码器.png">
+
+<p>这里补充一下译码器的相关知识，译码器就是将地址线进行编码转换的元器件，这里我贴了一张图，主要是想记录一下74LS138芯片的结构（这个芯片很容易被考到），在74ls138芯片里，只有当G<sub>1</sub>G<sub>2A</sub>G<sub>2b</sub>&#x3D;100时，芯片才能使能。而实际上也常通过这种原理，来控制片选信号生效时间。</p>
+<h2 id="7-外部存储器"><a href="#7-外部存储器" class="headerlink" title="7. 外部存储器"></a>7. 外部存储器</h2><h3 id="7-1-磁盘存储器"><a href="#7-1-磁盘存储器" class="headerlink" title="7.1 磁盘存储器"></a>7.1 磁盘存储器</h3><h4 id="7-1-1-磁盘存储器工作原理"><a href="#7-1-1-磁盘存储器工作原理" class="headerlink" title="7.1.1 磁盘存储器工作原理"></a>7.1.1 磁盘存储器工作原理</h4><p>计算机的外存储器又称为辅助存储器，目前主要使用磁表面存储器。磁表面存储器介绍如下：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/6621158c0ea9cb14036a7c3c.png" alt="计算机组成原理（三）——存储系统——磁表面存储.png">
+
+<p>如上图为磁表面存储器的工作原理，当我们在写线圈上添加不同方向的电流时，会使铁芯两头产生不同磁性，进而影响携带磁性的磁层。例如写1时，对写线圈添加向里的电流，这时假设铁芯两头产生磁极为N-S，就会在磁层上写上N-S；同理，写0时，对写线圈添加向外的电流，这时铁芯两头产生磁极就相反为S-N，就会在磁层上写上S-N。当带有磁性的磁层从铁芯处经过，会产生电流，读线圈根据产生的电流方向，判断1,0。</p>
+<p>从工作过程就可以知道，使用磁表面存储，不能同时进行读写操作。另外，由于磁表面存储器是通过磁性来存储0,1，如果将磁表面存储器放到强磁场里会导致数据丢失，所以磁表面存储器对工作环境要求较高。</p>
+<p>到这里，我们就已经了解了磁盘最底层的工作原理。</p>
+<p>接下来就可以了解磁盘存储器了。</p>
+<h4 id="7-1-2-磁盘存储器组成"><a href="#7-1-2-磁盘存储器组成" class="headerlink" title="7.1.2 磁盘存储器组成"></a>7.1.2 磁盘存储器组成</h4><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/6622715b0ea9cb1403bc6aa7.png" alt="计算机组成原理（三）——存储系统——磁盘设备组成.png">
+
+<p>上图是磁盘设备的组成，从上图左可以看到一个内部组成，中间有驱动轴，安装马达，带动磁盘旋转。在驱动轴上会有很多盘片，这些盘片表层就涂有前面所说的磁性材质，注意这些磁性材质是一圈一圈涂得。侧边安装有磁头移动臂，可以将磁头移动到磁圈上，让盘片旋转，使磁圈从磁头下方经过，就可以进行读&#x2F;写操作。</p>
+<p>上图右是背面，里面有电路元件，这些电路元件就是磁盘控制器。</p>
+<p>我们可以把左边的称为机械部分，右边的称为电子部分。</p>
+<p>接下里对磁盘设备里的存储区域以及硬盘存储器进行介绍：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/662273010ea9cb1403bfd024.png" alt="计算机组成原理（三）——存储系统——磁盘设备组成1.png">
+
+<p>这里提一点，我们在上面说到磁头数的概念，如下图，在设计时，为了节省资源，提高利用率，会在盘片两面都涂上磁道，安装两个磁头，分别对磁盘的下表面，上表面进行读写。注意，在最上面和最下面的盘片，并没有制造单向磁头对其上面和下面读写，因为这样做成本较高，不太划算。</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/6622737c0ea9cb1403c0d736.png" alt="计算机组成原理（三）——存储系统——磁盘盘片设计.png">
+
+<h4 id="7-1-3-磁盘存储器性能指标"><a href="#7-1-3-磁盘存储器性能指标" class="headerlink" title="7.1.3 磁盘存储器性能指标"></a>7.1.3 磁盘存储器性能指标</h4><h5 id="7-1-3-1-磁盘容量"><a href="#7-1-3-1-磁盘容量" class="headerlink" title="7.1.3.1 磁盘容量"></a>7.1.3.1 磁盘容量</h5><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/662274bd0ea9cb1403c3773d.png" alt="计算机组成原理（三）——存储系统——磁盘容量.png">
+
+<p>磁盘容量就是一个磁盘所能存储字节的总数。</p>
+<p>但是磁盘容量有格式化和非格式化之分。</p>
+<p>这里对格式化容量和非格式化容量进行一个补充：</p>
+<p><strong>格式化容量</strong>：</p>
+<p>格式化容量是指磁盘和光盘存储器能提供给用户存储数据的容量。它用字节数来表示。格式化容量是用户实际能存储数据的容量，是在磁盘进行格式化操作后所得到的可用存储空间。在存储数据之前，不论是硬磁盘、软磁盘还是光盘，都需要进行格式化，格式化会占用一定的存储空间，因此格式化容量通常会比非格式化容量小10%～20%。格式化容量的计算方式一般为：格式化容量&#x3D;扇区字节数×每道扇区数×每面磁道数×面数。</p>
+<p><strong>非格式化容量</strong>：</p>
+<p>非格式化容量，也被称为磁盘的原始容量或名义容量，是指磁盘或光盘在未经格式化处理之前，理论上所具有的存储二进制数据的总容量。这个容量是以指定的（通常是允许最大的）位密度把所有磁盘磁道或光盘轨道都写满时的存储容量。例如，一个硬盘标记可以存储500G数据，这就是其非格式化容量。然而，在实际使用中，由于磁盘上总会存在一些不可读或损坏的扇区，因此实际能存储的数据量会小于这个数值。</p>
+<p>总结来说，格式化容量是用户实际可以使用的存储空间，而非格式化容量则是磁盘在理论上的最大存储容量。</p>
+<h5 id="7-1-3-2-记录密度"><a href="#7-1-3-2-记录密度" class="headerlink" title="7.1.3.2 记录密度"></a>7.1.3.2 记录密度</h5><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/6622769b0ea9cb1403c73794.png" alt="计算机组成原理（三）——存储系统——记录密度.png">
+
+<p>这里注意道密度、位密度、面密度相关概念和计算。</p>
+<p>另外说一个易错点，磁盘上所有磁道记录信息量是相等的，并不是最外层的信息量大，而最内层的信息量小。他们的差别在位密度上，外层位密度小，内层位密度大。</p>
+<h5 id="7-1-3-3-平均存取时间（考研常考）"><a href="#7-1-3-3-平均存取时间（考研常考）" class="headerlink" title="7.1.3.3 平均存取时间（考研常考）"></a>7.1.3.3 平均存取时间（考研常考）</h5><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/662278320ea9cb1403ca87fb.png" alt="计算机组成原理（三）——存储系统——平均存取时间.png">
+
+<p>磁盘有马达带着运动，每次读写的单位是以扇区为单位。如上图，假设要对图中红色部分进行读写操作，要先让磁头移动，寻找到要读扇区所在磁道，移动磁头的时间称为寻道时间。接下来要让磁盘旋转，将要读扇区划到磁头位置，这个旋转所要的时间称为旋转延迟时间。接下来还要继续旋转磁盘，使目标扇区从磁头下方划过，这段时间称为传输时间。</p>
+<p>注意，旋转延迟时间，如果题目未给，或无法求的时候，可以采用转半圈所用的时间。因为要读扇区在任何一个位置是相等的。从期望来看，要想让所读扇区划到磁头臂之下，期望时间就是转半圈所需时间。</p>
+<p>另外，给磁盘发出读写命令也需要一段时间，所以有的题目可能会让加磁盘控制器延迟的时间。</p>
+<h5 id="7-1-3-4-数据传输率"><a href="#7-1-3-4-数据传输率" class="headerlink" title="7.1.3.4 数据传输率"></a>7.1.3.4 数据传输率</h5><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/662278c50ea9cb1403cbae65.png" alt="计算机组成原理（三）——存储系统——数据传输率.png">
+
+<h4 id="7-1-4-磁盘地址"><a href="#7-1-4-磁盘地址" class="headerlink" title="7.1.4 磁盘地址"></a>7.1.4 磁盘地址</h4><p>既然知道了工作过程，就应该思考，主机如何知道自己想要操作的是哪个扇区？</p>
+<p>为了指明是哪个扇区，一般会给磁盘里的扇区进行编号。</p>
+<p>如下为磁盘地址的编号格式，主机通过对磁盘地址格式的解析就可以知道自己要找的是哪个扇区。</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/662279020ea9cb1403ce41c9.png" alt="计算机组成原理（三）——存储系统——磁盘地址.png">
+
+<h4 id="7-1-5-硬盘的工作过程"><a href="#7-1-5-硬盘的工作过程" class="headerlink" title="7.1.5 硬盘的工作过程"></a>7.1.5 硬盘的工作过程</h4><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/662279790ea9cb1403cf4e9b.png" alt="计算机组成原理（三）——存储系统——硬盘的工作过程.png">
+
+<p>因为磁盘读写操作是串行的，每次只能读写1个bit，所以对磁盘的控制器来说一定要添加串并行交换电路。主机可能会给磁盘发送并行的数据，即一次发送多个位，这时候需要一个并-串交换电路，将主机发来的并行数据转换为磁盘能识别的串行数据。另外，还需哟添加一个串-并行电路，将磁盘发送的串行数据转换为主机能识别的并行数据。</p>
+<p>通过分析，就可以知道磁盘的设计结构如下图：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/66227e670ea9cb1403da5c92.png" alt="计算机组成原理（三）——存储系统——磁盘设计结构.png">
+
+<h4 id="7-1-6-磁盘阵列"><a href="#7-1-6-磁盘阵列" class="headerlink" title="7.1.6 磁盘阵列"></a>7.1.6 磁盘阵列</h4><p>磁盘阵列（RAID）就是将多个独立的物理磁盘组成一个独立的逻辑盘，使用分割交叉存储等方式，来更好的存储数据，保护数据。</p>
+<p>RAID的几种存储方案如下图，这里给出了RAID0和RAID1的方案介绍，但具体的大家可以自己了解一下。</p>
+<p>因为这部分王道里也没说的很具体，只对了RAID0~RAID2的内容进行了介绍，所以我推荐大家自己去找点资料学习，不过我也有找一下，这里可以推一下我找的资料以及这节视频：</p>
+<p>csdn：<a target="_blank" rel="noopener" href="https://blog.csdn.net/lolloli/article/details/121669019?ops_request_misc=%257B%2522request%255Fid%2522%253A%2522171353710916800213063722%2522%252C%2522scm%2522%253A%252220140713.130102334..%2522%257D&request_id=171353710916800213063722&biz_id=0&utm_medium=distribute.pc_search_result.none-task-blog-2~all~top_positive~default-1-121669019-null-null.142%5Ev100%5Epc_search_result_base5&utm_term=%E7%A3%81%E7%9B%98%E9%98%B5%E5%88%97&spm=1018.2226.3001.4187">磁盘阵列详解</a> </p>
+<p>王道课程（28分钟~35分钟）：<a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1ps4y1d73V/?p=37&spm_id_from=pageDriver&vd_source=7fb4b255ed876969a742738d7b84f461">磁盘存储器</a></p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/662279be0ea9cb1403cfd15f.png" alt="计算机组成原理（三）——存储系统——磁盘阵列.png">
+
+<h4 id="7-1-7-磁盘存储器小结"><a href="#7-1-7-磁盘存储器小结" class="headerlink" title="7.1.7 磁盘存储器小结"></a>7.1.7 磁盘存储器小结</h4><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/662279e70ea9cb1403d01e91.png" alt="计算机组成原理（三）——存储系统——磁盘存储器小结.png">
+
+<h3 id="7-2-固态硬盘"><a href="#7-2-固态硬盘" class="headerlink" title="7.2 固态硬盘"></a>7.2 固态硬盘</h3><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/6623651f0ea9cb140360c295.png" alt="计算机组成原理（三）——存储系统——固态硬盘与机械硬盘.png">
+
+<p>这部分介绍固态硬盘（上图右），从上图中不难看到，固态硬盘相较于机械硬盘，它的电路设计更为复杂，但是机械设计却也变的简单。</p>
+<p>这里，将固态硬盘的所有考点总结到如下的图中：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/662365010ea9cb1403607e3f.png" alt="计算机组成原理（三）——存储系统——固态硬盘.png">
+
+<p>接下来，通过下面这张硬盘结构图对知识点做个相关解释：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/662365ce0ea9cb140362370b.png" alt="计算机组成原理（三）——存储系统——固态硬盘组成.png">
+
+<p>(1) 固态硬盘组成由闪存翻译层和存储介质组成。从上图可以看到，存储介质就是多块闪存芯片，每个芯片由多个块组成，每个块又由多个页组成。闪存翻译层的作用就是将总线传输的逻辑块号，转换成要寻找的页地址。所以，系统的读写是以页为单位的。到这里我们就可以知道，系统读写机械硬盘时，是以扇区为单位，通过找磁道定位扇区进行读写。那么在固态硬盘里，每个块对应的就是机械硬盘里的磁道，每个页对应的就是机械硬盘里的扇区。</p>
+<p>(2) 在知识点里，我们看到，固态硬盘<font color=red><strong>以页为读写单位</strong></font>，但是<font color=red><strong>以块为擦除单位</strong></font>。这里说下固态硬盘的擦除。假设之前我们已经在闪存芯片1里的块1里的页0和页1处写上了数据，现在又想在页0写数据，这样的操作是不允许的，只有先将块1内的所有页上数据全部擦除，才能再继续在页0处写数据。</p>
+<p>现在又产生了一个新的问题，想在闪存芯片1里的块1里的页0处写数据，但是页1和页2处也有数据，如果擦除的话，会把页1和页2的数据也擦掉，这样会导致页1和页2的数据丢失。为了防止数据的丢失，固态硬盘在进行擦除前，会把页1和页2的数据复制到另一块闪存芯片对应的位置，如将闪存芯片1里的块1里的页1和页2处的数据复制到闪存芯片2里的块1里的页1和页2处，然后把想要写到闪存芯片1里的块1里的页0处的数据，写到闪存芯片2里的块1里的页0处。然后把闪存芯片1里的块1数据擦除。这样会保证其他页的数据不会丢失。</p>
+<p>这样数据丢失问题解决了，但是产生了新的问题，原本闪存翻译块将逻辑块号映射到了闪存芯片1里的块1处，但是现在这个逻辑块对应的数据被移动到了闪存芯片2里。为了保证逻辑块地址映射的正确，闪存翻译层会把这些逻辑块号重新进行映射，映射到新的位置，而原有的映射就会被舍弃。所以对一个固态硬盘来说，逻辑块号映射的实际物理地址可能会发生改变，只不过闪存翻译层会将映射关系修改正确。</p>
+<p>所以，可以总结出来，固态硬盘写的操作要比读的操作慢上很多，因为其中还会牵扯到擦除的动作。</p>
+<p>(3) 固态硬盘的扇区会因为擦除次数过多而坏掉，所以固态硬盘会有选择的将擦除动作平均分配到每一个块上，以提升使用寿命。这里面就又牵扯到了擦除的两种技术——动态磨损均衡和静态磨损均衡。</p>
+<p>动态磨损均衡：写入数据时，优先选择累计擦除次数少的新闪存快。</p>
+<p>静态磨损均衡：让老旧的闪存块承担以读为主的存储任务，让较新的闪存快承担更多的写任务。</p>
+<p>这里给出一个理想固态硬盘寿命的计算，从计算可以看到，SSD的寿命很长，所以一块固态保护好的话，可以一直用很久。</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/66236c760ea9cb140371c542.png" alt="计算机组成原理（三）——存储系统——固态硬盘寿命.png">
+
+<h2 id="8-cache层"><a href="#8-cache层" class="headerlink" title="8. cache层"></a>8. cache层</h2><h3 id="8-1-cache的基本原理和概念"><a href="#8-1-cache的基本原理和概念" class="headerlink" title="8.1 cache的基本原理和概念"></a>8.1 cache的基本原理和概念</h3><p>在前面讲过，使用双端口RAM和多模块存储器的工作速度虽然有所提升，但与CPU差距仍然很大，为此，设计更高速的存储单元Cache。在与主存相同的价格下，cache的成本更高，但相应的cache所使用的是双稳态触发器，集成度较低，存储容量会有所下降。</p>
+<h4 id="8-1-1-cache工作原理"><a href="#8-1-1-cache工作原理" class="headerlink" title="8.1.1 cache工作原理"></a>8.1.1 cache工作原理</h4><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/662372d30ea9cb1403806c2f.png" alt="计算机组成原理（三）——存储系统——cache工作原理.png">
+
+<p>假设辅存里安装了许多软件（包括微信等），现在要启动微信，会把微信相关的指令、程序代码等调入内存，这里包含着文字聊天、视频聊天、朋友圈等功能。这时候如果CPU从内存里读取一条一条指令，显然，CPU的读取速度很快，而内存的读取速度很慢，这就导致CPU的读取速率会被内存所拖累，所以要想办法尽可能高的提升CPU从内存里读取的速度。</p>
+<p>现在再假设，如果现在只运行微信的视频聊天时，大概率就只会使用微信的视频聊天相关的功能代码，那就可以将微信里有关视频聊天的先关代码指令复制到一个更高速的cache当中，这时候CPU就可以直接从cache里读取视频聊天相关的指令数据。而cache的读写速度比内存快很多，这样就可以缓解CPU和内存的读写速度矛盾。</p>
+<p>所以，现在很多设备都将cache集成在CPU上。</p>
+<p>这里，会有一个疑问，上面举的例子是一个很理想的场景，就是使用微信的视频聊天，那使用别的程序，在某一段时间内，CPU是不是也只会访问到程序的某一段数据？这个问题可以通过程序的局部性原理来解释。</p>
+<h4 id="8-1-2-程序的局部性原理"><a href="#8-1-2-程序的局部性原理" class="headerlink" title="8.1.2 程序的局部性原理"></a>8.1.2 程序的局部性原理</h4><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/662375f30ea9cb14038807b5.png" alt="计算机组成原理（三）——存储系统——局部性原理.png">
+
+<p>假设定义一个int类型的二维数组，那么它在存储空间里是按照行优先的顺序存储的，这个时候通过行优先的循环方式可以看到，频繁调用了for循环指令与加法指令，而这些程序数据在空间上是依次排列的，所有存在空间局部性；而因为for循环的存在，加法指令在未来也会被调用到，所以在时间上也存在局部性。</p>
+<p>但是对于程序B来说，因为它按照列优先的循环方式进行访问，而数据存储按照行优先存储，这就导致B访问的数据地址不连续，所以B在空间上的局部性相对于A更差，同样，访问时间也要更久。</p>
+<h4 id="8-1-3-cache性能分析"><a href="#8-1-3-cache性能分析" class="headerlink" title="8.1.3 cache性能分析"></a>8.1.3 cache性能分析</h4><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/662385090ea9cb1403b0b7e1.png" alt="计算机组成原理（三）——存储系统——cache性能.png">
+
+<p>cache性能主要是一个命中率的问题，而根据CPU是先访问cache再访问主存和同时访问主存两种情况，可以分别得出两种命中率求法。具体情况要根据题目分析。</p>
+<p>这里给一道例题：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/662385a00ea9cb1403b238cb.png" alt="计算机组成原理（三）——存储系统——cache性能例题.png">
+
+<h4 id="8-1-4-cache复制数据的范围界定方式"><a href="#8-1-4-cache复制数据的范围界定方式" class="headerlink" title="8.1.4 cache复制数据的范围界定方式"></a>8.1.4 cache复制数据的范围界定方式</h4><p>在8.1.1和8.1.2里说了，cache去存储内存里某段功能的相关程序指令，然后供CPU读写。那如何界定cache要从主存里复制数据的范围呢？</p>
+<p>下面给出了解决方法：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/662386a90ea9cb1403b51dcd.png" alt="计算机组成原理（三）——存储系统——cache存取主存数据.png">
+
+<p>将主存与cache进行以块为单位的数据交换，即可界定cache所要复制主存指令的范围。</p>
+<p>说的通俗一点，假设cache一共可以存储8KB数据，主存可以存储4MB数据。在cache里每块（每行）存1KB数据，则cache里可以有8个块；而主存可以存储4MB，即2<sup>22</sup>个字节，这样可知道主存地址一共22位，但是为保证主存的块能与cache的块发生无错交换，这就要求<font color=green><strong>cache的块内地址位数与主存的块内地址位数相同</strong></font>，即都是1KB&#x3D;2<sup>10</sup>B。所以可以将主存地址划分为如图的块号和块内地址，块号12位，块内地址10位。而块号的最大数是1111 1111 1111&#x3D;4096，也就是说将主存划分为4096个块。那cache与主存进行交换时，就是将主存内的某个块的数据，放到cache的块里。</p>
+<p>了解到这里，就产生发现新的问题：</p>
+<p>(1) 如何区分cache与主存的数据块对应关系（就是主存的块要放到cache的哪个块里）。</p>
+<p>(2) Cache的范围很小，主存却很大，如果cache满了，主存再次将块放入cache里时应该怎么放？</p>
+<p>(3) CPU修改了Cache中的数据副本，如何确保主存中数据母本的一致性（即CPU写数据时，把cache块里的数据修改了，主存里对应的块内数据怎么处理）？</p>
+<p>下面就对这三个问题进行讨论。</p>
+<h3 id="8-2-Cache和主存的映射方式"><a href="#8-2-Cache和主存的映射方式" class="headerlink" title="8.2 Cache和主存的映射方式"></a>8.2 Cache和主存的映射方式</h3><p>第一个问题，如何区分cache与主存的数据块对应关系（就是主存的块要放到cache的哪个块里）？这就需要设计Cache和主存之间的映射方式。</p>
+<p>而Cache和主存之间的映射方式总共有三种：全相联映射、直接映射、组相连映射。具体介绍如下图：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/66238c7b0ea9cb1403c18168.png" alt="计算机组成原理（三）——存储系统——cache-主存的映射.png">
+
+<p>在上面对三种方式的介绍中，很容易发现一个问题，就是如何确定Cache块里存放的是主存当中的哪个块内数据？故此，需要在Cache前面加上一个<font color=red><strong>标记号</strong></font>，标记内记录主存块的块号，表示着当前cache块内存放的对应主存块。但是仅加一个标记号还不行，因为计算机里存储的数据都是以二进制的方式存储，只能写0或1，所以初始值都是0，这样就会出现一种情况，如果cache里存储的是主存块0内的数据，那标记就为0，但是标记初始化时就是0，这个时候如何确地0是对应的主存块地址，而不是初始值呢？所以还需要添加一个<font color=red><strong>有效位</strong></font>，如果该cache块内存储了数据，就将有效位记位1，反之记为0，这样就可以对0和初始值进行区分了。</p>
+<h4 id="8-2-1-全相联映射的实现"><a href="#8-2-1-全相联映射的实现" class="headerlink" title="8.2.1 全相联映射的实现"></a>8.2.1 全相联映射的实现</h4><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/6623909d0ea9cb1403cadeaa.png" alt="计算机组成原理（三）——存储系统——全相联映射.png">
+
+<p>使用全相联映射，即将主存块随便放入cache中，在上图例子里，设定主机位256MB，cache块长64B，所以可以确定主存有22位块号，6位块内地址，对应的cache的标记号也是22位。因为这是全相联，有随便存放的性质，所以cache标记有22位。但是下面两种，在同样的条件下，标记长度却不一样，所以这个地方要着重理解一下各种映射方式的标记长度。</p>
+<h4 id="8-2-2-直接映射"><a href="#8-2-2-直接映射" class="headerlink" title="8.2.2 直接映射"></a>8.2.2 直接映射</h4><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/6623911d0ea9cb1403cba103.png">
+
+<p>在直接映射里，需要通过取余操作来确定主存块在cache里的存放位置，这样就会产生一个问题，那就是当前主存块对应存放的cache块内已有数据，而cache块还有其它空闲块，但是主存块无法使用，只能将数据覆盖到当前有数据的块。如将主存0号块存放到cache的0号块里，再存放主存8号块时，通过直接映射的方式只能将主存8号块存放到cache0号块里，而不能存放到别的空闲块，这也是直接映射的弊端。</p>
+<p>另外，可以发现，在直接映射的方案里，cache的标记位只有19位。这是因为，我们在直接映射里，通过取模运算得到主存块号对应的cache存放块号。在这个过程中可以发现，cache的总块数为8，即2<sup>3</sup>。用主存块号%2<sup>3</sup>，相当于留下最后三位二进制数，而这三位二进制数就可以直接对应cache内的块号，所以我们可以将22位标记位的最后三位去掉，这样就可以将标记位缩为19位，即只存储主存块号的前19位，而cache块号则对应主存块号的后3位。</p>
+<p>这里，我们可以将其进行推广，即若Cache总块数&#x3D;2<sup>2</sup>，则主存块号末尾n位直接反映它在cache中的位置，而主存块号的其余位作为标记位。</p>
+<h4 id="8-2-3-组相联映射"><a href="#8-2-3-组相联映射" class="headerlink" title="8.2.3 组相联映射"></a>8.2.3 组相联映射</h4><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/6623913f0ea9cb1403cbd2a5.png" alt="计算机组成原理（三）——存储系统——组相连映射.png">
+
+<p>在这里，可以看到标记位只有20位，原理与直接相连同理，根据分组数，可以把主存块号的后两位当做组号，只保留前20位作为标记位。</p>
+<h4 id="8-2-4-cache-主存映射小结"><a href="#8-2-4-cache-主存映射小结" class="headerlink" title="8.2.4 cache-主存映射小结"></a>8.2.4 cache-主存映射小结</h4><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/6623964d0ea9cb1403d7268b.png" alt="计算机组成原理（三）——存储系统——映射小结.png">
+
+<h3 id="8-3-Cache替换算法"><a href="#8-3-Cache替换算法" class="headerlink" title="8.3 Cache替换算法"></a>8.3 Cache替换算法</h3><p>接下里，第二个问题，Cache的范围很小，主存却很大，如果cache满了，主存再次将块放入cache里时应该怎么放？这里就牵扯到了Cache的替换算法。</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/662396d90ea9cb1403d80b05.png" alt="计算机组成原理（三）——存储系统——cache替换算法总览.png">
+
+<p>对于上面三种映射方式，它们需不需要替换算法，以及替换时机，如上图所示。在直接映射里，每个主存块都只有对应的1个cache块，所以无需替换算法，直接覆盖数据即可。而在组相联里，只有分组满了才会进行替换。相较而言，只有全相联映射最为需要替换算法，且用的比较多，所以，这部分以全相联映射为例介绍替换算法。</p>
+<p>替换算法主要有4个，分别是：随机算法（RAND）、先进先出算法（FIFO）、近期最少使用算法（LRU）、最近不经常使用算法（LFU）。</p>
+<h4 id="8-3-1-随机算法（RAND）"><a href="#8-3-1-随机算法（RAND）" class="headerlink" title="8.3.1 随机算法（RAND）"></a>8.3.1 随机算法（RAND）</h4><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/6623981f0ea9cb1403daf055.png" alt="计算机组成原理（三）——存储系统——RAND.png">
+
+<h4 id="8-3-2-先进先出算法（FIFO）"><a href="#8-3-2-先进先出算法（FIFO）" class="headerlink" title="8.3.2 先进先出算法（FIFO）"></a>8.3.2 先进先出算法（FIFO）</h4><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/662398670ea9cb1403dbb41d.png" alt="计算机组成原理（三）——存储系统——FIFO.png">
+
+<h4 id="8-3-3-近期最少使用算法（LRU）"><a href="#8-3-3-近期最少使用算法（LRU）" class="headerlink" title="8.3.3 近期最少使用算法（LRU）"></a>8.3.3 近期最少使用算法（LRU）</h4><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/662399740ea9cb1403de6328.png" alt="计算机组成原理（三）——存储系统——LRU.png">
+
+<p>这种算法需要多加注意，因为这种算法是综合性能最好的一种算法，且因为算法的特殊性，计数器的最大数值是不会超过cache块的总数的，最大为cache块总数-1，这样就不会出现计数器无限增加的情况，且这种方法cache的命中率相对来说还可以，不会出现特别大的问题，所以，这个方法比较常用，考试也乐忠于考，要牢记。</p>
+<h4 id="8-3-4-最不经常使用算法（LFU）"><a href="#8-3-4-最不经常使用算法（LFU）" class="headerlink" title="8.3.4 最不经常使用算法（LFU）"></a>8.3.4 最不经常使用算法（LFU）</h4><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/6623c6c20ea9cb1403518a5c.png" alt="计算机组成原理（三）——存储系统——LFU.png">
+
+<p>在LFU算法里，可能会出现多个计数器最小的行，这个时候可以按行号递增的方式（选择行号低的）选择，也可以按FIFO策略选择。</p>
+<p>此外，LFU看似科学，但实际上并不合理，首先计数器可能会出现很大的情况。其次计数器大，并不代表经常访问，像微信视频聊天，在某次打开以后，就一直运行，导致其计数器一直增大，后来就不再运行了，但是计数器增大到一定地步，如果想要替代就会很难，至少要别的计数器都大于此才可以，这样进行下去，可能会出现某个不常用的程序指令一直占用cache块的问题。</p>
+<h3 id="8-4-Cache写策略"><a href="#8-4-Cache写策略" class="headerlink" title="8.4 Cache写策略"></a>8.4 Cache写策略</h3><p>最后一个问题，CPU修改了Cache中的数据副本，如何确保主存中数据母本的一致性？处理这个问题就需要对使用Cache的写策略。</p>
+<p>对于cache的写入，有两种情况，一种是写命中，一种是写不命中。</p>
+<p>写命中，即CPU要写的地址可以在cache里找到。此时CPU有两种写入法，一是写回法，二是全写法。</p>
+<p>写不命中，即CPU要写的地址不可以在cache里找到。此时CPU有两种执行方法，一是写分配法，二是非写分配法。</p>
+<h4 id="8-4-1-写命中——写回法"><a href="#8-4-1-写命中——写回法" class="headerlink" title="8.4.1 写命中——写回法"></a>8.4.1 写命中——写回法</h4><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/6623c9120ea9cb1403598519.png" alt="计算机组成原理（三）——存储系统——写回法.png">
+
+<p>写回法：当CPU对cache写命中以后，会对cache块内的内容进行修改，被修改过的cache块不会立即写入主存，而是会等此块被换出时才会写会主存。而未被写过的cache块，则不需要写回主存，这样可以节省一部分写回时间。</p>
+<p>由于CPU修改过的Cache块不会立刻写回主存，则可能出现数据不一致的隐患。</p>
+<p>为了区分某个cache块是否被CPU写过，可以通过添加脏位的方式进行辨别，如果脏位为1则说明该cache块被CPU写入；若为0，则没有被写入。</p>
+<h4 id="8-4-2-写命中——全写法"><a href="#8-4-2-写命中——全写法" class="headerlink" title="8.4.2 写命中——全写法"></a>8.4.2 写命中——全写法</h4><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/6623cb160ea9cb1403615b10.png" alt="计算机组成原理（三）——存储系统——全写法.png">
+
+<p>全写法，顾名思义，就是CPU即对Cache写，也对主存写。</p>
+<p>当CPU写命中以后，必须把数据同时写入cache和主存，这样就会导致CPU访存次数增加，虽然数据一致性有了提升，但速度变慢了许多，为此，可以通过写缓冲的方式，提高CPU的写主存速度。</p>
+<p>写缓冲就是在CPU和主存之间添加一个由SRAM芯片实现的FIFO队列（SRAM芯片就是用来做cache的芯片，读写速度很快），CPU将要写入主存的数据写入缓冲队列，然后CPU就可以执行别的事情，写缓冲队列再慢慢将数据写入主存，如果CPU第二次写入数据时，写缓冲队列的队头还没完全写入主存，则将第二次数据入队，等待队头写完再写第二次数据（队列的出队操作）。</p>
+<p>注意，使用写缓冲队列，若CPU频繁写入，会出现写缓冲饱和继而发生阻塞。</p>
+<h4 id="8-4-3-写不命中——写分配法"><a href="#8-4-3-写不命中——写分配法" class="headerlink" title="8.4.3 写不命中——写分配法"></a>8.4.3 写不命中——写分配法</h4><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/6623cd070ea9cb1403661bfe.png" alt="计算机组成原理（三）——存储系统——写分配法.png">
+
+<p>写分配法，当CPU写不命中时，会先将主存里对应的块调入Cache里，然后CPU再对cache里的块进行写操作。此方法经常搭配写回法进行使用。</p>
+<h4 id="8-4-4-写不命中——非写分配法"><a href="#8-4-4-写不命中——非写分配法" class="headerlink" title="8.4.4 写不命中——非写分配法"></a>8.4.4 写不命中——非写分配法</h4><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/6623d09d0ea9cb140370ca34.png" alt="计算机组成原理（三）——存储系统——非写分配法.png">
+
+<p>非写分配法：当CPU不命中时，直接对主存里的块进行写操作。这种方法一般搭配全写法使用。</p>
+<h4 id="8-4-5-多级cache"><a href="#8-4-5-多级cache" class="headerlink" title="8.4.5 多级cache"></a>8.4.5 多级cache</h4><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/6623d15c0ea9cb1403728cb6.png" alt="计算机组成原理（三）——存储系统——多级cache.png">
+
+<p>现代计算机常会采用如上图的多级cache结构，离CPU越近的cache，其读写速度越快，同时容量也越小。</p>
+<p>另外，在前面说过，cache里保存的是主存一部分数据的副本，而更高级的cache保存的也是低级cache中部分数据的副本，因此在各级cache之间也存在数据一致性的问题。所以可以在各级cache之间采用全写法+非写分配法，而在cache和主存之间采用写回法+写分配法。</p>
+<h4 id="8-4-6-写策略总结"><a href="#8-4-6-写策略总结" class="headerlink" title="8.4.6 写策略总结"></a>8.4.6 写策略总结</h4><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/6623d2ad0ea9cb140375f062.png" alt="计算机组成原理（三）——存储系统——写策略总结.png">
+
+<h2 id="9-虚拟存储器"><a href="#9-虚拟存储器" class="headerlink" title="9. 虚拟存储器"></a>9. 虚拟存储器</h2><h3 id="9-1-页式存储器"><a href="#9-1-页式存储器" class="headerlink" title="9.1 页式存储器"></a>9.1 页式存储器</h3><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/6624c38f0ea9cb140318ac37.png" alt="计算机组成原理（三）——存储系统——页式存储.png">
+
+<p>众所周知，辅存的存储容量要远大于主存的存储容量，像我们的手机等，辅存都是128GB起步，而主存只有8GB。在辅存里，会装有许多软件，而这些软件大多都超过1G存储，如果不做任何处理的把某个软件的数据直接调入主存并且连续占用一大片存储空间，这样做先不说在主存里能否找到这么一大片存储空间，即使找到了，对于主存的利用率也很低。</p>
+<p>所以，一般来说，在逻辑上会把一个程序分为大小相等的页（每个页面大小和主存块相同），同cache与主存之间的块交换一样，在辅存和主存之间使用页交换的方式将辅存的数据调入主存。如上图，把一个4KB的程序分为4个大小相等的页，然后将这些页调入主存，这样就可以实现进程在主存里离散式的存储。</p>
+<p>注意，这里有个很重要的点，我们所说的把进程分页，更多指的是逻辑上的划分，而主存和cache之间的分块，更多的是指物理层面上的划分。</p>
+<p>接下里要考虑的就是一个程序被拆分成若干页放到主存里后，这个程序如何执行？</p>
+<p>这里要引入两个很重要的概念：逻辑地址和物理地址。</p>
+<p><strong>逻辑地址（虚地址）：程序员视角看到的地址。</strong></p>
+<p><strong>物理地址（实地址）实际在主存中的地址。</strong></p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/6624c8b00ea9cb1403246ca3.png" alt="计算机组成原理（三）——存储系统——实地址与虚地址.png">
+
+<p>知道了逻辑地址和物理地址的概念以后，就可以接着往下说。</p>
+<p>首先进程的分页对于普通程序员来说是不可见得，一个程序的分页是操作系统做的事情，每一个页面的数据会被离散的放到主存的各个地方。</p>
+<p>而对于程序员来说，自己可以知道自己写的程序所占用的存储空间是多大，进而可以知道存储地址的范围。如上图，程序员打包出一个4KB的程序，可以知道程序的地址范围是0000 0000 0000~1111 1111 1111。如果根据主存块长将这个4KB程序进行划分，就可以将这个程序划分为4个1KB存储页，所以我们可以将这个12位的地址划分为2位逻辑页号+10位页内地址。</p>
+<p>程序员在写程序时是肯定可以知道自己将某个变量定义在了什么地方（即变量的逻辑地址），进而可以使用机器指令来执行操作。但程序员使用机器指令执行操作给的地址码是逻辑地址码，这是程序员视角的。如上图将x存至ACC寄存器，写的地址码是x变量的逻辑地址码0010 0000 0011，这是程序员根据自己对变量定义的所在位置（即程序眼视角）给出的地址码。</p>
+<p>但实际上， 执行指令时，取得是变量x在主存中的物理地址（基于机器视角），即OS在执行指令时，会根据程序员所写逻辑地址的逻辑页号，找到与其对应的主存块号。在上图中，变量x的逻辑地址是00 10 0000 0011，这表示x在编号为0的页，页内地址为10 0000 0011，然而编号为0的页被调入主存块号为2的主存块里，这时x的物理地址就是0000 0000 0010 10 0000 0011。所以机器在在执行指令时，会把程序员所写的逻辑地址，根据逻辑地址号找到与其对应的主存块号，然后去掉逻辑页号，再将主存块号与页内地址拼起来（其实就是找在主存内的映射地址），进而得到该变量的物理地址，然后才执行指令。</p>
+<p>这里补充一下我对逻辑地址的理解，感觉前面讲的不清楚（主要前面是王道视频里说的，感觉不好理解，所以讲下我的理解），逻辑地址在我看来就是程序员写某个软件时，其中相关的各个部分在软件里的位置。举个例子并且用大白话来说，就是程序员在写软件时，定义了一个变量x，x的逻辑地址就是把这个软件看做整体，取x在其中的相对位置为逻辑地址，如这个软件共1KB，那范围就是00 0000 0000~11 1111 1111，而x在这个1KB软件中的位置是00 0000 0010处，那x的逻辑地址就是00 0000 0010。至于映射到主存里是在哪里，逻辑地址几位为逻辑页号，几位为页内地址，这些东西与主存快长有关，而与软件的逻辑地址无关。</p>
+<p>到这里可以探讨第二个问题，知道了程序指令执行时会把逻辑地址转换为物理地址，那中间的转换过程是如何进行的呢？</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/6624f39b0ea9cb140376a97e.png" alt="计算机组成原理（三）——存储系统——页表.png">
+
+<p>将逻辑地址转换为物理地址就牵扯到了页表的建立。CPU执行机器指令时，程序员提供的是逻辑地址，这时CPU需要通过页表将其转换为物理地址。</p>
+<p>页表结构如上图，它的左边是逻辑页号（<strong>逻辑页号通常是按照页面的逻辑顺序进行编号</strong>），右边是对应的主存块号。页表信息是一行一行组成的，每一行读可以称为一个页表项（一个逻辑页号与对应的主存块号）。</p>
+<p>页表数据存储在主存里，所以CPU在获取物理地址时要进行访问主存的操作。</p>
+<p>接下来看下地址变换过程：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/6624f7510ea9cb14037d28f2.png" alt="计算机组成原理（三）——存储系统——地址变换.png">
+
+<p>上图就是地址变换过程，先将逻辑地址拆分为逻辑页号和页内地址。然后将逻辑页号和页表基址寄存器结合，得到主存块号，将主存块号和页内地址拼接起来就是访问的物理地址。得到了物理地址，CPU就会对该地址进行cache和主存的访问，下面就回到了我们前面所学的对cache和主存的访问部分。</p>
+<p>这里对页表基地址进行补充，页表基地址指明了页表在主存中的存放地址，例如页表地址为1058，则表示该程序对应的页表的起始地址为1058。页表每一行长度都是相同的，这里假设页表每一行占4B，这就意味着从1058开始往后取4个字节就是第一个页表项，即指明0号逻辑页面存储在什么位置。</p>
+<p>由于页表数据存储在主存里，CPU每次读取时都要对主存进行访问，这就大大拉低了CPU的执行速度，所以根据cache与主存的方案，我们也可以将近期访问的页表项放入更高速的存储器，这样可以加快地址变换的速度。这就是接下来要说的快表。</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/6624f9730ea9cb140380ff62.png" alt="计算机组成原理（三）——存储系统——快表.png">
+
+<p>在CPU和页表之间也可以添加一个快表，快表可以使用SRAM芯片制造，同cache和主存的访问一样，CPU访问时会先去快表里查找，若未命中再去页表里查找，同时将查找到的页表项复制到快表里。当然快表容量有限，所以快表很容易被存满，存满以后，CPU若未命中再去页表里查找时，仍会把数据复制到快表里，至于替换哪个就涉及到替换算法，这里的原理与前面所说的cache-主存交换相通，另外这部分在操作系统里会用一大章介绍，计组这边只需了解即可，建议去深入理解操作系统第三章的内容。</p>
+<p>下面，我们联系前面cache与主存的部分对CPU执行进程指令进行一个相对完整的知识回顾总结：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/6624fc1e0ea9cb140385c6b2.png" alt="计算机组成原理（三）——存储系统——知识回顾.png">
+
+<h3 id="9-2-虚拟存储器"><a href="#9-2-虚拟存储器" class="headerlink" title="9.2 虚拟存储器"></a>9.2 虚拟存储器</h3><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/6624fcd10ea9cb140386ebc3.png" alt="计算机组成原理（三）——存储系统——虚拟存储系统.png">
+
+<p>众所周知，辅存的容量是要远大于主存的。如上图，微信、微波等应用程序加起来的容量是要大于内存的容量，然而只有4GB的主存却可以运行这么多程序，是因为运行这些程序时，只需要调用部分数据就可以正常使用，至于没有调用的部分，在之后要用到的时候再调入即可，这就是我们所说的虚拟存储系统。在用户看来，它的内存已经远超过4GB大小，因为它可以远超4GB的程序，但实际物理上，只有4GB的运行内存。<strong>用户感知的存储要比实际上的物理存储大，这就是操作系统虚拟性的体现</strong>。</p>
+<p>虚拟存储系统很类似之前所学的把内存数据调入cache，只不过虚拟存储是把辅存里的数据调入主存。</p>
+<p>说到这里，就可以想到之前在cache里所说的范围界定的问题，如何界定在程序运行时要把哪部分辅存里的数据调入主存呢？这里可以结合页式存储器进行探索。</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/66250fe60ea9cb1403ae96db.png" alt="计算机组成原理（三）——存储系统——页式虚拟存储.png">我们可以结合页式存储器与虚拟存储器两种思想，使用页式虚拟存储器。将程序在辅存里的数据分页，然后只调入部分可以满足运行的数据进入主存内，如上图，某程序只用的到0,1两个页面，就可以先把这两个页面放入主存，其它的页面当需要的时候再放到主存，这样可以使主存利用更充分。</p>
+<p>基于这种方式，我们的页表就要进行部分修改。如上图，除了原有的逻辑页号和主存块号外，还添加了外存块号、有效位、访问位和脏位。下面依次介绍一下：</p>
+<p>外存块号：某段数据页在外存里被存放的位置。</p>
+<p>有效位：某页数据是否被调入内存，如果为1说明被调入，为0则没有被调入，这里有效位的作用和前面在cache与主存块里说的一样，为了区分当前主存块号的0是被调入数据在0号块，还是初始化为0。</p>
+<p>访问位：是为了实现页面替换算法添加的属性，类似与cache替换算法，这里页面替换算法解决的是主存和辅存之间存储容量不匹配的问题，至于页面的替换算法在计组里并不重要，仅需了解有这么个东西就可以，但是在操作系统里，这部分会作为第三章的重点进行介绍，所以可以移步操作系统第三章进行学习。这里回到访问位，访问位记录当前一段时间某个块被访问的次数，结合访问位就可以实现按LFU算法，当进行页替换时，可以替换当前访问次数最少的页。</p>
+<p>脏位：这个脏位和cache块的脏位也是同一个意思，当主存里的某些块里数据被修改时，就令脏位为1，当这个块被淘汰以后，就要把块里内容写回辅存。脏位决定着要不要把块里数据写回辅存。</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/6625146c0ea9cb1403b7c36f.png" alt="计算机组成原理（三）——存储系统——存储器层次结构回顾.png">
+
+<p>了解完主存与辅存的数据交换以后，就可以回到最初的存储器层次结构，cache与主存之间的交换由硬件自动完成，解决了速度不匹配的问题；主存和辅存之间的交换由硬件和OS共同完成，解决了存储容量不匹配的问题。</p>
+<p><strong>接下来补充一下段式虚拟存储：</strong></p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/662514a30ea9cb1403b831f4.png" alt="计算机组成原理（三）——存储系统——段式虚拟存储器.png">
+
+<p>页式虚拟存储器把数据拆分成一个一个大小相等的页面。而段式虚拟存储器则是按照功能模块拆分，所拆分出来的分组大小并不一定相同。</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/662515120ea9cb1403b907bc.png" alt="计算机组成原理（三）——存储系统——段式虚拟存储器2.png">
+
+<p>使用段式虚拟存储，虚拟地址就会发生一定的变化，将由段号和段内地址组成。</p>
+<p>同页式存储一样，段式虚拟存储也有自己的段表。段表将由段首址，装入位、段长组成。段首址记录着该段在主存里的起始地址。装入位记录着该段是否装入主存。此外由于分段的每段长度不一样，所以需要给其添加段长项来记录段长。</p>
+<p>另外在上图中大家也会发现，使用段式虚拟存储将不会再对主存分页，而是让主存的每个地址都对应一个字节，这样每个段就可以存放到主存的任何一个地方。而为了实现虚拟地址到物理地址的转换，所以要记录主存当中的起始地址是多少，即段首址。</p>
+<p>既然有页式存储和段式存储，那么就可以把两种结合，得出段页式虚拟存储器。</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/6625172d0ea9cb1403bd2072.png" alt="计算机组成原理（三）——存储系统——段页式虚拟存储器.png">
+
+<p>段页式虚拟存储器就是把某程序按段分完，再把每个段按页分。虚拟地址就由段号+段内页号+页内地址组成。</p>
+<p>写在最后：</p>
+<p>第9部分关于虚拟存储器的相关知识，在计组里并不是重点，仅需了解即可，但这部分知识在操作系统里会着重介绍，所以考408推荐结合操作系统第三章一起学习。</p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="http://bandit-ljC-1.github.io">liujinC</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="http://bandit-ljc-1.github.io/2024/04/10/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86%EF%BC%88%E4%B8%89%EF%BC%89%E2%80%94%E2%80%94%E5%AD%98%E5%82%A8%E7%B3%BB%E7%BB%9F/">http://bandit-ljc-1.github.io/2024/04/10/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86%EF%BC%88%E4%B8%89%EF%BC%89%E2%80%94%E2%80%94%E5%AD%98%E5%82%A8%E7%B3%BB%E7%BB%9F/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://bandit-ljC-1.github.io" target="_blank">无名高手🍭</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/408%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">408学习笔记</a><a class="post-meta__tags" href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86/">计算机组成原理</a></div><div class="post_share"><div class="social-share" data-image="/myphotos/article_cover/5.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2024/04/10/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%EF%BC%88%E4%B8%89%EF%BC%89%E2%80%94%E2%80%94%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AF%E5%B1%82/" title="计算机网络（三）——数据链路层"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/myphotos/article_cover/4.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">计算机网络（三）——数据链路层</div></div></a></div><div class="next-post pull-right"><a href="/2024/04/09/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%EF%BC%88%E4%B8%89%EF%BC%89%E2%80%94%E2%80%94%E4%B8%B2/" title="数据结构（三）——串"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/myphotos/article_cover/8.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">数据结构（三）——串</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2024/07/03/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86%EF%BC%88%E4%B8%83%EF%BC%89%E2%80%94%E2%80%94%E8%BE%93%E5%85%A5%E8%BE%93%E5%87%BA%E7%B3%BB%E7%BB%9F/" title="计算机组成原理（七）——输入输出系统"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/myphotos/article_cover/10.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2024-07-03</div><div class="title">计算机组成原理（七）——输入输出系统</div></div></a></div><div><a href="/2024/04/05/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86%EF%BC%88%E4%BA%8C%EF%BC%89%E2%80%94%E2%80%94%E6%95%B0%E6%8D%AE%E7%9A%84%E8%A1%A8%E7%A4%BA%E5%92%8C%E8%BF%90%E7%AE%97/" title="计算机组成原理（二）——数据的表示和运算"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/myphotos/article_cover/6.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2024-04-05</div><div class="title">计算机组成原理（二）——数据的表示和运算</div></div></a></div><div><a href="/2024/03/26/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86%EF%BC%88%E4%B8%80%EF%BC%89%E2%80%94%E2%80%94%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F%E6%A6%82%E8%BF%B0/" title="计算机组成原理（一）——计算机系统概述"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/myphotos/article_cover/9.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2024-03-26</div><div class="title">计算机组成原理（一）——计算机系统概述</div></div></a></div><div><a href="/2024/06/30/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86%EF%BC%88%E5%85%AD%EF%BC%89%E2%80%94%E2%80%94%E6%80%BB%E7%BA%BF/" title="计算机组成原理（六）——总线"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/myphotos/article_cover/9.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2024-06-30</div><div class="title">计算机组成原理（六）——总线</div></div></a></div><div><a href="/2024/06/10/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86%EF%BC%88%E4%BA%94%EF%BC%89%E2%80%94%E2%80%94%E4%B8%AD%E5%A4%AE%E5%A4%84%E7%90%86%E5%99%A8/" title="计算机组成原理（五）——中央处理器"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/myphotos/article_cover/7.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2024-06-10</div><div class="title">计算机组成原理（五）——中央处理器</div></div></a></div><div><a href="/2024/04/24/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86%EF%BC%88%E5%9B%9B%EF%BC%89%E2%80%94%E2%80%94%E6%8C%87%E4%BB%A4%E7%B3%BB%E7%BB%9F/" title="计算机组成原理（四）——指令系统"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/myphotos/article_cover/11.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2024-04-24</div><div class="title">计算机组成原理（四）——指令系统</div></div></a></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/myphotos/avatar.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">liujinC</div><div class="author-info__description"></div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">29</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">8</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">3</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://home.liujinc.cn"><i class="fab fa-github"></i><span>网站主页</span></a><div class="card-info-social-icons is-center"><a class="social-icon faa-parent animated-hover" href="/myphotos/WeChat.png" target="_blank" title="微信"><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon-weixin"></use></svg></a><a class="social-icon faa-parent animated-hover" href="/myphotos/QQ.jpg" target="_blank" title="QQ"><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon-QQ"></use></svg></a><a class="social-icon faa-parent animated-hover" href="https://space.bilibili.com/1941048387?spm_id_from=333.1007.0.0" target="_blank" title="B站"><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon-bilibili"></use></svg></a><a class="social-icon faa-parent animated-hover" href="https://blog.csdn.net/qq_63040545?spm=1000.2115.3001.5343" target="_blank" title="CSDN"><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon-csdn"></use></svg></a><a class="social-icon faa-parent animated-hover" href="https://github.com/Bandit-ljC-1" target="_blank" title="GitHub"><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon-github1"></use></svg></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">今年18岁傍50岁富婆，来年50岁包18岁姑娘。</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86%EF%BC%88%E4%B8%89%EF%BC%89%E2%80%94%E2%80%94%E5%AD%98%E5%82%A8%E7%B3%BB%E7%BB%9F"><span class="toc-text">计算机组成原理（三）——存储系统</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-%E5%AD%98%E5%82%A8%E7%B3%BB%E7%BB%9F%E5%9F%BA%E6%9C%AC%E7%BB%93%E6%9E%84"><span class="toc-text">1. 存储系统基本结构</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-1-%E5%AD%98%E5%82%A8%E5%99%A8%E7%9A%84%E5%B1%82%E6%AC%A1%E5%8C%96%E7%BB%93%E6%9E%84"><span class="toc-text">1.1 存储器的层次化结构</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-2-%E5%AD%98%E5%82%A8%E5%99%A8%E5%88%86%E7%B1%BB"><span class="toc-text">1.2 存储器分类</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-2-1-%E6%8C%89%E5%B1%82%E6%AC%A1%E5%88%86%E7%B1%BB"><span class="toc-text">1.2.1 按层次分类</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#1-2-2-%E6%8C%89%E5%AD%98%E5%82%A8%E4%BB%8B%E8%B4%A8%E5%88%86%E7%B1%BB"><span class="toc-text">1.2.2 按存储介质分类</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#1-2-3-%E6%8C%89%E5%AD%98%E5%8F%96%E6%96%B9%E5%BC%8F%E5%88%86%E7%B1%BB"><span class="toc-text">1.2.3 按存取方式分类</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#1-2-4-%E6%8C%89%E4%BF%A1%E6%81%AF%E5%8F%AF%E6%9B%B4%E6%94%B9%E6%80%A7%E5%88%86%E7%B1%BB"><span class="toc-text">1.2.4 按信息可更改性分类</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#1-2-5-%E6%8C%89%E4%BF%A1%E6%81%AF%E7%9A%84%E5%8F%AF%E4%BF%9D%E5%AD%98%E6%80%A7%E5%88%86%E7%B1%BB"><span class="toc-text">1.2.5 按信息的可保存性分类</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-3-%E5%AD%98%E5%82%A8%E5%99%A8%E6%80%A7%E8%83%BD%E6%8C%87%E6%A0%87"><span class="toc-text">1.3 存储器性能指标</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-4-%E5%AD%98%E5%82%A8%E5%99%A8%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5%E5%B0%8F%E7%BB%93"><span class="toc-text">1.4 存储器基本概念小结</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-%E4%B8%BB%E5%AD%98%E5%82%A8%E5%99%A8%E5%9F%BA%E6%9C%AC%E7%BB%84%E6%88%90"><span class="toc-text">2. 主存储器基本组成</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#2-1-%E5%AD%98%E5%82%A8%E5%85%83%E5%8E%9F%E7%90%86"><span class="toc-text">2.1 存储元原理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-2-%E5%AD%98%E5%82%A8%E5%99%A8%E8%8A%AF%E7%89%87%E7%9A%84%E5%9F%BA%E6%9C%AC%E5%8E%9F%E7%90%86"><span class="toc-text">2.2 存储器芯片的基本原理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-3-%E5%AF%BB%E5%9D%80"><span class="toc-text">2.3 寻址</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-4-%E4%B8%BB%E5%AD%98%E5%82%A8%E5%99%A8%E5%9F%BA%E6%9C%AC%E7%BB%84%E6%88%90%E5%B0%8F%E7%BB%93"><span class="toc-text">2.4 主存储器基本组成小结</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-SRAM%E5%92%8CDRAM"><span class="toc-text">3. SRAM和DRAM</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-%E5%8F%AA%E8%AF%BB%E5%AD%98%E5%82%A8%E5%99%A8ROM"><span class="toc-text">4. 只读存储器ROM</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-%E5%8F%8C%E7%AB%AF%E5%8F%A3RAM%E5%92%8C%E5%A4%9A%E6%A8%A1%E5%9D%97%E5%AD%98%E5%82%A8"><span class="toc-text">5. 双端口RAM和多模块存储</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#5-1-%E5%8F%8C%E7%AB%AF%E5%8F%A3RAM"><span class="toc-text">5.1 双端口RAM</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-2-%E5%A4%9A%E6%A8%A1%E5%9D%97%E5%AD%98%E5%82%A8%E5%99%A8"><span class="toc-text">5.2 多模块存储器</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#6-%E4%B8%BB%E5%AD%98%E5%82%A8%E5%99%A8%E4%B8%8ECPU%E7%9A%84%E8%BF%9E%E6%8E%A5"><span class="toc-text">6. 主存储器与CPU的连接</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#6-1-%E4%BD%8D%E6%89%A9%E5%B1%95"><span class="toc-text">6.1 位扩展</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6-2-%E5%AD%97%E6%89%A9%E5%B1%95"><span class="toc-text">6.2 字扩展</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6-3-%E4%BD%8D%E3%80%81%E5%AD%97%E5%90%8C%E6%97%B6%E6%89%A9%E5%B1%95"><span class="toc-text">6.3 位、字同时扩展</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6-4-%E8%AF%91%E7%A0%81%E5%99%A8"><span class="toc-text">6.4 译码器</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#7-%E5%A4%96%E9%83%A8%E5%AD%98%E5%82%A8%E5%99%A8"><span class="toc-text">7. 外部存储器</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#7-1-%E7%A3%81%E7%9B%98%E5%AD%98%E5%82%A8%E5%99%A8"><span class="toc-text">7.1 磁盘存储器</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#7-1-1-%E7%A3%81%E7%9B%98%E5%AD%98%E5%82%A8%E5%99%A8%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86"><span class="toc-text">7.1.1 磁盘存储器工作原理</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#7-1-2-%E7%A3%81%E7%9B%98%E5%AD%98%E5%82%A8%E5%99%A8%E7%BB%84%E6%88%90"><span class="toc-text">7.1.2 磁盘存储器组成</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#7-1-3-%E7%A3%81%E7%9B%98%E5%AD%98%E5%82%A8%E5%99%A8%E6%80%A7%E8%83%BD%E6%8C%87%E6%A0%87"><span class="toc-text">7.1.3 磁盘存储器性能指标</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#7-1-3-1-%E7%A3%81%E7%9B%98%E5%AE%B9%E9%87%8F"><span class="toc-text">7.1.3.1 磁盘容量</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#7-1-3-2-%E8%AE%B0%E5%BD%95%E5%AF%86%E5%BA%A6"><span class="toc-text">7.1.3.2 记录密度</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#7-1-3-3-%E5%B9%B3%E5%9D%87%E5%AD%98%E5%8F%96%E6%97%B6%E9%97%B4%EF%BC%88%E8%80%83%E7%A0%94%E5%B8%B8%E8%80%83%EF%BC%89"><span class="toc-text">7.1.3.3 平均存取时间（考研常考）</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#7-1-3-4-%E6%95%B0%E6%8D%AE%E4%BC%A0%E8%BE%93%E7%8E%87"><span class="toc-text">7.1.3.4 数据传输率</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#7-1-4-%E7%A3%81%E7%9B%98%E5%9C%B0%E5%9D%80"><span class="toc-text">7.1.4 磁盘地址</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#7-1-5-%E7%A1%AC%E7%9B%98%E7%9A%84%E5%B7%A5%E4%BD%9C%E8%BF%87%E7%A8%8B"><span class="toc-text">7.1.5 硬盘的工作过程</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#7-1-6-%E7%A3%81%E7%9B%98%E9%98%B5%E5%88%97"><span class="toc-text">7.1.6 磁盘阵列</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#7-1-7-%E7%A3%81%E7%9B%98%E5%AD%98%E5%82%A8%E5%99%A8%E5%B0%8F%E7%BB%93"><span class="toc-text">7.1.7 磁盘存储器小结</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#7-2-%E5%9B%BA%E6%80%81%E7%A1%AC%E7%9B%98"><span class="toc-text">7.2 固态硬盘</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#8-cache%E5%B1%82"><span class="toc-text">8. cache层</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#8-1-cache%E7%9A%84%E5%9F%BA%E6%9C%AC%E5%8E%9F%E7%90%86%E5%92%8C%E6%A6%82%E5%BF%B5"><span class="toc-text">8.1 cache的基本原理和概念</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#8-1-1-cache%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86"><span class="toc-text">8.1.1 cache工作原理</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#8-1-2-%E7%A8%8B%E5%BA%8F%E7%9A%84%E5%B1%80%E9%83%A8%E6%80%A7%E5%8E%9F%E7%90%86"><span class="toc-text">8.1.2 程序的局部性原理</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#8-1-3-cache%E6%80%A7%E8%83%BD%E5%88%86%E6%9E%90"><span class="toc-text">8.1.3 cache性能分析</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#8-1-4-cache%E5%A4%8D%E5%88%B6%E6%95%B0%E6%8D%AE%E7%9A%84%E8%8C%83%E5%9B%B4%E7%95%8C%E5%AE%9A%E6%96%B9%E5%BC%8F"><span class="toc-text">8.1.4 cache复制数据的范围界定方式</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#8-2-Cache%E5%92%8C%E4%B8%BB%E5%AD%98%E7%9A%84%E6%98%A0%E5%B0%84%E6%96%B9%E5%BC%8F"><span class="toc-text">8.2 Cache和主存的映射方式</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#8-2-1-%E5%85%A8%E7%9B%B8%E8%81%94%E6%98%A0%E5%B0%84%E7%9A%84%E5%AE%9E%E7%8E%B0"><span class="toc-text">8.2.1 全相联映射的实现</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#8-2-2-%E7%9B%B4%E6%8E%A5%E6%98%A0%E5%B0%84"><span class="toc-text">8.2.2 直接映射</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#8-2-3-%E7%BB%84%E7%9B%B8%E8%81%94%E6%98%A0%E5%B0%84"><span class="toc-text">8.2.3 组相联映射</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#8-2-4-cache-%E4%B8%BB%E5%AD%98%E6%98%A0%E5%B0%84%E5%B0%8F%E7%BB%93"><span class="toc-text">8.2.4 cache-主存映射小结</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#8-3-Cache%E6%9B%BF%E6%8D%A2%E7%AE%97%E6%B3%95"><span class="toc-text">8.3 Cache替换算法</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#8-3-1-%E9%9A%8F%E6%9C%BA%E7%AE%97%E6%B3%95%EF%BC%88RAND%EF%BC%89"><span class="toc-text">8.3.1 随机算法（RAND）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#8-3-2-%E5%85%88%E8%BF%9B%E5%85%88%E5%87%BA%E7%AE%97%E6%B3%95%EF%BC%88FIFO%EF%BC%89"><span class="toc-text">8.3.2 先进先出算法（FIFO）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#8-3-3-%E8%BF%91%E6%9C%9F%E6%9C%80%E5%B0%91%E4%BD%BF%E7%94%A8%E7%AE%97%E6%B3%95%EF%BC%88LRU%EF%BC%89"><span class="toc-text">8.3.3 近期最少使用算法（LRU）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#8-3-4-%E6%9C%80%E4%B8%8D%E7%BB%8F%E5%B8%B8%E4%BD%BF%E7%94%A8%E7%AE%97%E6%B3%95%EF%BC%88LFU%EF%BC%89"><span class="toc-text">8.3.4 最不经常使用算法（LFU）</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#8-4-Cache%E5%86%99%E7%AD%96%E7%95%A5"><span class="toc-text">8.4 Cache写策略</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#8-4-1-%E5%86%99%E5%91%BD%E4%B8%AD%E2%80%94%E2%80%94%E5%86%99%E5%9B%9E%E6%B3%95"><span class="toc-text">8.4.1 写命中——写回法</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#8-4-2-%E5%86%99%E5%91%BD%E4%B8%AD%E2%80%94%E2%80%94%E5%85%A8%E5%86%99%E6%B3%95"><span class="toc-text">8.4.2 写命中——全写法</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#8-4-3-%E5%86%99%E4%B8%8D%E5%91%BD%E4%B8%AD%E2%80%94%E2%80%94%E5%86%99%E5%88%86%E9%85%8D%E6%B3%95"><span class="toc-text">8.4.3 写不命中——写分配法</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#8-4-4-%E5%86%99%E4%B8%8D%E5%91%BD%E4%B8%AD%E2%80%94%E2%80%94%E9%9D%9E%E5%86%99%E5%88%86%E9%85%8D%E6%B3%95"><span class="toc-text">8.4.4 写不命中——非写分配法</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#8-4-5-%E5%A4%9A%E7%BA%A7cache"><span class="toc-text">8.4.5 多级cache</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#8-4-6-%E5%86%99%E7%AD%96%E7%95%A5%E6%80%BB%E7%BB%93"><span class="toc-text">8.4.6 写策略总结</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#9-%E8%99%9A%E6%8B%9F%E5%AD%98%E5%82%A8%E5%99%A8"><span class="toc-text">9. 虚拟存储器</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#9-1-%E9%A1%B5%E5%BC%8F%E5%AD%98%E5%82%A8%E5%99%A8"><span class="toc-text">9.1 页式存储器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#9-2-%E8%99%9A%E6%8B%9F%E5%AD%98%E5%82%A8%E5%99%A8"><span class="toc-text">9.2 虚拟存储器</span></a></li></ol></li></ol></li></ol></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2024 - 2025 By liujinC</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js?v=4.12.0"></script><script src="/js/main.js?v=4.12.0"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0.32/dist/fancybox/fancybox.umd.min.js"></script><script src="https://cdn.jsdelivr.net/npm/instant.page@5.2.0/instantpage.min.js" type="module"></script><script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@17.8.5/dist/lazyload.iife.min.js"></script><script src="https://cdn.jsdelivr.net/npm/node-snackbar@0.1.16/dist/snackbar.min.js"></script><script>function panguFn () {
+  if (typeof pangu === 'object') pangu.autoSpacingPage()
+  else {
+    getScript('https://cdn.jsdelivr.net/npm/pangu@4.0.7/dist/browser/pangu.min.js')
+      .then(() => {
+        pangu.autoSpacingPage()
+      })
+  }
+}
+
+function panguInit () {
+  if (false){
+    GLOBAL_CONFIG_SITE.isPost && panguFn()
+  } else {
+    panguFn()
+  }
+}
+
+document.addEventListener('DOMContentLoaded', panguInit)</script><div class="js-pjax"></div><canvas id="snow"></canvas><script async src="/js/snow.js"></script><canvas id="universe"></canvas><script defer src="/js/universe.js"></script><script defer src="/js/mouse.js"></script><script async src="//at.alicdn.com/t/c/font_4451089_fok8y2foa3.js"></script><script defer type="text/javascript" src="https://cdn1.tianli0.top/npm/sweetalert2@8.19.0/dist/sweetalert2.all.js"></script><script defer src="/js/festival/lunar.js"></script><script defer src="/js/festival/day.js"></script><script async src="/js/fps.js"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="is-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据库加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div id="local-search-results"></div><div id="local-search-stats-wrap"></div></div></div><div id="search-mask"></div><script src="/js/search/local-search.js?v=4.12.0"></script></div></div><!-- hexo injector body_end start --> <script data-pjax>if(document.getElementById('recent-posts') && (location.pathname ==='/'|| '/' ==='all')){
+    var parent = document.getElementById('recent-posts');
+    var child = '<div class="recent-post-item" style="width:100%;height: auto"><div id="catalog_magnet"><div class="magnet_item"><a class="magnet_link" href="http://bandit-ljC-1.github.io/tags/408学习笔记/"><div class="magnet_link_context" style=""><span style="font-weight:500;flex:1">🐱‍👓 路漫漫其修远，我探索不了一点。 (25)</span><span style="padding:0px 4px;border-radius: 8px;"><i class="fas fa-arrow-circle-right"></i></span></div></a></div><div class="magnet_item"><a class="magnet_link" href="http://bandit-ljC-1.github.io/tags/前端/"><div class="magnet_link_context" style=""><span style="font-weight:500;flex:1">🍨 前端UI到转行平面设计 (2)</span><span style="padding:0px 4px;border-radius: 8px;"><i class="fas fa-arrow-circle-right"></i></span></div></a></div><a class="magnet_link_more"  href="http://bandit-ljC-1.github.io/tags" style="flex:1;text-align: center;margin-bottom: 10px;">查看更多...</a></div></div>';
+    console.log('已挂载magnet')
+    parent.insertAdjacentHTML("afterbegin",child)}
+     </script><style>#catalog_magnet{flex-wrap: wrap;display: flex;width:100%;justify-content:space-between;padding: 10px 10px 0 10px;align-content: flex-start;}.magnet_item{flex-basis: calc(50% - 5px);background: #f2f2f2;margin-bottom: 10px;border-radius: 8px;transition: all 0.2s ease-in-out;}.magnet_item:hover{background: #b30070}.magnet_link_more{color:#555}.magnet_link{color:black}.magnet_link:hover{color:white}@media screen and (max-width: 600px) {.magnet_item {flex-basis: 100%;}}.magnet_link_context{display:flex;padding: 10px;font-size:16px;transition: all 0.2s ease-in-out;}.magnet_link_context:hover{padding: 10px 20px;}</style>
+    <style></style><script data-pjax>
+    function butterfly_categories_card_injector_config(){
+      var parent_div_git = document.getElementById('recent-posts');
+      var item_html = '<style>li.categoryBar-list-item{width:32.3%;}.categoryBar-list{max-height: 380px;overflow:auto;}.categoryBar-list::-webkit-scrollbar{width:0!important}@media screen and (max-width: 650px){.categoryBar-list{max-height: 320px;}}</style><div class="recent-post-item" style="height:auto;width:100%;padding:0px;"><div id="categoryBar"><ul class="categoryBar-list"><li class="categoryBar-list-item" style="background:url(/myphotos/article_cover/1.jpg);"> <a class="categoryBar-list-link" href="categories/网页开发/">网页开发</a><span class="categoryBar-list-count">2</span><span class="categoryBar-list-descr">优秀的设计师</span></li><li class="categoryBar-list-item" style="background:url(/myphotos/article_cover/2.jpg);"> <a class="categoryBar-list-link" href="categories/hexo/">hexo</a><span class="categoryBar-list-count">2</span><span class="categoryBar-list-descr">五等分的blog</span></li><li class="categoryBar-list-item" style="background:url(/myphotos/article_cover/3.jpg);"> <a class="categoryBar-list-link" href="categories/学习笔记/">学习笔记</a><span class="categoryBar-list-count">25</span><span class="categoryBar-list-descr">埼玉的成长之路</span></li></ul></div></div>';
+      console.log('已挂载butterfly_categories_card')
+      parent_div_git.insertAdjacentHTML("afterbegin",item_html)
+      }
+    if( document.getElementById('recent-posts') && (location.pathname ==='/'|| '/' ==='all')){
+    butterfly_categories_card_injector_config()
+    }
+  </script><script data-pjax>
+  function butterfly_swiper_injector_config(){
+    var parent_div_git = document.getElementById('recent-posts');
+    var item_html = '<div class="recent-post-item" style="height: auto;width: 100%"><div class="blog-slider swiper-container-fade swiper-container-horizontal" id="swiper_container"><div class="blog-slider__wrp swiper-wrapper" style="transition-duration: 0ms;"><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" href="2024/01/01/Markdown语法/" alt=""><img width="48" height="48" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="myphotos/article_cover/6.jpg" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/></a><div class="blog-slider__content"><span class="blog-slider__code">2024-01-01</span><a class="blog-slider__title" href="2024/01/01/Markdown语法/" alt="">青春男大遇到不会写的Markdown语法</a><div class="blog-slider__text">本文是博主写博客时遇到的一些不会写的Markdown语法，特在此汇总</div><a class="blog-slider__button" href="2024/01/01/Markdown语法/" alt="">详情   </a></div></div><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" href="2024/03/07/数据结构（一）——线性表/" alt=""><img width="48" height="48" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="myphotos/article_cover/3.jpg" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/></a><div class="blog-slider__content"><span class="blog-slider__code">2024-03-07</span><a class="blog-slider__title" href="2024/03/07/数据结构（一）——线性表/" alt="">数据结构（一）——线性表</a><div class="blog-slider__text">本文是数据结构中有关线性表的复习笔记，因此只记录一些重点知识与兄弟们交流，并不适合零基础的兄弟。</div><a class="blog-slider__button" href="2024/03/07/数据结构（一）——线性表/" alt="">详情   </a></div></div><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" href="2024/03/02/基于hexo搭建的个人博客常见问题处理/" alt=""><img width="48" height="48" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="myphotos/article_cover/6.jpg" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/></a><div class="blog-slider__content"><span class="blog-slider__code">2024-03-02</span><a class="blog-slider__title" href="2024/03/02/基于hexo搭建的个人博客常见问题处理/" alt="">基于hexo搭建的个人博客常见问题处理</a><div class="blog-slider__text">该文主要是站长对使用hexo搭建博客时出现的一些问题进行了整理</div><a class="blog-slider__button" href="2024/03/02/基于hexo搭建的个人博客常见问题处理/" alt="">详情   </a></div></div><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" href="2024/02/08/CSS基础语法及应用/" alt=""><img width="48" height="48" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="myphotos/article_cover/6.jpg" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/></a><div class="blog-slider__content"><span class="blog-slider__code">2024-02-08</span><a class="blog-slider__title" href="2024/02/08/CSS基础语法及应用/" alt="">CSS基础语法及应用</a><div class="blog-slider__text">本文主要整理CSS的基本语法，可以搭配HTML5基本语法进行学习</div><a class="blog-slider__button" href="2024/02/08/CSS基础语法及应用/" alt="">详情   </a></div></div><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" href="2024/02/01/HTML5基础语法大全/" alt=""><img width="48" height="48" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="myphotos/article_cover/13.jpg" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/></a><div class="blog-slider__content"><span class="blog-slider__code">2024-02-01</span><a class="blog-slider__title" href="2024/02/01/HTML5基础语法大全/" alt="">HTML5基本语法大全</a><div class="blog-slider__text">本文主要整理了HTML5的基本语法，方便初学者快速入门</div><a class="blog-slider__button" href="2024/02/01/HTML5基础语法大全/" alt="">详情   </a></div></div></div><div class="blog-slider__pagination swiper-pagination-clickable swiper-pagination-bullets"></div></div></div>';
+    console.log('已挂载butterfly_swiper')
+    parent_div_git.insertAdjacentHTML("afterbegin",item_html)
+    }
+  var elist = 'undefined'.split(',');
+  var cpage = location.pathname;
+  var epage = '/';
+  var flag = 0;
+
+  for (var i=0;i<elist.length;i++){
+    if (cpage.includes(elist[i])){
+      flag++;
+    }
+  }
+
+  if ((epage ==='all')&&(flag == 0)){
+    butterfly_swiper_injector_config();
+  }
+  else if (epage === cpage){
+    butterfly_swiper_injector_config();
+  }
+  </script><script defer src="https://npm.elemecdn.com/hexo-butterfly-swiper/lib/swiper.min.js"></script><script defer data-pjax src="https://npm.elemecdn.com/hexo-butterfly-swiper/lib/swiper_init.js"></script><script data-pjax>
+  function butterfly_footer_beautify_injector_config(){
+    var parent_div_git = document.getElementById('footer-wrap');
+    var item_html = '<div id="workboard"></div><p id="ghbdages"><a class="github-badge" target="_blank" href="https://hexo.io/" style="margin-inline:5px" data-title="博客框架为Hexo_v6.2.0" title=""><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img.shields.io/badge/Frame-Hexo-blue?style=flat&amp;logo=hexo" alt=""/></a><a class="github-badge" target="_blank" href="https://butterfly.js.org/" style="margin-inline:5px" data-title="主题版本Butterfly_v4.3.1" title=""><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img.shields.io/badge/Theme-Butterfly-6513df?style=flat&amp;logo=bitdefender" alt=""/></a><a class="github-badge" target="_blank" href="https://vercel.com/" style="margin-inline:5px" data-title="本站采用多线部署，主线路托管于Vercel" title=""><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img.shields.io/badge/Hosted-Vercel-brightgreen?style=flat&amp;logo=Vercel" alt=""/></a><a class="github-badge" target="_blank" href="https://dashboard.4everland.org/" style="margin-inline:5px" data-title="本站采用多线部署，备用线路托管于4EVERLAND" title=""><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img.shields.io/badge/Hosted-4EVERLAND-22DDDD?style=flat&amp;logo=IPFS" alt=""/></a><a class="github-badge" target="_blank" href="https://github.com/" style="margin-inline:5px" data-title="本站项目由Github托管" title=""><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img.shields.io/badge/Source-Github-d021d6?style=flat&amp;logo=GitHub" alt=""/></a><a class="github-badge" target="_blank" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" style="margin-inline:5px" data-title="本站采用知识共享署名-非商业性使用-相同方式共享4.0国际许可协议进行许可" title=""><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img.shields.io/badge/Copyright-BY--NC--SA%204.0-d42328?style=flat&amp;logo=Claris" alt=""/></a></p>';
+    console.log('已挂载butterfly_footer_beautify')
+    parent_div_git.insertAdjacentHTML("beforeend",item_html)
+    }
+  var elist = 'null'.split(',');
+  var cpage = location.pathname;
+  var epage = 'all';
+  var flag = 0;
+
+  for (var i=0;i<elist.length;i++){
+    if (cpage.includes(elist[i])){
+      flag++;
+    }
+  }
+
+  if ((epage ==='all')&&(flag == 0)){
+    butterfly_footer_beautify_injector_config();
+  }
+  else if (epage === cpage){
+    butterfly_footer_beautify_injector_config();
+  }
+  </script><script async src="/js/clock.js"></script><div class="js-pjax"><script async="async">var arr = document.getElementsByClassName('recent-post-item');
+for(var i = 0;i<arr.length;i++){
+    arr[i].classList.add('wow');
+    arr[i].classList.add('animate__zoomIn');
+    arr[i].setAttribute('data-wow-duration', '2s');
+    arr[i].setAttribute('data-wow-delay', '1s');
+    arr[i].setAttribute('data-wow-offset', '100');
+    arr[i].setAttribute('data-wow-iteration', '1');
+  }</script><script async="async">var arr = document.getElementsByClassName('card-widget');
+for(var i = 0;i<arr.length;i++){
+    arr[i].classList.add('wow');
+    arr[i].classList.add('animate__zoomIn');
+    arr[i].setAttribute('data-wow-duration', '');
+    arr[i].setAttribute('data-wow-delay', '');
+    arr[i].setAttribute('data-wow-offset', '');
+    arr[i].setAttribute('data-wow-iteration', '');
+  }</script></div><script defer src="/css/wowjs/wow.min.js"></script><script defer src="/css/wowjs/wow_init.js"></script><!-- hexo injector body_end end --></body></html>

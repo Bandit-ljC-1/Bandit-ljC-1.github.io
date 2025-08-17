@@ -1,0 +1,441 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>计算机网络（五）——传输层 | 无名高手🍭</title><meta name="author" content="liujinC"><meta name="copyright" content="liujinC"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="ffffff"><meta name="description" content="乐子人的计算机网络第五章学习笔记">
+<meta property="og:type" content="article">
+<meta property="og:title" content="计算机网络（五）——传输层">
+<meta property="og:url" content="http://bandit-ljc-1.github.io/2024/05/10/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%EF%BC%88%E4%BA%94%EF%BC%89%E2%80%94%E2%80%94%E4%BC%A0%E8%BE%93%E5%B1%82/index.html">
+<meta property="og:site_name" content="无名高手🍭">
+<meta property="og:description" content="乐子人的计算机网络第五章学习笔记">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://bandit-ljc-1.github.io/myphotos/article_cover/4.jpg">
+<meta property="article:published_time" content="2024-05-10T09:53:00.000Z">
+<meta property="article:modified_time" content="2024-05-12T09:51:00.000Z">
+<meta property="article:author" content="liujinC">
+<meta property="article:tag" content="408学习笔记">
+<meta property="article:tag" content="计算机网络">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://bandit-ljc-1.github.io/myphotos/article_cover/4.jpg"><link rel="shortcut icon" href="/myphotos/icon.png"><link rel="canonical" href="http://bandit-ljc-1.github.io/2024/05/10/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%EF%BC%88%E4%BA%94%EF%BC%89%E2%80%94%E2%80%94%E4%BC%A0%E8%BE%93%E5%B1%82/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css?v=4.12.0"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.5.1/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/node-snackbar@0.1.16/dist/snackbar.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0.32/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":true,"top_n_per_article":-1,"unescape":false,"languages":{"hits_empty":"找不到您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: undefined,
+  noticeOutdate: {"limitDay":365,"position":"top","messagePrev":"It has been","messageNext":"days since the last update, the content of the article may be outdated."},
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":230},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: {"chs_to_cht":"你已切换为繁体中文","cht_to_chs":"你已切换为简体中文","day_to_night":"你已切换为深色模式","night_to_day":"你已切换为浅色模式","bgLight":"#49b1f5","bgDark":"#1f1f1f","position":"top-right"},
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid@4.11.0/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyload: true,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '计算机网络（五）——传输层',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2024-05-12 17:51:00'
+}</script><script>(win=>{
+      win.saveToLocal = {
+        set: (key, value, ttl) => {
+          if (ttl === 0) return
+          const now = Date.now()
+          const expiry = now + ttl * 86400000
+          const item = {
+            value,
+            expiry
+          }
+          localStorage.setItem(key, JSON.stringify(item))
+        },
+      
+        get: key => {
+          const itemStr = localStorage.getItem(key)
+      
+          if (!itemStr) {
+            return undefined
+          }
+          const item = JSON.parse(itemStr)
+          const now = Date.now()
+      
+          if (now > item.expiry) {
+            localStorage.removeItem(key)
+            return undefined
+          }
+          return item.value
+        }
+      }
+    
+      win.getScript = (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        script.onerror = reject
+        script.onload = script.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          script.onload = script.onreadystatechange = null
+          resolve()
+        }
+
+        Object.keys(attr).forEach(key => {
+          script.setAttribute(key, attr[key])
+        })
+
+        document.head.appendChild(script)
+      })
+    
+      win.getCSS = (url, id = false) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onerror = reject
+        link.onload = link.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          link.onload = link.onreadystatechange = null
+          resolve()
+        }
+        document.head.appendChild(link)
+      })
+    
+      win.activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', 'ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          const now = new Date()
+          const hour = now.getHours()
+          const isNight = hour <= 6 || hour >= 18
+          if (t === undefined) isNight ? activateDarkMode() : activateLightMode()
+          else if (t === 'light') activateLightMode()
+          else activateDarkMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+      const detectApple = () => {
+        if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+          document.documentElement.classList.add('apple')
+        }
+      }
+      detectApple()
+    })(window)</script><link rel="stylesheet" href="/css/custom.css" media="defer" onload="this.media='all'"><link rel="stylesheet" href="/css/light.css" media="defer" onload="this.media='all'"><link rel="stylesheet" href="/css/snow.css"><link rel="stylesheet" href="/css/universe.css"><link rel="stylesheet" href="/css/mouse.css"><link rel="stylesheet" href="//at.alicdn.com/t/c/font_4451089_fok8y2foa3.css" media="defer" onload="this.media='all'"><link rel="stylesheet" href="/css/page_style.css"><span id="fps"></span><link rel="stylesheet" href="/css/pangu_control.css"><div id="myscoll"></div><!-- hexo injector head_end start --><link rel="stylesheet" href="/css/categorybar.css"><link rel="stylesheet" href="https://npm.elemecdn.com/hexo-butterfly-swiper/lib/swiper.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="/css/swiper/swiperstyle.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://unpkg.zhimg.com/hexo-butterfly-footer-beautify@1.0.0/lib/runtime.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="/css/wowjs/animate.min.css" media="print" onload="this.media='screen'"><!-- hexo injector head_end end --><meta name="generator" content="Hexo 6.3.0"></head><body><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/myphotos/avatar.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">29</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">8</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">3</div></a></div><hr class="custom-hr"/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> 列表</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音乐</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 电影</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/comments/"><i class="fa-fw fas fa-envelope-open"></i><span> 留言板</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('/myphotos/article_cover/4.jpg')"><nav id="nav"><span id="blog-info"><a href="/" title="无名高手🍭"><span class="site-name">无名高手🍭</span></a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search" href="javascript:void(0);"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> 列表</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音乐</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 电影</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/comments/"><i class="fa-fw fas fa-envelope-open"></i><span> 留言板</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">计算机网络（五）——传输层</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2024-05-10T09:53:00.000Z" title="发表于 2024-05-10 17:53:00">2024-05-10</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2024-05-12T09:51:00.000Z" title="更新于 2024-05-12 17:51:00">2024-05-12</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">学习笔记</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">10.3k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>31分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="计算机网络（五）——传输层"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h1 id="计算机网络（五）——传输层"><a href="#计算机网络（五）——传输层" class="headerlink" title="计算机网络（五）——传输层"></a>计算机网络（五）——传输层</h1><h2 id="1-传输层提供的服务"><a href="#1-传输层提供的服务" class="headerlink" title="1. 传输层提供的服务"></a>1. 传输层提供的服务</h2><h3 id="1-1-传输层的功能"><a href="#1-1-传输层的功能" class="headerlink" title="1.1 传输层的功能"></a>1.1 传输层的功能</h3><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/663df4be0ea9cb1403cf19f9.png" alt="计算机网络（五）——传输层——传输层功能.png">
+
+<p>数据链路层提供连路上相邻节点之间的逻辑通信，网络层提供主机之间的逻辑通信。传输层位于网络层之上，应用层之下，它为允许在不同主机上的进程之间提供逻辑通信。</p>
+<p>传输层的功能如上图。</p>
+<h3 id="1-2-传输层的两个协议"><a href="#1-2-传输层的两个协议" class="headerlink" title="1.2 传输层的两个协议"></a>1.2 传输层的两个协议</h3><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/663df4cf0ea9cb1403cf335d.png" alt="计算机网络（五）——传输层——传输层的两个协议.png">
+
+<p>传输层提供两个传输协议，一个是面向连接的可靠传输协议TCP，另一个是无连接的不可靠传输协议UDP。</p>
+<p>由于TCP需要建立连接，提供可靠通信，所以TCP适用于时延大，文件大的传输。</p>
+<p>而UDP不需建立连接，提供的不是不可靠通信，所以UDP适用与时延小，文件小的传输，传输不成功就重新发送。</p>
+<h3 id="1-3-传输层的寻址与端口"><a href="#1-3-传输层的寻址与端口" class="headerlink" title="1.3 传输层的寻址与端口"></a>1.3 传输层的寻址与端口</h3><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/663df5ad0ea9cb1403d09763.png" alt="计算机网络（五）——传输层——传输层的寻址与端口.png">
+
+<p>端口是传输层的服务访问点（SAP），标识主机中的应用进程，用来将报文段中数据分发给相应的进程。</p>
+<p>注意，传输层的端口是逻辑端口（软件端口）要与路由器或交换机上直接被插入的物理端口区分开。</p>
+<p>传输层的每一个端口都用端口号来标识，端口号只有本地意义，不同计算机的相同端口没有任何关系。即使是同一个进程，在不同主机上的端口号也可能不同。</p>
+<p>端口号的长度为16bit，能表示2<sup>16</sup>即65536个不同端口号。</p>
+<p>端口号根据其范围可以分为服务端使用的端口号和客户端使用的端口号。服务端端口号就是服务器使用的端口号。客户端就是使用服务器服务的客户的端口号。</p>
+<p>服务端端口号又可分为熟知端口号和登记端口号。熟知端口号从0到1023，是给TCP&#x2F;IP最重要的一些应用程序，让所有用户都知道。登记端口号的范围是1024~49151，是给没有熟知端口号的应用程序使用的。</p>
+<p>客户端端口号仅在客户进程运行时才动态选择，即只有客户端在使用时，才会分配一个端口号，是操作系统随机分配的，这个进程一旦结束，这个端口号就会被分给新的进程。所以客户端端口号是可以循环利用的。</p>
+<p>下面补充一点，熟知端口号分配给给TCP&#x2F;IP最重要的一些应用程序，是固定不变的，因此要知道一些重要的应用程序的熟知端口号。如下图：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/663df8fd0ea9cb1403d7c612.png" alt="计算机网络（五）——传输层——传输层的重要程序的熟知端口号.png">
+
+<p>最后说一下套接字，如上图，套接字就是主机IP地址和端口号的组合，根据IP可以找到主机，根据端口号可以找到进程，所以套接字唯一标识了网络中的一个主机和它上面的一个进程。</p>
+<h2 id="2-UDP协议"><a href="#2-UDP协议" class="headerlink" title="2. UDP协议"></a>2. UDP协议</h2><h3 id="2-1-UDP概述"><a href="#2-1-UDP概述" class="headerlink" title="2.1 UDP概述"></a>2.1 UDP概述</h3><p>UDP只在IP数据报服务上增加了很少功能，即复用分用和差错检测功能。</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/663e161b0ea9cb140317098e.png" alt="计算机网络（五）——传输层——UDP概述.png">
+
+<p>UDP协议使用最大努力交付，即不保证可靠交付，现在知道网络层是不可靠交付，如果传输层使用UDP也是不可靠交付，那可靠交付就要由应用层来保证。</p>
+<p>UDP是面向报文的，意思是UDP对应用层交下来的报文是既不合并也不拆分的，应用层给UDP多长的报文，UDP就在前面添加一个UDP首部，然后直接发送。因此应用层报文就要选择一个大小比较合适的报文。如果报文太长，UDP封装以后交给网络层，因为链路层有MTU的要求，所以网络层要分片，这样就使网络层效率降低；如果应用层报文过小，当把报文传输的网络层，这个数据报文相比于IP首部就要少很多，这样也会降低网络层效率。综上所述，应用层报文长度应当适当，而使用UDP协议是不可靠交付，数据易丢失，所以在适当的基础上，不要传输太多，否则损失会较大。所以UDP适合一次性传输少量数据的网络应用。	</p>
+<p>UDP是无拥塞控制的，也就意味着网络即使再拥塞，UDP也不会让发送方速率放缓。正因如此，UDP很适合一些实时性应用，这些实时应用（不允许有太大延迟）就要求原主机用比较恒定的速率发送数据，并且也允许在网络拥塞的情况下丢弃这些数据。比如开视频会议，人数很多可能会导致网络拥塞问题，但使用UDP协议，主持人的说话、视频等数据就会恒定传输，这样每个人都会实时收到数据，如果人数过多，参会者接收到主持人的视频等数据出现丢失也是可以接受的。当然如果拥塞特别严重，也会有补救的措施，比如向前纠错或重传丢失报文等。</p>
+<p>UDP功能要求不多，所以首部只有8B，而TCP是20B。</p>
+<h3 id="2-2-UDP首部格式"><a href="#2-2-UDP首部格式" class="headerlink" title="2.2 UDP首部格式"></a>2.2 UDP首部格式</h3><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/663e1a290ea9cb14031e9dbb.png" alt="计算机网络（五）——传输层——UDP首部格式.png">
+
+<p>如上图UDP首部有8字节，分别是2B的源端口号，2B的目的端口号，2B的UDP长度，2B的UDP校验和。</p>
+<p>源端口号可有可无，如果发送方需要接收方返回确认信息，则要填上自己的源端口号。如果发送方不需要接收方返还确认信息，则可以不填自己的源端口号。</p>
+<p>UDP的长度字段填的是整个UDP用户数据报的长度，即首部+数据。</p>
+<p>UDP检验和用来检测整个UDP数据报是否有错，错就要丢弃。</p>
+<h3 id="2-3-UDP的检验和"><a href="#2-3-UDP的检验和" class="headerlink" title="2.3 UDP的检验和"></a>2.3 UDP的检验和</h3><p>首先，看一下伪首部的概念，如下图：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/663e1b580ea9cb140322214b.png" alt="计算机网络（五）——传输层——UDP伪首部.png">
+
+<p>类似于IP的数据报首部，UDP在进行校验时，会在UDP数据报前面添加一个12B的伪首部，当校验完以后，会删除该首部。注意，伪首部只有在校验时才会添加，校验完就会删除，并不会对数据报产生其它影响。</p>
+<p>伪首部由<strong>4B的源IP地址</strong>，<strong>4B的目的IP地址</strong>，<strong>1B的固定0</strong>（如上图第三个字段，该字段固定为全0），<strong>1B的协议字段</strong>（如上图协议字段的17，表示封装报文的协议是UDP协议），<strong>2B的UDP长度</strong>（该长度包括首部8B和数据部分长度，但不包括伪首部）。</p>
+<p>接下来看一下如何用伪首部进行UDP校验。</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/663e1d1d0ea9cb1403261b20.png" alt="计算机网络（五）——传输层——UDP校验.png">
+
+<p>在发送端，UDP要把全0放入检验和字段并添加伪首部，然后把UDP数据（伪首部+首部+数据部分）视为许多16位的字串接起来（这里上图给错了，不应该是4B，应该是2B），然后按二进制反码形式，对这些数据求和，当然也可能出现数据部分最后不足16位的情况，所以在求和前要判断数据部分是否是2B的倍数，若不是则补0凑够2B的倍数。最后对求和所得数据进行求反码，所得结果就是校验和，然后去掉首部，并将所求结果填入校验和字段即可。</p>
+<p>在接收端，同理，添加伪首部，进行二进制反码求和，若数据无错误，最后结果应全为1，若不是全1，则出错，传输层可选择丢弃或将数据报传输给上层并将错误信息一并交付给应用层，由应用层处理。</p>
+<p>注意，在接收端添加伪首部即可，不需要将校验和字段改为0，保留接收到的数据信息即可。用大白话来说，对于接收到的数据，接收端只需要添加伪首部和对数据长度不够的补0，其余的保持不变即可。</p>
+<h2 id="3-TCP"><a href="#3-TCP" class="headerlink" title="3. TCP"></a>3. TCP</h2><h3 id="3-1-TCP协议特点"><a href="#3-1-TCP协议特点" class="headerlink" title="3.1 TCP协议特点"></a>3.1 TCP协议特点</h3><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/663e2f400ea9cb140353faa0.png" alt="计算机网络（五）——传输层——TCP协议特点.png">
+
+<p>应用程序在使用TCP协议前，必须要建立好一个TCP连接，并在数据传输完毕以后，再释放这个连接。而上图第一点说是虚连接的原因在于它并不是一个实际的物理连接，因为实际上这个连接过程应该是把这个数据报加上各个层次的首部之后，放到链路上传输，然后到接收端进行解封装，这是一个完整的物理连接。但TCP的使用，就好像两个进程之间建立了一个点对点的连接，好像是进程与进程直接连在一起，所以说是虚连接。</p>
+<p>TCP连接只能有两个端点，所以TCP是无法用于广播以及多播的通信方式。</p>
+<p>TCP是面向字节流的，流指的是流入进程或从进程流出的字节序列。面向字节流的含义就是，虽然应用进程和TCP交互是一次发送一个数据块，但这个数据块大小可以是不一样的，但是TCP会把应用程序交下来的数据看程是一连串的无结构的字节流。</p>
+<p>面向字节流的理解有问题的话，可以结合下面的例子看一下：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/663e31820ea9cb1403592ae8.png" alt="计算机网络（五）——传输层——TCP的字节流.png">
+
+<p>如上图，假如发送方要发送一个文件，它会把文件按照字节进行排序编号。在发送时，会把这些字节放入TCP缓存中，这是传输层做的事情。上图是把第一个字节到第十个字节放入缓存等待发送，现在如果开始发送，可能取的是123字节组成一个TCP报文段，然后在报文段上加上TCP头部，形成一个完整报文段，放到链路上传输，当然后面字节个数不固定，受多种因素影响。到这里，就可以看到，TCP是面向字节的或者说是面向字节流的。</p>
+<h3 id="3-2-TCP报文段"><a href="#3-2-TCP报文段" class="headerlink" title="3.2 TCP报文段"></a>3.2 TCP报文段</h3><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/663e33460ea9cb14035cb2ac.png" alt="计算机网络（五）——传输层——TCP报文段1.png">
+
+<p>上图是TCP报文段首部里对序号、确认号和数据偏移的解释。</p>
+<p>序号，指本报文段第一个字节的序号。例如，本报文段包含字节序号1,2,3，那首部的序号字段内容就为1。</p>
+<p>确认号，由于是面向连接的，接收端在接收到发送端的报文段以后，要回复一个确认报文段，这个确认报文段里有确认号字段，表示希望收到对方下一个报文段的第一个数据字节的序号，如果之前收到报文段123，此时确认号字段的值就应该是4。</p>
+<p>数据偏移，该字段以4B为单位，表示数据部分的起始处距离TCP报文段的起始处有多远，由于TCP首部还包含不确定的选项和填充字段，所以需要通过数据偏移的值来确定数据部份的起始位置。如果数据部分从100B开始，那数据偏移字段所填值就应该是100&#x2F;4&#x3D;25。</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/663e33790ea9cb14035d158d.png" alt="计算机网络（五）——传输层——TCP报文段2.png">
+
+<p>上图是对TCP报文段首部的6个控制位的介绍。</p>
+<p>紧急位URG：当URG&#x3D;1时，标明此报文段里有紧急数据，那么该报文段可以不用经历缓存的等待，直接发送该报文段。</p>
+<p>确认为ACK：当连接建立后，所有传送的报文段都必须把ACK置为1。</p>
+<p>推送位PSH：当PSH&#x3D;1时，意味着发送方希望该报文段可以尽快被接收方的进程接收，此时接收方接收到报文段，发现PSH&#x3D;1，就会优先交付该报文段到对应的进程。</p>
+<p>复位RST：当TCP连接中出现严重错误，需要释放并重新连接，发送方就会发送RST&#x3D;1的报文段，表示重新连接。</p>
+<p>同步位SYN：当客户端和服务端互相发送连接请求和连接接收报文时，就会将SYN置为1。</p>
+<p>终止位FIN：当FIN&#x3D;1，则表示此报文段发送方数据已发完，要求释放连接。</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/663e33af0ea9cb14035d76f5.png" alt="计算机网络（五）——传输层——TCP报文段3.png">
+
+<p>上图是对TCP报文段首部格式剩下的几个字段的介绍。</p>
+<p>窗口，指现在允许对方发送的数据量。例如，接收方返还确认报文段信息时，返回确认号701，窗口1000，这意味着期望发送方的下一个报文段的第一个数据字节编号为701，而且最多只能够发送1000个字节数据。</p>
+<p>检验和，同UDP一样，用做差错检测。</p>
+<p>紧急指针，只有当URG&#x3D;1时，紧急指针才有效，指出本报文段中紧急数据的字节数。当紧急指针为50时，意味着数据部分的前50个字节是紧急数据。</p>
+<p>选项，里面包含一些别的特殊功能，可以有也可以没有。</p>
+<p>填充，由于TCP报文段首部希望为4B的倍数，但是选型字段的长度不确定，所以当加上选项字段的报文首部不是4B的倍数时，剩下的部分将会由填充字段补充，一般填充段全部填0。</p>
+<h3 id="3-3-TCP连接管理"><a href="#3-3-TCP连接管理" class="headerlink" title="3.3 TCP连接管理"></a>3.3 TCP连接管理</h3><p>这部分比较重要，建议重点学习。</p>
+<p>TCP连接传输要经历三个阶段，如下图：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/663e36a70ea9cb140363f003.png" alt="计算机网络（五）——传输层——TCP连接三个阶段.png">
+
+<p>在TCP连接里，虽然连接两方的名称不同，一个叫客户，一个叫服务，但是两者都可以发送数据，是全双工通信。</p>
+<p>下面看一下TCP的连接如何建立，即三次握手：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/663e36f70ea9cb1403647de5.png">
+
+<p>上图是TCP的连接建立，要注意三次握手中，每一次握手里关键变量的赋值改变。</p>
+<p>第一次握手，令SYN&#x3D;1，代表这是一个连接请求报文，同时seq&#x3D;x，这里的seq就是序号，该序号由主机随机产生，可以从1开始，也可以从任意一个随机数开始。至于确认号ACK，在这里是无效的，因为客户端没有收到服务端发送来的报文段，则客户端不知道自己接下来该期待什么，所以确认号是无意义的。</p>
+<p>第二次握手，服务器收到客户端的申请报文，服务器返回确认报文段，同时为该TCP链接分配缓存和变量。这里SYN同样为1，但确认控制位ACK开始发挥作用，所以ACK&#x3D;1，这时ack确认号字段也就开始生效，ack&#x3D;y+1，表示期待对方接下来发送的第一个字节序号。同样，对于确认信号，主机也随机分配一个确认序号y。</p>
+<p>第三次握手，客户端收到服务端的确认报文，要返回一个确认的确认。同时还要为该TCP链接分配缓存和变量。与前两次握手不同的是，这次握手已经可以携带数据。此次握手已经不是发送连接请求，所以SYN&#x3D;0，ACK仍为1。此次握手，发送方已经知道了服务器发送过来的序号，所以他就知道接下来应该期待哪个序号对应的就是ack&#x3D;y+1，seq&#x3D;x+1。</p>
+<p>对于TCP的连接建立，可以知道，第二次和第三次握手，客户端和服务端分别为TCP连接分配了缓存和变量，这样可能会出现下图的SYN洪泛攻击：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/663e37270ea9cb140364cf60.png" alt="计算机网络（五）——传输层——TCP的SYN洪泛攻击.png">
+
+<p>预防SYN洪泛攻击的方法通常是设置SYN cookie（非考点，有兴趣可以自己去找资料）。</p>
+<p>接下来看一下TCP的连接释放：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/663e37a40ea9cb140365e338.png" alt="计算机网络（五）——传输层——TCP的连接释放.png">
+
+<p>TCP连接释放要经历四次握手。</p>
+<p>第一次握手，客户端发送连接释放报文段，主动关闭TCP连接，这个时候要令FIN&#x3D;1，seq指的也是报文段第一个字节的序号，由于这个报文段通常是没数据的，所以这个序号也可以来标识这个报文段。</p>
+<p>第二次握手，服务器收到来自客户端的连接释放请求，服务器就会返回一个释放确认。这时候客户端到服务端的连接就释放了，但这只是个半释放，因为客户停止向服务发送数据，但服务依然可以向客户发送数据。这个时候ACK&#x3D;1，seq&#x3D;v（取决上一个发送的报文段，这里v表示上一个发送的报文段里最后一个字节序号为v-1），确认号ack&#x3D;u+1（返回的是对上一个报文段的期待）。</p>
+<p>第三次握手，服务器经历第二次握手以后，如果还有未发完的数据就继续发送数据，待发完数据会进行第三次握手。如果没有数据就会直接进行第三次握手。这时服务端主动关闭TCP连接，FIN&#x3D;1，ACK&#x3D;1，seq&#x3D;w（w取决于第二次握手以后，服务器发送的数据量，如果没有发送w&#x3D;v），ack&#x3D;u+1（这里第三次握手与第二次握手的ack一样，是因为这段时间内客户端没有发送数据）。</p>
+<p>第四次握手，主机收到服务端的释放报文段，接下来要进行一个回复确认，确认以后，连接还没有结束，要等待2MSL后才可彻底关闭TCP连接。要等待2MSL的原因是，如果客户端发送的确认报文丢失，则在2MSL内，客户端会收到服务端重传的连接释放报文段，客户端要重新确认并刷新计时。如果2MSL内没收到，则说明服务端收到确认报文段，才可顺利释放。</p>
+<h3 id="3-4-TCP可靠传输"><a href="#3-4-TCP可靠传输" class="headerlink" title="3.4 TCP可靠传输"></a>3.4 TCP可靠传输</h3><p>在前面我们学过，网络层提供尽最大努力交付，不保证可靠传输，所以在网络层之上要保证可靠传输，而在传输层可以通过TCP实现可靠传输。所谓可靠，就是保证接收方进程从缓存区读出的字节流与发送方发出的字节流是一样的。</p>
+<p>TCP实现可靠传输的机制：</p>
+<ol>
+<li>校验</li>
+<li>序号</li>
+<li>确认</li>
+<li>重传</li>
+</ol>
+<p>其中TCP的校验机制与UDP一样，所以这里不说了，接下来重点看其它三个。</p>
+<h4 id="3-4-1-序号"><a href="#3-4-1-序号" class="headerlink" title="3.4.1 序号"></a>3.4.1 序号</h4><p>序号就是TCP对文件的字节编号，这个前面已经说过，在这里再说一下两个重点。</p>
+<p><strong>在TCP协议中，一个字节占一个序号。</strong></p>
+<p><strong>序号字段指的是一个报文段第一个字节的序号</strong>。</p>
+<h4 id="3-4-2-确认"><a href="#3-4-2-确认" class="headerlink" title="3.4.2 确认"></a>3.4.2 确认</h4><p>接下来结合一个例子，了解确认的过程：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/663f7b8a0ea9cb14037263b9.png" alt="计算机网络（五）——传输层——确认.png">
+
+<p>发送方给接收方发送第一个报文段，就是1、2、3三个字节构成的报文段。发过去以后，接收方就收到了，并存储在自己的接收缓存中，然后再找个时间，把缓存中的该报文段提交给应用层。</p>
+<p>注意，发送方发送完第一个报文段以后，并不是立即把该报文段删除，因为网络可能会产生问题，导致报文段丢失，这时接收方要重传，直到接收方返回一个确认报文段才会将第一个报文段删除。</p>
+<p>在TCP协议里，接收方接收到报文段以后，会返回确认报文段，这个报文段采用累计确认的方式。另外，当接收方有数据要发送时，也可以通过确认报文段一起发送。</p>
+<p>在上图例子里，假设接收方返回的就是一个不带数据的确认报文段，报文段首部确认号应该为4。发送方收到以后，就知道自己发送的1,2,3三个字节已经被接收，这时候就会把缓存中的1,2,3删去。</p>
+<p>接下来，发送方继续发送，发送4,5,6和7,8这两个报文段，这个时候假设4,5,6的报文段丢失，接收方只收到7,8的报文段。如下图，这时候接收方会使用什么方式来保证可靠传输？</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/663f80480ea9cb14037b8b9d.png" alt="计算机网络（五）——传输层——确认重传.png">
+
+<p>接收方会使用累计确认的方式来保护传输，所谓累积确认就是TCP只确认这个数据流当中至第一个丢失为止的字节。如上图，虽然收到7,8报文段，但因4,5,6没到，接收方返回的确认报文的首部的确认号字段仍然是4，虽然7,8的报文段会正常接收，但还会一直告诉发送方需要发送序号4为开头的报文段。接收方收到该字段以后，就会判定4,5,6没到达，继而重传该报文段。接收方收到以后，发现自己已经有了1,2,3,4,5,6,7,8，所以接收方接下来会返回首部序号字段为9的报文段。</p>
+<p>到这里，我们已经开始接触到重传的部分，接下来具体看一下TCP的重传机制。</p>
+<h4 id="3-4-3-重传"><a href="#3-4-3-重传" class="headerlink" title="3.4.3 重传"></a>3.4.3 重传</h4><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/6640508d0ea9cb1403b37fac.png" alt="计算机网络（五）——传输层——重传.png">
+
+<p>在**<font color=red>规定时间</font><strong>内，TCP发送方没有收到接收方的确认报文段，就要重传已发送的报文段，这就是常说的超时重传，这个</strong>规定时间也叫<font color=red>重传时间</font>**。这个重传时间的规定要相对复杂一些，因为TCP下层是一个互联网环境，发送的报文段可能只经历一个高速率的局域网，也可能经历许多低速率的网络，而且每一个IP数据报选择的路由也各不相同，这取决于当时的网络情况，这就导致对于一个发送方，他所发送的很多个报文段所走的路径不一样，所花的时间也不一样。如果把重传时间设置的过短的话，就会引起很多报文段不必要的重传，因为不同报文段传播时间不一样，如果传播时间过短，那些传播时间较长的报文段还没到接收端，就要再次重传，这样就会使网络负荷大大增大；如果把重传时间设置的过长，就会使网络空闲时间增大，降低传输效率。</p>
+<p>对于传输层TCP重传时间的设置，TCP协议采用了自适应的算法，动态的改变重传时间RTTs（RTT表示往返时间，加了s表示加权平均往返时间）。比如，在发送第一个报文段时，RTTs取得就是第一个报文段的RTT（从第一个报文段发送到接收到第一个报文段的确认时间就是第一个报文段的RTT）。接下来在发送第二个报文段时，同样，第二个报文段也有一个RTT，这时就会根据第一个和第二个RTT算出一个RTTs，算作第二个报文段的重传时间。同理，第三个报文段会结合第二个第一个和自己的RTT算出一个RTTs，当做自己的重传时间。使用这样一个自适应算法就可以照顾到每一个报文段，使重传时间既不会太长也不会太短。注，这部分的计算过程不需要掌握，只需要知道这么一个原理就可以。</p>
+<p>根据超时重传的过程可以发现一个问题，这个超时重传要一直在超时重传的时间内等待，等到过了这个时间还没有收到确认，才会超时重传，这个等的时间可能会有点久，所以可以采用下图的冗余ACK的方式，在等待时间到达之前，就知道发送方有没有丢失报文段，然后尽快重传。</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/664050970ea9cb1403b38cee.png" alt="计算机网络（五）——传输层——快速重传.png">
+
+<p>冗余ACK的原理就是每当比期望序号大的失序报文段到达时，发送一个冗余ACK，指明下一个期待字节的序号。</p>
+<p>上图给出了一个冗余ACK的例子，发送方发送1,2,3,4,5一个5个报文段，接收方收到报文段1后，返回确认号2，但是第二个报文段丢失，也就意味着，从第2个报文段往后的3,4,5报文段收到的确认报文段的确认号都是2，相当于发送方收到3个对于报文段1的冗余ACK，这时发送方就可以认为报文段2丢失，需要重传2号报文段。像这样的技术通常称之为快速重传技术。</p>
+<p>至此，TCP可靠传输的机制内容就结束了，但正常来说，还要学习TCP的发送缓存和发送窗口，接收缓冲和接收串口，而且还要学习发送过程的一些使用协议，比如停等协议、GBN协议、SR协议等，但这些东西在链路层已经讲过，这些协议在传输层的使用与在链路层的使用大同小异，基本上差不多。所以可以在上面的例子里看到发送方可以连续发送好几个报文段，不需要等2号的确认信号到了以后才能发送3号报文段，也就是说TCP是不常使用停等协议的，它通常使用GBN或SR协议，来一次性发送多个报文段，然后接收方可以使用累积确认方式发送返还确认信号。</p>
+<p>由于上面所说的这些协议内容在链路层已经说过，所以在传输层不过多叙述，但可以自己结合链路层复习一下。接下里说一下TCP的两个重要考点，拥塞控制和流量控制。</p>
+<h3 id="3-5-TCP的流量控制"><a href="#3-5-TCP的流量控制" class="headerlink" title="3.5 TCP的流量控制"></a>3.5 TCP的流量控制</h3><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/664059f90ea9cb1403c1329b.png" alt="计算机网络（五）——传输层——TCP流量控制.png">
+
+<p>在发送数据时，我们都会希望发送速率可以更快一些，但是如果发送速率过快，就会使接收方来不及接收，这样就会导致严重的丢包现象，所以才需要有流量控制。</p>
+<p><strong><font color=green>TCP协议使用滑动窗口协议来实现流量控制。</font><strong>TCP使用滑动窗口的机制和链路层滑动窗口的机制非常类似。在通信过程中，接收方根据自己接收缓存的大小，动态地调整发送方的发送窗口大小。接收方动态调整发送方窗口大小是通过设置确认报文段的窗口字段来将接收窗口rwnd通知给发送方。发送方根据接收方传来的消息与拥塞窗口（拥塞窗口在3.6TCP的拥塞控制里介绍）比较，进而动态调整自己发送窗口的大小。</strong>发送方的发送窗口取接收窗口rwnd和拥塞窗口cwnd的最小值。</strong></p>
+<p>上图下给出了一个例子来帮助了解TCP流量控制，在rwnd永远小于cwnd，即不考虑拥塞窗口的情况下，假设在建立连接时，接收方返还发送方的报文段里窗口字段值为6，发送端就会设置自己的发送窗口为6，注意一点，发送窗口大小并不一定一直为6，它的大小是可以动态变化的，这都取决于接收方返还的报文段的窗口字段大小，接收方就是通过这个窗口字段大小，来间接控制了发送方的发送速率。</p>
+<p>当然接收方发送的报文段里的窗口字段值也可以是0，这个时候发送方就没有办法把数据发给接收方。此时接收方做的事情就是把接受缓存里的数据上交给上层的应用层，进行一个数据处理的过程，直到处理一部分或全部处理结束，接收方又会返还给发送方一个报文段，并且把窗口字段设置为接收方可以接受的大小，意味着发送方可以接着发送字段。</p>
+<p>接下来看一个例子：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/664061070ea9cb1403d05617.png" alt="计算机网络（五）——传输层——TCP流量控制案例.png">
+
+<p>如上图，假设有两个主机A和B，发送方是A，接收方是B。在发送数据时采用TCP协议，因此需要先建立连接，在建立连接时，B会告诉A自己的接收窗口为400B，设每一个报文段大小为100B，报文段初始序号值为1。</p>
+<p>接下来，看一下具体发送过程，首先主机A给主机B发送一个报文段，这个报文段从序号1开始，长度为100B，接下里A主机还能发送300B。然后A继续发送第二个报文段从101<del>200，此时还剩200B的发送窗口。接下来，A发送第三个报文段，从201</del>300，但这个报文段丢失了。接下来B发送确认报文，确认报文里的ack确认号是201，表示201之前的数据已经被正确接收，这里要注意的是，由于TCP并不是停等协议，也就是并不是发送一个报文段，必须收到确认才能发送下一个报文段，而是可以连续发送几个报文段，并且接收方采用累计确认的机制把之前全部按序收到的完整的报文段，用一个确认报文段来进行回复确认。</p>
+<p>上例里，201报文段丢失，接收方返回确认报文段里ACK&#x3D;1，ack&#x3D;201，rwnd&#x3D;300，也就是说发送方还可以发送从201<del>500三个报文段，接下来，由于发送方已经发送过201报文段，但是该报文段丢失，发送方并不清楚，然而发送方收到了前两个报文段的确认报文，于是发送方会删除前两个报文缓存，将将缓存窗口覆盖到201</del>500，因为201<del>300已经发过，于是发送方只发送301</del>400,401<del>500两个报文段，此时发送窗口已满，所以发送方要等待接收方的确认报文，在等待期间，发送方不能再发送数据报文。在等待期间，发送方的201</del>300字段的超时重传时间到了，此时发送方A判定B没有收到201<del>300报文段，于是要重新发送201</del>300的报文段。</p>
+<p>接下来主机B返还一个确认信号ack&#x3D;501，rwnd&#x3D;100，意味着主机B成功收到501之前的序号字节，然后希望A再发送501<del>600的报文段。接下来A继续发送501</del>600的报文段，发送窗口再一次充满且没有收到确认报文，则A不能再继续发送。</p>
+<p>接下来主机B又一次返还确认报文，报文里ACK&#x3D;1，ack-6901，rwnd&#x3D;0，意味着601之前的数据全部收到且不允许A再发送报文段。A收到以后，会知道B收到到600为止的数据，且此时没有接收窗口，自己不能再发送数据报文段。这种状态会一直持续到主机B重新发送一个新的窗口值为止，也就是说B主机把接收缓存的一部分数据交付处理以后，才会给A一个报文段里窗口值非0的可以让A继续发送数据的报文段。</p>
+<p>注意，B发送给A的窗口值非0的可以让A继续发送数据的报文段有可能在传输过程中丢失，那么A就会一直处于等待状态，一直等待B发来一个非0窗口的通知，但B由于已经发送了非0通知，也会一直等待A发送数据。如果没有其它措施，A和B就会一直处于相互等待状态（类似于操作系统里的死锁），所以需要采取措施应对这种局面。</p>
+<p>为了应付这种局面，TCP会为每一个连接设有一个持续计时器，只要TCP连接的一方收到对方的零窗口通知，就会启动计时器。若持续计时器设置的时间到期，发送方就发送一个零窗口的探测报文段，接收方收到探测报文段时给出现在的窗口值。若窗口仍然是0，那么发送方就要重新设置持续计时器。</p>
+<h3 id="3-6-TCP的拥塞控制"><a href="#3-6-TCP的拥塞控制" class="headerlink" title="3.6 TCP的拥塞控制"></a>3.6 TCP的拥塞控制</h3><h4 id="3-6-1-拥塞控制基础"><a href="#3-6-1-拥塞控制基础" class="headerlink" title="3.6.1 拥塞控制基础"></a>3.6.1 拥塞控制基础</h4><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/6640710f0ea9cb1403eaa3de.png" alt="计算机网络（五）——传输层——TCP拥塞控制.png">
+
+<p>拥塞就是网络状况不好，网络发生堵塞，导致接收数据和发送数据的速度都降低。</p>
+<p>出现拥塞的原因是对资源需求的总和大于可用资源。这里的资源主要指的是网络当中的一些链路容量，比如说带宽等。如果在某段时间对网络当中某个资源的需求总和，超过这个资源可以提供的可用部分，那么网络性能自然就会变坏，因此就会有许多资源同时呈现供应不足的情况，就会使得网络吞吐量将随输入负荷增大而下降，也就是越多人使用这个网络，这个网络也就越来越瘫痪，性能越来越差。</p>
+<p>拥塞控制的目的就是防止过多的数据注入到网络中。</p>
+<p>注意区分拥塞控制和流量控制，拥塞控制是从全局性看的发送方和接收方，流量控制是点对点的发送方与接收方。拥塞控制控制的是全局的网络资源，通过协调使用网络的各主机来防止有过多数据注入网络当中，进而可以减轻网络的堵塞情况。</p>
+<p>如上图左下，是一个接收方对应多个发送方的示意图，这些发送方都要给接收方发送一个数据，假设发送方都要同时使用网络上的资源，就会使得网络非常繁忙，甚至出现拥塞的情况，此时接收方就会察觉这样的拥塞情况，但是他并不知道这种拥塞情况具体是哪一台主机或哪几台主机发送数据过快或过多所造成。而流量控制示意图如右下的点对点模型，如果接收方来不及接收数据，此时接收方是知道该找谁的。</p>
+<p>总结一下，拥塞控制是全局性问题，而流量控制是点对点的问题。拥塞控制是因为网络发生堵塞，导致很多发送方发送来的数据迟迟到不了接收方；而流量控制是发送方发送速率过快，导致接收方接收缓存不够（来不及接收）。</p>
+<h4 id="3-6-2-拥塞控制四种算法"><a href="#3-6-2-拥塞控制四种算法" class="headerlink" title="3.6.2 拥塞控制四种算法"></a>3.6.2 拥塞控制四种算法</h4><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/6640713c0ea9cb1403eae025.png" alt="计算机网络（五）——传输层——TCP拥塞控制四种算法.png">
+
+<p>拥塞控制有四种算法，如上图，分别是慢开始、拥塞避免、快重传、快恢复。正常情况下，慢开始和拥塞避免放到一起使用户，快重传和快恢复放到一起使用。</p>
+<p>在研究这种四种算法之前，首先要假定几个条件：</p>
+<p>第一个条件，数据是单方向传送，而另一个方向只传送确认。（TCP是全双工通信，所以是可以双方互相通信的，但这要假定主要是为了接下来的研究方便。）</p>
+<p>第二个条件，就是接收方有足够大的缓存空间，即接收方的接收窗口大于拥塞窗口。这个时候发送窗口的大小取决于拥塞窗口大小。</p>
+<p>接下来看4种算法。</p>
+<h5 id="3-6-2-1-慢开始和拥塞避免"><a href="#3-6-2-1-慢开始和拥塞避免" class="headerlink" title="3.6.2.1 慢开始和拥塞避免"></a>3.6.2.1 慢开始和拥塞避免</h5><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/6640716c0ea9cb1403eb22c1.png" alt="计算机网络（五）——传输层——TCP拥塞控制慢开始和拥塞避免.png">
+
+<p>如上图是慢开始和拥塞避免算法的实现过程。首先需要搞清楚横纵坐标的含义。</p>
+<p>纵坐标指拥塞窗口的大小，拥塞窗口的初始值是默认为1的，这里的1不是1个字节，为了讨论方便，这里的1指一个报文段，而这一个报文段的长度是一个最大报文段长度MSS。所以对纵坐标的4,8,12等等，指的就是4个MSS，8个MSS等。</p>
+<p>横坐标是传输轮次，所谓传输轮次就是发送一批报文段并收到它们的确认的时间。假设有主机A和主机B，B的接收窗口很大，在第一个传输轮次里，A发送给B一个报文段M1，B返回一个对报文段M1的确认，这就是第一个传输轮次。现在A看到网络情况很好，就可以继续往下多发几个，所以在第二个传输轮次里，A发送给B两个报文段M2、M3，B收到两个报文段以后，依次返回确认，这就是第二个传输轮次。由于假设接收窗口很大，所以A发现网络情况依然很好，在第三个传输轮次里，A又发送4个报文段，B收到以后会继续依次返回确认报文段。接下里如此循环发送。在考试当中，一个传输轮次也指一个往返时延RTT。当然这个传输轮次也可以指开始发送一批拥塞窗口内的报文段到开始发送下一批拥塞窗口内的报文段的时间。</p>
+<p>如上图，可以看到，在一开始时使用慢开始算法（慢开始就是一开始增长缓慢），传输轮次对应的拥塞窗口是成指数规律增长，但是当拥塞窗口到达16以后，就到达了慢开始门限，意味着从这以后，拥塞窗口增长速度开始减小，就是从慢开始进入到拥塞避免，因为现在注入的报文段有点多，担心以后出现拥塞情况，所有把增长速度降低到每次只在前一个拥塞窗口基础上增加一个拥塞窗口。也就是说到了慢开始门限值，接下来就进入拥塞避免算法过程，这个过程是加法增大，他是一个线性增长的过程。当拥塞窗口增大到了24（实际不一定是24，这里的24是根据上图的例子来说的）出现网络拥塞，所以现在执行的操作是将拥塞窗口从24直接降为1，也就是缩小到一开始的慢开始状态，然后开始执行慢开始算法，接下来的过程都一样。但是可以看到，这一次的门限值与上一次不同，**<font color=blue>这个门限值的确定是在网络拥塞的情况下马上确定的，只要发生了网络拥塞，立刻把当时的拥塞窗口除以2定义为新的轮限值</font>**，这里的12就是在24出现网络拥塞以后除2得到，当拥塞窗口达到12以后，就开始进入拥塞避免的算法过程。当网络再次出现拥塞，拥塞窗口就继续降为1再按上述执行。这就是慢开始和拥塞避免算法的过程。</p>
+<p><strong>最后补充一点，拥塞窗口扩大是在收到确认报文段时进行扩大。</strong></p>
+<h5 id="3-6-2-2-快重传和快恢复"><a href="#3-6-2-2-快重传和快恢复" class="headerlink" title="3.6.2.2 快重传和快恢复"></a>3.6.2.2 快重传和快恢复</h5><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/664071990ea9cb1403eb59c9.png" alt="计算机网络（五）——传输层——TCP拥塞控制快重传和快回复.png">
+
+<p>快重传在前面的TCP流量控制里已经接触过，接收方在收到3个重复的冗余确认后，就会执行快重传算法。</p>
+<p>假设主机A和B通信，A给B发送了报文段M1，M2，M3，M4，M5。M1发过去收到了确认报文段，但M2丢失，M3发过去收到一个返回确认，但这个确认是对M1的确认，也就是期待收到M2，然后A发了M4，M5，B都是返回对M1的确认。</p>
+<p>可以看到在这个过程中，B给A发送了4个M1的确认报文段，而这4个当中，后面3个都是冗余ACK，只要发送方收到3个冗余的ACK就会马上执行快重传算法，这样就可以在超时计时器到期之前，快速执行重传的过程，省下了很多等待时间，这就是快重传算法。</p>
+<p>在快重传之后，进行的就是快恢复算法。<strong>快恢复和之前的区别在于，之前是发生拥塞就会降为初始值1，而<font color=red>快恢复是降到新的门限值</font>，这个新的门限值的确定和之前一样，是发生拥塞窗口的值除2</strong>，接下里执行拥塞避免，也就是线性的加法增大，这就是快重传与快恢复的过程。</p>
+<p>在上图的里快恢复有两个版本，但TCP Tahoe版本已经废弃，考试考的是TCP Reno版本，即降到新的门限值。所以对于考试，知道第二个版本就可以。</p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="http://bandit-ljC-1.github.io">liujinC</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="http://bandit-ljc-1.github.io/2024/05/10/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%EF%BC%88%E4%BA%94%EF%BC%89%E2%80%94%E2%80%94%E4%BC%A0%E8%BE%93%E5%B1%82/">http://bandit-ljc-1.github.io/2024/05/10/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%EF%BC%88%E4%BA%94%EF%BC%89%E2%80%94%E2%80%94%E4%BC%A0%E8%BE%93%E5%B1%82/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://bandit-ljC-1.github.io" target="_blank">无名高手🍭</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/408%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">408学习笔记</a><a class="post-meta__tags" href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">计算机网络</a></div><div class="post_share"><div class="social-share" data-image="/myphotos/article_cover/4.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2024/05/12/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%EF%BC%88%E5%85%AD%EF%BC%89%E2%80%94%E2%80%94%E5%BA%94%E7%94%A8%E5%B1%82/" title="计算机网络（六）——应用层"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/myphotos/article_cover/1.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">计算机网络（六）——应用层</div></div></a></div><div class="next-post pull-right"><a href="/2024/04/24/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%EF%BC%88%E5%9B%9B%EF%BC%89%E2%80%94%E2%80%94%E7%BD%91%E7%BB%9C%E5%B1%82/" title="计算机网络（四）——网络层"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/myphotos/article_cover/12.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">计算机网络（四）——网络层</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2024/03/31/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%EF%BC%88%E4%BA%8C%EF%BC%89%E2%80%94%E2%80%94%E7%89%A9%E7%90%86%E5%B1%82/" title="计算机网络（二）——物理层"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/myphotos/article_cover/7.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2024-03-31</div><div class="title">计算机网络（二）——物理层</div></div></a></div><div><a href="/2024/03/17/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%EF%BC%88%E4%B8%80%EF%BC%89%E2%80%94%E2%80%94%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84/" title="计算机网络（一）——计算机网络体系结构"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/myphotos/article_cover/8.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2024-03-17</div><div class="title">计算机网络（一）——计算机网络体系结构</div></div></a></div><div><a href="/2024/05/12/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%EF%BC%88%E5%85%AD%EF%BC%89%E2%80%94%E2%80%94%E5%BA%94%E7%94%A8%E5%B1%82/" title="计算机网络（六）——应用层"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/myphotos/article_cover/1.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2024-05-12</div><div class="title">计算机网络（六）——应用层</div></div></a></div><div><a href="/2024/04/10/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%EF%BC%88%E4%B8%89%EF%BC%89%E2%80%94%E2%80%94%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AF%E5%B1%82/" title="计算机网络（三）——数据链路层"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/myphotos/article_cover/4.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2024-04-10</div><div class="title">计算机网络（三）——数据链路层</div></div></a></div><div><a href="/2024/04/24/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%EF%BC%88%E5%9B%9B%EF%BC%89%E2%80%94%E2%80%94%E7%BD%91%E7%BB%9C%E5%B1%82/" title="计算机网络（四）——网络层"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/myphotos/article_cover/12.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2024-04-24</div><div class="title">计算机网络（四）——网络层</div></div></a></div><div><a href="/2024/03/22/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%EF%BC%88%E4%B8%80%EF%BC%89%E2%80%94%E2%80%94%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F%E6%A6%82%E8%BF%B0/" title="操作系统（一）——计算机系统概述"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/myphotos/article_cover/3.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2024-03-22</div><div class="title">操作系统（一）——计算机系统概述</div></div></a></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/myphotos/avatar.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">liujinC</div><div class="author-info__description"></div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">29</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">8</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">3</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://home.liujinc.cn"><i class="fab fa-github"></i><span>网站主页</span></a><div class="card-info-social-icons is-center"><a class="social-icon faa-parent animated-hover" href="/myphotos/WeChat.png" target="_blank" title="微信"><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon-weixin"></use></svg></a><a class="social-icon faa-parent animated-hover" href="/myphotos/QQ.jpg" target="_blank" title="QQ"><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon-QQ"></use></svg></a><a class="social-icon faa-parent animated-hover" href="https://space.bilibili.com/1941048387?spm_id_from=333.1007.0.0" target="_blank" title="B站"><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon-bilibili"></use></svg></a><a class="social-icon faa-parent animated-hover" href="https://blog.csdn.net/qq_63040545?spm=1000.2115.3001.5343" target="_blank" title="CSDN"><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon-csdn"></use></svg></a><a class="social-icon faa-parent animated-hover" href="https://github.com/Bandit-ljC-1" target="_blank" title="GitHub"><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon-github1"></use></svg></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">今年18岁傍50岁富婆，来年50岁包18岁姑娘。</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%EF%BC%88%E4%BA%94%EF%BC%89%E2%80%94%E2%80%94%E4%BC%A0%E8%BE%93%E5%B1%82"><span class="toc-text">计算机网络（五）——传输层</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-%E4%BC%A0%E8%BE%93%E5%B1%82%E6%8F%90%E4%BE%9B%E7%9A%84%E6%9C%8D%E5%8A%A1"><span class="toc-text">1. 传输层提供的服务</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-1-%E4%BC%A0%E8%BE%93%E5%B1%82%E7%9A%84%E5%8A%9F%E8%83%BD"><span class="toc-text">1.1 传输层的功能</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-2-%E4%BC%A0%E8%BE%93%E5%B1%82%E7%9A%84%E4%B8%A4%E4%B8%AA%E5%8D%8F%E8%AE%AE"><span class="toc-text">1.2 传输层的两个协议</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-3-%E4%BC%A0%E8%BE%93%E5%B1%82%E7%9A%84%E5%AF%BB%E5%9D%80%E4%B8%8E%E7%AB%AF%E5%8F%A3"><span class="toc-text">1.3 传输层的寻址与端口</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-UDP%E5%8D%8F%E8%AE%AE"><span class="toc-text">2. UDP协议</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#2-1-UDP%E6%A6%82%E8%BF%B0"><span class="toc-text">2.1 UDP概述</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-2-UDP%E9%A6%96%E9%83%A8%E6%A0%BC%E5%BC%8F"><span class="toc-text">2.2 UDP首部格式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-3-UDP%E7%9A%84%E6%A3%80%E9%AA%8C%E5%92%8C"><span class="toc-text">2.3 UDP的检验和</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-TCP"><span class="toc-text">3. TCP</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#3-1-TCP%E5%8D%8F%E8%AE%AE%E7%89%B9%E7%82%B9"><span class="toc-text">3.1 TCP协议特点</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-2-TCP%E6%8A%A5%E6%96%87%E6%AE%B5"><span class="toc-text">3.2 TCP报文段</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-3-TCP%E8%BF%9E%E6%8E%A5%E7%AE%A1%E7%90%86"><span class="toc-text">3.3 TCP连接管理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-4-TCP%E5%8F%AF%E9%9D%A0%E4%BC%A0%E8%BE%93"><span class="toc-text">3.4 TCP可靠传输</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#3-4-1-%E5%BA%8F%E5%8F%B7"><span class="toc-text">3.4.1 序号</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-4-2-%E7%A1%AE%E8%AE%A4"><span class="toc-text">3.4.2 确认</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-4-3-%E9%87%8D%E4%BC%A0"><span class="toc-text">3.4.3 重传</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-5-TCP%E7%9A%84%E6%B5%81%E9%87%8F%E6%8E%A7%E5%88%B6"><span class="toc-text">3.5 TCP的流量控制</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-6-TCP%E7%9A%84%E6%8B%A5%E5%A1%9E%E6%8E%A7%E5%88%B6"><span class="toc-text">3.6 TCP的拥塞控制</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#3-6-1-%E6%8B%A5%E5%A1%9E%E6%8E%A7%E5%88%B6%E5%9F%BA%E7%A1%80"><span class="toc-text">3.6.1 拥塞控制基础</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-6-2-%E6%8B%A5%E5%A1%9E%E6%8E%A7%E5%88%B6%E5%9B%9B%E7%A7%8D%E7%AE%97%E6%B3%95"><span class="toc-text">3.6.2 拥塞控制四种算法</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#3-6-2-1-%E6%85%A2%E5%BC%80%E5%A7%8B%E5%92%8C%E6%8B%A5%E5%A1%9E%E9%81%BF%E5%85%8D"><span class="toc-text">3.6.2.1 慢开始和拥塞避免</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#3-6-2-2-%E5%BF%AB%E9%87%8D%E4%BC%A0%E5%92%8C%E5%BF%AB%E6%81%A2%E5%A4%8D"><span class="toc-text">3.6.2.2 快重传和快恢复</span></a></li></ol></li></ol></li></ol></li></ol></li></ol></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2024 - 2025 By liujinC</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js?v=4.12.0"></script><script src="/js/main.js?v=4.12.0"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0.32/dist/fancybox/fancybox.umd.min.js"></script><script src="https://cdn.jsdelivr.net/npm/instant.page@5.2.0/instantpage.min.js" type="module"></script><script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@17.8.5/dist/lazyload.iife.min.js"></script><script src="https://cdn.jsdelivr.net/npm/node-snackbar@0.1.16/dist/snackbar.min.js"></script><script>function panguFn () {
+  if (typeof pangu === 'object') pangu.autoSpacingPage()
+  else {
+    getScript('https://cdn.jsdelivr.net/npm/pangu@4.0.7/dist/browser/pangu.min.js')
+      .then(() => {
+        pangu.autoSpacingPage()
+      })
+  }
+}
+
+function panguInit () {
+  if (false){
+    GLOBAL_CONFIG_SITE.isPost && panguFn()
+  } else {
+    panguFn()
+  }
+}
+
+document.addEventListener('DOMContentLoaded', panguInit)</script><div class="js-pjax"></div><canvas id="snow"></canvas><script async src="/js/snow.js"></script><canvas id="universe"></canvas><script defer src="/js/universe.js"></script><script defer src="/js/mouse.js"></script><script async src="//at.alicdn.com/t/c/font_4451089_fok8y2foa3.js"></script><script defer type="text/javascript" src="https://cdn1.tianli0.top/npm/sweetalert2@8.19.0/dist/sweetalert2.all.js"></script><script defer src="/js/festival/lunar.js"></script><script defer src="/js/festival/day.js"></script><script async src="/js/fps.js"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="is-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据库加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div id="local-search-results"></div><div id="local-search-stats-wrap"></div></div></div><div id="search-mask"></div><script src="/js/search/local-search.js?v=4.12.0"></script></div></div><!-- hexo injector body_end start --> <script data-pjax>if(document.getElementById('recent-posts') && (location.pathname ==='/'|| '/' ==='all')){
+    var parent = document.getElementById('recent-posts');
+    var child = '<div class="recent-post-item" style="width:100%;height: auto"><div id="catalog_magnet"><div class="magnet_item"><a class="magnet_link" href="http://bandit-ljC-1.github.io/tags/408学习笔记/"><div class="magnet_link_context" style=""><span style="font-weight:500;flex:1">🐱‍👓 路漫漫其修远，我探索不了一点。 (25)</span><span style="padding:0px 4px;border-radius: 8px;"><i class="fas fa-arrow-circle-right"></i></span></div></a></div><div class="magnet_item"><a class="magnet_link" href="http://bandit-ljC-1.github.io/tags/前端/"><div class="magnet_link_context" style=""><span style="font-weight:500;flex:1">🍨 前端UI到转行平面设计 (2)</span><span style="padding:0px 4px;border-radius: 8px;"><i class="fas fa-arrow-circle-right"></i></span></div></a></div><a class="magnet_link_more"  href="http://bandit-ljC-1.github.io/tags" style="flex:1;text-align: center;margin-bottom: 10px;">查看更多...</a></div></div>';
+    console.log('已挂载magnet')
+    parent.insertAdjacentHTML("afterbegin",child)}
+     </script><style>#catalog_magnet{flex-wrap: wrap;display: flex;width:100%;justify-content:space-between;padding: 10px 10px 0 10px;align-content: flex-start;}.magnet_item{flex-basis: calc(50% - 5px);background: #f2f2f2;margin-bottom: 10px;border-radius: 8px;transition: all 0.2s ease-in-out;}.magnet_item:hover{background: #b30070}.magnet_link_more{color:#555}.magnet_link{color:black}.magnet_link:hover{color:white}@media screen and (max-width: 600px) {.magnet_item {flex-basis: 100%;}}.magnet_link_context{display:flex;padding: 10px;font-size:16px;transition: all 0.2s ease-in-out;}.magnet_link_context:hover{padding: 10px 20px;}</style>
+    <style></style><script data-pjax>
+    function butterfly_categories_card_injector_config(){
+      var parent_div_git = document.getElementById('recent-posts');
+      var item_html = '<style>li.categoryBar-list-item{width:32.3%;}.categoryBar-list{max-height: 380px;overflow:auto;}.categoryBar-list::-webkit-scrollbar{width:0!important}@media screen and (max-width: 650px){.categoryBar-list{max-height: 320px;}}</style><div class="recent-post-item" style="height:auto;width:100%;padding:0px;"><div id="categoryBar"><ul class="categoryBar-list"><li class="categoryBar-list-item" style="background:url(/myphotos/article_cover/1.jpg);"> <a class="categoryBar-list-link" href="categories/网页开发/">网页开发</a><span class="categoryBar-list-count">2</span><span class="categoryBar-list-descr">优秀的设计师</span></li><li class="categoryBar-list-item" style="background:url(/myphotos/article_cover/2.jpg);"> <a class="categoryBar-list-link" href="categories/hexo/">hexo</a><span class="categoryBar-list-count">2</span><span class="categoryBar-list-descr">五等分的blog</span></li><li class="categoryBar-list-item" style="background:url(/myphotos/article_cover/3.jpg);"> <a class="categoryBar-list-link" href="categories/学习笔记/">学习笔记</a><span class="categoryBar-list-count">25</span><span class="categoryBar-list-descr">埼玉的成长之路</span></li></ul></div></div>';
+      console.log('已挂载butterfly_categories_card')
+      parent_div_git.insertAdjacentHTML("afterbegin",item_html)
+      }
+    if( document.getElementById('recent-posts') && (location.pathname ==='/'|| '/' ==='all')){
+    butterfly_categories_card_injector_config()
+    }
+  </script><script data-pjax>
+  function butterfly_swiper_injector_config(){
+    var parent_div_git = document.getElementById('recent-posts');
+    var item_html = '<div class="recent-post-item" style="height: auto;width: 100%"><div class="blog-slider swiper-container-fade swiper-container-horizontal" id="swiper_container"><div class="blog-slider__wrp swiper-wrapper" style="transition-duration: 0ms;"><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" href="2024/01/01/Markdown语法/" alt=""><img width="48" height="48" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="myphotos/article_cover/6.jpg" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/></a><div class="blog-slider__content"><span class="blog-slider__code">2024-01-01</span><a class="blog-slider__title" href="2024/01/01/Markdown语法/" alt="">青春男大遇到不会写的Markdown语法</a><div class="blog-slider__text">本文是博主写博客时遇到的一些不会写的Markdown语法，特在此汇总</div><a class="blog-slider__button" href="2024/01/01/Markdown语法/" alt="">详情   </a></div></div><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" href="2024/03/07/数据结构（一）——线性表/" alt=""><img width="48" height="48" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="myphotos/article_cover/3.jpg" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/></a><div class="blog-slider__content"><span class="blog-slider__code">2024-03-07</span><a class="blog-slider__title" href="2024/03/07/数据结构（一）——线性表/" alt="">数据结构（一）——线性表</a><div class="blog-slider__text">本文是数据结构中有关线性表的复习笔记，因此只记录一些重点知识与兄弟们交流，并不适合零基础的兄弟。</div><a class="blog-slider__button" href="2024/03/07/数据结构（一）——线性表/" alt="">详情   </a></div></div><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" href="2024/03/02/基于hexo搭建的个人博客常见问题处理/" alt=""><img width="48" height="48" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="myphotos/article_cover/6.jpg" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/></a><div class="blog-slider__content"><span class="blog-slider__code">2024-03-02</span><a class="blog-slider__title" href="2024/03/02/基于hexo搭建的个人博客常见问题处理/" alt="">基于hexo搭建的个人博客常见问题处理</a><div class="blog-slider__text">该文主要是站长对使用hexo搭建博客时出现的一些问题进行了整理</div><a class="blog-slider__button" href="2024/03/02/基于hexo搭建的个人博客常见问题处理/" alt="">详情   </a></div></div><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" href="2024/02/08/CSS基础语法及应用/" alt=""><img width="48" height="48" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="myphotos/article_cover/6.jpg" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/></a><div class="blog-slider__content"><span class="blog-slider__code">2024-02-08</span><a class="blog-slider__title" href="2024/02/08/CSS基础语法及应用/" alt="">CSS基础语法及应用</a><div class="blog-slider__text">本文主要整理CSS的基本语法，可以搭配HTML5基本语法进行学习</div><a class="blog-slider__button" href="2024/02/08/CSS基础语法及应用/" alt="">详情   </a></div></div><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" href="2024/02/01/HTML5基础语法大全/" alt=""><img width="48" height="48" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="myphotos/article_cover/13.jpg" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/></a><div class="blog-slider__content"><span class="blog-slider__code">2024-02-01</span><a class="blog-slider__title" href="2024/02/01/HTML5基础语法大全/" alt="">HTML5基本语法大全</a><div class="blog-slider__text">本文主要整理了HTML5的基本语法，方便初学者快速入门</div><a class="blog-slider__button" href="2024/02/01/HTML5基础语法大全/" alt="">详情   </a></div></div></div><div class="blog-slider__pagination swiper-pagination-clickable swiper-pagination-bullets"></div></div></div>';
+    console.log('已挂载butterfly_swiper')
+    parent_div_git.insertAdjacentHTML("afterbegin",item_html)
+    }
+  var elist = 'undefined'.split(',');
+  var cpage = location.pathname;
+  var epage = '/';
+  var flag = 0;
+
+  for (var i=0;i<elist.length;i++){
+    if (cpage.includes(elist[i])){
+      flag++;
+    }
+  }
+
+  if ((epage ==='all')&&(flag == 0)){
+    butterfly_swiper_injector_config();
+  }
+  else if (epage === cpage){
+    butterfly_swiper_injector_config();
+  }
+  </script><script defer src="https://npm.elemecdn.com/hexo-butterfly-swiper/lib/swiper.min.js"></script><script defer data-pjax src="https://npm.elemecdn.com/hexo-butterfly-swiper/lib/swiper_init.js"></script><script data-pjax>
+  function butterfly_footer_beautify_injector_config(){
+    var parent_div_git = document.getElementById('footer-wrap');
+    var item_html = '<div id="workboard"></div><p id="ghbdages"><a class="github-badge" target="_blank" href="https://hexo.io/" style="margin-inline:5px" data-title="博客框架为Hexo_v6.2.0" title=""><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img.shields.io/badge/Frame-Hexo-blue?style=flat&amp;logo=hexo" alt=""/></a><a class="github-badge" target="_blank" href="https://butterfly.js.org/" style="margin-inline:5px" data-title="主题版本Butterfly_v4.3.1" title=""><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img.shields.io/badge/Theme-Butterfly-6513df?style=flat&amp;logo=bitdefender" alt=""/></a><a class="github-badge" target="_blank" href="https://vercel.com/" style="margin-inline:5px" data-title="本站采用多线部署，主线路托管于Vercel" title=""><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img.shields.io/badge/Hosted-Vercel-brightgreen?style=flat&amp;logo=Vercel" alt=""/></a><a class="github-badge" target="_blank" href="https://dashboard.4everland.org/" style="margin-inline:5px" data-title="本站采用多线部署，备用线路托管于4EVERLAND" title=""><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img.shields.io/badge/Hosted-4EVERLAND-22DDDD?style=flat&amp;logo=IPFS" alt=""/></a><a class="github-badge" target="_blank" href="https://github.com/" style="margin-inline:5px" data-title="本站项目由Github托管" title=""><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img.shields.io/badge/Source-Github-d021d6?style=flat&amp;logo=GitHub" alt=""/></a><a class="github-badge" target="_blank" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" style="margin-inline:5px" data-title="本站采用知识共享署名-非商业性使用-相同方式共享4.0国际许可协议进行许可" title=""><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img.shields.io/badge/Copyright-BY--NC--SA%204.0-d42328?style=flat&amp;logo=Claris" alt=""/></a></p>';
+    console.log('已挂载butterfly_footer_beautify')
+    parent_div_git.insertAdjacentHTML("beforeend",item_html)
+    }
+  var elist = 'null'.split(',');
+  var cpage = location.pathname;
+  var epage = 'all';
+  var flag = 0;
+
+  for (var i=0;i<elist.length;i++){
+    if (cpage.includes(elist[i])){
+      flag++;
+    }
+  }
+
+  if ((epage ==='all')&&(flag == 0)){
+    butterfly_footer_beautify_injector_config();
+  }
+  else if (epage === cpage){
+    butterfly_footer_beautify_injector_config();
+  }
+  </script><script async src="/js/clock.js"></script><div class="js-pjax"><script async="async">var arr = document.getElementsByClassName('recent-post-item');
+for(var i = 0;i<arr.length;i++){
+    arr[i].classList.add('wow');
+    arr[i].classList.add('animate__zoomIn');
+    arr[i].setAttribute('data-wow-duration', '2s');
+    arr[i].setAttribute('data-wow-delay', '1s');
+    arr[i].setAttribute('data-wow-offset', '100');
+    arr[i].setAttribute('data-wow-iteration', '1');
+  }</script><script async="async">var arr = document.getElementsByClassName('card-widget');
+for(var i = 0;i<arr.length;i++){
+    arr[i].classList.add('wow');
+    arr[i].classList.add('animate__zoomIn');
+    arr[i].setAttribute('data-wow-duration', '');
+    arr[i].setAttribute('data-wow-delay', '');
+    arr[i].setAttribute('data-wow-offset', '');
+    arr[i].setAttribute('data-wow-iteration', '');
+  }</script></div><script defer src="/css/wowjs/wow.min.js"></script><script defer src="/css/wowjs/wow_init.js"></script><!-- hexo injector body_end end --></body></html>

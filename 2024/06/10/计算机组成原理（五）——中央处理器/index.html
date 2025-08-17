@@ -1,0 +1,936 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>计算机组成原理（五）——中央处理器 | 无名高手🍭</title><meta name="author" content="liujinC"><meta name="copyright" content="liujinC"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="ffffff"><meta name="description" content="计组的第五章">
+<meta property="og:type" content="article">
+<meta property="og:title" content="计算机组成原理（五）——中央处理器">
+<meta property="og:url" content="http://bandit-ljc-1.github.io/2024/06/10/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86%EF%BC%88%E4%BA%94%EF%BC%89%E2%80%94%E2%80%94%E4%B8%AD%E5%A4%AE%E5%A4%84%E7%90%86%E5%99%A8/index.html">
+<meta property="og:site_name" content="无名高手🍭">
+<meta property="og:description" content="计组的第五章">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://bandit-ljc-1.github.io/myphotos/article_cover/7.jpg">
+<meta property="article:published_time" content="2024-06-10T12:48:00.000Z">
+<meta property="article:modified_time" content="2024-06-30T12:48:00.000Z">
+<meta property="article:author" content="liujinC">
+<meta property="article:tag" content="408学习笔记">
+<meta property="article:tag" content="计算机组成原理">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://bandit-ljc-1.github.io/myphotos/article_cover/7.jpg"><link rel="shortcut icon" href="/myphotos/icon.png"><link rel="canonical" href="http://bandit-ljc-1.github.io/2024/06/10/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86%EF%BC%88%E4%BA%94%EF%BC%89%E2%80%94%E2%80%94%E4%B8%AD%E5%A4%AE%E5%A4%84%E7%90%86%E5%99%A8/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css?v=4.12.0"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.5.1/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/node-snackbar@0.1.16/dist/snackbar.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0.32/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":true,"top_n_per_article":-1,"unescape":false,"languages":{"hits_empty":"找不到您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: undefined,
+  noticeOutdate: {"limitDay":365,"position":"top","messagePrev":"It has been","messageNext":"days since the last update, the content of the article may be outdated."},
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":230},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: {"chs_to_cht":"你已切换为繁体中文","cht_to_chs":"你已切换为简体中文","day_to_night":"你已切换为深色模式","night_to_day":"你已切换为浅色模式","bgLight":"#49b1f5","bgDark":"#1f1f1f","position":"top-right"},
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid@4.11.0/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyload: true,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '计算机组成原理（五）——中央处理器',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2024-06-30 20:48:00'
+}</script><script>(win=>{
+      win.saveToLocal = {
+        set: (key, value, ttl) => {
+          if (ttl === 0) return
+          const now = Date.now()
+          const expiry = now + ttl * 86400000
+          const item = {
+            value,
+            expiry
+          }
+          localStorage.setItem(key, JSON.stringify(item))
+        },
+      
+        get: key => {
+          const itemStr = localStorage.getItem(key)
+      
+          if (!itemStr) {
+            return undefined
+          }
+          const item = JSON.parse(itemStr)
+          const now = Date.now()
+      
+          if (now > item.expiry) {
+            localStorage.removeItem(key)
+            return undefined
+          }
+          return item.value
+        }
+      }
+    
+      win.getScript = (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        script.onerror = reject
+        script.onload = script.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          script.onload = script.onreadystatechange = null
+          resolve()
+        }
+
+        Object.keys(attr).forEach(key => {
+          script.setAttribute(key, attr[key])
+        })
+
+        document.head.appendChild(script)
+      })
+    
+      win.getCSS = (url, id = false) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onerror = reject
+        link.onload = link.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          link.onload = link.onreadystatechange = null
+          resolve()
+        }
+        document.head.appendChild(link)
+      })
+    
+      win.activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', 'ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          const now = new Date()
+          const hour = now.getHours()
+          const isNight = hour <= 6 || hour >= 18
+          if (t === undefined) isNight ? activateDarkMode() : activateLightMode()
+          else if (t === 'light') activateLightMode()
+          else activateDarkMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+      const detectApple = () => {
+        if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+          document.documentElement.classList.add('apple')
+        }
+      }
+      detectApple()
+    })(window)</script><link rel="stylesheet" href="/css/custom.css" media="defer" onload="this.media='all'"><link rel="stylesheet" href="/css/light.css" media="defer" onload="this.media='all'"><link rel="stylesheet" href="/css/snow.css"><link rel="stylesheet" href="/css/universe.css"><link rel="stylesheet" href="/css/mouse.css"><link rel="stylesheet" href="//at.alicdn.com/t/c/font_4451089_fok8y2foa3.css" media="defer" onload="this.media='all'"><link rel="stylesheet" href="/css/page_style.css"><span id="fps"></span><link rel="stylesheet" href="/css/pangu_control.css"><div id="myscoll"></div><!-- hexo injector head_end start --><link rel="stylesheet" href="/css/categorybar.css"><link rel="stylesheet" href="https://npm.elemecdn.com/hexo-butterfly-swiper/lib/swiper.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="/css/swiper/swiperstyle.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://unpkg.zhimg.com/hexo-butterfly-footer-beautify@1.0.0/lib/runtime.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="/css/wowjs/animate.min.css" media="print" onload="this.media='screen'"><!-- hexo injector head_end end --><meta name="generator" content="Hexo 6.3.0"></head><body><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/myphotos/avatar.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">29</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">8</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">3</div></a></div><hr class="custom-hr"/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> 列表</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音乐</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 电影</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/comments/"><i class="fa-fw fas fa-envelope-open"></i><span> 留言板</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('/myphotos/article_cover/7.jpg')"><nav id="nav"><span id="blog-info"><a href="/" title="无名高手🍭"><span class="site-name">无名高手🍭</span></a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search" href="javascript:void(0);"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> 列表</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音乐</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 电影</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/comments/"><i class="fa-fw fas fa-envelope-open"></i><span> 留言板</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">计算机组成原理（五）——中央处理器</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2024-06-10T12:48:00.000Z" title="发表于 2024-06-10 20:48:00">2024-06-10</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2024-06-30T12:48:00.000Z" title="更新于 2024-06-30 20:48:00">2024-06-30</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">学习笔记</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">38.8k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>114分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="计算机组成原理（五）——中央处理器"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h1 id="计算机组成原理（五）——中央处理器"><a href="#计算机组成原理（五）——中央处理器" class="headerlink" title="计算机组成原理（五）——中央处理器"></a>计算机组成原理（五）——中央处理器</h1><h2 id="0-引言"><a href="#0-引言" class="headerlink" title="0. 引言"></a>0. 引言</h2><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/6666f9a05e6d1bfa0557f168.png" alt="计算机组成原理（五）——中央处理器——知识总览.png">
+
+<p>上图给出了本章知识总览，本章的学习也是从上图所示的五个部分入手，在学习过程中可结合上图进行学习。</p>
+<h2 id="1-CPU的功能与结构"><a href="#1-CPU的功能与结构" class="headerlink" title="1. CPU的功能与结构"></a>1. CPU的功能与结构</h2><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/666867d8d9c307b7e940051c.png" alt="计算机组成原理（五）——中央处理器——CPU的功能.png">
+
+<p>CPU由运算器和控制器两大部件组成。</p>
+<p>CPU首先要完成的最重要的一个功能是<strong>指令控制</strong>，就是要完成取指令、分析指令和执行指令的操作，CPU需要能自动的完成程序的顺序执行。</p>
+<p>CPU在执行指令的过程中，需要控制各个部件，一步一步的来完成工作，因此CPU的第二个功能就是需要实现<strong>操作控制</strong>。一条指令的执行，往往需要多个细分的操作才能够完成，因此CPU需要提供一些列的操作信号，每一种操作信号会对应着一种微操作。通过多种操作信号的组合，就可以完成指令所需要的一个一个的微操作。CPU需要根据具体的指令来决定，应该发出哪些操作信号。另外这些操作信号会被送到相应的部件（比如某一个寄存器），这些更细小的硬件部件，接收到相应的操作信号之后，就可以按照要求来进行相应的动作。</p>
+<p>CPU的第三个功能是<strong>时间控制</strong>。一条指令执行的过程当中，各个操作是有先后顺序的，而每一个具体的微操作会对应一个操作信号，所以这些操作信号应该按照时间先后顺序来逐一发出。</p>
+<p>CPU的第四个功能是<strong>数据加工</strong>。所谓数据加工就是进行算术和逻辑运算。</p>
+<p>CPU的第五个功能是<strong>中断处理</strong>。所谓中断处理就是对计算机运行过程中出现的异常情况和特殊请求进行处理。正常情况下，CPU是从头到尾依次顺序的执行某一个程序的指令，但是由于计算机内部会有一些突发的状况需要处理，因此就引入了中断机构，当CPU检测到某一种特殊的中断信号之后，会转而执行处理这个中断对应的一系列指令代码，当中断处理完以后，再回去执行之前执行的一系列指令。（中断处理的内容可以结合操作系统第一章进行学习）</p>
+<p>接下来，站在运算器和控制器的角度，再把这些功能进行一个分类：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/66686827d9c307b7e9406fec.png" alt="计算机组成原理（五）——中央处理器——运算器和控制器的功能.png">
+
+<p>显然，运算器主要实现的就是对数据的加工。</p>
+<p>控制器主要负责协调并控制计算机各部件执行程序的指令序列，包括取指令、分析指令和执行指令。</p>
+<p>在取指令时，CPU应该自动的形成下一条应该执行的指令的地址（即之前说过的PC自动加1的功能）。</p>
+<p>另外每一条指令执行结束之后，控制器也该自动的发出下一条指令的取指令命令。</p>
+<p>当取得一条指令后，要分析这条指令，也就是要把指令的操作码进行一个译码，来分析这条指令到底想要完成什么样的操作。另外在分析指令的过程中，也需要产生操作数的有效地址（即根据数据寻址方式找到操作数的实际存放地址）。</p>
+<p>每一条指令的执行背后都需要进行若干个微操作，而每个不同的微操作，都需要由一个控制信号来控制。因此执行指令的过程就是形成操作信号控制序列的一个过程，然后逐一的发出这些操作信号，从而控制着运算器、存储器、IO设备还有各种寄存器之间进行数据交换或者完成某一个相应的操作。</p>
+<p>在现代计算机当中，每执行完一条指令之后，CPU都会检查是否有中断信号需要处理。在这个阶段，控制器完成对总线还有输入输出设备的处理，对中断信号做出应该有的响应，比如鼠标的点击操作就是一个中断信号，控制器要对鼠标的点击操作进行中断处理。除了外部设备可能导致中断的发生以外，内部指令的执行，也有可能会出现一些异常的情况，比如说一条指令是实现除法操作，但是给出的除数等于0，那对于除法除以0这种异常情况的处理也是由控制器在中断处理这个阶段来负责搞定的。</p>
+<p>接下来详细的探讨一下运算器和控制器应该怎么组成，需要有哪些部件：</p>
+<p>运算器的核心就是ALU算数逻辑单元，ALU是一个组合逻辑电路，可以实现算术运算和逻辑运算。我们需要提供两个操作数a和b，然后经过ALU电路处理之后，可以输出运算结果。</p>
+<p>很多情况下，我们会把需要参与运算的一些数据，提前存放到某一些通用寄存器当中。所以运算器内部还需要提供一些通用寄存器组，如下图，就给出了四个通用寄存器。</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/6668715ed9c307b7e94b9a0b.png" alt="计算机组成原理（五）——中央处理器——通用寄存器组.png">
+
+<p>对于x86架构来说，通用寄存器的命名规则通常是AX、BX、CX、DX、SP等。而上图的AH、AL、BH、BL等，指的是AX、BX等通用寄存器的高位和低位。如AH指的就是AX这个通用寄存器的高位（高字节部分），AL指的就是AX这个通用寄存器的低位（低字节部分）。这就是x86架构的CPU对寄存器的一个命名的规则，只是名字不一样，本质上与这里用R0，R1，R2，R3表示的寄存器没什么区别。</p>
+<p>另一个值得注意的是这里有个SP，SP是堆栈寄存器，保存了堆栈指针，堆栈指针的作用在上一章寻址里的堆栈寻址部分有介绍过，这里就不再赘述了，如有遗忘，可以回去翻一下上一章有关堆栈寻址的内容。</p>
+<p>有的教材把堆栈指针寄存器SP归为了通用寄存器，而有的教材当中会专门的把堆栈指针寄存器SP归为一类特殊的寄存器。</p>
+<p>总之，为了实现算数运算和逻辑运算，运算器的内部一定需要提供一组通用寄存器。任何一个通用寄存器里保存的数据，都有空作为ALU的一个输入，比如R0里的数据可能作为ALU的A端口的输入，也可能作为ALU的B端口的输入。因此需要提供两组连线，分别把R0连到A端和B端。R1、R2、R3与R0类似，也要连线，如下图：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/6668747cd9c307b7e9500ebd.png" alt="计算机组成原理（五）——中央处理器——专用数据通路.png">
+
+<p>注意，这里虽然给每个寄存器与ALU的连接都只简单的画了一条线，但事实上应该有很多条线。以R0为例，如果R0寄存器可以存放16bit数据，那么这16bit数据应该是通过16根线并行的把它送到A端口或B端口，只不过这里画16条线会显得很乱，因此用一条线简化表示。</p>
+<p>由于每个寄存器和ALU之间都有一个单独的专门的数据通路，因此这种连线方式，我们把它称为专用数据通路的方式。</p>
+<p>专用数据通路方式：根据指令执行过程中的数据和地址的流动方向安排连接线路。</p>
+<p>从上图可以发现，ALU的输入端和所有的寄存器都进行了连接，所有的寄存器都在同时给ALU传送数据。而一次算数运算当中，应该只挑选其中的某一个寄存器作为左边的输入，然后挑选另一个寄存器作为右边的输入，不应该让所有寄存器都同时进行数据的输入，面对这种问题，可以使用多路选择器，如下图。</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/66686888d9c307b7e940e967.png" alt="计算机组成原理（五）——中央处理器——运算器的基本结构1.png">
+
+<p>多路选择器，英文缩写MUX，每个多路选择器都会有相应的控制信号，用来决定到底要把哪个输入信号进行输出。比如现在要执行的是一个加法指令，加法的两个操作数分别存在于R0和R1，在执行这条指令时，控制器会给左边的多路选择器输入一个信号00，表示让R0寄存器作为左边操作数；同时，控制器会给右边的多路选择器输入一个信号01，表示让R1寄存器作为右边操作数。所以加了多路选择器后，控制器就可以决定让哪个寄存器作为操作数输入。</p>
+<p>上面是第一种解决方法，下面看第二种方法，使用三态门。如下图。</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/6668ff1cd9c307b7e9d906ba.png" alt="计算机组成原理（五）——中央处理器——三态门.png">
+
+<p>每一个三态门可以控制一条路是否可以输出，通常用如图所示的小三角来表示一个三态门。</p>
+<p>每个三态门会有三个接口，第一个接口是输入接口，第二个接口是输出接口，第三个接口是使能接口。正常情况下，三态门是不导电的，即没有连通，但是当使能接口输入电信号以后，比如输入一个高电平时，三态门就可以导电。而如果控制信号是低电平的话，三态门就不会导通。</p>
+<p>显然，采用专用数据通路方式，可以保证性能较高，基本上不存在数据冲突的现象。但是部件如果特别多的话，连线也会变得复杂，这就意味着制造成本和工艺难度的提升。所以专用数据通路方式，可以在某一些性能要求比较高的部件之间进行连线。</p>
+<p>与之相对于的另一种数据通路设计方式叫CPU内部单总线方式，即可以在CPU内部设置一个总线，然后所有的寄存器都直接连接到这个内部总线上，可以把数据输出到内部总线，也可以从内部总线接收信号。</p>
+<p>下图是内部单总线的方式：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/666bb001d9c307b7e91ddc5a.png" alt="计算机组成原理（五）——中央处理器——运算器基本结构1.png">
+
+<p>显然使用这种内部单总线的方式，要比之前提到的专用数据通路结构简单，连线也要更简单，比较容易实现，但是数据传输过程存在较多的冲突现象，性能较低。</p>
+<p>举个例子说明：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/666bcebcd9c307b7e9516d3c.png" alt="计算机组成原理（五）——中央处理器——运算器基本结构2.png">
+
+<p>假设现在寄存器里的数据可以通过数据总线进行传输，这些数据有可能作为ALU的输入。比如现在进行加法指令(ADD)，对R0和R1的内容进行一个加法操作。那R0和R1的内容同时送到总线上，就会导致总线的冲突，ALU无法判断A和B到底应该是什么值。为了解决这个问题，可以在其中一端设置一个暂存寄存器，这样就可以先把R0的数据送到总线上，然后通过总线R0的数据会被放到暂存寄存器当中。接下来撤销R0的输出有效信号，即给R0out低电平，然后让R1导通，把R1的数据送到总线上，然后R1数据会通过上图右边线路输出到B端。这样就可以保证内部单总线的结构可以正常的工作。</p>
+<p>所以采用这种连线方式，运算器内部需要提供暂存寄存器，用于暂时存储从主存或从某些寄存器读过来的数据。</p>
+<p>接着看这个例子，通过ALU进行加法运算以后，得到结果会输出到总线，然后重新放到R0寄存器里。但ALU的输入端一定要等到信号稳定以后，输出端才有可能得到正确的结果，然而其中一个操作数R0，R0给到B端的输入信号不稳定之前，ALU就会产生一个输出信号，送到内部总线上，这就会和R0送到内部总线的信号发生冲突。所以在ALU的输出端也要加上一个暂存寄存器，然后还要在暂存寄存器的上方加一个三态门，等ALU的输出结果稳定以后，再让三态门导通，从而把运算结果送到内部总线上。然后再给R0的输入端接上使能信号，就可以把加法运算结果输入回R0。</p>
+<p>为了方便某些复杂运算的实现，暂存寄存器还可以增加一些功能，比如改造成移位寄存器，或累加寄存器。不过也可以如下图一样专门设置一个累加寄存器，也就是ACC，用于存放每一次运算的中间结果。</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/666bcf60d9c307b7e9526dee.png" alt="计算机组成原理（五）——中央处理器——运算器基本结构3.png">
+
+<p>除了这些寄存器外，之前还提过一个重要的寄存器叫程序状态字寄存器(PSW)。我们在进行运算的时候，有的运算可能会发生溢出，或者运算结果为0，所以ALU每进行一次运算，这次运算结果的状态都会被记录在PSW这个寄存器当中，其中不同的二进制位有不同的含义，比如OP这个二进制位就表示刚才进行的运算是否发生溢出。总之，PSW中的这些位会参与并决定微操作的形成。</p>
+<p>那除了上面这些各种寄存器外，运算器内部还要提供一个移位器，对运算结果进行移位运算，移位运算很重要，比如说在二进制乘法中，其实就是加法操作和移位操作交替执行。</p>
+<p>最后运算器内部还需要提供一个计数器，用于控制乘法和除法运算的操作步数。因为二进制乘法和除法，本质上就是进行多次的加法和减法，至于到底执行了几次加几次减，这就需要通过计数器来记录。</p>
+<p>上面的是运算器内部的基本结构，接下来看控制器的基本结构，如下图：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/666c646bd9c307b7e9758d40.png" alt="计算机组成原理（五）——中央处理器——控制器结构.png">
+
+<p>控制器主要用于取指令、分析指令和执行指令，那为了记录下一条指令的存放地址，所以必须有一个程序计数器PC，并且PC有自动加一的功能。当然也有一些CPU的内部，PC加一这个功能是通过送给ALU实现的。</p>
+<p>接下来，取出一条指令后，会把这个指令放到指令寄存器IR当中。一条指令分为操作码(OP)和地址码(Ad)两个逻辑部分，其中地址码有可能会有多个。指令的地址码指明了操作室的存放地址，所以地址码的信息需要输出到内部总线上。而操作码部分会送给控制单元CU。</p>
+<p>那么首先这个操作码会送给指令译码器，然后译码器对应的某一个输出端会被选通，那么根据哪一条输出线被选通，可以判断当前执行的指令是一个什么样的指令。</p>
+<p>译码器的输出信号会作为微操作发生器的一个输入信号，用来判断这条指令所对应的微操作序列是什么。</p>
+<p>由于微操作序列执行有先后次序，因此还需要有一个时序系统产生时序信号。微操作发生器每接收到一个节拍信号，就会执行下一个微操作，发出下一个微操作所对应的操作信号。另外，除了指令的操作码之外，还需要根据PSW当中存放的标志信息，决定接下来微操作序列到底是什么样的。</p>
+<p>总之，根据当前指令的操作码和PSW里边某些标志位，就可以确定接下来要进行的微操作到底是什么。另外，从上图里可以看到，微操作信号发生器发出的信号颜色有绿色有蓝色，这两个颜色和上图中的图示颜色相对应，意思是寄存器的输入信号输出信号是否有效，即信号的有效与否是通过微操作信号发生器发出的信号来进行控制的。</p>
+<p>除了这些部件以外，还需要有存储器地址寄存器，即MAR。现在计算机中，MAR通常集成在CPU内部。而且从上图可以看到，MAR在控制器内部只有输入线，没有输出线。</p>
+<p>MAR里保存的信息，指明了某一个主存的存储地址，可以通过通过这个地址信息访问主存、如果访问主存，就需要把这个地址信息，通过外部的地址总线传送给主存，然后主存根据总线上的地址信号去查找相应的存储单元，找到数据以后会把数据放到MDR当中。MDR也是被集成在CPU内部，主存需要通过外部的数据总线把找到的数据送到CPU的MDR中，这样就完成了对某一个主存地址的读操作。</p>
+<p>这里在上图可以看到，MDR的两个控制信号分别叫MDRin和MDRinE，后面加了E的意思是从外部数据总线输入数据的通路是否有效，没加E的意思是从CPU内部数据总线输入数据的通路是否有效。这一点在做题时要注意。输出信号MDRout和MDRoutE同理。</p>
+<p>现在把运算器和控制器的结构都连到CPU内部总线上，这样就形成了一个CPU的比较详细的结构图，如下图。</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/666c659fd9c307b7e9781675.png" alt="计算机组成原理（五）——中央处理器——控制器和运算器.png">
+
+<p>运算器主要由ALU和一系列寄存器组成。而控制器主要由一系列寄存器和控制单元CU组成。值得注意的是，CPU内部有的寄存器是用户可见的，有的寄存器是用户不可见的。用户可见的意思是说，程序员可以通过汇编语言，来改变某一些寄存器内部的值。上图中用橙色标出的寄存器是用户可见的，灰色的则是不可见的。</p>
+<p>逻辑上CPU可以分为ALU、寄存器、CU还有中断系统这四大部分，如下图：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/666c6628d9c307b7e9795d07.png" alt="计算机组成原理（五）——中央处理器——逻辑划分.png">
+
+<p>这一章重点探讨的是CU控制单元。</p>
+<p>下面对本节进行小结：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/666c66c7d9c307b7e97ad834.png" alt="计算机组成原理（五）——中央处理器——CPU功能与结构小结.png">
+
+<h2 id="2-指令周期的数据流"><a href="#2-指令周期的数据流" class="headerlink" title="2. 指令周期的数据流"></a>2. 指令周期的数据流</h2><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/666edd00d9c307b7e987b116.png" alt="计算机组成原理（五）——中央处理器——指令周期.png">
+
+<p>所谓指令周期，就是CPU从主存中取出并执行一条指令所需要的全部时间，每一条指令的完整执行时间就是一个指令周期。</p>
+<p><strong>一个指令周期可以被划分为取指周期和执行周期两部分</strong>，如上图。其中取指周期会根据PC所指向的位置取出当前要执行的指令，并且PC自动加一指向下一条应该执行的指令。另外，还会对指令进行译码，也就是分析指令的过程。</p>
+<p>注意，上图把分析指令归为取指周期内，但有的地方会把分析指令单独的拆分成一个阶段。这里这么做的原因是取指令这个操作会涉及到访存，访存是很慢的，而当把这条指令取到IR指令寄存器之后，对这条指令的分析是CPU内部一个很快速的运算，因此分析指令这个过程速度是很快很快的，比起访存来说，只需要花很短的时间就可以完成指令的译码。这就是为什么这里把分析指令划分在取指周期内的原因。</p>
+<p>分析指令结束以后，就可以执行指令。执行指令的过程同样有可能需要访存，当然也有可能不需要访存，所以不同的指令所需要的执行时间有可能区别很大。当一个指令执行结束以后，就可以取下一条指令，也就是进入下一个取指周期。</p>
+<p>通常来说，<strong>一个指令周期常常由若干个机器周期（CPU周期）表示</strong>。像上图图示，取指周期会消耗掉一个机器周期，执行阶段又会消耗掉一个机器周期。而一个机器又会包含若干个时钟周期。时钟周期也称为节拍、T周期或CPU时钟周期，它是CPU操作的最基本单位。</p>
+<p>机器周期、时钟周期和指令周期的关系如下图：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/666eebd6d9c307b7e9a8f041.png" alt="计算机组成原理（五）——中央处理器——指令周期关系.png">
+
+<p>上图里的CLK指的是时钟脉冲，一个方波代表一个时钟周期，在购买CPU时会看到一个很重要的指标叫CPU的主频，如果CPU的主频是3.0GHz，就代表CPU每秒钟可以发出3.0G次的时钟周期。</p>
+<p>另外，根据上面的叙述可以发现，取指令的过程其实需要分为几个微操作，如果说取指令的过程需要四个微操作，即四个步骤，如上图，那就意味着取指令需要消耗四个时钟周期，所以可以看到上图T0~T3，通过这四个时钟周期分别执行四个微操作之后，才完成了取指令这个动作。</p>
+<p>取出指令以后，有可能需要对这个指令里边所包含的形式地址进行一个转换，把形式地址转换为有效地址，这个转换过程也有可能需要消耗若干个时钟周期，上图的例子同样是消耗了四个周期。</p>
+<p>确定了操作数的存放地址以后，接下来就可以执行这条指令，也就是去主存当中取出操作数，并且执行相应的运算，所以执行指令又需要分为若干个微操作，上图例子同样假定执行指令需要四个时钟周期。</p>
+<p>从上图中可以看出，所谓机器周期指的是我们完成了某一步子工作所需要的时间，一个机器周期需要由多个时钟周期组成。<strong>如果说完成每一步子工作所需要的时钟周期都是相同的，这就意味着所有的机器周期的长度也是相同的，所以这种CPU就是定长机器周期的CPU</strong>。</p>
+<p>当然，对于取指令和执行指令所需要的时间也许是各不相同的，可能取指令需要进行访存，但是执行指令不需要进行访存，如果是这样的话，执行指令所消耗的机器周期就有可能比取指令所需要的节拍数要更少。<strong>因此这一类的CPU就是不定长的机器周期的CPU</strong>。</p>
+<p>另外，从上图的两个机器周期示例图里也能看到，<strong><font color=red>不同的指令执行所需要的时间，也就是指令周期的长度，有可能是不一样的</font></strong>。比如有可能一条指令给的是形式地址，这时需要地址转换的周期，而有的给的是直接地址，这时候就不需要进行转换。对于不同的指令执行所需要的时间有可能是不一样的这句话的理解，我们也可以参考下图的具体例子结合理解。</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/666eec7cd9c307b7e9aa6cb0.png" alt="计算机组成原理（五）——中央处理器——指令周期不同.png">
+
+<p>这里可以看到，有的指令在取指结束后，就可以直接执行。而有的指令在取指结束后，还需要把形式地址转换为有效地址，也就是需要增加间址周期，然后才可以执行。所以不同的指令的执行过程是不一样的，下面把指令周期的整个流程给捋一遍。</p>
+<p>如下图，是指令周期的整个流程：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/666ef48fd9c307b7e9bc7dff.png" alt="计算机组成原理（五）——中央处理器——指令周期流程.png">
+
+<p>首先需要从主存当中取出这条指令，这段时间称为取指周期。</p>
+<p>取出指令后，需要进行指令的分析，如果这个指令当中包含的地址码部分采用间接寻址，那我们就需要经过间址周期，来把形式地址转换成操作数的有效地址。</p>
+<p>有了操作数的有效地址之后，就可以执行这条指令，也就是进入执行周期。</p>
+<p>指令执行结束后，会例行的检查是否有中断信号需要处理，如果此时有中断信号需要处理，那么就会进入中断周期，否则这条指令的整个指令周期就到此为止。就会进入下一条指令的指令周期。</p>
+<p>上面就是整个指令周期的处理流程，显然，取指阶段、间址阶段、执行阶段和中断阶段，这几个阶段CPU所需要做的事情一定是不一样的，那CPU是如何区分当前到底处于哪个阶段呢？为了解决这个问题，可以设置四个触发器，如下图。</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/666efa75d9c307b7e9c97ae2.png" alt="计算机组成原理（五）——中央处理器——触发器.png">
+
+<p>注：触发器的知识可以参考第三章。</p>
+<p>一个触发器可以存放一个二进制比特位0或者1，所以可设置如上图的四个触发器，分别用来表示当前到底处于指令执行的哪个阶段。比如当前如果处于取值周期，那么控制单元会把FE触发器的值设置为1，其余的设置为0；如果处于间址周期，那么控制单元会把IND触发器的值设置为1，其余的设置为0；如果处于执行周期，那么控制单元会把EX触发器的值设置为1，其余的设置为0；如果处于中断周期，那么控制单元会把INT触发器的值设置为1，其余的设置为0。</p>
+<p>CPU执行一条指令的不同阶段需要做不一样的事情，通过这些触发器就可以判断当前处于哪个阶段。</p>
+<p>另外，这四个阶段的工作都有可能需要进行访存操作，只不过访存目的不一样。取指周期是为了取指令，间址周期是为了取有效地址，执行周期是为了取操作数，中断周期是为了保存程序断点。</p>
+<p>接下来探讨一下，在这四个阶段，分别要做什么事情：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/666efccfd9c307b7e9ce7088.png" alt="计算机组成原理（五）——中央处理器——取指周期.png">
+
+<p>如上图，在取指阶段，首先PC这个寄存器指明了接下来要执行的指令在主存当中的存放地址，因此第一步需要把PC当中保存的地址信息，先给送到MAR当中。</p>
+<p>接下来CU控制单元通过控制总线，向主存储器发出读信号。注意，上图使用**<font color=red>1-&gt;R</font>**的方式来表示发出读信号，至于为什么使用这样的记录方法，是因为在第三章里我们学过，主存储器到底是是要进行读操作还是写操作，关于这个控制可以留两个接口，其中一个接口R表示要进行读，另一个接口W表示要进行写，如果给R接口输送一个高电平信号，就意味着主存此时要进行读操作。</p>
+<p>CU通过控制总线向主存发出了读信号之后，MAR指明了当前要取出的指令存放在什么地址，这个地址信息会通过地址总线送给主存。此时我们读出这个地址相应的数据，就意味着读出了接下来要执行的这条指令。这条指令会通过数据总线送到MDR当中。</p>
+<p>这里注意一下上图的把指令通过数据总线送到MDR当中的表示方式：**<font color=red>M(MAR)-&gt;MDR</font><strong>。正常我们知道，</strong>不加括号表示数据直接在寄存器中 ，加了括号表示间址，需要到主存中访问数据**，而这个加了括号前面还有一个M是什么意思呢？这里的M指的是memory，即主存。这个记录方式的意思是把主存当中MAR所指向的数据放到MDR当中。有的教材也会记成MEN(MAR)-&gt;MDR。注意这里的书写方式，做题时会遇到。</p>
+<p>现在我们需要的指令已经放到了MDR当中，我们还需要把MDR当中的内容送到IR指令寄存器当中，这样就完成了取指操作。</p>
+<p>另外，还需要注意，每取出一条指令，都会让PC的值自动加一，所以最后CU会发出一个控制信号让PC的值自动加一，形成下一条指令的地址。</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/666efcfed9c307b7e9cede3d.png" alt="计算机组成原理（五）——中央处理器——间址周期.png">
+
+<p>当完成取指以后，接下来应该执行指令，但有的指令的地址码可能采用了间接寻址的方式，因此有的指令有可能需要进入到间址周期。</p>
+<p>顾名思义，我们需要通过指令当中所包含的形式地址来完成一次间接寻址。目前这个指令的地址码只是指明了有效地址的一个存放地址，所以我们需要根据这个指令的地址码信息，先从主存当中读出这个有效地址，这样才能在执行指令的时候，根据有效地址得到最终的操作数。</p>
+<p>具体的数据流向就是把当前的这条指令的一个地址码信息送到MAR当中。注意，这里把指令地址码的信息送到MAR当中，使用的是<strong>Ad(IR)-&gt;MAR</strong>，这里的Ad是地址码的意思，我们知道指令由操作数和地址码组成，所以如果想用的是操作数，应该写成OP(IR)。</p>
+<p>注意，把指令的地址码信息送到MAR当中，除了上面的把IR指令寄存器当中包含的地址信息送到MAR中外，也可以把MDR当中的地址信息送到MAR中。因为在间址周期前，经过了取指周期，而在取指令的过程中，我们是先把指令从主存放到MDR当中，然后再把MDR的数据给复制一份到IR当中，所以此时MDR里边所存储的也应该是当前执行的指令的一个信息，因此也可以直接从MDR当中读取出这条指令的一个地址信息。</p>
+<p>接下来CU发出读信号，通过控制总线来告诉主存接下来要进行读操作。接下来根据MAR所指明的地址，就可以读出相应的数据，然后通过数据总线放到MDR当中。此时读出的这个数据应该是有效地址，到这步就意味着我们已经找到了接下来这个操作数存放的有效地址。</p>
+<p>当我们找到了接下来这个操作数存放的有效地址以后，在接下来执行指令的时候，就可以根据MDR里存储的信息，来判断我们的操作数到底是存放在哪一个有效地址当中，也就是说可以直接把MDR的数据送到MAR，用来指明操作数的地址。当然也有的CPU是把此时得到的这个有效地址拼接到指令的地址当中，即拼接到IR寄存器里。因为原本指令里包含的是一个形式地址，所以我们得到有效地址以后，可以把这个有效地址拼接上去，把以前的形式地址给覆盖掉，这样接下来执行这条指令的时候，可以把这个地址码当做直接地址来进行访问。根据有效地址，接下来可以执行指令。</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/666efd2dd9c307b7e9cf4265.png" alt="计算机组成原理（五）——中央处理器——执行周期.png">
+
+<p>在执行指令阶段，不同的指令所需要做的事情千差万别，因此在这个阶段没有一个统一的数据流行，本节暂时不探讨，之后会对不同的指令进行分开讨论。</p>
+<p>执行周期完以后，就会进入中断周期。</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/666efdf3d9c307b7e9d20a9a.png" alt="计算机组成原理（五）——中央处理器——中断周期.png">
+
+<p>注意，这里如果没有操作系统基础的话，直接看中断有点难以理解其中过程，而计组里的中断部分会在第七章，也就是最后一章才能学到，所以这部分我推荐去看一下原视频讲解，因为其中会掺杂一部分中断的知识点，原视频跳转链接：<a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1ps4y1d73V?p=63&vd_source=7fb4b255ed876969a742738d7b84f461">指令周期数据流——王道</a>(大概从22分钟到28分30秒处)。</p>
+<p>到此，我们就对指令周期的各个阶段所需要做的事情有了更进一步的了解。可以知道的是，一个指令周期通常要包括几个时间段（执行步骤)，每个步骤完成指令的一部分功能，经过若干的步骤之后，才可以完成这条指令的全部功能。</p>
+<p>那么当我们希望能够连续执行多条指令的时候，这个指令的执行方案有哪些呢&#x2F;</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/666efe59d9c307b7e9d30f80.png" alt="计算机组成原理（五）——中央处理器——指令执行的方案.png">
+
+<p><strong>第一种方案：单指令周期。</strong></p>
+<p>虽然不同的指令，需要的操作步数可能不相同，但如果采用单指令周期方案，我们会规定所有的指令的指令周期都是相同的。</p>
+<p>本来有的指令只需要很短的时间就可以完成，而有的指令需要很长的时间才可以完成，但如果在单指令周期方案下，就意味着对任何一条指令，它的指令周期，都会被延长为和最慢的那条指令相同。这也意味着，某一些执行很快的指令，可能有很长的时间是浪费掉的。</p>
+<p>但这么做的好处是，当我们设计指令执行的控制电路的时候，我们只需要根据节拍数就可以确定一条指令的执行是否结束，所以这种方式可以使得控制电路设计起来更方便一些。</p>
+<p>另一点需要注意的是，如果采用这种方式，各个指令之间是串行执行的，即一条指令执行结束以后，紧接着才执行下一条指令。</p>
+<p>到此，可以发现，这种指令的执行方案是比较低效的，为了解决这个问题我们可以采用第二种方案——多指令周期。</p>
+<p><strong>第二种方案：多指令周期。</strong></p>
+<p>多指令周期就是说我们可以允许不同的指令，执行的指令周期的长度不同。这样的话执行快的指令只需要很短的一个指令周期就可以执行结束，当它执行结束后，就可以紧接着执行下一条指令。所以如果采用这种指令执行方案，就要比第一种方案效率高得多。</p>
+<p>如果采用这种方案，指令之间也是串行执行。而不同的指令所需要的时钟周期数也是各不相同的，因此这就导致我们需要设计更复杂的控制电路，硬件的设计成本会增加。</p>
+<p><strong>第三种方案：流水线方案。</strong></p>
+<p>流水线方案，就是在每一个时钟周期启动一条指令尽量让多条指令同时运行，但各自处在不同的执行步骤中。采用流水线方案就可以使得指令之间并行的执行，流水线的内容会在本章最后一部分详细探讨，这里先简单介绍一下。</p>
+<p>我们可以看到不同的指令，它的执行是分为不一样的阶段的，那么一条指令在不同的执行阶段，有可能需要用到的硬件部件是不一样的，比如第一个阶段需要用到PC计数器和IR寄存器，而第二个阶段用到MAR和MDR。</p>
+<p>总之，如果说各个阶段用到的硬件部件不一样，就意味着，当第一条指令执行了第一个阶段之后，第一个阶段所需要用到的硬件部件暂时就用不到了，这些部件就可以让给其他的指令来使用。因此当这条指令完成了第一阶段工作之后，就可以接着启动第二条指令，让第二条指令完成它的第一阶段工作，同时上一条指令进入第二阶段工作。当第二条指令完成其第一阶段工作后，就可以把第一阶段用到部件让给第三条指令使用，让第三条指令进行第一阶段工作，具体过程可以参考上图右下角红笔画的示意图。</p>
+<p>上述便是指令流水线的概念，即在指令执行的不同阶段，所需要用到的资源是不一样的，那么就可以设计指令流水线，使得总体来看指令之间可以并行的执行，从而使CPU内部这些不同的部件利用率达到最高。</p>
+<p>下面对本节进行一个小结：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/666efe99d9c307b7e9d391be.png" alt="计算机组成原理（五）——中央处理器——指令周期的数据流小结.png">
+
+<h2 id="3-数据通路的功能"><a href="#3-数据通路的功能" class="headerlink" title="3. 数据通路的功能"></a>3. 数据通路的功能</h2><h3 id="3-1-知识回顾"><a href="#3-1-知识回顾" class="headerlink" title="3.1 知识回顾"></a>3.1 知识回顾</h3><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/66711f1ad9c307b7e9d8f15a.png" alt="计算机组成原理（五）——中央处理器——指令周期的数据流.png">
+
+<p>通过之前的学习可以知道，一条指令的执行，整个指令周期会被划分为不同的阶段，在不同的阶段，有可能数据的流向是不一样的。</p>
+<p>有的时候需要实现寄存器之间的数据流动，有的时候需要实现主存与寄存器之间的数据流通，还有的时候需要实现寄存器与算术逻辑单元之间的数据交换。无论执行什么样的指令，在指令执行的整个过程当中，数据的流动都逃不过这三种。所以，接下来会探讨这三种类型的数据流动应该如何实现，如何发出控制信号。</p>
+<p>而在之前的部分里，也提过数据通路的概念，如下图：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/66712068d9c307b7e9db89b1.png" alt="计算机组成原理（五）——中央处理器——数据通路.png">
+
+<p>数据通路指的就是数据在各个功能部件之间传送的一个路径，我们需要确定信息从哪儿开始，中间经过哪些部件，最后又传到了哪个地方。只要确定了数据流动的方向，就可以依次的发出不一样的控制信号，来控制这些数据的流动。</p>
+<p>控制信号是由控制部件产生的，对于各种类型的寄存器来说，总共有两种控制信号，第一种控制信号是控制数据的输入，而第二种控制信号是控制数据是否可以从寄存器流出。无论是控制输入信号还是输出信号，这些控制信号都是由控制器发出的。</p>
+<p><strong>另外，数据通路的基本结构有三种：</strong></p>
+<ol>
+<li><strong>CPU内部单总线方式。</strong></li>
+<li><strong>CPU内部多总线方式。</strong></li>
+<li><strong>专用数据通路方式。</strong></li>
+</ol>
+<p>上图中，采用的就是CPU内部单总线的方式，所有的寄存器之间交换数据都是通过一个CPU内部总线来完成的。这种单总线的方式也意味着，在同一时刻，只允许两个部件之间进行数据交换，它们对总线的使用是独占式的。当两个部件之间进行数据交换时，就不允许另外两个部件之间进行数据交换。而为了解决这个问题，在有的CPU当中会涉及多个总线。</p>
+<p>CPU内部有多个总线，就是CPU内部多总线方式。如果有的CPU内部有三个总线，就意味着同时可以支持三组部件的数据交换。</p>
+<p>除了用总线的方式作为公共的信息通路之外，也有的CPU内部会采用专用数据通路方式，也就是只要两个寄存器之间需要有数据流动，那么就会单独的在这两个寄存器之间专门的建立一个数据通路。</p>
+<p>下面先着重看一下基于单总线的方式，如何实现信息的流动。</p>
+<h3 id="3-2-单总线结构"><a href="#3-2-单总线结构" class="headerlink" title="3.2 单总线结构"></a>3.2 单总线结构</h3><p>在3.1里说过，数据流动大致上分为三类，第一类是寄存器与寄存器之间的流动，第二类是寄存器与主存之间的流动，第三类是寄存器与ALU之间的流动。所以接下来依次探讨这三种情况。</p>
+<p>在此之前，先回顾一下内部总线和系统总线的概念，如下图。</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/667128a8d9c307b7e9ecd348.png" alt="计算机组成原理（五）——中央处理器——寄存器之间数据传送.png">
+
+<p>接下来首先探讨寄存器与寄存器之间的数据传送如何实现。假设要把PC内容送至MAR，因此应该先让PC的流出控制信号有效，即让PCout为高电平，此时PC的数据会被送到总线上。接下来想让这些二进制数据输入到MAR当中，因此还需要让MAR的输入信号MARin有效，这样二进制数据就可以通过总线进入MAR寄存器中。</p>
+<p>这里需要注意，在描述数据流动的时候，需要标明哪些控制信号是有效的，如上图，在描述数据流行(PC)-&gt;Bus的时候，也注明了PCout有效。</p>
+<p>另外，有的教材也可能会把这两个步骤合二为一。而且之前强调，如果要把PC里的内容传送到MAR，通常需要在PC外面打一个括号，表示取出PC内容，然后传递给MAR。但是有的教材当中描述的时候，PC可能没有加括号。所以在做题时要看题目要求要不要加括号，当然这类题目一般看重的是描述清楚数据的流行，至于PC有没有加括号不是很重要，当然题目要求加的话，还是需要加的。这里关于加括号，想说一下我的理解，结合前面说过的，<strong>不加括号表示数据直接在寄存器中 ，加了括号表示间址，需要到主存中访问数据</strong>，个人认为，这些寄存器里存储的都是地址，而指令执行的时候，需要通过这些寄存器里的地址去主存里找到指令，比如PC里存储的是指令在主存里存储的位置，需要通过这个位置去找到位于该位置的指令，所以PC外面加上括号的意思是，把PC指向的地址上的指令给取出，当然也可以认为是通过间址找到的指令。</p>
+<p>下面看一下寄存器与主存之间的数据传送：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/66712ffdd9c307b7e9fb0f3d.png" alt="计算机组成原理（五）——中央处理器——寄存器与主存的数据传送.png">
+
+<p>比如CPU要从主存读取指令，第一步程序计数器PC指明了要读取的指令存放在什么地址，所以刚开始需要让PC的内容放到MAR当中，也就是上面寄存器之间数据传输的例子。</p>
+<p>在准备完成之后，应该撤销刚才的两个控制信号PCout和MARin，此时总线空闲出来。接下来由于要对主存进行读操作，因此CPU需要对主存发出读信号，这个信号的发出是通过控制总线来进行的，当然上图并没有画出控制总线。</p>
+<p>现在主存已经知道自己要进行读操作，而且应该读的地址是存放在MAR当中的，此时CU控制器使能MAR地址线输出端，让MAR中的地址信息通过地址线送到主存。注意，这里由于位置不够，所以没有画出，但大家心里要知道MAR通过地址线输出数据到主存，而且地址线的开启与否也是被CU控制的。</p>
+<p>接下来主存跟据MAR所指示的地址读出相应的数据，然后把读出的数据送到MDR中，这个数据传送到MDR是通过数据总线进行的。注意，这里也有一个控制信号来控制MDR从数据总线接收数据，一般会把这个控制信号命名为MDRinE，上图直接写MDRin是有点小问题的，因为根据图示，MDRin是把数据从CPU内部总线输送到MDR，当然这里想表达的意思还是从数据总线把数据输入到MDR，这点要注意一下。</p>
+<p>现在要的指令已经被放到MDR当中，接下来需要把这条指令给放到IR寄存器里。所以，需要接通MDR的输出通路和IR的输入通路，即控制MDRout和IRin有效。到此，就完成了读取一条指令的操作。</p>
+<p>接下来看最后一种，当执行某一种算术或逻辑运算时，数据有可能需要流行ALU，此时这种指令的执行又会是什么样的呢？</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/667133ced9c307b7e9025150.png" alt="计算机组成原理（五）——中央处理器——寄存器与ALU的数据传送.png"> 
+
+<p>比如执行加法指令，其中参与加法运算的一个操作数已经被存放在ACC中，而另一个操作数会由这条加法指令直接指明这个操作数的存放地址。</p>
+<p>所以执行这条加法指令，首先需要根据指令的地址码部分，来读取出参与加法的另一个操作数。具体的做法就是把这条指令的地址码部分通过内部总线传送到MAR当中，要实现这个微操作，需要保证IR的输出控制信号是有效的，另外MAR的输入控制信号也是有效的。当然，还有一种方式，之前说过在取指令时是把指令先取到MDR中，然后再从MDR复制一份到IR中，所以取指结束后，MDR当中也存放了这条指令的完整信息，因此也可以从MDR直接把指令的地址码送到MAR中，所以也可以让MDR的输出信号有效，MAR的输入信号有效。</p>
+<p>现在，指明了一个操作数的存放地址，接下来需要CU向主存发出一个读命令，主存收到地址信息同时又收到读信号，就可以把相应的存储单元里的数据通过外部的数据总线送到MDR当中，此时需要保证MDR的输入信号是有效的。</p>
+<p>到这里已经取出了加法所需要的操作数，接下来需要先把这个操作数放到暂存寄存器y中。在之前，我们说过ALU算术逻辑单元的两个输入信号必须是同时有效的，而内部总线同一时刻只能传送一个输入信号，因此就只能先把其中的一个加数放到暂存寄存器y当中，然后另一个被加数是存放在ACC里的。接下来只需要让ACC的输出通路接通，同时让ALU的输入通路接通，这样的话另一个被加数就可以通过内部总线传送给ALU，此时ALU接收到了加数与被加数的电信号，CU还需要给ALU发送一个控制信号，告诉ALU要进行一个加法操作，接下来ALU对这两个数执行加法运算，运算结果会被输出到暂存寄存器Z中。待输出数据稳定以后，就可以撤销刚刚的控制信号，让内部总线恢复空闲。最后还需要把加法结果重新存回ACC里，此时CU还要发出控制信号，使暂存寄存器Z中结果传输到ACC中。这样就完成了一条加法指令。</p>
+<p>需要注意的是，如果采用单总线结构，ALU算术逻辑单元的两个输入信号必须同时有效，而CPU内部总线，同一时刻只能传送一个输入信号，此时需要暂存寄存器先存储一个被加数才可以。而如果采用多个内部总线，我们就可以不设置这个暂存寄存器，而是通过另一个内部总线直接把要进行运算的操作数送给ALU。</p>
+<p>到这里，我们也可以体会到单总线结构与多总线结构的区别，单总线的设计方式可以使硬件的设计成本更低，多总线的设计方式成本更高，但是可以使得数据的传输更有效率。考试时多遇到单总线的情况。</p>
+<p>到目前为止，已经探讨了数据传送的过程当中，CU控制单元需要发出的一些控制信号，通过发出不一样的控制信号，就可以让微操作一步一步的执行下去，而每一个微操作的执行至少需要消耗一个时钟周期。每一个时钟周期内，CU都会发出一组相应的控制信号来完成其中的某一个微操作，到下一个时钟周期，CU又发出第二个控制信号来完成第二个微操作。所以指令的执行，本质上就是通过这样的一个一个的微操作，一组一组的控制信号来完成的。</p>
+<p>接下来看一道例题：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/66714555d9c307b7e926bc5c.png" alt="计算机组成原理（五）——中央处理器——单总线例题.png">
+
+<p>例题讲解跳转：<a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1ps4y1d73V?p=64&vd_source=7fb4b255ed876969a742738d7b84f461">单总线结构数据通路</a>，大约18分30秒到27分40秒处。</p>
+<p>下面对本节进行小结：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/667145c7d9c307b7e927b206.png" alt="计算机组成原理（五）——中央处理器——单总线小结.png">
+
+<h3 id="3-3-专用通路结构"><a href="#3-3-专用通路结构" class="headerlink" title="3.3 专用通路结构"></a>3.3 专用通路结构</h3><p>前面说了单总线的结构，如果采用单总线就意味着同一时刻只允许两个部件之间进行数据的流通，如果说多个部件之间想同时交换数据，显然单总线结构是不支持的。但事实上，指令执行的过程中，有的部件之间的数据交换逻辑上是可以同时进行的，如果能让多个部件之间同时进行数据的流动，那么显然指令执行的速度也可以进一步得到提升。基于这样的需求，可以建立多总线，用多个总线来同时传输多组数据。另外还有一种方法，就是建立专用的数据通路，在任何两个需要进行数据流动的部件之间，都建立起一个专用的数据通路，如下图。</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/66714613d9c307b7e92845ec.png" alt="计算机组成原理（五）——中央处理器——专用数据通路方式.png">
+
+<p>上图就是专用数据通路结构，其原理与单总线一样，图中的C2、C5之类的东西就是控制信号，当控制信号有效时，就意味着它所控制的这条数据通路可以进行数据流通传送。</p>
+<p>下面基于这样的一种专用数据通路的方式来探讨一下，如果想取出一条指令，那么需要发出哪些控制信号：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/667147ead9c307b7e92bebfe.png" alt="计算机组成原理（五）——中央处理器——专用数据通路方式取指.png">
+
+<p>首先，指令的存放地址肯定是PC当中的，所以应该让PC的值先传到MAR当中，因此就需要给出C0的控制信号。</p>
+<p>接下来，这个指令的存放地址还应该通过外部的地址总线传送给主存，所以应该接通C1的信号。</p>
+<p>主存接收到地址信息，还应该给主存发送一个读控制信号，表示此时想读出指令的数据。</p>
+<p>现在，主存收到了地址，也收到了读信号。此时主存需要通过外部的数据总线，把这个数据传送给MDR，因此应该给C2这个信号有效。</p>
+<p>接下来，这条指令执行之前，还要把它送给IR指令寄存器，所以接下来应该让C3这个控制信号有效。这样就大致完成了取指令的工作。</p>
+<p>另外要注意，每取出一条指令后，都要让PC+1，由于上图没有告诉PC+1的信号是哪一个，所以直接描述PC+1的过程即可。</p>
+<p>接下来还需要把指令的操作码部分送给CU，进行指令译码。所以接下来要让C4的控制信号有效，把指令的操作码部分送给CU进行译码。注意，上图这里用来灰色字体标识，原因在于有的题目不会给你一个专门的控制信号来控制指令寄存器到CU的数据通路，如果题目中没有给出，那只需要写出Op(IR)-&gt;CU即可，不需要写C<sub>4</sub>有效。</p>
+<p>这就是专用数据通路在取指周期所需要做的一系列事情。</p>
+<p>接下来思考一下，如果说刚取出的指令是加法指令，然后这个加法指令指明了某一个地址，就是操作数在主存当中的存放地址，然后另一个加法的操作数已经提前放到了ACC中，那么接下来这条加法指令的执行过程应该是什么样的呢？、</p>
+<p>很显然，刚刚已经把指令取出来了，现在只需要根据指令的操作数地址，去主存里取出操作数，然后传给ALU运算即可，步骤应该是这样的：Ad(MDR)-&gt;MAR，M(MAR)-&gt;MDR，MDR&#x2F;AC-&gt;ALU。注意一点，这个题目里没有给出IR寄存器通往MAR的路子，所以应该是从MDR里把地址读到MAR，这也说明要理解知识，不能死记硬背。</p>
+<p>到这里可以发现，有了单总线结构的基础，对于专用数据通路理解起来会很简单，下面看一道例题：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/66714e2fd9c307b7e9395d6a.png" alt="计算机组成原理（五）——中央处理器——专用数据通路方式例题.png">
+
+<p>例题讲解跳转链接：<a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1ps4y1d73V?p=65&vd_source=7fb4b255ed876969a742738d7b84f461">专用数据通路方式结构</a>，大概从五分钟开始到结束。</p>
+<h2 id="4-控制器的功能和工作原理"><a href="#4-控制器的功能和工作原理" class="headerlink" title="4. 控制器的功能和工作原理"></a>4. 控制器的功能和工作原理</h2><h3 id="4-1-硬布线控制器设计"><a href="#4-1-硬布线控制器设计" class="headerlink" title="4.1 硬布线控制器设计"></a>4.1 硬布线控制器设计</h3><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/66715ccad9c307b7e9576238.png" alt="计算机组成原理（五）——中央处理器——硬布线控制器设计知识回顾.png">
+
+<p>首先回顾一下知识， 通过之前的学习我们知道，我们用高级语言编写的代码会被翻译成与之等价的一系列机器语言的指令序列，而每一条指令的执行有可能会被分为四个机器周期。</p>
+<p>第一个周期是取指周期，这个周期内完成了从主存取出指令。</p>
+<p>第二个周期可能会进入间址周期，如果当前执行的指令里面的地址码采用了间接寻址，那么就需要用间址周期把其中包含的形式地址转变成有效地址。另外，有的指令的间接寻址可能会涉及到多级的间接寻址，也就是说有的指令的间址周期可能会重复多次。</p>
+<p>间址周期结束后，我们就知道最终要操作的操作数存放的有效地址，接下来就可以进入执行周期。而不同的指令在执行周期所做的事情各不相同。在指令的主要功能执行完以后，还有可能进入中断周期，用于处理某些突发的中断信号。</p>
+<p>另外，注意一下上图的FE、IND、EX、INT，这几个英文缩写是触发器的意思，触发器标志着当前进入哪一个指令周期，这一点别忘了。</p>
+<p>之前我们说过，在一个机器周期内，我们需要通过若干个微操作序列，来完成一个机器周期内需要完成的一些事情，每一个机器周期又会由若干个时钟周期组成，每个时钟周期又可以称为一个节拍。</p>
+<p>控制单元CU会在每一个节拍内发出一个微命令，用来完成对应的微操作。所谓的微命令，指的就是与这个微操作所对应的控制信号。比如CU此时发出了微命令1，使得PCout和MARin这两个控制信号有效，那么发出这个微命令就意味着接下来就可以完成它所对应的微操作1，即把PC里的内容传递给MAR。所以微命令这个概念和微操作是一一对应的。微操作更多的是在描述我们要做的一个细分的工作，这个工作要完成一个什么样的功能，而微命令指的是要完成这个细分的工作，所需要发出的一些有效的控制信号。所以每发出一条微命令，那就意味着会完成一个与之对应的微操作。</p>
+<p>另外，在之前我们说过，有的微操作是有可能并行的进行的。比如在专用通路结构下，完全可以让多个寄存器之间的数据同时并行的流动，因此一个机器周期由若干个节拍组成，而每一个节拍里，可以并行的完成某一些互相不冲突的微操作。比如上图的取指周期，假如需要三个节拍，那么可以在第一个节拍内就完成两个微操作，也就是让CU同时发出两个微命令。</p>
+<p>在上图中，我们还可以发现，在执行周期和中断周期的T0节拍内，什么操作也没有执行。也就是说这条指令的执行周期以及中断周期只需要两个节拍就可以完成工作，然而还是让它们凑成了三个节拍，也就是让所有的机器周期都相等，这也就意味着在上图的例子中，我们是假定了采用定长机器周期的策略。这样做的好处是可以使电路设计更简单。</p>
+<p>接下来总结一下，在上图例子中，一些比较重要的特质：</p>
+<p>第一个特质，在一个节拍内，可以并行的完成多个相容的微操作。</p>
+<p>第二个特质，同一个微操作可能在不同指令的不同阶段被使用。</p>
+<p>第三个特质，不同指令的执行周期所需节拍数各不相同。为了简化设计，可以选择定长的机器周期，周期长短以可能出现的最大节拍数为准。一般来说，由于访存比较慢，因此涉及到访存的指令的执行，它所需要的节拍数有可能就是最大的节拍数，所以通常会以访存所需节拍数作为参考，来确定一个定长的机器周期。</p>
+<p>第四个特质，如果说在一个机器周期内，实际所需要的节拍数要比它真正所包含的节拍数要更小的话，那通常来说可以把相关的微操作安排在机器周期的末尾几个节拍来进行。这里可以参考上图的执行周期和中断周期。</p>
+<p>回顾完以上知识以后，我们就可以开始设计CU。通过之前的学习可以知道，对任何一条指令来说，它们在取指周期、间址周期、中断周期所做的微操作都是一样的，只有在执行周期内做的微操作序列可能会出现一些差别。但是只要能知道指令的操作码，能够判断这条指令的具体类型，那么也能够确定这条指令的执行周期内，每一个节拍所需要完成哪些微操作。</p>
+<p>因此，只要能确定指令的操作码，并且再根据触发器信息判断处于哪一个机器周期，另外结合上节拍信号(即处于第几个节拍)，最后结合上机器的状态条件(比如PSW里记录的溢出信息等)，就可以确定现在所处的节拍下，CU应该发出哪些微指令。</p>
+<p>接下来看一下如何结合这些信息发出微指令：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/66717826d9c307b7e9916310.png" alt="计算机组成原理（五）——中央处理器——硬布线控制器.png">
+
+<p>首先可以看到，<strong>控制器的核心部件就是CU控制单元，如果控制单元采用硬布线方式设计，那么这种控制器就是硬布线控制器。</strong></p>
+<p>按照上面所说，我们要想知道当前这个节拍下，控制单元CU应该发出什么样的微命令，那么首先要参考的是指令的操作码。所以，要先把IR寄存器的n位操作码送给操作码译码器，译码器的知识在第三章已经说过，如果输出n位操作码，那n位操作码可能会对应2<sup>n</sup>种状态，比如此时输入译码器n位全为0，那么就会使译码器的0号输出线输出高电平。CU根据译码器哪个输出线有效，来判断现在执行的是什么指令。</p>
+<p>接下来，CU知道执行什么指令以后，还需要知道执行到指令的哪个周期。这时候会把四个触发器的二进制值送给CU，CU根据二进制值判断处于哪个周期。有一点需要注意，确定周期的触发器是集成在CU内部的，上图画在外面是为了演示用。</p>
+<p>接下来，CU需要判断出处于该周期下的第几个节拍，所以还需要给CU输入一个节拍信号。节拍信号是通过节拍发生器来给出的，如上图左，时钟部件会有规律的发出脉冲信号，每一个脉冲信号就是一个时钟周期。节拍发生器接收到时钟部件发来的脉冲信号以后，都会选择让其中的某一根输出线导通，比如第一个脉冲让T0输出，第二个脉冲让T1输出。这样CU就可以根据节拍发生器的哪根线输出信号，来判断处于哪一个节拍。</p>
+<p>补充一点，如果采用定长周期，这说明每一个机器周期采用的节拍数都是相等的，对于上图来说，相当于每个机器周期都会包含m+1个节拍(从T<sub>0</sub>到T<sub>m</sub>)，这些节拍信号是循环发出的，如果此时已经到达了当前机器周期的最后一个节拍，发出这个信号以后，接下来如果再接收到下一个脉冲信号，那么下一个节拍信号又会回到T<sub>0</sub>，这也意味着进入了下一个周期。</p>
+<p>最后，还需要给CU输入机器的状态条件，我们把所有的状态条件统称为标志，这些标志来自于执行单元的反馈信息。</p>
+<p>到此，CU就可以结合这些信息来决定当前这个节拍下应该发出什么样的微命令。所以CU的输出就对应一系列的微命令，如上图，每一条输出线就对应一个微命令，也就是对应一个微操作。比如我们想让C1输出对应上(PC)-&gt;MAR，那么只需要把C1这根输出线接到PCout和MARin上即可，所以接下来要考虑的是什么情况下，控制单元CU应该发出C1这条微操作命令。</p>
+<p>对于上面这个问题，我们之前强调过很多次，所有的指令在取指周期内，第一步需要做的事情一定是先把PC程序计数器的值放到MAR当中。因此，无论什么指令，如果此时处于取指阶段，并且处于取指阶段第一个节拍，这时就要完成(PC)-&gt;MAR这个微操作0，所以，我们可以得到如上图左上的表达式，并根据表达式设计出C1的电路。</p>
+<p>我们可以在CU内部设计一个与门，并且与门的输入分别接到T0和FE上，与门的输出接到C1上，当FE和T0都是1时，C1就会输出。</p>
+<p>注意一点，逻辑表达式都是电路的数学化描述，所以只要写出了逻辑表达式，就意味着同时也确定了这个微命令它所对应的一个电路应该怎么接。</p>
+<p>上面(PC)-&gt;MAR这个微操作的逻辑表达式很简单，因为这个操作只会在取指阶段第一个节拍内进行，现在思考一下，如果是M(MAR)-&gt;MDR这个微操作的逻辑表达式该是什么样的呢，又如何去设计电路呢。下图直接给出答案。</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/66718019d9c307b7e9a3afdc.png" alt="计算机组成原理（五）——中央处理器——MAR到MDR逻辑表达式.png">
+
+<p>可以看到这个微命令的逻辑表达式很复杂，对应的电路同样也很负载，这里简单说一下，在逻辑表达式里点表示与，加表示或，从这个表达式里很明显可以看出，在取指(FE)、间址(IND)、执行(EX) 这三个阶段可能会产生M(MAR)-&gt;MDR的操作。这里以取指阶段为例，取指阶段是在第一个2个节拍内产生该操作，所以上述表达式关于取指阶段的逻辑表达式就用FE&amp;T1来表示，剩下的间址和执行同理。这些可能会产生该操作的表达式间用+号连接起来，表示或，即只要这些部分有一个输出为1，就意味着此时要执行M(MAR)-&gt;MDR的操作。根据分析写出表达式以后，就可以设计出对应的电路。</p>
+<p>接下来需要探讨的就是如何根据一个微操作分析出对应的逻辑表达式。并设计出对应的电路。</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/66718475d9c307b7e9adbc00.png" alt="计算机组成原理（五）——中央处理器——硬布线控制器的电路设计.png">
+
+<p>上面是设计过程，可以看到设计过程是很复杂的，不过考研是不考具体设计的，但是弄清楚具体的设计过程是有助于真正理解控制器工作原理的，所以这部分了解一下即可。	</p>
+<p>还是M(MAR)-&gt;MDR这个例子，我们先根据第一步，分析出每个阶段的微操作序列：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/667185ded9c307b7e9b21606.png" alt="计算机组成原理（五）——中央处理器——分析每个阶段微操作.png">
+
+<p>如果我们能列出所有指令的微操作序列，就可以知道在什么情况下需要使用这个微操作。不过上图我们只列举了取指周期、间址周期和执行周期这三个周期内的微操作序列，而中断周期的微操作序列这里没有分析，但原理都是类似的。总之，本质的目的就是想要找到某一个微操作在哪些时候会被用到。(这里主要想说明这个过程，所以举了几个例子，并没全部进行列举，下面的步骤也都是根据我们列举的这几个例子执行的，但实际上是要把所有的指令微操作序列都列出来才可以。)</p>
+<p>根据上面分析的每个阶段的微操作序列，可以知道在什么样的指令，什么样的机器周期下，什么样的机器状态条件下，会有M(MAR)-&gt;MDR这个微操作。现在还差节拍信息需要确定。所以，我们需要进行第三步的安排微操作时序。</p>
+<p>但进行微操作时序安排之前，我们要先进行第二步，选择CPU的控制方式，这里假设选择定长机器周期，一个机器周期内安排三个节拍的控制方式。</p>
+<p>下面对上面列举各个周期的微操作序列进行微操作时序安排，在进行安排前，先看一下安排微操作时序的原则：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/667189fad9c307b7e9bc4daf.png" alt="计算机组成原理（五）——中央处理器——安排微操作时序的原则.png">
+
+<p>接下来以取指周期为例进行微操作时序安排：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/66718dbfd9c307b7e9c58c0e.png" alt="计算机组成原理（五）——中央处理器——取指周期的时序安排.png">
+
+<p>上面是取指周期的微操作，接下来根据三个原则，把右边的微操作序列安排到T0,T1,T2这三个时序内。</p>
+<p>首先，可以看到第二个微操作的对象是主存，而第一个微操作的对象是两个寄存器，所以这两个寄存器显然可以安排到同一个节拍完成。第三个微操作和第一个微操作有先后依赖关系，所以要保证微操作3在微操作1之后。同理，微操作4一定在微操作3之后。而微操作5一定在微操作4之后。再看第六个微操作，让PC值加1，而对于这个微操作来说，只要把PC的值放到MAR后，就可以让PC值加1，所以微操作6只需要在微操作1之后就可以，当然不一定是最后面，这里我们可以把它放到3的后面。</p>
+<p>经过处理后的微操作序列如下图，接下来安排微操作时序：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/6671946bd9c307b7e9d5b64f.png" alt="计算机组成原理（五）——中央处理器——取指周期的时序安排1.png">
+
+<p>第一个和第二个微操作这两个微操作的被控对象不同，所以都可以在T0这个时序内完成。接下来微操作3和微操作6也没有前后依赖关系，所以可以把它们安排在T1这个节拍内完成。最后由于微操作4和5执行的时间很短，所以虽然他们之间有前后依赖的关系，但是同样可以安排在一个节拍内完成，所以把它们安排进最后一个节拍T2。</p>
+<p>这里解释一下，为什么可以把4和5安排在一个节拍内。原因在于MDR、IR和ID都是CPU内部的部件，CPU内部的寄存器各个部件之间的数据流动是很快的，所以CU可以并行的发出这两个微操作所对应的微命令，让这两个微操作同时进行，这也就意味着数据可以快速的从MDR先流行IR，然后再流向ID(指令译码器)，可以迅速连惯得完成。</p>
+<p>这里可能会有疑问，既然4,5可以放到一起，3和4能不能放到一起？答案是不行的，因为M(MAR)-&gt;MDR会从主存读取数据，而从主存取得一个数据的用时是比较长的，因此必须使用一个时钟周期才能保证微操作的完成，所以不能把3和4安排进同一个节拍内。</p>
+<p>同理，我们也可以对间址周期、执行周期进行时序安排，这里方法一样，就不再重复，直接展示安排的结果：</p>
+<p>间址周期：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/6671969bd9c307b7e9da83ba.png" alt="计算机组成原理（五）——中央处理器——间址周期的时序安排.png">
+
+<p>执行周期：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/66719701d9c307b7e9db5c87.png" alt="计算机组成原理（五）——中央处理器——执行周期的时序安排.png">
+
+<p>到此，我们就完成了前三步，接下来要进入第四步，确定每个微操作命令的逻辑表达式，并实现电路设计。而第四步又可以继续细分为如下图的三步骤：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/6671983dd9c307b7e9de233f.png" alt="计算机组成原理（五）——中央处理器——电路设计步骤.png">
+
+<p>首先，我们根据第一步列出操作时间表，如下图：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/667198a5d9c307b7e9df1118.png" alt="计算机组成原理（五）——中央处理器——取指阶段操作时间表.png">
+
+<p>在这个图里，如果某个指令在取指周期的某个节拍内会执行对应的微操作命令信息，就会填上1，否则就是0。而基本上所有的指令在取指阶段的操作都一样，所以大部分都是1，唯一不同的地方在于最后两行。</p>
+<p>最后两行表示在取指周期结束后是进入间址周期还是执行周期，这里使用I来表示条件寄存器，根据I的值来判断有没有间址周期，而我们表里指令列的顺序就是按照上面非访存指令和访存指令的顺序来列举的，所以显然非访存指令一定会直接进入执行阶段，所以上面五条非访存指令在是否进入间址阶段的位置不用写1。而访存指令需要进行访存操作，所以地址码可能会采用间接寻址，这时就会进入间址阶段，所以填1。当然这些指令也可能不采用间址寻址，所以可以直接进入执行阶段，所以其执行阶段也要填1。</p>
+<p>同理，可以列出间址阶段操作时间表：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/66719adfd9c307b7e9e4120f.png" alt="计算机组成原理（五）——中央处理器——间址阶段操作时间表.png">
+
+<p>执行阶段的操作时间表：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/66719b12d9c307b7e9e48f21.png" alt="计算机组成原理（五）——中央处理器——执行阶段操作时间表.png">
+
+<p>这里只列举了7种，并没有列举完，而中断阶段的操作时间表类似，这里也就不列举了。</p>
+<p>到这里，我们就完成了列出操作时间表的操作，接下来要写出微操作命令的最简表达式：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/66719b9fd9c307b7e9e60685.png" alt="计算机组成原理（五）——中央处理器——列出逻辑表达式.png">
+
+<p>把操作时间表结合，找到出现M(MAR)-&gt;MDR的地方，然后就可以列举出上图下的逻辑表达式，并把其化简。</p>
+<p>得到逻辑表达式以后，就可以转换成电路：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/66719c0fd9c307b7e9e76cbf.png" alt="计算机组成原理（五）——中央处理器——列出逻辑表达式设计电路.png">
+
+<p>这里再次强调，逻辑表达式只是电路的一个数学化描述，所以对于电路设计人员来说，只要得到了逻辑表达式，就相当于已经得到了最终的电路。</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/66719ca0d9c307b7e9e8fc34.png" alt="计算机组成原理（五）——中央处理器——硬布线设计小结.png">
+
+<p>最后，从设计步骤可以感受到硬布线设计的特点：</p>
+<p>第一个特点，指令越多，硬布线的设计和实现就越复杂，因此这种方式常用于RISC(精简指令集系统)，因为RISC支持的指令条数不会太多。而对CISC(复杂指令集系统)，如果单纯的用硬布线方式设计，显然设计起来会非常复杂和困难，所以复杂指令集系统通常会采用微程序控制器。</p>
+<p>第二个特点，对应一个硬布线控制器，如果需要扩充一个新指令，这就意味着硬布线控制器的设计需要大改，所以扩充指令是比较困难的。</p>
+<p>第三个特点，硬布线控制器由于使用纯硬件实现控制，因此执行速度很快。</p>
+<h3 id="4-2-微程序控制器的基本原理"><a href="#4-2-微程序控制器的基本原理" class="headerlink" title="4.2 微程序控制器的基本原理"></a>4.2 微程序控制器的基本原理</h3><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/667ecda6d9c307b7e91a2a88.png" alt="计算机组成原理（五）——中央处理器——硬布线控制器设计思路回顾.png">
+
+<p>硬布线控制器的微操作控制信号是否需要发出，是由组合逻辑电路根据当前指令的操作码以及机器状态和时序系统产生的一些信息来及时的产生，速度非常快。</p>
+<p>而硬布线控制器的设计过程中，需要确定每一个微操作信号，在哪些情况下需要发生，那么要把需要发出这些微操作控制信号的条件，用一个逻辑表达式把它表达出来，然后再把逻辑表达式实现为与之对应的一个硬件电路，这就是用纯硬件思想来实现的控制器。</p>
+<p>下面看一下如何用软件的思想来实现微程序控制器：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/667ecfd6d9c307b7e91e0f29.png" alt="计算机组成原理（五）——中央处理器——微程序控制器的设计思路.png">
+
+<p>首先说一下设计思路，用高级语言写的代码，会被翻译成与之对等的一系列机器指令。在每一条指令执行的过程当中，这条指令的执行又会被细分为一个一个的微操作，即由一些微操作序列来完成一条指令的具体功能。</p>
+<p>到这里可以看到，微操作序列之于指令，就类似于指令序列之于程序。所以不难想到，可以模仿指令序列执行的处理方式，用同样的思想来处理微操作序列，这就是微程序的概念。</p>
+<p>如上图，可以把一个时序之内，可以同时进行的微操作，用一个微指令来指明，比如说微指令a的执行会导致微操作一和二的完成。而在这一条指令执行过程中的产生的微操作序列就构成了一个微程序。**<font color=red>所以，每一条指令对应一个微程序。</font>**</p>
+<p>另外，对于不同的机器指令来说，不同的机器指令所需要完成的这些微操作序列是不一样的，因此不同的指令所对应的微指令序列也不一样。所以之前几章一直说的指令是对程序执行步骤的描述，而这里说的微指令是对指令执行步骤的描述。因此，CPU在执行一条指令的时候，其实就是要执行这条机器指令所对应的微程序。</p>
+<p>借鉴之前提到过的存储程序的思想，可以在CPU出厂之前，把所有的机器指令所对应的微程序，都存放到控制器里边的一个特殊的存储器当中，然后CPU可以根据当前要执行的这个机器指令的类型，去找到与这条机器指令所对应的微程序，然后来一条一条的执行这个微程序当中所包含的微指令序列。所以微程序控制器的设计思想和CPU执行指令、取指令的思想都是一致的。因此前面说微程序控制器引入了软件的思想，就是会用一些微指令来描述一条机器指令的执行过程。</p>
+<p>这里要强调几个容易混淆的概念：</p>
+<ol>
+<li>微命令和微操作是一一对应的，微操作是强调要做什么，而微命令是强调要完成这个微操作需要发出哪一个控制信号。</li>
+<li>一条微指令的执行，可能会包含多个微命令。</li>
+<li>微程序和机器指令也是一一对应的。一条机器指令会对应一个微程序，一个微程序又会由多个微指令的序列来组成，所以也可以说机器指令是对微指令功能的一个封装。</li>
+</ol>
+<p>在微程序控制器当中，有可能出现多种微指令，每一种微指令会对应相应的一系列微操作，因此每一条微指令需要有一个操作控制的字段。如上图最下面的微指令基本格式，操作控制字段由若干比特组成，用来表示当前这条微指令所对应的微操作是哪几个。</p>
+<p>另外，一条微指令还需要有一个顺序控制的字段，同样的这个信息也由几个比特组成，比如用mbit表示接下来要执行的一条微指令存放在什么地址。</p>
+<p>需要注意，微指令序列也是存储在控制器内部的一个特殊的存储器当中的，所以每一条微指令都会对应一个存储的地址。</p>
+<p>接下来看一下，一个微程序控制器需要有的一些基本的结构：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/667ed246d9c307b7e9235b01.png" alt="计算机组成原理（五）——中央处理器——微程序控制器的基本结构.png">
+
+<p>在CU控制单元内部，首先要有一个控制存储器，英文缩写是CM，用于存放各指令对应的微程序，每一种机器指令会对应一段微程序，而一段微程序会由一系列微指令序列组成，这些微指令序列在控制存储器里会顺序的存放。另外需要注意，控制存储器是用只读存储器ROM构成，这是因为ROM读取速度很快（比RAM快），而且ROM是一种非易失性的存储芯片，这就意味着CPU断电之后，ROM当中的存储的微程序不会丢失。所以每一条机器指令所对应的微程序应该由CPU的厂商设计，并且需要在CPU出厂之前，把ROM里的微程序数据全部写好。</p>
+<p>控制存储器用于存放微指令，而为了指明接下来要执行的微指令存放在什么地址，所以要引入一个微地址寄存器CMAR。CMAR也叫μPC，因为CPU内部，PC寄存器适用于指明接下来要执行的指令地址，只不过从主存取出指令，需要先把PC的值放到MAR，然后再根据MAR的值去主存当中找出对应指令。而在CU内部，CMAR就相当于MAR和PC的功能结合体。</p>
+<p>之前说过，MAR给出的地址信息需要通过一个译码器的处理，才可以选中主存的某一个存储单元，所以对于CU内部的CMAR来说，也需要把地址信息送给一个地址译码器，然后通过地址译码器把地址转换成CM当中对应的存储单元的存取控制信号。</p>
+<p>接下来继续回忆一下，从主存当中取出一条指令，会先把这条指令送给MDR数据寄存器，然后再送给IR指令寄存器，所以对于CU内部同样类似，从CM当中取出一条微指令需要先放到CMDR中，CMDR也叫μIR，用于存放从CM中取出的微指令。注意，CMDR的位数同微指令字长相等。</p>
+<p>除了上述这些，在CU中还要引入微地址形成部件，用于产生初始微地址和后继微地址，以保证微指令的连续执行。这里解释一下，外部的一条机器指令被取到IR寄存器当中，然后不同的机器指令所对应的微指令序列(即微程序)不同，因此<strong>需要根据当前机器指令的操作码来确定它所对应的微程序的起始地址是什么</strong>，所以这就是微地址形成部件的一个作用。</p>
+<p>最后还要引入一个逻辑电路叫做顺序逻辑，顾名思义就是用于控制微指令的执行顺序的，因为微指令序列不一定是一条一条顺序的往下执行，如果说有中断发生的时候，V指令执行序列的次序就需要进行调整，所以这就是顺序逻辑的作用。</p>
+<p>当CPU取得一条指令之后，执行这条指令的过程就是先把操作码送给微地址形成部件，用来确定这条指令所对应的微指令序列的一个起始地址。接下来根据顺序逻辑的标志这一类信息来确定接下来要执行的微指令的存放地址，把微指令地址放到CMAR中，然后经过地址译码器的译码以后，就可以选择CMAR所指向的那条微指令，然后取出这条微指令放到CMDR中。而一条微指令会包含两个部分信息，第一个部分信息用来描述这条微指令所对应的控制信号，第二个部分用来描述接下来要执行的一条微指令的地址(下地址)。在执行完这条微指令以后，需要把下地址信息送给顺序逻辑，仍然顺序逻辑再结合上某一些机器标志的信息，再来决定下一条应该执行的微指令的存放地址，然后再把下一条微指令的地址送给CMAR，这就是微指令序列一条一条往下执行的原理。而现在要执行的微指令被放到CMDR中，硬件电路需要根据微指令的控制码部分，向CPU内部的其它部件或者系统总线来发出一些控制信号。</p>
+<p>接下来思考一个问题：所有指令的取指周期、间址周期、中断周期所对应的微指令序列都一样，所以是否可以共享使用？基于这个考虑，在控存里面存储的微指令序列，通常来说取指周期、间址周期和中断周期所对应的微程序段只有一份，而执行周期各个指令对应的微指令序列不一样，所以执行周期会存储多个不同指令功能的微指令序列，如下图：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/667ed915d9c307b7e92fb701.png" alt="计算机组成原理（五）——中央处理器——微程序控制器的工作原理.png">
+
+<p>为了更好的理解，接下来结合上图，模拟一个取数指令执行的过程：对于取数指令LDA X，就是把X所指向的主存里面的数据放到ACC里面。在这条指令的取值周期内，会执行0号、1号、2号这三个地址上的微指令。在执行2号地址所存储的微指令之后，就意味着已经完成了取指周期内所需要做的所有事情，接下来要执行的一条微指令，被存放在地址为3的地方，也就是间址周期的第一条微指令。但是这条机器指令，它的地址码有可能不需要进行间接寻址，因此接下来要执行的微指令，不一定就是3号地址所存储的这一条，<strong>所以在指令的地址码部分，会有一些标志位用来指明这个地址码到底是采用直接寻址还是间接寻址，这个寻址特征位可以送给顺序逻辑，顺序逻辑根据指令地址码的寻址特征位判断是否要跳过间址周期。</strong></p>
+<p>LDA指令在执行完取值周期以后，经过顺序逻辑处理，会知道接下来要执行的不是间指周期，而应该直接跳到执行周期。所以根据这条指令的操作码，然后再通过微地址形成部件的处理之后，微地址形成部件会告诉顺序逻辑，LDA这条指令的执行周期所对应的微指令序列的首地址是13，所以顺序逻辑会把13这个地址信息放到CMAR当中，接下来就会执行LDA指令对应的执行周期的微程序。在15这个微指令执行完以后，下一条要执行的指令就变成了0，这意味着当前指令结束以后，如果没有中断周期的话，就进入到下一条指令的取指阶段。但是，如果此时顺序逻辑检测到一个中断信号，那么接下来执行的微指令就不是0，而是要执行中断周期内的微指令序列。</p>
+<p>上面就是取数指令的执行过程，下面再来补充一点边角知识：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/667eda08d9c307b7e9316c08.png" alt="计算机组成原理（五）——中央处理器——微程序控制器的工作原理补充.png">
+
+<p>由于所有指令的取指周期、间址周期和中断周期所需要做的事情是一样的，所以取指周期所对应的微程序段通常是公用的，在控存里只需要存一份就可以了，所以如果一个题目说某指令系统中有n条机器指令，那么这n条机器指令所对应的执行周期的微程序段都不一样，因此就需要设计n个微程序来分别描述这n条机器指令的执行周期，另外还需要加上一个公用的取指周期的微程序，所以在这个系统的控存中微程序的个数至少是n+1个，这里没有把间址周期和中断周期算进去的原因是，一些早期的CPU、物联网设备的CPU可以不提供间接寻址和中断功能，因此这类CPU可以不包含间址周期、中断周期的微程序段。</p>
+<p>另外还要强调一点，在有的选择题当中，并不会认为取指周期的微程序和执行周期的微程序是两个微程序。物理上，取指周期、执行周期看起来像是两个微程序，但逻辑上应该把它们看作一个整体。因此，“一条指令对应一个微程序”的说法也是正确的。所以，上面的说法某指令系统中有n条机器指令，那么在这个系统的控存中微程序的个数至少是n+1个如果不想产生歧义，就应该改成微程序段的个数至少是n+1个。但是也可以说微程序的个数只有n个。</p>
+<p>下面对本节进行一个小结：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/667edad1d9c307b7e932c8e9.png" alt="计算机组成原理（五）——中央处理器——微程序控制器小结.png">
+
+<h3 id="4-3-微指令的设计"><a href="#4-3-微指令的设计" class="headerlink" title="4.3 微指令的设计"></a>4.3 微指令的设计</h3><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/66801411d9c307b7e9c265b6.png" alt="计算机组成原理（五）——中央处理器——微程序控制器回顾.png">
+
+<p>在前面已经了解了微程序控制器的工作原理和工作流程，但是还没有探讨如何根据一条微指令来发出相应的控制信号，这就是接下来要探讨的主要问题，即微指令的具体格式应该怎么设计？如何根据微指令发出相应的微命令？</p>
+<p>接下来看第一个问题：微指令的具体格式应该怎么设计？</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/66801545d9c307b7e9c50b1f.png" alt="计算机组成原理（五）——中央处理器——微指令的格式.png">
+
+<p>微指令的格式可以分为如上图的三种类型，其定义以及优缺点上图也给出，这部分比较简单，就不过多叙述。除此以外，这里还要再补充两个基本概念：</p>
+<ol>
+<li>相容性微命令：如果多个微命令可以并行的完成，那么这些微命令就是相容性的微命令。</li>
+<li>互斥性微命令：如果多个微命令不可以并行的完成，那么这些微命令就是互斥性的微命令。</li>
+</ol>
+<p>接下来重点探讨，水平型的微指令格式，如何设计它的操作控制字段，即探讨如何用若干个比特的二进制信息来表示一系列的控制信号，又或者说微指令的编码方式是什么：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/6680167dd9c307b7e9c782e9.png" alt="计算机组成原理（五）——中央处理器——微指令的编码方式1.png">
+
+<p>微指令的编码方式又称为微指令的控制方式，它是指如何对微指令的控制字段进行编码，以形成控制信号。编码的目标是在保证速度的情况下，尽量缩短微指令字长。 </p>
+<p>接下来看第一种编码方式——直接编码方式，如上图，这种编码方式就是操作控制的这些比特位，每一个比特位会对应一个具体的微操作。举个例子，如果规定某一位为1，则表示该位所代表的控制信号有效，假设如上图操作字段最左边的一位，规定其代表的微操作是(PC)-&gt;MAR，最右边的一位，规定其代表的微操作是1-&gt;R，如果此时有一个微指令想要同时完成这两个微操作，那么只需要让这个微指令的控制字段的第一位和最后一位为1，然后其它全部为0就可以。</p>
+<p>接下来看第二种编码方式——字段直接编码方式，如下图：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/668018ded9c307b7e9cc33e3.png" alt="计算机组成原理（五）——中央处理器——微指令的编码方式2.png">
+
+<p>字段直接编码方式就是将指令的控制字段分成若干“段”，每段经译码后发出控制信号。这里解释一下什么是分段，有些微操作可以并行的完成，而有些微操作不可以并行的完成，所以，可以对所有微操作进行分类，从属于同一个分类的微操作都是互斥的，而相容的会分在不同的段内。</p>
+<p>另外，在实际应用中，每个小段中包含的信息位不能太多，否则将增加译码线路的复杂性和译码时间。而且，一般每个小段还要留出一个状态，表示本字段不发出任何微命令。因此，当某字段的长度为3位时，最多只能表示7个互斥的微命令，通常用000表示不操作。</p>
+<p>字段直接编码方式与直接编码方式相比，其微指令总体长度可以变得更短，下面看一道例题来进一步感受一下，指令长度是如何变短的，如下图下：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/66801960d9c307b7e9cd3191.png" alt="计算机组成原理（五）——中央处理器——字段直接编码方式例题.png">
+
+<p>字段直接编码方式的优点就是可以缩短微指令字长，但缺点是要通过译码电路后再发出微命令，因此比直接编码方式慢。</p>
+<p>接下来再看一下第三种编码方式——字段间接编码：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/66801a6fd9c307b7e9cf3d3f.png" alt="计算机组成原理（五）——中央处理器——微指令的编码方式3.png">
+
+<p>字段间接编码方式就是一个字段的某些微命令需由另一个字段中的某些微命令来解释，由于不是靠字段直接译码发出的微命令，故称为字段间接编码，又称隐式编码。如上图下，字段2经过译码器译码以后，并不是直接发出这个字段所对应的控制信号，而是会把这个译码器的输出信号送给下一级的译码器，然后下一级的译码器再进行一次处理以后，才发出最终的控制信号。</p>
+<p>字段间接编码方式的优点是可以进一步缩短微指令字长，但缺点是削弱了微指令的并行控制能力，故通常作为字段直接编码方式的一种辅助手段。</p>
+<p>接下来探讨一下微指令的下地址部分，也就是探讨如下确定下一条微指令的存放地址：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/66801b63d9c307b7e9d117e0.png" alt="计算机组成原理（五）——中央处理器——微指令的地址形成方式.png">
+
+<p>第一种确定方式就是直接根据微指令的下地址字段直接找到，这种方式又称为断定方式。</p>
+<p>第二种方式根据机器指令的操作码来确定接下来要执行的微指令的存放地址。</p>
+<p>第三种方式是增量计数法，类似于PC+1，对于微指令系统如果想要顺序的执行一系列微指令序列，那么只需要在当前这条微指令执行结束以后，把地址信息加1即可。</p>
+<p>第四种方式是分支转移，有些指令是转移指令，如JMP指令，这种转移类指令会指明转移方式，满足某种条件下才会进行转移，微指令的转移地址会在微指令的后面部分给出。</p>
+<p>第五种是通过测试网络来决定下一条微指令的存放地址，如下图：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/6697f115d9c307b7e9b98230.png" alt="计算机组成原理（五）——中央处理器——测试网络.png">
+
+<p>这其实就是前面说的顺序逻辑，顺序逻辑会接收一下标志信息，然后根据标志信息再结合当前执行的微指令的某些比特的信息，来决定接下来应该执行的微指令的存放地址。所以这里的测试网络就是指其内部的处理电路。</p>
+<p>第六种方式是由硬件产生微程序入口地址，比如之前说的每一条指令的取指周期所对应的微指令序列都是公用的，而取指周期的第一条微指令作为开始，其地址可以用专门的硬件存放。另一方面，如果一个指令的进行需要进入到中断周期，那么同样的，也会用一个专门的硬件记录中断周期所对应的微程序的首地址。</p>
+<p>接下来根据一道例题看一下这部分的考察方式：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/66801cc5d9c307b7e9d3483f.png" alt="计算机组成原理（五）——中央处理器——微指令的地址形成方式例题.png">
+
+<p>接下来对本节进行一个小结：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/66801cf3d9c307b7e9d39066.png" alt="计算机组成原理（五）——中央处理器——微指令的设计小结.png">
+
+<h3 id="4-4-微程序控制单元的设计"><a href="#4-4-微程序控制单元的设计" class="headerlink" title="4.4 微程序控制单元的设计"></a>4.4 微程序控制单元的设计</h3><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/66801d3bd9c307b7e9d41ee0.png" alt="计算机组成原理（五）——中央处理器——微程序控制单元设计.png">
+
+<p>微程序控制单元的设计步骤和硬布线控制器很类似，特别是第一步和第二步，只有第三步和第四步有区别。</p>
+<p>首先第一步，同样需要分析出所有的指令在每一个阶段的微操作序列，如上图，以指令的取指周期内所需要做的微操作序列为例。在硬布线控制器设计一节，已经分析了取值周期内所需要做的6个微操作，其中的某一些微操作可以安排在同一个节拍内并行的完成。对于微程序控制器也一样，同样需要完成这样的一系列操作，如上图右，但最后一步会有一点区别，对应硬布线控制器来说，是把指令的操作码部分送给了指令译码器ID，然后指令译码器会发出与操作码相对应的那一根线的选通信号；而对于微程序控制器，是要把指令操作码送给微地址形成部件，然后由微地址形成部件来指明这条指令在接下来的执行周期，所对应的微程序的起始地址。</p>
+<p>与硬布线控制器类似，微程序控制器设计时，对于一些相容的微操作，可以把它安排在同一个微指令内，让它们同时并行的完成，所以上图右的这些微操作，可以用三个微指令完成。</p>
+<p>所以在取指阶段，要做的就是先执行微指令a，再执行微指令b，c如下图：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/66801d8fd9c307b7e9d50642.png" alt="计算机组成原理（五）——中央处理器——微程序控制单元设计1.png">
+
+<p>根据取指阶段列出的具体的微操作，就可以确定每一条微指令所对应的操作码部分应该怎么样安排，所以只要能够整理出每一条微指令所包含的微操作，就已经完成了微指令的编码。</p>
+<p>但是为了支持取指阶段微指令序列的执行，还需要考虑怎么读出这三条微指令，即微指令的存放地址如何确定，这一点在前面已经探讨过。对于取指周期的第一条微指令来说，会固定的把它存放在比如说0号单元里面，所以第一条要执行的微指令是由硬件自动的给出的。而接下来要执行的微指令的存放地址，会被包含在当前执行的这条微指令的下地址字段。所以在执行完微指令a之后，还需要穿插一个微操作，Ad(CMDR)-&gt;CMAR，就是要把当前执行的微指令的下地址信息送给CMAR，这个微操作的执行也需要消耗一个节拍，所以对应微程序控制器来说，每执行完一条微指令之后，都一定需要再用一个节拍来加上这个微操作，用这样的方式指明下一条微指令的存放地址。</p>
+<p>另一方面，还需要考虑如何转入到下一个机器周期，假设一个指令系统中取指周期过了之后，会直接进入到执行周期，由于不同的指令在执行阶段的微程序各不相同，所以在取指阶段的微指令执行结束之后，还需要根据当前执行指令的操作码，来确定这个指令所对应的执行阶段的微程序的一个起始地址。因此，把这个指令的操作码送给微地址形成部件以后，还需要消耗一个节拍把微地址形成部件指明的地址信息送到CMAR中。</p>
+<p>把上面考虑到的两个问题给补进去，如下图：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/66801dd7d9c307b7e9d57b17.png" alt="计算机组成原理（五）——中央处理器——微程序控制单元设计2.png">
+
+<p>指令a执行完以后，需要消耗一个节拍，把指令a的下地址放到CMAR中，然后指令b执行结束后，同样需要消耗一个节拍，把指令b的下地址放到CMAR中，微指令c执行结束后，还需要再加一个节拍，把微地址形成部件所指明的当前这条指令它的执行周期所对应的微程序首地址放到CMAR当中。</p>
+<p>很显然，采用微程序控制器完成指令周期的工作，总共需要消耗5个节拍，而硬布线控制器只需要消耗3个节拍，所以微程序控制器的执行速度要比硬布线慢的多。</p>
+<p>补充一点，在上面t4节拍内执行了微指令c，这个微指令把从主存中读出的指令数据从MDR送到IR，同时又把指令的操作码部分送给了微地址形成部件，这两个微操作被放在用一个节拍内。但是有的教材里会用另外一种处理方式，就是在t4节拍内，先把指令的数据从MDR送到IR，然后t5时钟周期节拍内，会把指令的操作码送给微地址形成部件，然后同时再把微程序的首地址放入到CMAR中。这两种安排都是可以的，只需要保证在同一个节拍内，这些微操作可以并行的进行就可以了。如下图。</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/66801e00d9c307b7e9d5b639.png" alt="计算机组成原理（五）——中央处理器——微程序控制单元设计3.png">
+
+<p>下面接着回到刚开始说的设计步骤：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/66801e6dd9c307b7e9d65af3.png" alt="计算机组成原理（五）——中央处理器——微程序控制单元设计4.png">
+
+<p>第一步分析每一条指令在每一个阶段的微操作序列，这个以取指周期为例，已经进行了分析。</p>
+<p>第二个阶段，需要对机器指令的微操作命令及节拍进行安排，要写出每个周期内所需要的微操作，就是要在第一步得到的微操作序列的基础上，把可以并行进行的微操作，安排在同一个节拍内进行。到这一步为止，和硬布线控制器的设计方法都是重合的。</p>
+<p>接下来就开始出现区别，在采用微程序控制器需要加入几个特有的微操作，第一个在取指周期内除了最后一条微指令之外，其它的每一条微指令结束之后都需要根据当前执行的这条微指令的下地址信息，来指明接下来要执行的这条微指令的存放地址，所以每一条微指令的后面，都需要补上Ad(CMDR)-&gt;CMAR。另外在取指周期的最后一条微指令执行结束之后，还需要用OP(IR)-&gt;微地址形成部件-&gt;CMAR来指明，当前执行的这条机器指令，它所对应的执行周期的微程序首地址。这就是在微程序的取指周期内，需要添加的两个特有的微操作。</p>
+<p>在考试中，一般为了简化问题，通常取指周期结束之后，会直接进入到执行周期，而执行周期的第一条微地址指令，是在取指周期的末尾指明的。在执行周期内，每条微指令结束之后，也都需要通过执行的这条微指令来指明接下来要执行的微指令的存放地址。</p>
+<p>而执行周期结束之后，若没有中断信号，则下地址会重新指回到取指周期的第一条微指令的存放地址，所以在执行周期内，每个微指令完成之后，都根据当前这条微指令的下地址信息，找到下一个应该执行的微指令，用这种方式就可以自然而然的进入下一条机器指令的执行周期。所以在指令的执行周期内，同样的列出微操作序列，然后把可以同时并行的进行的微操作把它们进行分组，每一组微操作就会对应一个微指令，而每一个微指令执行结束之后，都需要再添加上Ad(CMDR)-&gt;CMAR这样的一个特有的微操作，这个微操作同样会消耗一个节拍。用这样的方式就可以确定微程序控制器每一步应该做什么事情。</p>
+<p>接下来第三步，需要确定微指令的格式：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/66801ecfd9c307b7e9d70aca.png" alt="计算机组成原理（五）——中央处理器——微程序控制单元设计5.png">
+
+<p>微指令的格式在上一小节探讨过，微指令的格式分为微指令的操作码和下地址这样的两个部分。首先，需要根据微操作个数决定采用何种编码方式，以确定微指令的操作控制字段的位数。然后，根据CM中存储的微指令总数，确定微指令的顺序控制字段的位数。最后按操作控制字段位数和顺序控制字段位数就可确定微指令字长。</p>
+<p>第四步，设计每一条微指令的码点：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/66801f1dd9c307b7e9d7a517.png" alt="计算机组成原理（五）——中央处理器——微程序控制单元设计6.png">
+
+<p>比如说，如果采用直接编码的方式，也就是在微指令的控制码部分，每个比特位会对应一个特定的微操作，如果采用这样的编码方式的话，那么就可以根据每一条微指令所需要执行的微操作，来确定每一条微指令的控制码部分哪个地方为1，哪个地方为0。</p>
+<p>接下来补充一个知识点——微程序的设计分类：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/66801f52d9c307b7e9d82002.png" alt="计算机组成原理（五）——中央处理器——微程序设计分类.png">
+
+<p>微程序设计可以分为静态微程序设计和动态微程序设计两类。</p>
+<p>静态微程序设计就是说微程序一旦写入了ROM，就不需要再改变。而动态则意味着，CPU出厂之后，还有可能会被改变微指令序列，所以为了实现动态微程序的设计，就应该使用可以擦除的ROM芯片，如EPRIOM。</p>
+<p>除了这两种微程序设计，再补充一个更深层的设计——毫微程序设计。之前介绍的微程序是用微指令序列来解释一条机器指令的执行，而毫微程序是用毫微指令序列来解释每一条微指令的执行。</p>
+<p>下面把硬布线控制器与微程序控制器做一个比较：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/66801f93d9c307b7e9d8b0bf.png" alt="计算机组成原理（五）——中央处理器——硬布线与微程序的比较.png">
+
+<p>最后，对微程序控制器这部分内容进行一个简单的回顾：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/66801fdcd9c307b7e9d94bd2.png" alt="计算机组成原理（五）——中央处理器——微程序控制器知识总结.png">
+
+<h2 id="5-指令流水线"><a href="#5-指令流水线" class="headerlink" title="5. 指令流水线"></a>5. 指令流水线</h2><h3 id="5-1-指令流水线的基本概念"><a href="#5-1-指令流水线的基本概念" class="headerlink" title="5.1 指令流水线的基本概念"></a>5.1 指令流水线的基本概念</h3><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/6680205fd9c307b7e9da5a7c.png" alt="计算机组成原理（五）——中央处理器——指令流水线定义1.png">
+
+<p>之前说过一条指令的执行过程可以分成多个阶段，不同计算机对阶段的划分不一样，最简单的一个划分方法是把它划分为三个阶段，第一个阶段进行取指的操作，第二个阶段分析指令，第三个阶段执行指令。</p>
+<p>而一条指令在不同的阶段，所需要使用到的硬件部件是不一样的，比如取指阶段需要用的PC程序计数器，然后也需要访问主存储器，从主存里（有时候也可能是从cache里）读出这条指令，最后还需要把指令送到指令寄存器IR中。</p>
+<p>在分析指令的阶段，需要把指令的操作码部分送给指令译码器ID，然后还需要根据指令中包含的形式地址，转换成最终操作数的有效地址，最后再根据有效地址取出操作数。</p>
+<p>在执行阶段，需要根据指令的操作码字段来完成指令规定的功能，在这个阶段很多时候需要用到ALU算术逻辑单元，最后还需要把运算的结果写回到通用寄存器或者主存里。</p>
+<p>可以看到，在取指、分析、执行这三个机器周期内，每个阶段会用到的硬件有可能是不一样的，当然也可能出现各个阶段所使用的硬件部件有重复的情况。</p>
+<p>为了方便分析，可以假设取指、分析和执行这三个阶段所需要的时间都是相同的，都为t，那么按照之前介绍的这种指令执行方式，也就是顺序执行的方式，就意味着只有一条指令完成了取指、分析和执行这三个阶段的工作之后，下一条指令的取指分析和执行才会紧接着往后，所以按照之前介绍的这种指令执行方式，有n条指令的情况下，总共的耗时就应该是3nt。传统的冯诺依曼机就是采用这种执行方式，这种顺序执行方式又称为串行执行方式。</p>
+<p>顺序执行方式的优点是控制简单，硬件代价小。而缺点是执行指令的速度较慢，在任何时刻，处理机中只有一条指令在执行，各功能部件的利用率很低。</p>
+<p>为了处理顺序执行方式的缺点，提供各功能部件的利用率，所以引入了指令流水线。</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/668021efd9c307b7e9de4bbe.png" alt="计算机组成原理（五）——中央处理器——指令流水线定义2.png">
+
+<p>首先看一次重叠执行方式，即第二条指令的第一个阶段和上一条指令的最后一个阶段会在时间上有重叠，采用这种方式，总耗时就变成了(1+2n)t，比顺序执行方式减少了1&#x2F;3的耗时。而CPU要支持这样的执行方式，显然需要在顺序执行方式的CPU基础上，再增加一些硬件部件。所以一次重叠执行方式的优点是程序的执行时间缩短了1&#x2F;3,各功能部件的利用率明显提高。而缺点是需要付出硬件上较大开销的代价，控制过程也比顺序执行复杂了。</p>
+<p>接下来看两次重叠执行方式，如上图下，总耗时变成了(2+n)t，可以看到，与顺序执行方式相比，指令的执行时间缩短近2&#x2F;3。但是注意，上面画出的二次重叠执行方式是一种理想的指令执行方式，即在正常情况下，处理机中同时有3条指令在执行，但是实际过程中，有可能会遇到一些特殊情况导致指令的执行阶段需要延后。</p>
+<p>另外，这里只是把指令的执行过程分为三个阶段，如果说把指令的执行过程分为四个或者五个阶段，并且如果能够实现在各个阶段所使用到的硬件部件都相互独立，就意味着在同一时刻可以支持四条指令、五条指令正在执行。考试中最常见的是把指令执行过程分为五个阶段的这种方式，这部分会在之后的5.3里专门介绍。</p>
+<p>接下来看流水线的表示方法：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/6680222cd9c307b7e9deb6ad.png" alt="计算机组成原理（五）——中央处理器——流水线的表示方式.png">
+
+<p>之前画的指令执行过程的图就是指令执行过程图，如上图上，横坐标表示时间，纵坐标表示指令序列，每个纵坐标对应一条指令的执行，<strong>这种画图方式主要用于分析指令执行过程以及影响流水线的因素。</strong></p>
+<p>接下来介绍另一种描述指令执行过程的图——时空图，如上图下。对于时空图来说，横坐标表示时间，纵坐标表示不同的执行阶段。注意上图的时空图把一条指令的执行过程分为了四个阶段，这也是一种划分方式，而且每一个执行阶段都默认他们所需要消耗的时间都是相同的，并且各个阶段所需要使用到的硬件部件都是相互独立的。<strong>这种时空图主要会用来分析流水线的性能。</strong></p>
+<p>关于如何度量CPU指令流水线的性能，这一点是接下来要探讨的具体问题，大体上可以用<strong>吞吐率、加速比和效率</strong>三个指标来评价一个指令流水线的性能。</p>
+<p>下面依次看一下，首先看吞吐率：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/6680229ad9c307b7e9dfb7df.png" alt="计算机组成原理（五）——中央处理器——流水线的性能指标——吞吐率.png">
+
+<p>吞吐率是指在单位时间内流水线所完成的任务数量，或是输出结果的数量。对于指令流水线来说，大多数情况下，我们探讨的吞吐率就是指单位时间内，可以完成多少条指令。</p>
+<p>举个例子，假设有n个任务，要计算指令流水线的吞吐率，首先要确定总共完成了多少条指令，然后还需要确定完成这些指令总共花了多少时间。所以对于刚刚提出的最理想执行情况来说，可以先画出执行n条指令的时空图，如上图左下。那么第一条指令的执行总共有k个阶段，总共耗时就应该是k△t这么多，然后从k△t这个时刻往后开始，每隔△t的时间就会有一条指令执行结束，所以后续的n-1条指令只需要再花费(n-1)△t的时间来执行即可，因此n条指令的执行时间就应该是T<sub>k</sub>&#x3D;(k+n-1)△t。这样的话，流水线的吞吐率TP只需要用指令的条数除以T<sub>k</sub>即可得到，TP的表达公式如上图右，而从这个式子不难看出，当指令的条数很多的时候，TP就近似等于1&#x2F;△t，所以理想情况下，所能获得最大的吞吐率就是TP&#x3D;1&#x2F;△t。</p>
+<p>注意，一条指令的执行分为k个阶段，每个阶段耗时△t，一般取△t &#x3D;一个时钟周期，这里解释一下为什么取△t &#x3D;一个时钟周期。按照之前的学习，一条指令的执行被分为多个阶段，每个阶段理论上是对应一个机器周期，而一个机器周期可能包含多个时钟周期，所以按照之前的认知，这个地方提出的一个指令的阶段应该是包含多个节拍才对，不过理论上最理想的情况是一个机器周期只包含一个时钟周期，所以这里既然探讨的是最理想的情况，那么△t就取一个时钟周期。</p>
+<p>另外，这里再补充两个概念，一个叫装入时间，另一个叫做排空时间，根据上图所画，很容易理解。装入时间就是指第一条指令从取指一直到结束所需要的这段时间，而排空时间指的是最后的这一条指令从取指一直到结束所需要的这段时间。</p>
+<p>接下来介绍第二个性能指标——加速比：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/668022c3d9c307b7e9e01f34.png" alt="计算机组成原理（五）——中央处理器——流水线的性能指标——加速比.png">
+
+<p>加速比就是完成同样一批任务，不使用流水线所用的时间与使用流水线所用的时间之比。</p>
+<p>同样举个例子，设T<sub>0</sub>表示不使用流水线时的执行时间，即顺序执行所用的时间；T<sub>k</sub>表示使用流水线时的执行时间，则计算流水线加速比(S)的基本公式为S&#x3D; T<sub>0</sub>&#x2F;T<sub>K</sub>。</p>
+<p>接下来继续刚才的假设，如果说不使用流水线的话，那么每一条指令的执行被分为k个阶段，而每个阶段需要△t这么长的时间，因此n条指令执行完成就需要nk△t这么长的时间，而刚才又得出了引入流水线后的一个总的消耗时间T<sub>k</sub>&#x3D;(k+n-1)△t，那么S&#x3D;nk△t&#x2F;(k+n-1)△t&#x3D;kn&#x2F;(k+n-1)。如果说n趋近于无穷时，加速比就可以接近于k，所以理论上最理想的情况下，最大加速度比为k。</p>
+<p>接下来看第三个指标——流水线的效率：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/668022f6d9c307b7e9e08bc5.png" alt="计算机组成原理（五）——中央处理器——流水线的性能指标——效率.png">
+
+<p>流水线的效率指的就是流水线的设备利用率，所谓设备的利用率就是指硬件设备处于忙碌的时间占总的时间的一个比例。所谓的设备就是指之前提出的，在不同的阶段所需要使用到的这些硬件设备，所以说如果把指令的执行分为四个阶段，那么就意味着在这种情况下，总共是有四组设备。结合时空图来看，用红框框出来的部分就是设备处于忙碌的时间，而蓝色的框又反映了整体的一个时间，所以想要计算流水线的效率，就用红色框的部分比上蓝色框的部分就可以。计算的时候可以把时空图右半部分阶梯状的框图拼凑到左侧，用这样的方式可以让整个图变得比较规整，这时候再计算效率时，就可以使用拼凑后的图形，只需要计算出右半部分矩阵占整体的一个比例即可，计算流水线的效率公式上图已经给出，注意T<sub>k</sub>是指总体的一个时间消耗，而再乘一个k的意思就是乘矩形的高。</p>
+<p>接下来思考一个问题，当n趋近于无穷时，矩形就会变得越来越大，然而设备的空闲时空区不变，所以当n趋近于无穷时，整个流水线的设备利用率可以接近于1，因此引入流水线技术之后，这些硬件部件的利用率得到了很大的提升。</p>
+<p>下面对本节进行一个小结：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/66802322d9c307b7e9e0eefe.png" alt="计算机组成原理（五）——中央处理器——指令流水线的基本概念小结.png">
+
+<h3 id="5-2-指令流水线的影响因素和分类"><a href="#5-2-指令流水线的影响因素和分类" class="headerlink" title="5.2 指令流水线的影响因素和分类"></a>5.2 指令流水线的影响因素和分类</h3><p>经过上一小节的介绍可以知道什么是指令流水线，但上一小节所建立的指令流水线的工作模式都是很完美的情况，一个阶段和另一个阶段都可以完美无瑕的衔接，然而有的时候，指令流水线的工作可能不会那么完美，那么有可能导致各个阶段没有那么完美的衔接因素有哪些呢，这就是这个小节要探讨的主要问题。</p>
+<p>为了让问题的探讨没有那么抽象，所以首先引入一个经典的五段式的指令流水线，如下图：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/66841a76d9c307b7e9818fbe.png" alt="计算机组成原理（五）——中央处理器——机器周期的设置.png">
+
+<p>所谓五段式指令流水线，一条指令的执行会被分成如上图的五个阶段。第一个阶段叫做IF，即取指令阶段。取出指令以后，接下来进入ID阶段，即指令译码阶段。下一个阶段是EX阶段，即指令执行阶段。第四个阶段是M阶段，即访存阶段。最后一个阶段是WB阶段，就是要把最后运算的结果写回到通用寄存器组。这种五段式流水线是考研中最常见的一种模式，因为这种五段式流水线是经典的MIPS架构所提出来的一种指令流水线，MIPS是世界上第一个精简指令集的指令系统。</p>
+<p>注意，MIPS架构下，一条指令的执行会被划分成这样的五个阶段，但是有的指令有可能会跳过其中的某些阶段，然而为了方便指令流水线的安排，即便有的指令可能在实际运行时不需要中间的某个阶段的处理，仍然会被安排为这样的五个机器周期。所以在MIPS架构下，所有的指令一定都是五个机器周期，即分为这样的五个阶段，有的机器周期内有可能什么也不做，但依然会存在这个机器周期。</p>
+<p>另一方面，之前说过，每一个机器周期，完成对应工作所需要的时间花销，有可能会不一样，所以为方便流水线的设计，将每个阶段的耗时取成一样，以最长耗时为准。如上图的例子，五个阶段中最长的耗时为100ns，所以此处应将机器周期设置为100ns。</p>
+<p>现在产生一个问题，想要让每个阶段耗时为100ns，那么像图里的第三个部分，就是执行阶段所要用到的硬件部件，它应该是在第200ns的时候，才把它所需要的数据给输入，但是由于前面的第二个阶段实际只需要80ns的时间就可以准备好这些数据，所以为了让第二个阶段流出的数据能够刚好赶在200ns的时候才让它流出，那么就需要在各个阶段中间给它们添加一些暂存的寄存器，用来暂存上一个阶段要给下一阶段输出的数据，只有到下一个阶段的执行周期时，才会把数据输出给下一阶段，这种用于缓冲的寄存器也叫锁存器。</p>
+<p>下面来探讨一下上图的五个阶段的含义：</p>
+<p>第一个阶段取指阶段，这个阶段要做的事情是根据PC所指向的位置，去Instruction Cache里找出当前要执行的这条指令，然后把取出的这条指令放到这个功能段的锁存器里面。注意一点，之前一直在说取指令是去主存里取指令，但是在大多数情况下，主存里当前需要使用到的指令还有数据这些信息，会在cache当中保存一个副本，并且基于局部性原理，cache的命中率一般都是很高的，所以上图在取指阶段画了一个cache的意思就是说，在大部分情况下，都可以从cache里直接找到现在想要的那条指令的数据，而不需要进行访存。</p>
+<p>接下来先跳到第四个阶段，本来第四个阶段是要访问主存的，但是上图却画了一个data cache，原理与第一阶段是类似的，要访存主存，但是大部分情况下，都可以从cache里直接命中想要的数据。而由于第四个阶段访问的并不是指令，而是指令要操作的某一些具体的数据，因此这个地方写的是data cache，也就是CPU内部的cache会被分为两个独立的模块，一种cache是专门用来存储指令的，而另一种cache是专门用来存储变量的。把指令和数据分开存放，就意味着对这两个模块的访问是可以并行的进行的，因此指令和数据用两个独立的cache模块来存储，可以使得第一个和第四个阶段所需要使用的硬件部件可以并行的工作，这样可以更方便的来安排指令流水线。</p>
+<p>注意，如果读写的数据没有在cache命中的话，指令流水线就会出现断流的情况，因为cache不命中就必须去访问主存，这种复杂的情况暂时可以先不考虑。</p>
+<p>接下来看第二个阶段，第二个阶段是指令译码阶段，在这个阶段除了完成指令译码的工作以为，还会完成取数的操作，取数就是只要把这条指令所需要用到的操作数，从通用寄存器里面把它取出来，然后放到锁存器A和B里面，如上图。注意，这一点和之前学过的指令不一样，之前学习的指令，比如说加法指令，可以直接指明要访问的加数和被加数是来自于主存，<strong>但是在RISC精简指令集系统下，想要进行运算的操作数，一定是直接来自于通用寄存器的</strong>，不可能直接来自于主存，如果来自于主存，那么一定要先把数据放到通用寄存器里，然后再从通用寄存器当中取出那个数据。所以在指令译码的阶段，除了指令译码之外，还会从通用寄存器里取出当前这一条指令所需要用的操作数，放到A和B锁存器里。</p>
+<p>接下来第三个阶段，执行阶段，执行阶段需要用ALU算术逻辑单元来处理前一个阶段取出的操作数，这里会发现，在第二个阶段除了A和B两个锁存器以外，还有一个锁存器叫Imm，即立即数存储器，这个锁存器是用来存储立即数的，因为有的指令当中可能会使用立即寻址，也就是指令的地址码部分就直接说明了一个立即数，那么在这种情况下，可以直接从指令当中取出接下来执行阶段所需要使用的立即数，然后把它放到Imm锁存器里，所以有的时候第三个阶段处理的数据有可能一个是立即数，另一个是来自于通用寄存器。那第三个执行阶段就是把刚才的两个操作数进行一个处理，处理之后会把输出的结果放到第三个阶段的锁存器里，然后再把这个运算结果有可能需要写回主存，当然这个运算结果也有可能不需要写回主存。有的时候一条指令的运算结果是直接写回寄存器，所以从上图可以看到，第三个阶段还有一条线会直接输出到第四个阶段的锁存器里，然后接下来再把这个数据通过第五个写回阶段，把运算的结果写回到某一个通用寄存器里，因此第五个阶段写回阶段的实际工作就是，有可能需要把之前的运算结果写回到某一个通用寄存器当中，当然也可能不需要写回，这需要结合具体的指令分类再来分析。</p>
+<p>到此这个图的含义就介绍清楚，现在注意到第二个阶段，有可能对通用寄存器的某一个寄存器进行读操作，然后写回阶段有可能会把数据写回到某一个通用寄存器，所以第五个阶段有可能对通用寄存器进行写的操作，那这两个阶段对寄存的读和写，就有可能造成一些问题。所以接下来要探讨的就是**影响指令流水线的具体的因素，分为三个大类，第一类叫做结构相关(资源冲突)；第二类叫做数据相关(数据冲突)；第三类叫做控制相关(控制冲突)**。</p>
+<p>接下来先探讨第一个分类——结构相关：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/66841cbed9c307b7e986aa56.png" alt="计算机组成原理（五）——中央处理器——影响流水线的因素1.png">
+
+<p>结构相关指多条指令在同一时刻争用同一资源而形成的冲突称为结构相关，如上图，是刚刚提出的五段式指令流水线，看红色的部分，当Instr3这条指令执行到第一个阶段取指阶段时，需要使用到主存，然而最开头的load指令在这个时候也会使用到存储器这个部件，所以它们俩同时访问存储器就会造成资源冲突。</p>
+<p>另一个方面看上图蓝色的部分，load指令的第五个阶段需要访问某一个通用寄存器写回，然后下面的Instr3这条指令的蓝色阶段同样有可能会对某一个寄存器进行读操作，如果他们俩访问的是同一个寄存器，就又会造成资源冲突。</p>
+<p>对应这种资源冲突的问题该如何解决呢？</p>
+<p>第一种方法就是让排在后面的指令暂停一个周期，然后再来尝试着执行。</p>
+<p>第二种方法就是资源重复配置，如下图。</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/66841cfad9c307b7e9872246.png" alt="计算机组成原理（五）——中央处理器——影响流水线的因素2.png">
+
+<p>如果把指令和数据分别放到不同的cache当中或者两个不同的存储体当中，那么第一个阶段和第四个阶段所需要访问的数据一定是不相同的，第一个阶段是指令数据，而第四个阶段是变量之类的数据。所以如果采用这种方式，那么当第一条指令执行到访存的阶段时，下面的指令刚好到取指阶段，而取指阶段访问的cache和访存阶段访问的cache是两个独立的cache体，所以用这种方式就可以解决结构相关的问题。</p>
+<p>这里可以发现，这部分的解决原理本质上和操作系统的互斥问题是一个路子，所以可以结合操作系统处理互斥问题的思想来理解。</p>
+<p>第二个影响流水线的因素叫做数据相关：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/66841d4fd9c307b7e987ddc9.png" alt="计算机组成原理（五）——中央处理器——影响流水线的因素3.png">
+
+<p>数据相关指在一个程序中，存在必须等前一条指令执行完才能执行后一条指令的情况，则这两条指令即为数据相关。本质上和操作系统里的同步问题类似。</p>
+<p>同样结合上图的图示理解，假设第一条指令执行一个加法，把r2和r3这两个寄存器的值相加之后放回r1，然后第二条指令是执行一个减法，把r1里的内容和r3里的内容相减之后放到r4，然后第三条是逻辑与运算，将r1和r7与运算结果放到r6，第四条是或运算，将r1和r9或运算结果放到r8，最后是一条异或运算，将r1和r11异或运算结果放到r10。</p>
+<p>下面分析一下，正常来说，按照期待的执行顺序，应该先等第一条指令确定了r1的内容，才应该执行第二条指令。同样的，下面的三、四、五三条指令在读出r1数据之前，也都需要先保证第一条指令已经把数据写回r1。</p>
+<p>如果按照期待的完美的流水线来安排这些指令的运行的话，如上图所画，就可以发现，第一条指令在把数据写回r1是在最后一个阶段才执行的，但是第二、三、四条从r1里读出数据是在指令译码阶段，而它们译码阶段的执行都要比第一条指令的第五个写回阶段执行的早，这也就意味着第一条指令还没有把数据写回r1，第二、三、四这三条指令就已经从r1里读出数据了，这就是数据冲突的问题。</p>
+<p>另外，这里还可以发现，最后一条指令同样需要使用r1，但是最后这条指令取出r1的时候，r1的数据已经被写回了，所以最后这条指令和第一条指令之间不存在数据冲突的问题。</p>
+<p>下面看一下数据冲突问题的解决方法：</p>
+<p>第一种处理方法就是把遇到数据相关的指令及其后续指令都暂停一至几个时钟周期，直到数据相关问题消失后再继续执行。这种方法又可以进一步分为硬件阻塞(stall)和软件插入“NOP”两种方法。</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/66841d83d9c307b7e9885239.png" alt="计算机组成原理（五）——中央处理器——影响流水线的因素4.png">
+
+<p>首先看硬件阻塞，如果两条指令之间存在数据冲突，那么采用硬件阻塞的方式就意味着，会由硬件系统添加几个气泡(如上图的bubble)，把第二条指令的开始时间往后拖三个周期，这时候再执行第二条指令就与第一条指令没有数据冲突问题。</p>
+<p>除此意外，还可以用软件插入NOP方法，如下图：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/66841e7bd9c307b7e98a7dd0.png" alt="计算机组成原理（五）——中央处理器——影响流水线的因素5.png">
+
+<p>如果在生成机器指令时，编译器发现某两条指令有数据冲突，那么编译器会在这两条指令中间插入三条空指令，每一条空指令的执行也会经过五个完整的机器周期，那么拖了三个这样的指令时间以后，再来启动刚刚的指令，也可以保证不会出现数据冲突。</p>
+<p>接下来说第二种解决方法——数据旁路技术，又叫做转发机制。还是看上图，第一条指令是把r2和r3的相加结果存放到r1里，然后第二条指令会取出r1的内容，然后以r1的内容作为其中一个操作数和r3进行减法操作。但是，r2和r3相加的结果，事实上在第三个执行阶段经过运算器处理以后，就已经有结果了，而第二条减法指令所需要用的其中一个操作数r1也不一定必须从寄存器里取，我们可以增加一个电路，直接从ALU的输出端接到ALU的输入端，也就是把r2和r3相加的结果作为下一条指令的其中一个输入端。这样的话，第二条指令所需要的数据就不需要等待，这就是数据旁路技术。</p>
+<p>下图就是经过数据旁路技术处理后的示意图：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/66841f20d9c307b7e98bdf9a.png" alt="计算机组成原理（五）——中央处理器——影响流水线的因素6.png">
+
+<p>接下来说第三种解决方法——编译优化：通过编译器调整指令顺序来解决数据相关。</p>
+<p>还是结合上面的例子来解释，第一条指令的计算结果会被后面的几条指令所使用到，如果往后还有一系列的指令的执行不需要依赖前面的这几条指令的执行结果，那么就可以把这几条指令安排到第一条指令之后来执行，这样的话，当减法操作指令执行的时候，就已经过了产生数据冲突的周期，这就是编译优化的策略。</p>
+<p>接下来看第三个影响指令流水线的因素——控制相关：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/66a70ddcd9c307b7e9baf76b.png" alt="计算机组成原理（五）——中央处理器——影响流水线的因素7.png">
+
+<p>当流水线遇到转移指令和其他改变PC值的指令而造成断流时，会引起控制相关。</p>
+<p>还是结合上图理解，比如此时要执行的是一个条件转移指令，然后这条指令被存放在地址为12的位置，然后下一条顺序存储的指令存储在地址为16的位置，也就是说每条指令占4B。正常来说，指令的执行流会顺序的一条一条往下执行，但是如果条件转移指令的判断条件满足，那么有可能根据这条指令的指示跳转到某一个不一样的位置，比如说跳转到1000，如上图，那么按照之前安排的指令流水线，前面取进来的三条指令就不应该执行，但事实上它们已经在运行中了，这就是控制相关问题。</p>
+<p>事实上，除了转移指令以外，回调指令和中断指令等，都会产生控制冲突。但接下里重点研究由转移指令导致的这种控制冲突应该如何解决。</p>
+<p>第一种解决方法：转移指令分支预测，就是预测结果会不会满足。这里有两种预测方式：简单预测、动态预测。</p>
+<p>简单预测就是无脑猜，永远都猜条件满足或不满足。而动态预测就是根据历史情况动态的调整猜测的策略。</p>
+<p>第二种解决方法：预取转移成功和不成功两个控制流方向上的目标指令。由于条件转移指令有可能导致程序的执行流往两个方向进行，那么把两个方向所需要用到的指令都预取出来。显然，如果要预取两个控制流方向上的指令，那么可能会需要增加一些硬件部件，比如增加两个指令寄存器之类的。</p>
+<p>第三种解决方法：加快和提前形成条件码。这个思想和第二章所学的把一位全加器进行串联一样，虽然每个全加器都会依赖于前面一个全加器产生的进位信息，但可以通过电路改造的方式，让进位信息提前的产生，然后提前传输给前一个全加器。</p>
+<p>第四种解决方法：提高转移方向的猜准率。这是对第一种解决方法的优化，就是引入一些方法，来提高猜准的概率。</p>
+<p>下面把刚才的内容汇总一下：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/66841f95d9c307b7e98cecf1.png" alt="计算机组成原理（五）——中央处理器——影响流水线的因素8.png">
+
+<p>接下来探讨一下指令流水线的分类：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/66841fe4d9c307b7e98d9cea.png" alt="计算机组成原理（五）——中央处理器——流水线分类1.png">
+
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/66842017d9c307b7e98e056c.png" alt="计算机组成原理（五）——中央处理器——流水线分类2.png">
+
+<p>分类的方法以及对应分类的含义如上面的两个图所示，这里就不过多介绍，如有不明白的，可以跳转视频(34分10秒~41分25秒)：<a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1ps4y1d73V/?p=71&spm_id_from=pageDriver&vd_source=7fb4b255ed876969a742738d7b84f461">5.6.2_指令流水线的影响因素和分类</a></p>
+<p>接下来说一下指令流水线的多发技术：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/66842058d9c307b7e98e9573.png" alt="计算机组成原理（五）——中央处理器——流水线的多发技术.png">
+
+<p>第一种叫超标量技术，如上图，如果采用这种技术，那么在一个时钟周期内，可以并行的发射出多条指令，所以叫多发技术。但需要保证同时执行的这几条指令，在同时工作的情况下，不会导致问题。显然如果同时运行三条指令，就意味着至少需要配置三个指令寄存器，也有可能需要配置三个ALU。因此要实现超标量技术，那么必须配置多个功能部件。</p>
+<p>另外程序里面所包含的这些指令的执行顺序是不可以调整的，就是说经过编译器处理之后，形成的机器代码是怎么排列的，在执行时就是按什么顺序执行的，这个执行顺序是不可改变的。但是有的CPU会支持指令的乱序发射，那这一类的CPU就意味着即便给出的指令序列是1234这么排序的，但是对于这种CPU来说这个指令的顺序仍然是可以调整的。</p>
+<p>回到超标量技术，由于指令的排列是由编译器来确定的，因此编译器在得到这个指令序列的时候，就需要考虑哪些指令可以并行着执行，因此采用超标量技术，那么编译的优化技术要求就会比较高。</p>
+<p>接下来看第二种流水线的多发技术——超流水技术：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/668420b2d9c307b7e98f5728.png" alt="计算机组成原理（五）——中央处理器——超流水技术.png">
+
+<p>超流水技术是会把一个时钟周期再进行分段，像上图就是把一个时钟周期再分成了3段，然后再一个时钟周期内的不同时间点，会发射出三条指令。那么采用这种技术就意味着，在一个时钟周期内，一个功能部件有可能会被使用到多次。所以超流水技术实际上是一个时分复用技术，就是把一个完整的时间段，细分为了三个更细小的时间段。而超标量流水线实际上是空分复用技术，由于增加了多组功能部件，所以可以支持同一时刻多个事情并行的运行。</p>
+<p>所以对于超标量技术和超流水技术思想是有一定区别的，但效果差不多。同样的，对于超流水技术来说，也不能调整指令的执行顺序。而指令的执行顺序也是由编译器来决定的。因此如果要超流水技术效果更好的话，同样得靠编译程序的优化，来优化指令的执行序列。对于上面的例子来说，显然流水线的速度提升为了原来的三倍。</p>
+<p>注意，这里说到的一个时钟周期更应该解释为一个机器周期，因为之前一直说指令完成取指、译码什么的每一个阶段，所需要的时间都是定义为一个机器周期，但是在5.1也说过，一个机器周期理论上最理想的情况下是只需要包含一个时钟周期就可以，所以这里才说一个时钟周期。</p>
+<p>接下来看第二种流水线的多发技术——超长指令字技术：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/668420d5d9c307b7e98fa6a1.png" alt="计算机组成原理（五）——中央处理器——超长指令字技术.png">
+
+<p>如上图可以看到，一条指令的执行经历了取指、译码、执行、写回这四个阶段，但是可以看到，在执行阶段，会有多个同时出现的黑框。出现这种情况的原因是，当编译程序发现某几条指令潜在并行性，会把多条能并行操作的指令组合成一条具有多个操作码字段的超长指令字。</p>
+<p>显然多种操作想同时进行，就必须提供多个相互独立的处理部件。</p>
+<p>下面对本节进行一个回顾小结：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/66842126d9c307b7e9904683.png" alt="计算机组成原理（五）——中央处理器——指令流水线的影响因素.png">
+
+<h3 id="5-3-五段式指令流水线"><a href="#5-3-五段式指令流水线" class="headerlink" title="5.3 五段式指令流水线"></a>5.3 五段式指令流水线</h3><p>本部分补充一种考研中，经常会遇到的一种指令流水线类型，即经典的五段式指令流水线，如下图：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/669d31add9c307b7e902b112.png" alt="计算机组成原理（五）——中央处理器——机器周期设置.png">
+
+<p>在5.2里已经接触过五段式指令流水线的概念，但是还有一个遗留问题，那就是之前学习过的指令是否都需要经过这样的五个功能段呢？本部分会介绍考试中常见的五个类型的指令，分别是运算类指令、LOAD指令、STORE指令、条件转移指令、无条件转移指令。通过详细分析这五个类型的指令，看一看如何根据五段式指令流水线的五个功能段来完成相应的工作。</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/669d31e3d9c307b7e902efb9.png" alt="计算机组成原理（五）——中央处理器——五段式指令流水线.png">
+
+<p>首先看运算类指令，如下图：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/669d323cd9c307b7e9034783.png" alt="计算机组成原理（五）——中央处理器——运算类指令的执行过程.png">
+
+<p>这里给出了三个例子，加法指令当中，可以指定要相加的两个数，分别来自Rs和Rd这样的两个寄存器，实现的功能就是把Rs和Rd的内容相加，然后再存回Rd。</p>
+<p>注意一点，Rs和Rd这样的命名规则是很常见的，Rs通常指的是原操作数的一个存放的寄存器，Rd指的是目的操作数，即操作数运算结束之后，应该放到什么位置。</p>
+<p>另外，在加法指令中，也可以指定用某一个寄存器的值和某一个立即数进行相加，所以可以看到上图下的第二个加法指令，把源操作数用#966这个立即数的形式来表示。</p>
+<p>下面再看一个算数左移指令，如上图下，这样的一条指令指明了寄存器Rd，这样一条指令所实现的功能就是把Rd寄存器里边存放的内容算数左移两位，然后再存回Rd寄存器。</p>
+<p>下面来看一下，对于这种运算类的指令，如何把一条指令的工作，分在不同的阶段来执行。</p>
+<p>首先，第一个阶段，取指阶段，根据PC从指令Cache取指令至IF段的锁存器。</p>
+<p>接下来ID译码阶段，这一阶段要完成两个事情，第一就是要对指令的操作码进行译码；第二需要把当前的这条指令所需要用到的操作数取到ID段的锁存器里。ID段有三个锁存器，分别是A、B和Imm(立即数锁存器)。所以对于刚刚列举的三条运算类的指令来说，第一条加法指令是把两个寄存器里的内容进行相加，所以对于第一条指令来说，就是要把两个操作数分别的放到A和B这两个锁存器里。而第二条指令同样也是一个加法指令，但是其中一个操作数是一个立即数，因此第二条指令的ID功能段会把其中一个目的操作数放到A锁存器里，然后再把立即数指令里边指明的这个立即数放到Imm锁存器里。对于第三条指令也是类似的，只需要把这一次要进行左移运算的操作数，从通用寄存器组取到锁存器A就可以。所以对于运算类指令来说，在指令译码阶段，都需要把下一个阶段所需要用到的操作数放到ID段的几个锁存器里，至于放到哪个锁存器里，不同的指令会有不同的区别。</p>
+<p>现在准备好了操作数就会进入第三个阶段，执行阶段，在这个阶段ALU算术逻辑单元会根据上一阶段得到的操作数信息进行运算，运算的结果会放到EX段的锁存器里。</p>
+<p>接下来会进入第四个阶段，访存阶段，但是对于RISK精简指令集系统来说，所有的运算类指令运算的两个操作数，一定是直接来自于某一个寄存器或者是用立即数进行运算，然后运算得到的结果一定是存回某一个寄存器，而不能直接存回主存，因此对于精简指令集系统来说，在第四个访存阶段运算类指令是不需要做任何事情的，不需要吧结果写回主存，所以在访存这一个阶段什么也不用做，但是这个阶段的时间是必须要消耗的。</p>
+<p>接下来进入第五个阶段，写回阶段，刚刚EX段运算的结果可以直接放到第四个阶段的锁存器里，然后第五个阶段就可以把这个锁存器里的内容给写回到某一个通用寄存器。</p>
+<p>到这里可以看到，对于运算类的指令来说，访存这个阶段是不需要做任何事情的。接下来介绍一下RISC精简指令集系统下的很重要的两条指令LOAD取数指令和STORE存数指令。</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/669d32b2d9c307b7e903bfeb.png" alt="计算机组成原理（五）——中央处理器——Loda指令执行过程.png">
+
+<p>load指令会把内存中我们指明的这个数取出来，然后存放到Rd寄存器里，常见的load指令有如上图下的两种描述方式。第一种描述方式所表示的意思是说在Rs这个寄存器的值的基础上加上996，然后以这个相加的结果作为有效地址，去取出这个地址所对应的主存单元里所存放的数据，把它取到Rd寄存器当中。当然有的地方也会简写成上图最下面的形式，就是直接用mem表示此次要访问的主存地址，把这个地址所对应的内容取到Rd寄存器当中，当然这个主存地址通常也需要进行一次地址变换才可以得到。总之，这里想强调的是，在执行load指令的过程当中，也需要进行一个加法运算。</p>
+<p>那如何安排load指令的执行呢？</p>
+<p>首先第一个阶段都一样，根据PC从指令Cache取指令至IF段的锁存器。</p>
+<p>然后第二个阶段ID指令译码阶段，除了指令译码外，还会把这条指令指明的Rs基址寄存器里的值，放到锁存器A里面。另外还会把指令当中指明的立即数996放到Imm锁存器里。</p>
+<p>接下来进入第三个阶段，第三个阶段会把偏移量和基址进行一个相加，相加之后的结果放到EX段的锁存器里，这样就得到了有效地址EA。</p>
+<p>接下来第四个阶段，需要根据刚才得出的有效地址，从数据cache中取出想要的数，把数取出之后，放到M这个功能段的锁存器里。</p>
+<p>接下来第五个阶段，写回阶段，会把刚才取出的数写回到目的寄存器Rd里。</p>
+<p>这就是load指令的执行过程，注意load指令也是必须经过运算这个阶段的，因为需要经过运算器的处理以后，才可以得到最终的一个有效地址。</p>
+<p><strong>另外，在RISC处理器中，只有“取数LOAD”和“存数STORE”指令才能访问主存，其它所有的指令在执行过程中都不会直接访问主存，其它指令想要得到数据，一定是直接来自于某一个寄存器或者是指令当中直接包含的某一个立即数。</strong></p>
+<p>接下来看存储指令STORE：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/669d32eed9c307b7e903f4da.png" alt="计算机组成原理（五）——中央处理器——STORE指令执行过程.png">
+
+<p>存数指令STORE和取数指令LOAD很像，如上图下，Rs指明源操作数，即要把Rs所指明的寄存器里的内容存到主存当中，存放的目的地址就是Rd再加上996，同样的有的地方也会把存数指令简写为上图最下面的形式，直接用mem来指明最终要存放的地址单元。但是要知道是，要得到最终的存放的有效地址，也需要进行一次加法运算。所以接下来看一下如何安排STORE这条指令的执行。</p>
+<p>首先第一个阶段都一样，根据PC从指令Cache取指令至IF段的锁存器。</p>
+<p>第二个阶段译码阶段，除了指令译码发现这是一条STORE指令之外，同时也需要把基地址存到锁存器A里面，另外也需要把指令当中带有的偏移量放到Imm锁存器里。除此之外，STORE指令还指明了这一次要存放的是哪一个数，这个数本来是存放在Rs寄存器里的，所以还需要把Rs寄存器里的数先放到B这个锁存器里。所以基地址放到了A，偏移量放到了Imm，这一次要存的数放到了B。</p>
+<p>接下来进入第三个阶段，这个阶段需要根据基地址和偏移量计算出此次存放的有效地址，另外还需要把这次要存的数，通过绿色的线子把它从锁存器B直接转移到store锁存器里面。</p>
+<p>接下来第四个阶段就可以根据有效地址EA，写入想要存的数据。这里可以看到，对于STORE指令来说，只需要把想要存的数据存回data cache里就完成了，也就是说第五个阶段写回阶段，不需要做任何事情。这就是存数指令的一个过程。</p>
+<p>接下来看条件转移指令：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/669d333cd9c307b7e9044547.png" alt="计算机组成原理（五）——中央处理器——条件转移指令执行过程.png">
+
+<p>首先要说明一点，转移类指令，不论是条件转移还是无条件转移，通常来说这类的指令都是采用相对寻址，也就是说相对于PC偏移了多少。</p>
+<p>这里看下上图下给出的两条条件转移的例子，第一条指令beq，当指明的两个寄存器里的数相等时，就满足了转移条件，至于转移到什么位置，这里用一个立即数给出了偏移量。当这两个数相等时，要转移到的地址就应该是当前这条指令加上指令字长，再加上偏移量乘以指令字长。而条件不满足时，那接下来要执行的程序就是顺序往后的下一条指令。通常来说，PC自动加1这个过程，是在取指结束之后就会自动完成。</p>
+<p>第二条指令bne类似，但是它代表的是不相等的条件转移。</p>
+<p>接下来分析条件转移指令在各个阶段需要完成什么样的工作：</p>
+<p>首先第一个阶段都一样，根据PC从指令Cache取指令至IF段的锁存器。</p>
+<p>第二个阶段，由于接下来要比较Rs和Rd所指向的两个操作数，因此需要把这两个操作数分别放到锁存器A和B当中，然后另外还需要把这个条件转移指令的偏移量这个立即数放到Imm锁存器里。</p>
+<p>接下来进入第三个执行阶段，这个阶段会通过ALU的计算，得到A和B两个数的比较结果，然后把比较结果放到下一级的锁存器里。</p>
+<p>接下来第四个阶段访存阶段，显然当想进行条件转移时，是不需要保存的，经过第三个阶段的处理之后，就能够知道这个条件到底满不满足。接下来就可以根据当前条件是否满足，来决定到底要让PC的值改变为什么。所以对于条件转移类指令来说，在访存这个阶段，不会进行访存，而是会修改PC的值，把PC的值修改为想要转移到的那个地方。</p>
+<p>也就是说修改PC的值并不是放在第五个写回阶段，写回阶段通常来说都是修改通用寄存器里的值，而PC寄存器不属于通用寄存器，所以对于PC寄存器的修改，并不会放到写回阶段。所以对于条件转移类指令来说，最后这个写回阶段是什么也不用做的。</p>
+<p>很多教材把写回PC的功能段称为“WrPC段”，其耗时比M段更短，所以可安排在M段时间内完成。</p>
+<p>接下来看最后一个无条件转移指令：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/669d33a4d9c307b7e904accf.png" alt="计算机组成原理（五）——中央处理器——无条件转移指令执行过程.png">
+
+<p>无条件转移指令很简单，就是jmp后面跟一个偏移量，这个偏移量通常用补码表示，可以为正也可以为负，同样的，无条件转移指令也采用相对寻址的方式。</p>
+<p>对于无条件转移指令的功能描述是这样的，如上图下，给出的PC的值是指当前指令的存放地址，然后当前指令的地址再加上一个指令字长，相当于先给PC+1，即先指向下一条指令，然后相对于下一条指令的存储地址而言，进行一个偏移，而要偏移多少，jmp指令里给出的偏移量指的是应该向前或向后偏移多少条指令，因此还需要用偏移量乘指令字长，这个地方和条件转移是很类似的。</p>
+<p>接下来看一下无条件转移指令的执行：</p>
+<p>首先第一个阶段都一样，根据PC从指令Cache取指令至IF段的锁存器。</p>
+<p>第二个阶段，需要把偏移量放到Imm锁存器里。</p>
+<p>第三个阶段，由于对无条件转移指令来说，由于不需要判断任何条件，因此第三个阶段用不到ALU，而是会直接根据偏移量，把目标的PC值直接写回到PC寄存器里。所以对于无条件转移指令来说，刚刚提到的写回PC的这个功能段又会被安排在EX这个阶段来执行，所以接下来的访存和写回阶段不需要做任何事情。</p>
+<p>“WrPC段”耗时比EX段更短，可安排在EX段时间内完成。WrPC段越早完成，就越能避免控制冲突。当然，也有的地方会在WB段时间内才修改PC的值。</p>
+<p>下面对用一道真题对本节内容进行一个总结：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/669d341cd9c307b7e905251a.png" alt="计算机组成原理（五）——中央处理器——五段式指令流水线例题.png">
+
+<h2 id="6-多处理器系统"><a href="#6-多处理器系统" class="headerlink" title="6. 多处理器系统"></a>6. 多处理器系统</h2><h3 id="6-1-多处理器系统的基本概念"><a href="#6-1-多处理器系统的基本概念" class="headerlink" title="6.1 多处理器系统的基本概念"></a>6.1 多处理器系统的基本概念</h3><p>本节是新考点，只要掌握基本概念即可，所以背就好，这里给张重点思维导图，可以结合视频学习记忆：<a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1ps4y1d73V?p=73&vd_source=7fb4b255ed876969a742738d7b84f461">5.7_1_多处理器系统的基本概念</a></p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/66a7385bd9c307b7e9dfe1d4.png" alt="计算机组成原理（五）——中央处理器——多处理器的基本概念.png">
+
+<h3 id="6-2-硬件多线程的基本概念"><a href="#6-2-硬件多线程的基本概念" class="headerlink" title="6.2 硬件多线程的基本概念"></a>6.2 硬件多线程的基本概念</h3><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/669d3470d9c307b7e9057570.png" alt="计算机组成原理（五）——中央处理器——硬件多线程.png">
+
+<p>下面是本节考点汇总，本部分都是基本概念，因此只要背住即可，考试一般也只考选择题，如果有不理解的地方可以跳转视频去听一下讲解，一共8分钟：<a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1ps4y1d73V?p=74&vd_source=7fb4b255ed876969a742738d7b84f461">5.7_2硬件多线程的基本概念_</a></p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/669d34afd9c307b7e905b28f.png" alt="计算机组成原理（五）——中央处理器——三种硬件多线程考点.png">
+
+
+
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="http://bandit-ljC-1.github.io">liujinC</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="http://bandit-ljc-1.github.io/2024/06/10/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86%EF%BC%88%E4%BA%94%EF%BC%89%E2%80%94%E2%80%94%E4%B8%AD%E5%A4%AE%E5%A4%84%E7%90%86%E5%99%A8/">http://bandit-ljc-1.github.io/2024/06/10/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86%EF%BC%88%E4%BA%94%EF%BC%89%E2%80%94%E2%80%94%E4%B8%AD%E5%A4%AE%E5%A4%84%E7%90%86%E5%99%A8/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://bandit-ljC-1.github.io" target="_blank">无名高手🍭</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/408%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">408学习笔记</a><a class="post-meta__tags" href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86/">计算机组成原理</a></div><div class="post_share"><div class="social-share" data-image="/myphotos/article_cover/7.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2024/06/10/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%EF%BC%88%E4%BA%94%EF%BC%89%E2%80%94%E2%80%94%E8%BE%93%E5%85%A5%E8%BE%93%E5%87%BA%EF%BC%88IO%EF%BC%89%E7%AE%A1%E7%90%86/" title="操作系统（五）——输入/输出（I/O）管理"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/myphotos/article_cover/13.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">操作系统（五）——输入/输出（I/O）管理</div></div></a></div><div class="next-post pull-right"><a href="/2024/06/04/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%EF%BC%88%E5%9B%9B%EF%BC%89%E2%80%94%E2%80%94%E6%96%87%E4%BB%B6%E7%AE%A1%E7%90%86/" title="操作系统（四）——文件管理"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/myphotos/article_cover/11.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">操作系统（四）——文件管理</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2024/07/03/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86%EF%BC%88%E4%B8%83%EF%BC%89%E2%80%94%E2%80%94%E8%BE%93%E5%85%A5%E8%BE%93%E5%87%BA%E7%B3%BB%E7%BB%9F/" title="计算机组成原理（七）——输入输出系统"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/myphotos/article_cover/10.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2024-07-03</div><div class="title">计算机组成原理（七）——输入输出系统</div></div></a></div><div><a href="/2024/04/10/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86%EF%BC%88%E4%B8%89%EF%BC%89%E2%80%94%E2%80%94%E5%AD%98%E5%82%A8%E7%B3%BB%E7%BB%9F/" title="计算机组成原理（三）——存储系统"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/myphotos/article_cover/5.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2024-04-10</div><div class="title">计算机组成原理（三）——存储系统</div></div></a></div><div><a href="/2024/04/05/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86%EF%BC%88%E4%BA%8C%EF%BC%89%E2%80%94%E2%80%94%E6%95%B0%E6%8D%AE%E7%9A%84%E8%A1%A8%E7%A4%BA%E5%92%8C%E8%BF%90%E7%AE%97/" title="计算机组成原理（二）——数据的表示和运算"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/myphotos/article_cover/6.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2024-04-05</div><div class="title">计算机组成原理（二）——数据的表示和运算</div></div></a></div><div><a href="/2024/03/26/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86%EF%BC%88%E4%B8%80%EF%BC%89%E2%80%94%E2%80%94%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F%E6%A6%82%E8%BF%B0/" title="计算机组成原理（一）——计算机系统概述"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/myphotos/article_cover/9.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2024-03-26</div><div class="title">计算机组成原理（一）——计算机系统概述</div></div></a></div><div><a href="/2024/06/30/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86%EF%BC%88%E5%85%AD%EF%BC%89%E2%80%94%E2%80%94%E6%80%BB%E7%BA%BF/" title="计算机组成原理（六）——总线"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/myphotos/article_cover/9.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2024-06-30</div><div class="title">计算机组成原理（六）——总线</div></div></a></div><div><a href="/2024/04/24/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86%EF%BC%88%E5%9B%9B%EF%BC%89%E2%80%94%E2%80%94%E6%8C%87%E4%BB%A4%E7%B3%BB%E7%BB%9F/" title="计算机组成原理（四）——指令系统"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/myphotos/article_cover/11.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2024-04-24</div><div class="title">计算机组成原理（四）——指令系统</div></div></a></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/myphotos/avatar.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">liujinC</div><div class="author-info__description"></div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">29</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">8</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">3</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://home.liujinc.cn"><i class="fab fa-github"></i><span>网站主页</span></a><div class="card-info-social-icons is-center"><a class="social-icon faa-parent animated-hover" href="/myphotos/WeChat.png" target="_blank" title="微信"><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon-weixin"></use></svg></a><a class="social-icon faa-parent animated-hover" href="/myphotos/QQ.jpg" target="_blank" title="QQ"><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon-QQ"></use></svg></a><a class="social-icon faa-parent animated-hover" href="https://space.bilibili.com/1941048387?spm_id_from=333.1007.0.0" target="_blank" title="B站"><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon-bilibili"></use></svg></a><a class="social-icon faa-parent animated-hover" href="https://blog.csdn.net/qq_63040545?spm=1000.2115.3001.5343" target="_blank" title="CSDN"><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon-csdn"></use></svg></a><a class="social-icon faa-parent animated-hover" href="https://github.com/Bandit-ljC-1" target="_blank" title="GitHub"><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon-github1"></use></svg></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">今年18岁傍50岁富婆，来年50岁包18岁姑娘。</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86%EF%BC%88%E4%BA%94%EF%BC%89%E2%80%94%E2%80%94%E4%B8%AD%E5%A4%AE%E5%A4%84%E7%90%86%E5%99%A8"><span class="toc-text">计算机组成原理（五）——中央处理器</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#0-%E5%BC%95%E8%A8%80"><span class="toc-text">0. 引言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-CPU%E7%9A%84%E5%8A%9F%E8%83%BD%E4%B8%8E%E7%BB%93%E6%9E%84"><span class="toc-text">1. CPU的功能与结构</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-%E6%8C%87%E4%BB%A4%E5%91%A8%E6%9C%9F%E7%9A%84%E6%95%B0%E6%8D%AE%E6%B5%81"><span class="toc-text">2. 指令周期的数据流</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-%E6%95%B0%E6%8D%AE%E9%80%9A%E8%B7%AF%E7%9A%84%E5%8A%9F%E8%83%BD"><span class="toc-text">3. 数据通路的功能</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#3-1-%E7%9F%A5%E8%AF%86%E5%9B%9E%E9%A1%BE"><span class="toc-text">3.1 知识回顾</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-2-%E5%8D%95%E6%80%BB%E7%BA%BF%E7%BB%93%E6%9E%84"><span class="toc-text">3.2 单总线结构</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-3-%E4%B8%93%E7%94%A8%E9%80%9A%E8%B7%AF%E7%BB%93%E6%9E%84"><span class="toc-text">3.3 专用通路结构</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-%E6%8E%A7%E5%88%B6%E5%99%A8%E7%9A%84%E5%8A%9F%E8%83%BD%E5%92%8C%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86"><span class="toc-text">4. 控制器的功能和工作原理</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#4-1-%E7%A1%AC%E5%B8%83%E7%BA%BF%E6%8E%A7%E5%88%B6%E5%99%A8%E8%AE%BE%E8%AE%A1"><span class="toc-text">4.1 硬布线控制器设计</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-2-%E5%BE%AE%E7%A8%8B%E5%BA%8F%E6%8E%A7%E5%88%B6%E5%99%A8%E7%9A%84%E5%9F%BA%E6%9C%AC%E5%8E%9F%E7%90%86"><span class="toc-text">4.2 微程序控制器的基本原理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-3-%E5%BE%AE%E6%8C%87%E4%BB%A4%E7%9A%84%E8%AE%BE%E8%AE%A1"><span class="toc-text">4.3 微指令的设计</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-4-%E5%BE%AE%E7%A8%8B%E5%BA%8F%E6%8E%A7%E5%88%B6%E5%8D%95%E5%85%83%E7%9A%84%E8%AE%BE%E8%AE%A1"><span class="toc-text">4.4 微程序控制单元的设计</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-%E6%8C%87%E4%BB%A4%E6%B5%81%E6%B0%B4%E7%BA%BF"><span class="toc-text">5. 指令流水线</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#5-1-%E6%8C%87%E4%BB%A4%E6%B5%81%E6%B0%B4%E7%BA%BF%E7%9A%84%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5"><span class="toc-text">5.1 指令流水线的基本概念</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-2-%E6%8C%87%E4%BB%A4%E6%B5%81%E6%B0%B4%E7%BA%BF%E7%9A%84%E5%BD%B1%E5%93%8D%E5%9B%A0%E7%B4%A0%E5%92%8C%E5%88%86%E7%B1%BB"><span class="toc-text">5.2 指令流水线的影响因素和分类</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-3-%E4%BA%94%E6%AE%B5%E5%BC%8F%E6%8C%87%E4%BB%A4%E6%B5%81%E6%B0%B4%E7%BA%BF"><span class="toc-text">5.3 五段式指令流水线</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#6-%E5%A4%9A%E5%A4%84%E7%90%86%E5%99%A8%E7%B3%BB%E7%BB%9F"><span class="toc-text">6. 多处理器系统</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#6-1-%E5%A4%9A%E5%A4%84%E7%90%86%E5%99%A8%E7%B3%BB%E7%BB%9F%E7%9A%84%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5"><span class="toc-text">6.1 多处理器系统的基本概念</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6-2-%E7%A1%AC%E4%BB%B6%E5%A4%9A%E7%BA%BF%E7%A8%8B%E7%9A%84%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5"><span class="toc-text">6.2 硬件多线程的基本概念</span></a></li></ol></li></ol></li></ol></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2024 - 2025 By liujinC</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js?v=4.12.0"></script><script src="/js/main.js?v=4.12.0"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0.32/dist/fancybox/fancybox.umd.min.js"></script><script src="https://cdn.jsdelivr.net/npm/instant.page@5.2.0/instantpage.min.js" type="module"></script><script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@17.8.5/dist/lazyload.iife.min.js"></script><script src="https://cdn.jsdelivr.net/npm/node-snackbar@0.1.16/dist/snackbar.min.js"></script><script>function panguFn () {
+  if (typeof pangu === 'object') pangu.autoSpacingPage()
+  else {
+    getScript('https://cdn.jsdelivr.net/npm/pangu@4.0.7/dist/browser/pangu.min.js')
+      .then(() => {
+        pangu.autoSpacingPage()
+      })
+  }
+}
+
+function panguInit () {
+  if (false){
+    GLOBAL_CONFIG_SITE.isPost && panguFn()
+  } else {
+    panguFn()
+  }
+}
+
+document.addEventListener('DOMContentLoaded', panguInit)</script><div class="js-pjax"></div><canvas id="snow"></canvas><script async src="/js/snow.js"></script><canvas id="universe"></canvas><script defer src="/js/universe.js"></script><script defer src="/js/mouse.js"></script><script async src="//at.alicdn.com/t/c/font_4451089_fok8y2foa3.js"></script><script defer type="text/javascript" src="https://cdn1.tianli0.top/npm/sweetalert2@8.19.0/dist/sweetalert2.all.js"></script><script defer src="/js/festival/lunar.js"></script><script defer src="/js/festival/day.js"></script><script async src="/js/fps.js"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="is-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据库加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div id="local-search-results"></div><div id="local-search-stats-wrap"></div></div></div><div id="search-mask"></div><script src="/js/search/local-search.js?v=4.12.0"></script></div></div><!-- hexo injector body_end start --> <script data-pjax>if(document.getElementById('recent-posts') && (location.pathname ==='/'|| '/' ==='all')){
+    var parent = document.getElementById('recent-posts');
+    var child = '<div class="recent-post-item" style="width:100%;height: auto"><div id="catalog_magnet"><div class="magnet_item"><a class="magnet_link" href="http://bandit-ljC-1.github.io/tags/408学习笔记/"><div class="magnet_link_context" style=""><span style="font-weight:500;flex:1">🐱‍👓 路漫漫其修远，我探索不了一点。 (25)</span><span style="padding:0px 4px;border-radius: 8px;"><i class="fas fa-arrow-circle-right"></i></span></div></a></div><div class="magnet_item"><a class="magnet_link" href="http://bandit-ljC-1.github.io/tags/前端/"><div class="magnet_link_context" style=""><span style="font-weight:500;flex:1">🍨 前端UI到转行平面设计 (2)</span><span style="padding:0px 4px;border-radius: 8px;"><i class="fas fa-arrow-circle-right"></i></span></div></a></div><a class="magnet_link_more"  href="http://bandit-ljC-1.github.io/tags" style="flex:1;text-align: center;margin-bottom: 10px;">查看更多...</a></div></div>';
+    console.log('已挂载magnet')
+    parent.insertAdjacentHTML("afterbegin",child)}
+     </script><style>#catalog_magnet{flex-wrap: wrap;display: flex;width:100%;justify-content:space-between;padding: 10px 10px 0 10px;align-content: flex-start;}.magnet_item{flex-basis: calc(50% - 5px);background: #f2f2f2;margin-bottom: 10px;border-radius: 8px;transition: all 0.2s ease-in-out;}.magnet_item:hover{background: #b30070}.magnet_link_more{color:#555}.magnet_link{color:black}.magnet_link:hover{color:white}@media screen and (max-width: 600px) {.magnet_item {flex-basis: 100%;}}.magnet_link_context{display:flex;padding: 10px;font-size:16px;transition: all 0.2s ease-in-out;}.magnet_link_context:hover{padding: 10px 20px;}</style>
+    <style></style><script data-pjax>
+    function butterfly_categories_card_injector_config(){
+      var parent_div_git = document.getElementById('recent-posts');
+      var item_html = '<style>li.categoryBar-list-item{width:32.3%;}.categoryBar-list{max-height: 380px;overflow:auto;}.categoryBar-list::-webkit-scrollbar{width:0!important}@media screen and (max-width: 650px){.categoryBar-list{max-height: 320px;}}</style><div class="recent-post-item" style="height:auto;width:100%;padding:0px;"><div id="categoryBar"><ul class="categoryBar-list"><li class="categoryBar-list-item" style="background:url(/myphotos/article_cover/1.jpg);"> <a class="categoryBar-list-link" href="categories/网页开发/">网页开发</a><span class="categoryBar-list-count">2</span><span class="categoryBar-list-descr">优秀的设计师</span></li><li class="categoryBar-list-item" style="background:url(/myphotos/article_cover/2.jpg);"> <a class="categoryBar-list-link" href="categories/hexo/">hexo</a><span class="categoryBar-list-count">2</span><span class="categoryBar-list-descr">五等分的blog</span></li><li class="categoryBar-list-item" style="background:url(/myphotos/article_cover/3.jpg);"> <a class="categoryBar-list-link" href="categories/学习笔记/">学习笔记</a><span class="categoryBar-list-count">25</span><span class="categoryBar-list-descr">埼玉的成长之路</span></li></ul></div></div>';
+      console.log('已挂载butterfly_categories_card')
+      parent_div_git.insertAdjacentHTML("afterbegin",item_html)
+      }
+    if( document.getElementById('recent-posts') && (location.pathname ==='/'|| '/' ==='all')){
+    butterfly_categories_card_injector_config()
+    }
+  </script><script data-pjax>
+  function butterfly_swiper_injector_config(){
+    var parent_div_git = document.getElementById('recent-posts');
+    var item_html = '<div class="recent-post-item" style="height: auto;width: 100%"><div class="blog-slider swiper-container-fade swiper-container-horizontal" id="swiper_container"><div class="blog-slider__wrp swiper-wrapper" style="transition-duration: 0ms;"><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" href="2024/01/01/Markdown语法/" alt=""><img width="48" height="48" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="myphotos/article_cover/6.jpg" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/></a><div class="blog-slider__content"><span class="blog-slider__code">2024-01-01</span><a class="blog-slider__title" href="2024/01/01/Markdown语法/" alt="">青春男大遇到不会写的Markdown语法</a><div class="blog-slider__text">本文是博主写博客时遇到的一些不会写的Markdown语法，特在此汇总</div><a class="blog-slider__button" href="2024/01/01/Markdown语法/" alt="">详情   </a></div></div><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" href="2024/03/07/数据结构（一）——线性表/" alt=""><img width="48" height="48" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="myphotos/article_cover/3.jpg" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/></a><div class="blog-slider__content"><span class="blog-slider__code">2024-03-07</span><a class="blog-slider__title" href="2024/03/07/数据结构（一）——线性表/" alt="">数据结构（一）——线性表</a><div class="blog-slider__text">本文是数据结构中有关线性表的复习笔记，因此只记录一些重点知识与兄弟们交流，并不适合零基础的兄弟。</div><a class="blog-slider__button" href="2024/03/07/数据结构（一）——线性表/" alt="">详情   </a></div></div><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" href="2024/03/02/基于hexo搭建的个人博客常见问题处理/" alt=""><img width="48" height="48" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="myphotos/article_cover/6.jpg" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/></a><div class="blog-slider__content"><span class="blog-slider__code">2024-03-02</span><a class="blog-slider__title" href="2024/03/02/基于hexo搭建的个人博客常见问题处理/" alt="">基于hexo搭建的个人博客常见问题处理</a><div class="blog-slider__text">该文主要是站长对使用hexo搭建博客时出现的一些问题进行了整理</div><a class="blog-slider__button" href="2024/03/02/基于hexo搭建的个人博客常见问题处理/" alt="">详情   </a></div></div><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" href="2024/02/08/CSS基础语法及应用/" alt=""><img width="48" height="48" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="myphotos/article_cover/6.jpg" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/></a><div class="blog-slider__content"><span class="blog-slider__code">2024-02-08</span><a class="blog-slider__title" href="2024/02/08/CSS基础语法及应用/" alt="">CSS基础语法及应用</a><div class="blog-slider__text">本文主要整理CSS的基本语法，可以搭配HTML5基本语法进行学习</div><a class="blog-slider__button" href="2024/02/08/CSS基础语法及应用/" alt="">详情   </a></div></div><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" href="2024/02/01/HTML5基础语法大全/" alt=""><img width="48" height="48" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="myphotos/article_cover/13.jpg" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/></a><div class="blog-slider__content"><span class="blog-slider__code">2024-02-01</span><a class="blog-slider__title" href="2024/02/01/HTML5基础语法大全/" alt="">HTML5基本语法大全</a><div class="blog-slider__text">本文主要整理了HTML5的基本语法，方便初学者快速入门</div><a class="blog-slider__button" href="2024/02/01/HTML5基础语法大全/" alt="">详情   </a></div></div></div><div class="blog-slider__pagination swiper-pagination-clickable swiper-pagination-bullets"></div></div></div>';
+    console.log('已挂载butterfly_swiper')
+    parent_div_git.insertAdjacentHTML("afterbegin",item_html)
+    }
+  var elist = 'undefined'.split(',');
+  var cpage = location.pathname;
+  var epage = '/';
+  var flag = 0;
+
+  for (var i=0;i<elist.length;i++){
+    if (cpage.includes(elist[i])){
+      flag++;
+    }
+  }
+
+  if ((epage ==='all')&&(flag == 0)){
+    butterfly_swiper_injector_config();
+  }
+  else if (epage === cpage){
+    butterfly_swiper_injector_config();
+  }
+  </script><script defer src="https://npm.elemecdn.com/hexo-butterfly-swiper/lib/swiper.min.js"></script><script defer data-pjax src="https://npm.elemecdn.com/hexo-butterfly-swiper/lib/swiper_init.js"></script><script data-pjax>
+  function butterfly_footer_beautify_injector_config(){
+    var parent_div_git = document.getElementById('footer-wrap');
+    var item_html = '<div id="workboard"></div><p id="ghbdages"><a class="github-badge" target="_blank" href="https://hexo.io/" style="margin-inline:5px" data-title="博客框架为Hexo_v6.2.0" title=""><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img.shields.io/badge/Frame-Hexo-blue?style=flat&amp;logo=hexo" alt=""/></a><a class="github-badge" target="_blank" href="https://butterfly.js.org/" style="margin-inline:5px" data-title="主题版本Butterfly_v4.3.1" title=""><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img.shields.io/badge/Theme-Butterfly-6513df?style=flat&amp;logo=bitdefender" alt=""/></a><a class="github-badge" target="_blank" href="https://vercel.com/" style="margin-inline:5px" data-title="本站采用多线部署，主线路托管于Vercel" title=""><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img.shields.io/badge/Hosted-Vercel-brightgreen?style=flat&amp;logo=Vercel" alt=""/></a><a class="github-badge" target="_blank" href="https://dashboard.4everland.org/" style="margin-inline:5px" data-title="本站采用多线部署，备用线路托管于4EVERLAND" title=""><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img.shields.io/badge/Hosted-4EVERLAND-22DDDD?style=flat&amp;logo=IPFS" alt=""/></a><a class="github-badge" target="_blank" href="https://github.com/" style="margin-inline:5px" data-title="本站项目由Github托管" title=""><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img.shields.io/badge/Source-Github-d021d6?style=flat&amp;logo=GitHub" alt=""/></a><a class="github-badge" target="_blank" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" style="margin-inline:5px" data-title="本站采用知识共享署名-非商业性使用-相同方式共享4.0国际许可协议进行许可" title=""><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img.shields.io/badge/Copyright-BY--NC--SA%204.0-d42328?style=flat&amp;logo=Claris" alt=""/></a></p>';
+    console.log('已挂载butterfly_footer_beautify')
+    parent_div_git.insertAdjacentHTML("beforeend",item_html)
+    }
+  var elist = 'null'.split(',');
+  var cpage = location.pathname;
+  var epage = 'all';
+  var flag = 0;
+
+  for (var i=0;i<elist.length;i++){
+    if (cpage.includes(elist[i])){
+      flag++;
+    }
+  }
+
+  if ((epage ==='all')&&(flag == 0)){
+    butterfly_footer_beautify_injector_config();
+  }
+  else if (epage === cpage){
+    butterfly_footer_beautify_injector_config();
+  }
+  </script><script async src="/js/clock.js"></script><div class="js-pjax"><script async="async">var arr = document.getElementsByClassName('recent-post-item');
+for(var i = 0;i<arr.length;i++){
+    arr[i].classList.add('wow');
+    arr[i].classList.add('animate__zoomIn');
+    arr[i].setAttribute('data-wow-duration', '2s');
+    arr[i].setAttribute('data-wow-delay', '1s');
+    arr[i].setAttribute('data-wow-offset', '100');
+    arr[i].setAttribute('data-wow-iteration', '1');
+  }</script><script async="async">var arr = document.getElementsByClassName('card-widget');
+for(var i = 0;i<arr.length;i++){
+    arr[i].classList.add('wow');
+    arr[i].classList.add('animate__zoomIn');
+    arr[i].setAttribute('data-wow-duration', '');
+    arr[i].setAttribute('data-wow-delay', '');
+    arr[i].setAttribute('data-wow-offset', '');
+    arr[i].setAttribute('data-wow-iteration', '');
+  }</script></div><script defer src="/css/wowjs/wow.min.js"></script><script defer src="/css/wowjs/wow_init.js"></script><!-- hexo injector body_end end --></body></html>

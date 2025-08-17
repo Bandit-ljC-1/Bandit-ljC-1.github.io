@@ -1,0 +1,938 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>操作系统（五）——输入/输出（I/O）管理 | 无名高手🍭</title><meta name="author" content="liujinC"><meta name="copyright" content="liujinC"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="ffffff"><meta name="description" content="第五卷——升华“I&#x2F;O管理”">
+<meta property="og:type" content="article">
+<meta property="og:title" content="操作系统（五）——输入&#x2F;输出（I&#x2F;O）管理">
+<meta property="og:url" content="http://bandit-ljc-1.github.io/2024/06/10/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%EF%BC%88%E4%BA%94%EF%BC%89%E2%80%94%E2%80%94%E8%BE%93%E5%85%A5%E8%BE%93%E5%87%BA%EF%BC%88IO%EF%BC%89%E7%AE%A1%E7%90%86/index.html">
+<meta property="og:site_name" content="无名高手🍭">
+<meta property="og:description" content="第五卷——升华“I&#x2F;O管理”">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://bandit-ljc-1.github.io/myphotos/article_cover/13.jpg">
+<meta property="article:published_time" content="2024-06-10T12:55:00.000Z">
+<meta property="article:modified_time" content="2024-06-28T08:15:00.000Z">
+<meta property="article:author" content="liujinC">
+<meta property="article:tag" content="408学习笔记">
+<meta property="article:tag" content="操作系统">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://bandit-ljc-1.github.io/myphotos/article_cover/13.jpg"><link rel="shortcut icon" href="/myphotos/icon.png"><link rel="canonical" href="http://bandit-ljc-1.github.io/2024/06/10/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%EF%BC%88%E4%BA%94%EF%BC%89%E2%80%94%E2%80%94%E8%BE%93%E5%85%A5%E8%BE%93%E5%87%BA%EF%BC%88IO%EF%BC%89%E7%AE%A1%E7%90%86/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css?v=4.12.0"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.5.1/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/node-snackbar@0.1.16/dist/snackbar.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0.32/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":true,"top_n_per_article":-1,"unescape":false,"languages":{"hits_empty":"找不到您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: undefined,
+  noticeOutdate: {"limitDay":365,"position":"top","messagePrev":"It has been","messageNext":"days since the last update, the content of the article may be outdated."},
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":230},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: {"chs_to_cht":"你已切换为繁体中文","cht_to_chs":"你已切换为简体中文","day_to_night":"你已切换为深色模式","night_to_day":"你已切换为浅色模式","bgLight":"#49b1f5","bgDark":"#1f1f1f","position":"top-right"},
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid@4.11.0/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyload: true,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '操作系统（五）——输入/输出（I/O）管理',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2024-06-28 16:15:00'
+}</script><script>(win=>{
+      win.saveToLocal = {
+        set: (key, value, ttl) => {
+          if (ttl === 0) return
+          const now = Date.now()
+          const expiry = now + ttl * 86400000
+          const item = {
+            value,
+            expiry
+          }
+          localStorage.setItem(key, JSON.stringify(item))
+        },
+      
+        get: key => {
+          const itemStr = localStorage.getItem(key)
+      
+          if (!itemStr) {
+            return undefined
+          }
+          const item = JSON.parse(itemStr)
+          const now = Date.now()
+      
+          if (now > item.expiry) {
+            localStorage.removeItem(key)
+            return undefined
+          }
+          return item.value
+        }
+      }
+    
+      win.getScript = (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        script.onerror = reject
+        script.onload = script.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          script.onload = script.onreadystatechange = null
+          resolve()
+        }
+
+        Object.keys(attr).forEach(key => {
+          script.setAttribute(key, attr[key])
+        })
+
+        document.head.appendChild(script)
+      })
+    
+      win.getCSS = (url, id = false) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onerror = reject
+        link.onload = link.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          link.onload = link.onreadystatechange = null
+          resolve()
+        }
+        document.head.appendChild(link)
+      })
+    
+      win.activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', 'ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          const now = new Date()
+          const hour = now.getHours()
+          const isNight = hour <= 6 || hour >= 18
+          if (t === undefined) isNight ? activateDarkMode() : activateLightMode()
+          else if (t === 'light') activateLightMode()
+          else activateDarkMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+      const detectApple = () => {
+        if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+          document.documentElement.classList.add('apple')
+        }
+      }
+      detectApple()
+    })(window)</script><link rel="stylesheet" href="/css/custom.css" media="defer" onload="this.media='all'"><link rel="stylesheet" href="/css/light.css" media="defer" onload="this.media='all'"><link rel="stylesheet" href="/css/snow.css"><link rel="stylesheet" href="/css/universe.css"><link rel="stylesheet" href="/css/mouse.css"><link rel="stylesheet" href="//at.alicdn.com/t/c/font_4451089_fok8y2foa3.css" media="defer" onload="this.media='all'"><link rel="stylesheet" href="/css/page_style.css"><span id="fps"></span><link rel="stylesheet" href="/css/pangu_control.css"><div id="myscoll"></div><!-- hexo injector head_end start --><link rel="stylesheet" href="/css/categorybar.css"><link rel="stylesheet" href="https://npm.elemecdn.com/hexo-butterfly-swiper/lib/swiper.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="/css/swiper/swiperstyle.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://unpkg.zhimg.com/hexo-butterfly-footer-beautify@1.0.0/lib/runtime.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="/css/wowjs/animate.min.css" media="print" onload="this.media='screen'"><!-- hexo injector head_end end --><meta name="generator" content="Hexo 6.3.0"></head><body><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/myphotos/avatar.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">29</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">8</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">3</div></a></div><hr class="custom-hr"/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> 列表</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音乐</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 电影</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/comments/"><i class="fa-fw fas fa-envelope-open"></i><span> 留言板</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('/myphotos/article_cover/13.jpg')"><nav id="nav"><span id="blog-info"><a href="/" title="无名高手🍭"><span class="site-name">无名高手🍭</span></a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search" href="javascript:void(0);"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> 列表</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音乐</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 电影</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/comments/"><i class="fa-fw fas fa-envelope-open"></i><span> 留言板</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">操作系统（五）——输入/输出（I/O）管理</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2024-06-10T12:55:00.000Z" title="发表于 2024-06-10 20:55:00">2024-06-10</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2024-06-28T08:15:00.000Z" title="更新于 2024-06-28 16:15:00">2024-06-28</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">学习笔记</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">31k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>92分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="操作系统（五）——输入/输出（I/O）管理"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h1 id="操作系统（五）——输入-输出（I-O）管理"><a href="#操作系统（五）——输入-输出（I-O）管理" class="headerlink" title="操作系统（五）——输入&#x2F;输出（I&#x2F;O）管理"></a>操作系统（五）——输入&#x2F;输出（I&#x2F;O）管理</h1><h2 id="1-I-O设备的概念和分类"><a href="#1-I-O设备的概念和分类" class="headerlink" title="1. I&#x2F;O设备的概念和分类"></a>1. I&#x2F;O设备的概念和分类</h2><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/6669bad4d9c307b7e98969f9.png" alt="操作系统（五）——IO管理——知识总览.png">
+
+<p>通过之前的学习可以知道，操作系统作为系统资源的管理者，既需要对上层的软件进行管理，也需要对下层的硬件进行管理。在之前的学习里，已经学习了操作系统对处理机还有存储器这些硬件进行管理。但是这些硬件其实是在计算机的主机内部的。本章要探讨的所谓的设备管理，指的是操作系统对计算机主机外部硬件设备的管理。</p>
+<p>接下来了解一下I&#x2F;O设备的基本概念和分类。</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/6669ba0cd9c307b7e9877675.png" alt="操作系统（五）——IO管理——什么是IO设备1.png">
+
+<p>I&#x2F;O设备又可以称为外部设备，属于计算机中的硬件部件。所谓的I&#x2F;O指的就是输入和输出。l&#x2F;O设备可以将数据输入到计算机，或者可以接收计算机输出数据的外部设备。</p>
+<p>因此输入的过程就是把设备准备好的数据读入计算机当中，而输出的过程就是把计算机准备好的数据写出到输出设备上。所以UNIX系统会把这些外部设备抽象为一种特殊的文件，这样的话用户就可以用读文件或者写文件的方式，来对外部设备进行操作。</p>
+<p>像下图的write操作就是向外部设备写出数据，也就是数据输出的过程。read操作就是从外部设备读入数据，也就是数据输入的过程。</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/6669bbacd9c307b7e98bbb28.png" alt="操作系统（五）——IO管理——什么是IO设备2.png">
+
+<p>接下来看一下IO设备有哪些分类：</p>
+<p>按使用特性分类：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/6669bd0bd9c307b7e98fbac1.png" alt="操作系统（五）——IO管理——IO设备分类1.png">
+
+<p>按传输速率分类：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/6669bdd7d9c307b7e9924ca9.png" alt="操作系统（五）——IO管理——IO设备分类2.png">
+
+<p>按信息交换的单位分类：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/6669bdf9d9c307b7e992cdae.png" alt="操作系统（五）——IO管理——IO设备分类3.png">
+
+<p>最后对这部分进行一个小结：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/6669be28d9c307b7e9935321.png" alt="操作系统（五）——IO管理——IO设备分类4.png">
+
+<h2 id="2-I-O控制器"><a href="#2-I-O控制器" class="headerlink" title="2. I&#x2F;O控制器"></a>2. I&#x2F;O控制器</h2><p>I&#x2F;O设备由机械部件和电子部件(I&#x2F;O控制器、设备控制器)组成。</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/666b03a0d9c307b7e92bbe6d.png" alt="操作系统（五）——IO管理——IO机械部件.png">
+
+<p>我们平时使用的鼠标、键盘还有显示器，这些我们看得见摸得着的机械部分就是机械部件，这些机械部件主要用来执行具体的IO操作。比如说显示屏就是用来显示输出数据。</p>
+<p>而电子部件一般来说就是印刷电路板。当我们的设备连上电脑以后，CPU是没办法直接控制这些IO设备的机械部件，必须通过电子部件来间接的控制这些机械部件。</p>
+<p>因此电子部件(I&#x2F;O控制器)就是一个CPU和IO设备的机械部件之间的一个中介。I&#x2F;O控制器其实就是用于实现CPU对I&#x2F;O设备的控制的。</p>
+<p>I&#x2F;O控制器的功能如下图：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/666b03c9d9c307b7e92c1ac4.png" alt="操作系统（五）——IO管理——IO电子部件.png">
+
+<p><strong>I&#x2F;O控制器首先要能接收和识别CPU发出的命令</strong>，除了命令本身外，CPU还会告诉I&#x2F;O控制器执行这个命令的一些相关参数。因此I&#x2F;O控制器中会有相应的控制寄存器来存放命令和参数。</p>
+<p>其次，<strong>I&#x2F;O控制器还要能向CPU报告设备的状态</strong>，比如一个设备此时是忙碌还是空闲。CPU作为系统资源的管理者，当然也需要知道各个设备的相应状态。因此I&#x2F;O控制器中会有相应的状态寄存器，用于记录I&#x2F;O设备的当前状态。如：1表示空闲，0表示忙碌。CPU可以读取这个寄存器当中的内容，来判断设备此时的状态。</p>
+<p>接着，<strong>I&#x2F;O控制器还需要实现数据交换的功能</strong>。I&#x2F;O控制器是CPU和I&#x2F;O设备机械部件的中介，所以需要作为数据交换的中间媒介。因此，l&#x2F;O控制器中会设置相应的数据寄存器。输出时，数据寄存器用于暂存CPU发来的数据，之后再由控制器传送设备。输入时，数据寄存器用于暂存设备发来的数据，之后CPU从数据寄存器中取走数据。</p>
+<p>最后，<strong>I&#x2F;O控制器需要实现地址识别的功能</strong>。I&#x2F;O控制器当中会设置各种各样的寄存器，并且每一组寄存器可能会有多个，为了识别这些寄存器，所以需要像给内存编址一样给个寄存器编上一个相应的地址。CPU在往这些寄存器当中读或者写数据的时候，就是通过这些寄存器对应的地址来进行操作的。I&#x2F;O控制器需要通过CPU提供的地址来判断，此时CPU想要操作的到底是哪一个寄存器。</p>
+<p>下面看一下I&#x2F;O控制器由哪些部分组成：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/666b0d0fd9c307b7e9424b83.png" alt="操作系统（五）——IO管理——IO控制器组成1.png">
+
+
+
+<p>一般来说，I&#x2F;O控制器可以分为三个部分，第一个部分是CPU与控制器的接口，第二个部分叫做I&#x2F;O逻辑，第三个部分是控制器与设备的接口。</p>
+<p>I&#x2F;O控制器作为CPU和机械部件之间的中介，如上图，CPU与控制器的接口负责I&#x2F;O控制器与CPU连接。控制器与设备的接口负责I&#x2F;O控制器与设备的机械部件连接。而I&#x2F;O控制器在连接CPU和设备的时候，需要做一些中间处理，这些处理就在I&#x2F;O逻辑部分完成。</p>
+<p>因此，I&#x2F;O逻辑会负责接收和识别CPU的各种命令（如地址译码），在接收和识别了CPU的命令之后，I&#x2F;O逻辑需要把它翻译成具体的设备能够明白的命令，然后通过控制器与设备之间的接口，发送给具体的设备，让设备执行相应的操作。</p>
+<p>在上图可以发现，一个I&#x2F;O控制器可能会有多个控制器与设备之间的接口，也就是说一个I&#x2F;O控制器有可能会负责控制多个具体的I&#x2F;O设备。此时CPU为了区别要操作的是哪一个设备，同样需要给这些设备进行编号，CPU在发出I&#x2F;O命令的时候，也需要指明自己需要操作的是哪个设备。</p>
+<p>来看一下具体过程，如上图，CPU首先会通过一个叫做控制线的线路，向I&#x2F;O控制器发出一个具体的指令。同时，CPU还会在地址线上说明自己要操作的是哪一个设备。如果说，此时是要输出一个数据，CPU会通过数据总线把自己要输出的数据放到I&#x2F;O控制器的数据寄存器当中，之后I&#x2F;O逻辑就可以从数据寄存器当中取得CPU想要输出的数据。类似的，CPU此时发出的这个I&#x2F;O指令可能会有一些相应的参数，这些参数会放到控制寄存器当中，I&#x2F;O逻辑就可以从控制寄存器当中取得相应的参数。另外为了实现对各个设备的管理，CPU还会从状态寄存器当中读出各个设备的状态，因此I&#x2F;O逻辑会往状态寄存器当中写入相应的数据，来告诉CPU各个设备的状态到底是什么样的。这就是CPU与控制器的接口所需要完成的一些事情。</p>
+<p>现在看一下控制器与设备的接口需要做哪些事情，如果输出一个数据，首先就是由CPU通过数据总线把数据写入到数据寄存器当中，之后I&#x2F;O逻辑就可以从数据寄存器当中取得CPU想要输出的数据，然后通过控制器与设备的接口把数据输出到外部设备上。类似的，如果要输入一个数据，这些数据可以通过控制器与设备的接口输入，然后I&#x2F;O逻辑就可以把这些数据放到数据寄存器当中，之后CPU从数据寄存器当中取走数据。这就完成了数据输入的过程。那除了传送数据，设备还需要及时向I&#x2F;O控制器反馈自己的状态，同样的，设备通过控制器与设备的接口像I&#x2F;O控制器报告此时自己的状态，然后I&#x2F;O控制器的I&#x2F;O逻辑又会把这个设备的状态写入到对应的状态寄存器里。另外，制器与设备的接口中还会有一个用于实现设备控制的电路，I&#x2F;O逻辑会根据CPU发出的命令和相应的参数，然后对对应的设备发出一些控制命令。</p>
+<p>这地方有两个小细节需要注意一下，如下图：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/666b0408d9c307b7e92ca364.png" alt="操作系统（五）——IO管理——IO控制器组成.png">
+
+<p>对于上图所说的两个注意点，这里要补充一下知识，一般来说给寄存器编址有两种方式，第一种方式就是让他们占用内存地址的一部分，这种方式称为内存映像I&#x2F;O。另一种方式就是会采用I&#x2F;O专用的地址，也就是寄存器独立编制。</p>
+<p>下面看一下这两种方式的区别：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/666b0447d9c307b7e92d2928.png" alt="操作系统（五）——IO管理——内存映像和寄存器独立编址.png">
+
+<p>如果采用内存映像I&#x2F;O，如上图左，假设内存共有N个地址，编号分别是0到N-1。如果系统中有一个设备控制器0，它有三个对应的寄存器，这些寄存器就会顺着内存地址继续往下编制，寄存器0的地址是N，寄存器1的地址是N+1，寄存器2的地址是N+2，然后依次类推。如果还有别的设备控制器，那依次往下编制。也就是说内存映像I&#x2F;O，控制器中的寄存器与内存地址统一编址。</p>
+<p>如果采用寄存器独立编址的话，内存编号仍是分别是0到N-1，如果有一个设备控制器有三个寄存器，这些寄存器又会从0开始进行编号，如上图右，相应的，如果还有别的寄存器也会从0开始编号。不过在有的系统当中，也有可能是各个设备控制器当中的寄存器用连续编号的方式。这些细节部分可以忽略，只需要知道寄存器独立编制，控制器中的寄存器与内存地址不统一编址。</p>
+<p>采用寄存器独立编址有一个很明显的缺点：需要设置专门的指令来实现对控制器的操作，不仅要指明寄存器的地址，还要指明控制器的编号。而采用内存映像I&#x2F;O，就不需要设置专门的指令来支持对这些寄存器的操作，即可以采用对内存进行操作的指令来对控制器进行操作。</p>
+<p>下面对这小结进行一个总结：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/666b048cd9c307b7e92dc289.png" alt="操作系统（五）——IO管理——IO控制器小结.png">
+
+<h2 id="3-I-O控制方式"><a href="#3-I-O控制方式" class="headerlink" title="3. I&#x2F;O控制方式"></a>3. I&#x2F;O控制方式</h2><p>随着计算机的发展，I&#x2F;O控制器也是在不停的发展的，相应的，I&#x2F;O控制器对设备的控制方式也出现了不同的变化，本节要掌握下图的四种I&#x2F;O控制方式。</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/667bccb8d9c307b7e950fc27.png" alt="操作系统（五）——IO管理——IO控制方式.png">
+
+<p>注意，在学习这几个I&#x2F;O控制方式时，要注意研究上图提出的几个问题。</p>
+<h3 id="3-1-程序直接控制方式"><a href="#3-1-程序直接控制方式" class="headerlink" title="3.1 程序直接控制方式"></a>3.1 程序直接控制方式</h3><p>下面来分析一下，采用程序直接控制方式，完成一次读写操作的流程是什么样的，这里以读操作为例：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/667bcda5d9c307b7e952adcc.png" alt="操作系统（五）——IO管理——程序直接控制方式1.png">
+
+<p>如上图，在2.I&#x2F;O控制器里我们知道，一个I&#x2F;O控制器有如上图右的结构组成。</p>
+<p>如果要进行读操作，CPU会首先通过控制线向I&#x2F;O控制器发出一条读指令，然后I&#x2F;O控制器会根据CPU的要求来启动相应的设备，并且会把这个设备对应的状态设置为未就绪，或者忙碌的状态，假设状态寄存器为1表示这个设备忙碌。</p>
+<p>接下来这个设备就会开始准备计算机想要读入的数据。但是由于设备的速度要比CPU慢很多，所以在设备还没有完成I&#x2F;O之前，CPU会一直不断的轮询检查这个设备的状态，也就是检查状态寄存器中的数据，如果数字为1就表明这个设备在忙碌，还没有准备好想要读入的数据。</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/667bd18ed9c307b7e95937f7.png" alt="操作系统（五）——IO管理——程序直接控制方式2.png">
+
+<p>再接下来，如果设备准备好了输入的数据，那么这个设备就会给I&#x2F;O控制器传送这一次要输入的数据，并且报告自己的状态已经变成了已就绪的状态。</p>
+<p>然后，I&#x2F;O逻辑会把这个设备传送来的数据放入数据寄存器当中，并且会把状态寄存器改为0，即已就绪的状态。在这个过程中，CPU也是在不停的轮询检查的，当它发现状态寄存器变为了0，CPU就可以从数据寄存器当中，取出此次要输入的数据。</p>
+<p>在取出此次要输入数据的过程中，CPU首先会把这个数据读到CPU自己的寄存器当中。然后再把CPU寄存器当中的内容再放到内存当中。所以数据输入的过程，本来是要从设备输入到内存，但这个过程中必须先经过CPU的寄存器，然后再由寄存器转存到内存当中，这样就完成了一次读操作。</p>
+<p>如果之后还要继续读数据，CPU就会发送下一条读指令，然后继续循环上面的过程。</p>
+<p>采用程序直接控制方式的流程图如下图右：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/667bd1e4d9c307b7e959e367.png" alt="操作系统（五）——IO管理——程序直接控制方式3.png"> 
+
+<p>这里说一下不易理解的点，在每个步骤后面都会有一个指向性信息，比如第一个步骤，给I&#x2F;O模块发出读命令的后面就有一个CPU-&gt;I&#x2F;O，其意思是读命令是CPU向I&#x2F;O控制器发出的，其余的几个步骤后面的指向性信息同理。</p>
+<p>另外，这里还有一个不易理解的点，为什么数据读入CPU寄存器以后，还需要往存储器当中写入数据。这里可以结合上图的C语言代码来理解，如C语言代码里的scanf，就是从键盘这种I&#x2F;O设备里读入一个输入字符，并且赋值给其中某一个变量。而程序里定义的变量a,b,c,d等是存放在存储器也就是内存中的，所以这些数据从键盘读入以后，最终是要被放到存储器也就是内存中的，因此当CPU获得从键盘输入的数据以后，还需要把这些数据写入到相应的存储器的单元里。同理，printf输出数据时，也是把内存当中存储的变量的数据经过CPU输出到输出设备上。</p>
+<p>接下来分析一下开篇提到的另外的几个问题：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/667bdc10d9c307b7e96be7a7.png" alt="操作系统（五）——IO管理——程序直接控制方式4.png">
+
+<p>首先看一下CPU的干预频率，在使用程序直接控制方式的时候，CPU需要不断轮询检查I&#x2F;O操作是否已经完成，所以CPU干预的频率是很频繁的，不仅在I&#x2F;O操作开始之前和完成之后需要CPU的介入，在等待I&#x2F;O完成的过程中，CPU也需要不断的轮询检查。这也是程序直接控制方式的最大一个缺点。</p>
+<p>下一个要关注的问题是程序的控制单位，从上面的分析中可以发现，每次读入或写出的数据量是一个字。</p>
+<p>下一个要注意的是数据的流向，所谓数据流向就是上面分析的，在读入数据时，数据流向是从I&#x2F;O设备-&gt;CPU-&gt;内存。在输出数据时，数据流向是从内存-&gt;CPU-&gt;I&#x2F;O设备。所以每个字的读和写都需要CPU的介入和帮助。也就是说CPU需要花费大量时间来辅助I&#x2F;O完成。</p>
+<p>最后要看一下程序直接控制方式的主要缺点和优点：</p>
+<p>优点：实现简单，可以用软件的方式就可以实现。由于轮询的过程就是在执行一系列循环检查的指令，所以这种方式才称为“程序直接控制方式”。</p>
+<p>缺点：CPU和I&#x2F;O设备只能串行工作，在CPU发出一条命令以后，并不能去做别的事情，需要一直不断的循环检查I&#x2F;O是否已完成，所以CPU长期处于“忙等”状态，CPU利用率低。相应的，当CPU在进行一些别的计算工作时，I&#x2F;O设备也是空闲的，所以I&#x2F;O设备的利用率也是低的。为了应对这种问题，人们提出了中断驱动方式。</p>
+<h3 id="3-2-中断驱动方式"><a href="#3-2-中断驱动方式" class="headerlink" title="3.2 中断驱动方式"></a>3.2 中断驱动方式</h3><p>与程序直接控制方式相比，中断驱动方式主要是引入了中断机构，可以让CPU在发出I&#x2F;O指令之后，继续做别的事情，即切换到别的进程。中断驱动的流程图如下。</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/667bf980d9c307b7e99e861b.png" alt="操作系统（五）——IO管理——中断驱动控制方式.png">
+
+<p>由于I&#x2F;O设备速度很慢，而CPU又是一种速度很快的硬件机构，所以当CPU发出I&#x2F;O指令之后，可以把此时需要等待I&#x2F;O的进程先阻塞，然后CPU去做其它的事情，当I&#x2F;O完成之后，控制器会向CPU发出一个中断信号，CPU检测到中断信号以后，就会根据中断信号类型来执行相应的中断处理程序。在CPU处理中断的过程当中，会从I&#x2F;O控制器中读出一个字的数据传送到CPU寄存器，并且再写入主存。接下来CPU就可以恢复之前被阻塞的进程继续往下执行，当然也可以选择不恢复，让其在就绪队列里继续等待，然后先执行别的进程。</p>
+<p>这里要注意两点：①CPU会在每个指令周期的末尾检查中断；②中断处理过程中需要保存、恢复进程的运行环境，这个过程是需要一定时间开销的。可见，如果中断发生的频率太高，也会降低系统性能，而且中断每次只能读入一个字的数据，所以如果要读入大量的数据，显然会发生大量的中断，这样也会导致系统的性能降低。</p>
+<p>接下来分析一下开篇提到的另外的几个问题在中断方式里的情况：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/667bfc22d9c307b7e9a30997.png" alt="操作系统（五）——IO管理——中断驱动控制方式1.png">
+
+<p>相比于之前的程序控制方式来说，采用中断方式的CPU干预的频率就降低了许多，CPU只需要在每次的I&#x2F;O操作开始之前发出一条指令，然后就可以做其它的事情；当I&#x2F;O完成之后，CPU也需要介入来处理相应的中断，而由于等待I&#x2F;O的过程中，CPU可以切换到别的进程，所以在引入了中断以后，才实现了CPU和I&#x2F;O设备并行工作的特点。</p>
+<p>另外需要知道的是，每发出一个读&#x2F;写指令，就会读入或写出1个字大小的数据。</p>
+<p>中断驱动方式的数据流向与前面的程序直接控制方式是相同的，在读入数据时，数据流向是从I&#x2F;O设备-&gt;CPU-&gt;内存。在输出数据时，数据流向是从内存-&gt;CPU-&gt;I&#x2F;O设备。</p>
+<p>中断驱动方式的优点就是解决了程序直接控制方式的最大缺点，引入了中断技术之后，可以让CPU和I&#x2F;O设备并行的工作，然后CPU不需要再不停地轮询来检查I&#x2F;O是否完成。这样CPU和I&#x2F;O设备的利用率都得到了明显的提升。</p>
+<p>而这种方式也存在很明显的缺点，就是每次只能传送一个字，所以当要传送大量数据时，就会发送很多次中断，而每次中断处理都会付出一定时间代价。所以中断如果发生太频繁，就会消耗较多的CPU时间。</p>
+<p>另外，采用这种方式的时候，在读入数据或者写出数据的时候，都必须先经过CPU，但是通过之前的分析也可以知道，读入数据就是把I&#x2F;O设备准备好的数据放到内存里，而写出数据则是把内存准备好的数据写出到I&#x2F;O设备，所以为了把中间必须经过CPU中转的步骤省略掉，人们又提出了一种新的I&#x2F;O控制方式叫做DMA方式。</p>
+<h3 id="3-3-DMA方式"><a href="#3-3-DMA方式" class="headerlink" title="3.3 DMA方式"></a>3.3 DMA方式</h3><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/667bfecad9c307b7e9a7ce21.png" alt="操作系统（五）——IO管理——DMA方式.png">
+
+<p>DMA方式又叫直接存储器存取，这种方式主要用于对于块设备的I&#x2F;O控制，相比于中断驱动方式，DMA的数据传送单位由”字”变成了”块”，每次会读入或写出一个块。</p>
+<p>另外DMA的数据流向不再需要经过CPU，而是可以在DMA控制器的控制下，直接从设备放入内存或者从内存写出到设备。</p>
+<p>而且，使用DMA方式，CPU对I&#x2F;O操作的干预频率也进一步降低，仅仅在传送一个或多个数据块的开始和结束时，才会需要CPU进行干预。</p>
+<p>DMA方式的大致流程如上图左下，首先CPU会给I&#x2F;O模块发出一个读或者写一个块的命令，之后CPU就可以转头做其它的事情。接下来DMA控制器会根据CPU发出的命令参数，完成CPU指定的一系列读写工作，当CPU指定的这些块读完或者写完之后，又会由DMA控制器向CPU发出一个中断信号，让CPU介入处理这个中断。</p>
+<p>在上面一直提到的DMA控制器也是一种I&#x2F;O控制器，只不过存在一些小区别，DMA控制器的组成如下图：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/667c00c7d9c307b7e9ab5610.png" alt="操作系统（五）——IO管理——DMA方式1.png">
+
+<p>DMA控制器同样由三部分组成，第一部分是主机与控制器的接口，第二部分是I&#x2F;O控制逻辑，第三部分是块设备和控制器接口。</p>
+<p>为了实现DMA控制器和CPU之间的通信，还会再DMA控制器里设置一系列寄存器，如上图，然后CPU可以通过系统总线来读或者写DMA控制器当中某些寄存器的内容，用这种方式达到控制I&#x2F;O设备的一个目的。</p>
+<p>这里说明一下，上图中的寄存器以及其作用都已经给出，这里就不再详细叙述。但是要知道，和之前说的I&#x2F;O控制器一样，这些寄存器也有可能有多个，上图只列出几个主要的，并没有列全。</p>
+<p>在控制器和块设备之间也有一个相应的接口，通过这个接口可以实现控制器对于这些块设备的通信控制的过程。</p>
+<p>系统总线还会把DMA控制器和内存连接在一起，所以DMA控制器和内存之间可以直接进行数据的读写，不再需要经过CPU。比如说CPU在刚开始可以指明这次要读的数据是存放在磁盘的什么位置，读入的数据要存放在内存的什么位置，这个信息是存放在DMA控制器的MAR里的，并且还会说明此次要读入数据的数据量，数据量存放在DC里。接下来DMA控制器就会跟据CPU提供的这一系列的参数，从磁盘的相应位置，读入数据，然后写到内存里，这个过程就不再需要CPU的干预，只有DMA控制器完成了整个CPU指定的这一系列动作以后，才会向CPU发出一个中断信号，然后CPU再进行后续的处理。</p>
+<p>这里要注意，DMA控制器并不是每次直接读入一整块的数据，然后把一整块放到内存当中，其实DMA控制器在读入数据的过程当中，也是一个字一个字的读入，然后每次读入的一个字都是先存放在DR，也就是数据寄存器当中，再从DR写入到内存当中。通过这种一个字一个字的方式，最终就可以完成一地址块数据读入的工作。</p>
+<p>采用DMA方式完成一次读写操作的流程就是上面所说，接下来继续研究DMA方式：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/667c0b8dd9c307b7e9c08f65.png" alt="操作系统（五）——IO管理——DMA方式2.png">
+
+<p>首先还是再看DMA的CPU的干预频率，在采用DMA方式以后，CPU的干预频率就进一步降低，仅在传送一个或多个数据块的开始和结束时，才需要CPU干预。在开始之前，CPU需要发出相应的I&#x2F;O指令，并且指明相应的参数；在结束之后，CPU需要处理中断，然后进行后续的一系列处理。</p>
+<p>另外，DMA方式的数据传送单位也从一个字变成了一个块，CPU每发出一个读指令或者写指令之后，DMA控制器就会完成对一个块或者多个块的读和写的操作，但需要注意的是，这个地方指的多个块，只能是读写连续的多个块，并且这些块在读入内存以后也必须是连续存放的。也就是说，如果想要读入多个离散的块或者想把读入的块离散的存放在内存的不同位置，那么采用DMA方式同样是需要CPU发出多条I&#x2F;O指令。</p>
+<p>采用DMA方式以后，数据的流向就不再需要经过CPU，它可以直接从I&#x2F;O设备读入，然后再DMA控制器的控制下，直接把数据放入到内存，在输出时刚好相反。</p>
+<p>DMA方式的优点就是进一步提升了数据传输的效率，数据传输以块为单位，CPU介入频率进一步降低，这样的话，CPU就可以有更多的时间去进行别的处理，另外数据传输的过程也不再需要经过CPU，所以数据传送的效率也进一步增加。总而言之，CPU和I&#x2F;O设备的并行性得到提升，资源利用率也得到了进一步的提升。</p>
+<p>DMA方式的缺点就是上面刚刚说到的，CPU每发出一条l&#x2F;O指令，只能读&#x2F;写一个或多个连续的数据块。如果想要读入多个离散的块或者想把读入的块离散的存放在内存的不同位置，那么采用DMA方式同样是需要CPU发出多条I&#x2F;O指令。为了解决这个问题，人们又提出了通道控制方式。</p>
+<h3 id="3-4-通道控制方式"><a href="#3-4-通道控制方式" class="headerlink" title="3.4 通道控制方式"></a>3.4 通道控制方式</h3><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/667c0e97d9c307b7e9c680f4.png" alt="操作系统（五）——IO管理——通道控制方式1.png">
+
+<p>通道是一种硬件，可以理解为是”弱鸡版的CPU”，通道可以识别并执行一系列的通道指令。</p>
+<p>首先，看一下通道的工作原理，如上图，CPU、内存、通道通过系统总线连接到一起。CPU会先向通道这个硬件发出I&#x2F;O指令，并且指明此次要执行的通道程序(即通道指令的序列)是存放在内存的什么位置的，同时CPU还要指明此次要执行操作的设备是哪一个，在把这些信息告诉通道以后，CPU就可以切换到其它进程执行。</p>
+<p>接下来通道会根据CPU的指示，去找到此次要执行的通道程序存放在内存当中的哪个位置，这个通道程序可以理解为任务清单(就是一些利通道指令的集合)。在通道程序的通道指令当中，会向通道指明此次要读入和写出的数据是多少，读写的数据要放到或存在于内存当中的什么位置等一系列信息，这些都是通道在执行这个程序的过程当中就可以知道的事情。所以采用这种方式，就相等于CPU只是告诉通道现在去执行一个任务，任务清单已经放到内存里，但具体任务的内容要做什么并不是由CPU直接告诉通道，而是由通道去读取内存当中的通道程序，然后一步一步执行的。</p>
+<p>当通道执行完一系列任务之后，就会向CPU发出一个中断信号，CPU接收到中断信号以后，对中断进行处理，然后再继续执行接下来的一系列程序。</p>
+<p>上面就是通道控制方式当中，完成一次I&#x2F;O所需要经历的一系列步骤。现在要思考一个问题，为什么说通道是“弱鸡版的CPU”？</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/667c11a2d9c307b7e9cde135.png" alt="操作系统（五）——IO管理——通道控制方式2.png">
+
+<p>说通道是“弱鸡版的CPU”是因为与CPU相比，通道可以执行的指令很单一，并且通道也没有自己的内存，通道程序是放在主机内存中的，也就是说通道与CPU共享内存，因此可以把通道理解为是弱鸡版的CPU。</p>
+<p>引入了通道以后，CPU的干预频率就进一步降低，CPU可以一次扔给通道一堆事情，这些事情会写在通道程序里，所以通道可以根据通道程序的指示一步一步完成I&#x2F;O操作，然后当它完成了一系列的数据块读写以后，才需要对CPU发出中断信号，因此CPU的干预频率是极低的。</p>
+<p>在通道控制方式中，每次读写可以完成对一组数据块的读写操作。</p>
+<p>与DMA类似，采用通道控制方式之后，可以在通道的控制下，让数据直接从I&#x2F;O设备读入内存，或者直接把内存中的数据直接输出到I&#x2F;O设备当中。</p>
+<p>通道方式的主要缺点就是实现复杂，需要专门的通道硬件支持。</p>
+<p>但通道方式的优点也很明显，就是CPU、通道、l&#x2F;O设备可并行工作，资源利用率很高。</p>
+<h3 id="3-5-I-O控制方式小结"><a href="#3-5-I-O控制方式小结" class="headerlink" title="3.5 I&#x2F;O控制方式小结"></a>3.5 I&#x2F;O控制方式小结</h3><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/667c1353d9c307b7e9d194f1.png" alt="操作系统（五）——IO管理——IO控制方式小结.png">
+
+<h2 id="4-I-O软件层次结构"><a href="#4-I-O软件层次结构" class="headerlink" title="4. I&#x2F;O软件层次结构"></a>4. I&#x2F;O软件层次结构</h2><p>I&#x2F;O软件层次从上至下，依次可以分为用户层软件、设备独立性软件、设备驱动程序、中断处理程序这样的四层，如下图：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/667c24eed9c307b7e9f775a8.png" alt="操作系统（五）——IO管理——IO软件层次结构知识总览.png">
+
+<p>从上图还可以看到，在I&#x2F;O软件的下层是I&#x2F;O的硬件设备，而I&#x2F;O设备的硬件又是由机械部分和电子部分组成，而I&#x2F;O硬件的组成和原理在I&#x2F;O控制器部分已经说过，这部分重点关注软件层面要实现的功能。</p>
+<p>另外，I&#x2F;O软件层次里的下面三层，即设备独立性软件、设备驱动程序、中断处理程序属于操作系统内核部分，所以这三层也可以被称为I&#x2F;O核心子系统或简称I&#x2F;O系统。上面的用户层软件是在操作系统内核之外的，也就是可以在用户态下实现一系列的功能。</p>
+<p>从上面的示意图中还可以看到，在这些层次结构当中，越靠近上层的越接近用户，越靠近下层的越接近硬件。而各个层次都会使用它们下面一层软件所提供的功能，并且向它上层的软件提供一些服务。像这种，每一层会利用其下层提供的服务，实现某些功能，并屏蔽实现的具体细节，向高层提供更简单易用的接口，这种思想就是封装思想。</p>
+<p>当用户发出一个I&#x2F;O请求的时候，这个I&#x2F;O请求会从上至下，经过各个层次进行处理，最后被扔给I&#x2F;O硬件，来执行实际的I&#x2F;O操作。当I&#x2F;O硬件做完这次I&#x2F;O操作，发出I&#x2F;O应答的时候，又会由这些层次从下往上依次进行处理，最后返回给用户。</p>
+<p>接下来按照从上至下的顺序，依次分析一下各个层次所需要实现的功能。</p>
+<h3 id="4-1-用户层软件"><a href="#4-1-用户层软件" class="headerlink" title="4.1 用户层软件"></a>4.1 用户层软件</h3><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/667c287dd9c307b7e9fed153.png" alt="操作系统（五）——IO管理——用户层软件.png">
+
+<p>用户层作为最接近用户的一个层次，需要向用户提供一些简单易用的交互的接口。一般来说，用户层软件会向用户提供一些与I&#x2F;O操作相关的库函数，让用户调用这些库函数来对设备进行操作。比如C语言里的printf，就是在显示屏这个I&#x2F;O设备上打印输出。</p>
+<p>既然需要使用I&#x2F;O设备进行输出操作，所以用户层软件需要请求操作系统提供服务，因为只有操作系统才有对硬件操作的权利，因此用户层软件会使用设备独立性软件这一层向上提供的系统调用接口，来请求操作系统内核的服务。比如printf(“hello world”)这样一句代码，在用户层软件处理完了以后，会把它翻译成等价的write系统调用，当然在进行write调用时，也会填入相应的参数，比如打印输出的内容。</p>
+<p>这里注意一下，<strong>设备独立性软件向上层提供了系统调用的接口，而设备独立性软件是用来处理系统调用的一个层次</strong>。所以有的题目中也会<strong>把设备独立性软件这一层称为系统调用处理层</strong>。像我们熟悉的Windows操作系统就会向外提供一系列系统调用，但是由于系统调用的格式严格，使用麻烦，因此windows系统在用户层上封装了一系列更方便的库函数接口供用户使用( Windows API)。</p>
+<h3 id="4-2-设备独立性软件"><a href="#4-2-设备独立性软件" class="headerlink" title="4.2 设备独立性软件"></a>4.2 设备独立性软件</h3><p>设备独立性软件，又被称为设备无关性软件，而与设备的硬件特性无关的功能几乎都在这一层实现。下面看一下这层要实现哪些功能、</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/667c28e2d9c307b7e9ffa131.png" alt="操作系统（五）——IO管理——设备独立性软件功能一.png">
+
+<p>像在4.1用户层软件里所说，这一层要实现的第一个功能就是要向上层提供一个统一的调用接口。</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/667c291cd9c307b7e9001340.png" alt="操作系统（五）——IO管理——设备独立性软件功能二.png">
+
+<p>第二个要实现的功能是设备的保护。对设备的保护原理类似于对文件的保护，在很多操作系统当中，设备会被看做是一种特殊的文件，而不同的用户对各个文件的访问权限是不一样的。既然设备被看作是一种特殊的文件，相应的不同的用户对设备这种特殊的文件的访问权限肯定也是不一样的，因此操作系统需要提供设备保护的功能。</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/667c2943d9c307b7e90061d5.png" alt="操作系统（五）——IO管理——设备独立性软件功能三.png">
+
+<p>第三个要实现的功能是差错处理，就是对设备产生的一些错误进行处理。注意，因为差错的类型是有很多的，所以这个地方有印象即可，不需要了解差错处理的细节。</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/667c2961d9c307b7e9009b52.png" alt="操作系统（五）——IO管理——设备独立性软件功能四.png">
+
+<p>第四个要实现的功能是设备的分配与回收，因为很多设备是一种临界资源，不可以同时分配给多个进程使用，所以操作系统需要对设备这种资源进行分配与回收的管理。</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/667c2987d9c307b7e900f309.png" alt="操作系统（五）——IO管理——设备独立性软件功能五.png">
+
+<p>第五个要实现的功能是数据缓冲区管理，数据缓冲区是用来屏蔽各个设备之间数据交换单位大小，还有传输速度的差异。至于具体实现的细节会在后面进行介绍。</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/667c29acd9c307b7e901373f.png" alt="操作系统（五）——IO管理——设备独立性软件功能六.png">
+
+<p>第六个要实现的功能是建立逻辑设备名到物理设备名的映射关系，并且根据设备的类型来选择调用相应的驱动程序。</p>
+<p>这里说一下逻辑设备名和物理设备名，所谓逻辑设备名就是用户在请求使用一个设备的时候，所提供的名字，也就是用户所看到的设备名。比如说平时在打印店打印的时候，因为打印店里的电脑都会连上很多台打印机，所以在进行打印时，会被让选择哪一台进行打印，在选择时会看到打印机1、打印机2等，这些用户看到的设备名就是逻辑上的设备名。操作系统对这些设备进行管理在背后还会有一个叫做物理设备名的东西。</p>
+<p>所以当我们选择某一个逻辑设备的时候，操作系统需要知道这个逻辑设备具体对应的到底是哪一个物理设备。一般来说，这个映射关系是通过一个叫做<strong>逻辑设备表</strong>的东西来实现的，并且在这个逻辑设备表中，还会记录每一个逻辑设备对应的设备驱动程序的入口地址，如下图。</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/667c29d9d9c307b7e901a6b2.png" alt="操作系统（五）——IO管理——设备独立性软件功能六补充.png">
+
+<p>在上图中可以看到，逻辑设备名还带有类似于文件路径的东西，这就是刚刚所说的，很多操作系统会把设备当做是一种特殊的文件，所以这个文件当然也会有一个存储的路径，每一个表项记录了逻辑设备名到物理设备名的映射关系，并且还记录了这个设备它所对应的驱动程序的入口地址在什么地方。</p>
+<p>一般来说会用两种方式来管理逻辑设备表。第一种方式是整个系统只设置一张逻辑设备表，但是由于各个用户在使用设备时，使用的都是逻辑设备名，而操作系统又是根据逻辑设备名来查找逻辑设备表的表项的，所以如果不同的用户使用相同的逻辑设备名，就有可能导致这个逻辑设备到物理设备映射紊乱的问题，所以其实整个系统只设置一张逻辑设备表这种方式，只适用于单用户的操作系统。</p>
+<p>第二种方式是为每一个用户设置一张逻辑设备表，采用这种方式不同用户所使用的逻辑设备名可以是重复的，并且相同的逻辑设备名，可以被映射到不同的物理设备上去。</p>
+<p>上面还说到另一个问题，就是不同类型的I&#x2F;O设备需要有不同的驱动程序，这是为什么呢？下面看一下设备驱动程序的概念。</p>
+<h3 id="4-3-设备驱动程序"><a href="#4-3-设备驱动程序" class="headerlink" title="4.3 设备驱动程序"></a>4.3 设备驱动程序</h3><p>我们在网上搜索打印机会发现有各种品牌的各式各样的打印机，不同品牌的打印机外形不同，并且内部的电子部件（I&#x2F;O控制器）也有可能是不同的结构，比如假设下图是佳能打印机内部结构。</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/667cc1f8d9c307b7e9bd60ee.png" alt="操作系统（五）——IO管理——佳能打印机内部结构.png">
+
+<p>可以看到佳能打印机内部总共有两个数据寄存器，它的状态寄存器当中0代表空闲，1代表忙碌。</p>
+<p>但是换成惠普打印机，其内部结构可能又是另一种样子，如下图：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/667cc25ad9c307b7e9bdefde.png" alt="操作系统（五）——IO管理——惠普打印机内部结构.png">
+
+<p>可以看到惠普打印机内部只有一个数据寄存器，它的状态寄存器当中1代表空闲，0代表忙碌，与佳能打印机刚好相反。</p>
+<p>我们将这两个例子总结到下图：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/667cc2b4d9c307b7e9be6c7c.png" alt="操作系统（五）——IO管理——驱动程序.png">
+
+<p>通过例子可以发现，不同型号的设备内部的电子部件有可能是完全不一样的，各个设备内部的硬件特性只有设计者才知道。所以操作系统要通过这些设备的控制器来控制这些设备的具体运行的话，那操作系统肯定需要了解这些设备内部的硬件细节。不过这些IO设备多种多样，所以操作系统不可能了解所有的设备的内部细节，因此这些设备在出厂的时候，一般来说厂家会提供一个与设备对应的驱动程序，然后当要控制某个设备的时候，CPU只需要执行这个设备相对应的驱动程序就可以完成对这个设备控制器的控制。</p>
+<p>所以在生活中可以发现，当给计算机插上一个新的机械键盘或鼠标时，在这些设备第一次被插上电脑时，电脑的右下角会有一个正在安装驱动程序的小弹窗，这个自动安装的驱动程序就是由厂家提供的，为了让操作系统实现对新的设备硬件进行具体控制的一个程序。所以设备独立性软件不可以直接操作硬件，必须调用厂家提供的设备驱动程序，由这个设备驱动程序来完成对硬件的具体控制。</p>
+<p>各个类型的驱动程序一般来说在系统中会以一个独立进程的方式运行存在。所以再看一下刚刚的逻辑设备表，如下图，为什么不同的设备要对应不同的驱动程序呢，就是因为各种设备内部的硬件特性是不一样的，因此必须执行与它对应的特定的驱动程序，才可以正常的完成对这个设备硬件的控制。比如要使用打印机1，那么操作系统就会查询下图的设备记录表，找到设备对应的驱动程序的入口，然后找到对应的驱动程序。</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/667cc425d9c307b7e9c05dd8.png" alt="操作系统（五）——IO管理——设备驱动程序.png">
+
+<h3 id="4-4-中断处理程序"><a href="#4-4-中断处理程序" class="headerlink" title="4.4 中断处理程序"></a>4.4 中断处理程序</h3><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/667cc6cbd9c307b7e9c3dfe9.png" alt="操作系统（五）——IO管理——中断处理程序.png">
+
+<p>当硬件设备完成I&#x2F;O操作以后，它会发出一个中断信号，作为I&#x2F;O应答，系统会根据这个中断信号的类型来找到与这个中断信号对应的中断处理程序，然后执行这个程序，进行中断处理。</p>
+<p>中断程序对中断的处理流程如上图。首先，中断处理程序会从I&#x2F;O控制器（设备控制器）当中读出设备的状态，来判断这一次的I&#x2F;O是否是正常的结束。如果此次是正常的结束，接下来中断处理程序会从设备控制器的数据寄存器当中读出一个字的数据，并且经由CPU放到内存缓冲区当中，这就完成了一个字的读入。如果此次I&#x2F;O是非正常结束，系统会根据异常的原因做出相应的处理。这就是中断处理程序所需要做的事情。</p>
+<p>当中断处理程序把这一次要输入的数据放到内存之后，接下来会交由设备驱动程序对这些数据进行进一步的处理。等设备驱动程序处理完了以后，又会再交由上一层的设备独立性软件进行再进一步的处理，最后一层一层往上，然后一直返回给用户。所以如果要输入一个数据的话，对这个数据的处理应该是从下往上依次层层处理的。</p>
+<p>经过分析可以发现，除了设备驱动程序会直接和硬件打交道以为，中断处理程序也需要直接和硬件打交道。但是再往上的设备独立性软件和用户层软件就不会直接和硬件打交道了。</p>
+<h3 id="4-5-I-O软件层次小结"><a href="#4-5-I-O软件层次小结" class="headerlink" title="4.5 I&#x2F;O软件层次小结"></a>4.5 I&#x2F;O软件层次小结</h3><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/667cc974d9c307b7e9c82c78.png" alt="操作系统（五）——IO管理——IO软件层次小结.png">
+
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/667cc9aad9c307b7e9c870f3.png" alt="操作系统（五）——IO管理——IO软件层次小结1.png">
+
+<h2 id="5-输入输出应用程序接口和驱动程序接口"><a href="#5-输入输出应用程序接口和驱动程序接口" class="headerlink" title="5. 输入输出应用程序接口和驱动程序接口"></a>5. 输入输出应用程序接口和驱动程序接口</h2><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/667ce3c7d9c307b7e9f0e26d.png" alt="操作系统（五）——IO管理——输入输出应用程序接口知识总览.png">
+
+<p>本节要掌握输入&#x2F;输出应用程序接口和设备驱动程序接口。其中输入&#x2F;输出应用程序接口又分为字符设备接口、块设备接口和网络设备接口。另外还需要认识什么是阻塞I&#x2F;O，什么是非阻塞I&#x2F;O。</p>
+<p>下面首先看一下什么是输入&#x2F;输出应用程序接口，结合下图理解。</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/667ce850d9c307b7e9f7592f.png" alt="操作系统（五）——IO管理——输入输出应用程序接口.png">
+
+<p>I&#x2F;O软件分为多个层次，上层的用户应用程序需要通过系统调用的方式来请求使用底层的某一种I&#x2F;O设备，而I&#x2F;O设备的种类特性非常的多样化，所以上层的应用程序很难通过一个统一的系统调用接口来操作所以类型的I&#x2F;O设备。比如像块设备（如磁盘）就是有寻址的概念，同时块设备支持多个字节的读写，因此当我们自己写程序时，要用系统调用的方式从块设备中读入数据，那么read调用就要先指明要操作的是哪个块设备，另外还可以指明此次要读入几个字节，同时还可以指明要从哪个地方开始读。</p>
+<p>上面是块设备的读入方法，但这种读入方法显然不适用于字符设备，因此字符设备不可寻址。比如键盘就是最典型的输入型字符设备，键盘是没有地址的概念。所以在用系统调用从键盘中读入一个字符的时候，不可能指明从哪个地址读入。</p>
+<p>因此可以看到，由于底层的设备多种多样，对于各种设备的I&#x2F;O读写，所需要提供的参数也各不相同，因此很显然用户层的应用程序无法用一个统一的系统调用接口来完成所以类型设备的I&#x2F;O。</p>
+<p>所以设备独立软件这一层，需要对上一层的应用程序提供若干种类型的程序接口，上层应用程序如果访问的是字符设备或者块设备和网络设备，那么它所调用的系统调用接口是各不相同的。</p>
+<p>下面来分别看一下这三种设备的接口有什么特性：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/667cecebd9c307b7e9feb6d4.png" alt="操作系统（五）——IO管理——三种设备接口.png">
+
+<p>用户层的软件如果要使用一个字符型设备，要对字符型设备进行读或者写，那么可以采用get和put这两个系统调用，get是从指定的字符设备当中读出一个字符，put是往指定的字符设备当中写入一个字符，数据的读写是以字符为单位的。</p>
+<p>块设备的系统调用接口是read和write系统调用，块设备有地址的概念，可以用seek系统调用来指定读写指针要放到磁盘的哪个地址。放到这个地址以后就可以使用read或write往读写指针所指的位置后面读写若干位的字符。</p>
+<p>接下来详细说一下可能不是很熟悉的网络设备接口。电脑里会有网卡，这个网卡就是所谓的网络控制器，用于收发网络数据包。显然，电脑上的网络控制器可能会收到很多很多的数据包，而不同的数据包应该丢给不同的应用程序，这时候就要区分这个数据包是给哪个应用程序的。</p>
+<p>为了区分网卡接收到的数据包是给哪个应用程序的，网络设备接口(网络套接字接口)，会向上层的应用程序提供socket系统调用，这个系统调用的作用是可以创建一个网络套接字，另外在创建时还需要指明连接的网络协议是什么协议，比如TCP或UDP。</p>
+<p>有了网络套接字以后就可以使用bind系统调用，把套接字绑定到本地的某一个端口上，再结合本机的IP地址，这个端口号就可以映射到计算机当中的某一个应用程序上。</p>
+<p>在网络设备接口里，设备独立性软件还提供了connect的系统调用，这个系统调用可以把套接字连接到远程的某一个主机上，当网络套接字初始化完毕以后，就可以使用read或write对网络套接字进行数据的读写。</p>
+<p>接下来根据图示来理解一下进程是如何使用网络设备接口来实现网络通信的：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/667cf13ad9c307b7e905bd73.png" alt="操作系统（五）——IO管理——网络设备接口1.png">
+
+<p>如上图，有两台主机，它们之间使用网络进行连接，每一台主机上可能会同时运行多个进程，比如主机1就同时运行了P1和P2两个进程。另外每一台主机都会有一个网络控制器，也就是网卡，用于实现网络数据包的收发。同时每一台主机都会有各自的IP地址，每个进程都会有自己的进程用户空间，同时操作系统内核也会有操作系统内核的空间。</p>
+<p>现在P3这个进程要使用网络通信，它可以先使用socket系统调用来创建一个网络套接字(套接字简单理解就是申请一片内核空间用于接收和发送数据)。socket系统调用会给用户进程返回一个描述符(可以理解为就是指向套接字的指针)。有了套接字对象之后，还需要把套接字绑定到本地的某一个端口，比如上图是绑定到6666这个端口，这样主机2的套接字就可以等待着被连接。</p>
+<p>同理，主机1也可以进行相同的操作，P1进程也通过socket系统调用，来申请创建一个套接字对象，并通过bind系统调用绑定到本地端口211。</p>
+<p>现在两个主机都有了各自的套接字，同时也确定了各自的一个数据收发端口号，接下来一步要做的事情就是使用connect系统调用，把本机的套接字连接到另一台机器的套接字上。比如说可以让主机1的P1进程使用connect系统调用，指明要把fd指向的套接字(P1刚刚申请的套接字)，连接到主机2的6666端口处，这个系统调用就会使得这两个套接字之间建立起一个连接，接下来两个主机就可以通过套接字进行通信。</p>
+<p>比如P1现在想给P3发送一个数据包，如下图：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/667cf826d9c307b7e9121f53.png" alt="操作系统（五）——IO管理——网络设备接口2.png">
+
+<p>P1首先在自己的用户区准备好这个数据，然后使用write系统调用指明要想fd指向的套接字当中写入数据。</p>
+<p>设备独立性软件接收到write系统调用以后，就会把用户进程准备好的数据给复制到内核区，也就是套接字对应的缓冲区当中。这一步设备独立性软件这一层来完成的事情。</p>
+<p>现在数据已经放到内核缓冲区里，接下来设备独立性软件这一层会调用网络控制器的驱动程序来处理这片数据，这个驱动程序会负责把准备好的数据给输出到网络设备上。</p>
+<p>接下来网络控制器就可以把数据包给发送到网络上。数据包会顺着网线发送到主机2的网络控制器处。</p>
+<p>主机2的网络控制器接收到一个数据包以后会向主机发出一个中断信号。主机2的中断处理程序发现中断信号是来自于网络控制器，因此中断处理程序接下来会调用网络控制器的驱动程序，让驱动程序来把网络控制器里收到的数据给它搬到内核的缓冲区里。因为早就知道这个数据应该发送到6666这个端口处，所以数据会被复制到6666这个端口所对应的内核缓冲区里。</p>
+<p>现在数据已经一路发到主机2里，接下来P3这个进程要接收一个网络数据包，只需要使用read系统调用指明要从fd所指的这个套接字对象当中读出一个数据包。这个系统调用的结果就是，设备独立性软件会从缓冲区里把数据给复制到用户进程的用户去当中，这样用户进程P3就可以使用它收到的这一块数据。</p>
+<p>接下来看一下阻塞I&#x2F;O和非阻塞I&#x2F;O的概念：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/667cfab5d9c307b7e916b581.png" alt="操作系统（五）——IO管理——阻塞IO和非阻塞IO.png">
+
+<p>阻塞I&#x2F;O就是应用程序发出I&#x2F;O系统调用，进程需转为阻塞态等待。比如从键盘使用get读入一个字符，那么只要键盘的输入动作没有完成，这个进程就得一直等下去。</p>
+<p>非阻塞l&#x2F;O就是应用程序发出I&#x2F;O系统调用，系统调用可迅速返回，进程无需阻塞等待。比如write系统调用往磁盘写数据，这个系统调用可以很快的被处理完，然后迅速的返回到用户进程让其继续往下执行。</p>
+<p>接下来看一下设备驱动程序接口：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/667cfb89d9c307b7e9183b79.png" alt="操作系统（五）——IO管理——设备驱动程序接口1.png">
+
+<p>同样从层次结构出发，设备独立性软件需要根据实际操作的设备不同去调用不一样的设备驱动程序。因此，若各公司开发的设备驱动程序接口不统一，则操作系统很难调用设备驱动程序。</p>
+<p>所以操作系统会统一一个标准，要求设备的厂商在制作这个驱动程序的时候，按照规定好的统一标准来开发驱动程序，如下图。</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/667cfc4fd9c307b7e919a6c5.png" alt="操作系统（五）——IO管理——设备驱动程序接口2.png">
+
+<p>而由于不同的操作系统，对设备驱动程序接口的标准各不相同，所以设备厂商还必须根据各操作系统的接口要求，开发相应的设备驱动程序，设备才能被使用。</p>
+<h2 id="6-I-O核心子系统"><a href="#6-I-O核心子系统" class="headerlink" title="6. I&#x2F;O核心子系统"></a>6. I&#x2F;O核心子系统</h2><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/667d0fbcd9c307b7e93f517d.png" alt="操作系统（五）——IO管理——IO核心子系统知识总览.png">
+
+<p>通过前面的学习可以知道，I&#x2F;O软件层次里的下面三层，即设备独立性软件、设备驱动程序、中断处理程序属于操作系统内核部分，所以这三层也可以被称为I&#x2F;O核心子系统或简称I&#x2F;O系统。因此，I&#x2F;O核心子系统要实现的功能其实就是中间三层要实现的功能，而这三层要实现的功能可以参考上面一节。</p>
+<p>在考研中，我们需要重点理解和掌握的功能是：I&#x2F;O调度、设备保护、假脱机技术( SPOOLing技术）、设备分配与回收、缓冲区管理（即缓冲与高速缓存)。</p>
+<p>下面看一下这些功能分别要在哪些层次实现：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/667d10add9c307b7e940eef0.png" alt="操作系统（五）——IO管理——功能层次划分.png">
+
+<p>在上一节已经强调过，所以和硬件直接相关的肯定是设备驱动程序和中断处理程序需要负责的，但在刚刚提到的功能中，都没有与硬件直接相关的。</p>
+<p>其中假脱机技术一般在用户层实现。而I&#x2F;O调到、设备保护、设备分配与回收和缓冲区管理这几个功能是在设备独立性软件这一层实现。一般来说，假脱机技术都需要使用到磁盘这种设备的设备独立性软件这一层的服务，所以假脱机技术一般来说都是在用户层软件这一层实现。</p>
+<p>本部分先主要介绍两个很熟悉的功能的实现，一个是I&#x2F;O调度，一个是设备保护。</p>
+<p>下面首先看一下I&#x2F;O调度：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/667d11cdd9c307b7e942f4e7.png" alt="操作系统（五）——IO管理——IO调度.png">
+
+<p>I&#x2F;O调度就是用某种算法确定一个好的顺序来处理各个I&#x2F;O请求。比如在第四章里学的磁盘调度，就是用某一种算法，来确定应该先满足哪些磁盘的访问请求。由于磁盘也是一种I&#x2F;O设备，所以磁盘调度也是一种I&#x2F;O调度的问题。</p>
+<p>而I&#x2F;O调度的算法如上图提到，这些算法我们在前面已经学过，这里不再介绍。</p>
+<p>接下来再看一下设备的保护：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/667d1298d9c307b7e94448a3.png" alt="操作系统（五）——IO管理——设备保护.png">
+
+<p>设备的保护在上一节已经提及过，因为在UNIX系统中，设备会被看做是一种特殊的文件，因此其实系统也会为各个设备建立一个相应的FCB(文件控制块)，不同的用户对不同的文件是有不同的访问权限的，所以把设备看做是一种特殊的文件，当一个用户想要访问某个设备的时候，系统也会根据设备对应的FCB来判断一下这个用户是否有相应的访问权限。这样就实现了所谓的设备保护的功能，但它其实上也是文件保护那一块所需要做的事情(这个知识点可以参考第四章文件保护的知识)。 </p>
+<h2 id="7-假脱机技术"><a href="#7-假脱机技术" class="headerlink" title="7. 假脱机技术"></a>7. 假脱机技术</h2><p>本节假脱机技术知识总览：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/667d1406d9c307b7e946e6ee.png" alt="操作系统（五）——IO管理——假脱机技术知识总览.png">
+
+<p>首先看一下什么是假脱机技术：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/667d1433d9c307b7e9473b32.png" alt="操作系统（五）——IO管理——什么是假脱机技术1.png">
+
+<p>在手工操作阶段，主机直接从I&#x2F;O设备获得数据，由于设备速度慢，主机速度很快。人机速度矛盾明显，主机要浪费很多时间来等待设备。</p>
+<p>所以在批处理阶段，人们引入了脱机技术，刚开始的脱机技术是使用磁带实现的，如下图。</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/667d14add9c307b7e9480059.png" alt="操作系统（五）——IO管理——什么是假脱机技术2.png">
+
+<p>引入了脱机技术以后，程序员可以先用纸带机把自己的程序数据输入到磁带当中，磁带速度要比纸带机要快，而这个输入的过程是一台专门的外围控制机来实现的。</p>
+<p>由于程序的数据首先被输入到更快速的磁带当中，而之后CPU可以直接从磁带中读取想要的输入数据，因此这就很大的缓解了这种速度矛盾。 也就是说引入了脱机输入技术以后，在数据输入的时候速度就快了很多。</p>
+<p>在数据输出时同理，主机会先把数据输出到一个很快速的磁带上，之后又会由一个外围控制机控制着把磁带当中的数据依次的给输出到慢速的纸带机上。同样的由于磁带的速度的比纸带的速度快很多，因此CPU在输出时就可以节省很多等待输出完成的时间，这样就大大的提升了CPU的利用率。</p>
+<p>脱机技术中的脱机，就是指脱离主机的控制进行输入&#x2F;输出操作，而在上面的介绍中也明白了在脱机技术中，输入输出是由外围控制机来实现的。显然CPU输入输出的过程并不需要主机或CPU的干预和控制，这样CPU就可以有更多的时间去处理别的计算内容。</p>
+<p>引入脱机技术后，除了缓解了CPU与慢速I&#x2F;O设备的速度矛盾。还有另一好处就是，在输入时，即使CPU在忙碌，也可以在外围控制机的控制下提前将数据输入到磁带；而在输出时，即使慢速的输出设备正在忙碌，也可以提前将数据输出到磁带。</p>
+<p>基于脱机技术的思想，人们又发明了假脱机技术，又叫SPOOLing技术，假脱机技术当中的脱机是用软件的方式来模拟实现的。SPOOLing系统的组成如下图：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/667d1a54d9c307b7e952046f.png" alt="操作系统（五）——IO管理——假脱机系统组成1.png"> 
+
+<p>SPOOLing系统一般来说由上图的部分组成，系统会在磁盘上开辟出两个存储区域，一个是叫输入井，一个是叫输出井。</p>
+<p>“输入井”用于模拟脱机输入时的磁带，用于收容I&#x2F;O设备输入的数据。</p>
+<p>“输出井”用于模拟脱机输出时的磁带，用于收容用户进程输出的数据。</p>
+<p>除了磁带之外，外围控制机也是实现脱机技术当中一个很重要的部件。外围控制机在假脱机技术里就睡由一个输入进程和一个输出进程来实现的。</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/667d1e16d9c307b7e959528d.png" alt="操作系统（五）——IO管理——假脱机系统组成2.png">
+
+<p>“输入进程”模拟脱机输入时的外围控制机，“输出进程”模拟脱机输出时的外围控制机。</p>
+<p>显然输入进程和输出进程肯定需要和用户进程并发的执行，才可以完成模拟脱机输入和脱机输出的过程。因此SPOOLing技术肯定是需要有多道程序技术的支持的。</p>
+<p>另外还需要注意，在内存当中还会开辟输入缓冲区和输出缓冲区：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/667d1f4ad9c307b7e95b57f1.png" alt="操作系统（五）——IO管理——假脱机系统组成3.png">
+
+<p>输入缓冲区和输出缓冲区的作用就是在模拟脱机输入和脱机输出的时候，作为一个数据的中转站。</p>
+<p>输入进程在实现模拟脱机输入的时候，其实是先接收了输入设备的数据，然后把这些数据先放到输入缓冲区里，之后再把输入缓冲区当中的数据放到磁盘的输入井当中</p>
+<p>而进行数据输出时，在输出进程的控制下，输出缓冲区用于暂存从输出井送来的数据，之后再传送到输出设备上。</p>
+<p>接下来看一个具体的假脱机技术的应用——共享打印机的实现：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/667d2067d9c307b7e95d6503.png" alt="操作系统（五）——IO管理——共享打印机原理分析.png">
+
+<p>在前面的学习中提到过两个概念，一个是独占式设备，一个是共享设备，这两个概念的解释在上图已经给出。</p>
+<p>打印机是一种独占式设备，在一段时间内只能为一个用户进程提供服务，如果打印机设备同时处理多个进程的请求的话，就有可能导致各个进程的打印输出结果相互串行。所以对于打印机这个独占式设备来说，如果一个进程正在使用这个打印机，那另一个进程在请求使用打印机的时候必然是需要阻塞等待的。</p>
+<p>但是打印机虽然是独占式设备，但可以使用SPOOLing技术改造成共享设备。如下图。</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/667d21ecd9c307b7e9601cd3.png" alt="操作系统（五）——IO管理——共享打印机原理分析1.png">
+
+<p>当多个用户进程提出输出打印的请求时，系统会答应它们的请求，但是并不是真正把打印机分配给他们，而是由假脱机管理进程为每个进程做两件事：</p>
+<p>第一件事：在磁盘输出井中为进程申请一个空闲缓冲区（也就是说，这个缓冲区是在磁盘上的而非内存里)，并将要打印的数据送入其中。</p>
+<p>第二件事：为用户进程申请一张空白的打印请求表，并将用户的打印请求填入表中（其实就是用来说明用户的打印数据存放位置等信息的)，再将该表挂到假脱机文件队列上。</p>
+<p>当打印机空闲时，输出进程会从文件队列的队头取出一张打印请求表，并根据表中的要求将要打印的数据从输出井传送到输出缓冲区，再输出到打印机进行打印。用这种方式可依次处理完全部的打印任务。</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/667d2207d9c307b7e960537a.png" alt="操作系统（五）——IO管理——共享打印机原理分析2.png">
+
+<p>在采用了假脱机技术以后，虽然系统中只有一台打印机，但每个进程提出打印请求时，系统都会为在输出井中为其分配一个存储区（相当于分配了一个逻辑设备)，使每个用户进程都觉得自己在独占一台打印机，从而实现对打印机的共享。</p>
+<p>因此，SPOOLing技术可以把一台物理设备虚拟成逻辑上的多台设备，可将独占式设备改造成共享设备。</p>
+<p>下面对这部分进行小结：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/667d222bd9c307b7e9608ed1.png" alt="操作系统（五）——IO管理——假脱机技术小结.png">
+
+<h2 id="8-设备的分配与回收"><a href="#8-设备的分配与回收" class="headerlink" title="8. 设备的分配与回收"></a>8. 设备的分配与回收</h2><p>本节设备的分配与回收知识点总览：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/667d248dd9c307b7e964c5e0.png" alt="操作系统（五）——IO管理——设备分配与回收知识总览.png">
+
+<p>首先看一下设备分配时应该考虑的因素：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/667d4c72d9c307b7e9ab148a.png" alt="操作系统（五）——IO管理——设备的固有属性.png">
+
+<p>设备分配时要考虑设备的固有属性、设备的分配算法还有设备分配中的安全性。</p>
+<p>从设备的固有属性角度看，设备的固有属性可分为三种：独占设备、共享设备、虚拟设备。</p>
+<p>独占设备就是一个时段只能分配给一个进程的设备，如打印机。</p>
+<p>共享设备就是可以同时分配个多个进程使用的设备，比如磁盘，但是所谓的这种共享，是宏观上山的共享，微观上各个进程可能是交替的使用设备。</p>
+<p>虚拟设备就是采用SPOOLing技术把独占设备改造成的虚拟的共享设备，可同时分配给多个进程使用。</p>
+<p>从设备分配算法角度看，可以有很多我们很熟悉的算法进行设备分配，比如先来先服务、优先级高者优先，短任务优先等，这里不再具体赘述。</p>
+<p>从设备分配的安全性角度看，可以有如下图的两种分配方式：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/667d4f03d9c307b7e9af6684.png" alt="操作系统（五）——IO管理——设备分配的安全性.png">
+
+<p>注意，如果使用不安全分配方式，一个进程可以同时使用多个设备，但是有可能会发生死锁，所以可以结合第二章死锁的知识，使用银行家算法来避免系统进入不安全状态，即死锁避免。</p>
+<p>接下来看一下两种设备分配方式——静态分配和动态分配：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/667d5042d9c307b7e9b195de.png" alt="操作系统（五）——IO管理——静态分配和动态分配.png">
+
+<p>这两种分配方式在第二章死锁的部分也已经讲过，这里也不过多赘述。</p>
+<p>下面看一下设备分配管理中需要用到哪些数据结构。在了解这些数据结构之前，先看一下设备、控制器、通道之间的关系，如下图：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/667d5094d9c307b7e9b223c4.png" alt="操作系统（五）——IO管理——设备分配管理中的数据结构1.png">
+
+<p>一个通道可控制多个设备控制器，每个设备控制器又可以控制多个设备，所以可以把它们之间的关系理解为一个树的形状。</p>
+<p>从另一个角度来说，每个设备肯定会有一个它所从属的控制器，而每个控制器也肯定会有一个它所从属的通道。这里要注意，一个系统中可能会有多个通道。</p>
+<p>由于控制一个设备肯定需要找到这个设备的控制器，而要控制一个控制器肯定也需要找到控制器所从属的通道。所以设备分配管理中的数据结构需要表示出这种从属的关系。</p>
+<p>下面看一下系统中需要配置的第一种数据结构——设备控制表：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/667d51fed9c307b7e9b4c3c8.png" alt="操作系统（五）——IO管理——设备控制表.png">
+
+<p>系统会为每一个设备配置一张设备控制表，用于记录设备的使用情况。</p>
+<p>一个设备控制表当中可能会有如上图所示的一些常用的字段。其中指向控制器表的指针就是上面所说的用于找到一个设备所从属的控制器到底是那一个。</p>
+<p>接下来看一下第二种数据结构——控制器控制表：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/667d538fd9c307b7e9b7940a.png" alt="操作系统（五）——IO管理——控制器控制表.png">
+
+<p>每一个设备控制器都会对应一张控制器控制表，操作系统会根据控制器控制表的信息对控制器进行操作和管理。</p>
+<p>控制器控制表当中也可能会有如上图所示的一些常用的字段。其中指向通道表的指针用于找到一个控制器所从属的通道到底是那一个。</p>
+<p>接下来看一下第三种数据结构—通道控制表：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/667d5445d9c307b7e9b9a2e2.png">
+
+<p>每个通道都会对应一张通道控制表，操作系统根据通道控制表对通道进行操作和管理。</p>
+<p>与之前的两个数据结构类似，通道控制表当中也可能会有如上图所示的一些常用的字段。其中操作系统可以通过与通道连接的控制器表首址找到该通道控制的所有控制器的相关信息。</p>
+<p>第四个需要设置的系统数据结构叫做系统设备表：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/667d5551d9c307b7e9bc0107.png" alt="操作系统（五）——IO管理——系统设备表.png">
+
+<p>系统设备表当中记录了系统中全部设备的情况，每一个设备会对应一个表目，每个表目中又会记录这个表目所对应的设备的设备类型，比如说是打印机还是扫描仪等。还会记录这个设备的标识符。除此以外，这个表目中还会包含这个设备的控制表。最后还记录了设备的驱动程序的入口。</p>
+<p>由于系统设备表当中记录了系统中全部设备的情况，所以用户用设备名请求某一个设备的时候，操作系统是可以从系统控制表当中来找到用户指定的设备到底是哪一个。</p>
+<p>接下来分析一下设备分配的具体步骤：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/667d5689d9c307b7e9be7c59.png" alt="操作系统（五）——IO管理——设备分配步骤一.png">
+
+<p>第一步操作系统会根据进程请求的物理设备名查找系统设备表。操作系统用某种方式来查找系统设备表的时候，就会把各个表目当中记录的设备标识符和用户提供的物理设备名进行比对，然后找到这两个参数相匹配的一个表项，之后就可以这个设备对应的设备控制表。</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/667d5769d9c307b7e9c067d8.png" alt="操作系统（五）——IO管理——设备分配步骤二.png">
+
+<p>第二步，在找到设备控制表以后，会根据设备控制表中记录的信息来判断此时这个设备是否空闲，如果设备空闲的话，就可以把这个设备分配给进程，如果设备忙碌的话，就需要把进程挂到这个设备对应的等待队列中，一直到这个设备空闲，并且把设备分配给该进程以后，才会把这个进程重新唤醒。除了分配设备之外，还需要把这个设备对应的控制器也分配给这个进程，所以系统还会根据指向控制器表的指针找到这个设备对应的控制器控制表。</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/667d586ad9c307b7e9c26bf7.png" alt="操作系统（五）——IO管理——设备分配步骤三.png">
+
+<p>第三步，在找到控制器控制表以后，与前面类似，会根据控制器控制表中记录的信息来判断此时这个控制器是否空闲，如果控制器空闲的话，就可以把这个控制器分配给进程，如果控制器忙碌的话，就需要把进程挂到这个控制器对应的等待队列中，一直到这个控制器空闲，并且把控制器分配给该进程以后，才会把这个进程重新唤醒。除了分配控制器之外，还需要把这个控制器对应的通道也分配给这个进程，所以系统还会根据指向通道表的指针找到这个控制器对应的通道控制表。</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/667d5911d9c307b7e9c3a922.png" alt="操作系统（五）——IO管理——设备分配步骤四.png">
+
+<p>第四步，在找到通道控制表以后，同理，会根通道控制表中记录的信息来判断此时这个通道是否空闲，如果通道空闲的话，就可以把这个通道分配给进程，如果通道忙碌的话，就需要把进程挂到这个通道对应的等待队列中，一直到这个通道空闲，并且把通道分配给该进程以后，才会把这个进程重新唤醒。</p>
+<p>只有设备、控制器、通道三者都分配成功时，这次的设备分配才算成功，之后便可启动I&#x2F;O设备进行数据传送。</p>
+<p>现在思考一下，这个设备分配过程有什么缺点呢？</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/667d59d9d9c307b7e9c520bc.png" alt="操作系统（五）——IO管理——设备分配步骤改进1.png">
+
+<p>如上图，首先第一个缺点就是用户编程时需要使用物理设备名，这种方式对用户编程来说是很不方便的。第二个缺点就是用户编程使用的是物理设备名，如果更换设备，则设备名也会更换，此时用户程序就无法运行。第三个缺点是若进程请求的物理设备正在忙碌，则即使系统中还有同类型的设备，进程也必须阻塞等待。比如一台电脑连了三台打印机，如果进程请求使用的是第一台打印机，那么虽然第二台和第三台打印机此时有可能是空闲的，只要第一台打印机此时是忙碌的，那这个进程依然需要阻塞等待，但显然其实可以把这个进程的打印任务把它分配给第二台或第三台打印机进行。因此采用这种方式也会导致设备的利用率不高的问题。</p>
+<p>解决上述缺点的办法就是建立逻辑设备名与物流设备名的映射机制，这样用户编程时只需要提供逻辑设备名，然后由操作系统完成逻辑设备名到物理设备名的转换。</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/667d5b85d9c307b7e9c852f8.png" alt="操作系统（五）——IO管理——设备分配步骤改进2.png">
+
+<p>引入逻辑设备名与物流设备名的映射机制之后，进程在请求使用某种设备的时候只需要提供逻辑设备名，所谓的逻辑设备名就是指明它所要使用的设备类型。</p>
+<p>比如说进程想要使用打印机这种设备，那由于系统设备表当中有一个字段记录了设备的类型，因此操作系统可以根据用户提供的逻辑设备名来依次查找系统设备表，然后找到一个指定类型的，并且空闲的设备，把它分配给进程。只有这个类型的设备全部处于忙碌状态的时候，才需要把这个进程给阻塞。</p>
+<p>把这个设备分配给进程以后，操作系统还需要在逻辑设备表LUT当中，新增一个表项。</p>
+<p>之后的操作就会之前一样，可以根据设备控制表找到相应的控制器控制表，然后把控制器分配给设备。然后根据控制器控制表找到相应的通道控制表，然后把通道分配给设备。</p>
+<p>只有进程第一次通过逻辑设备名申请使用一个设备的时候，操作系统才会来查询这个系统控制表，如果之后进程再次以相同的设备名来请求使用设备的话，那操作系统首先做的事，是会在逻辑设备表当中查找这个逻辑设备对应的物理设备，然后找到相应的表项以后，就可以找到设备对应的驱动程序。</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/667d5ba0d9c307b7e9c88391.png" alt="操作系统（五）——IO管理——设备分配步骤改进3.png">
+
+<p>有这样的两种方式设置逻辑设备表：</p>
+<p>第一种就是整个系统中只有一张逻辑设备表，这样的话各个用户所用的逻辑设备名不允许重复，所以这种方式只适合用于单用户操作系统。</p>
+<p>第二种就是每个用户设置一张逻辑设备表，这样的话不同用户的逻辑设备名可以重复，可以适用于多用户操作系统。</p>
+<p>下面对本节进行一个小结：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/667d5bc6d9c307b7e9c8db2d.png" alt="操作系统（五）——IO管理——设备分配与回收小结.png">
+
+<h2 id="9-缓冲区管理"><a href="#9-缓冲区管理" class="headerlink" title="9. 缓冲区管理"></a>9. 缓冲区管理</h2><p>缓冲区管理知识点总览：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/667d6b64d9c307b7e9ea18bb.png" alt="操作系统（五）——IO管理——缓冲区管理知识总览.png">
+
+<p>首先看一下，什么是缓冲区，缓冲区有什么作用：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/667d6b90d9c307b7e9ea7150.png" alt="操作系统（五）——IO管理——什么是缓冲区.png">
+
+<p>缓冲区是一个存储区域，可以由专门的硬件寄存器组成，也可利用内存作为缓冲区。</p>
+<p>使用硬件作为缓冲区的成本较高，容量也较小，一般仅用在对速度要求非常高的场合，如存储器管理中所用的联想寄存器，由于对页表的访问频率极高，因此使用速度很快的联想寄存器来存放页表项的副本。</p>
+<p>一般情况下，更多的是利用内存作为缓冲区，“设备独立性软件”的缓冲区管理就是要组织管理好这些缓冲区。</p>
+<p>所以本节介绍的缓冲区主要还是围绕内存作为缓冲区这种类型。</p>
+<p>下面看一下缓冲区有什么作用：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/667d6ca3d9c307b7e9ecb736.png" alt="操作系统（五）——IO管理——缓冲区的作用.png">
+
+<p>在内存中可以开辟一小片区域作为缓冲区，如果要输出数据的话，CPU产生的这些数据首先会被放到内存的缓冲区当中，不过CPU速度很快，所以它很快就可以把这个缓冲区给充满。等缓冲区放满了以后，CPU就可以去做别的事情。之后I&#x2F;O设备就可以慢慢的从缓冲区当中取走数据。在数据输入时也是类似的，I&#x2F;O设备可以慢慢的把数据放到缓冲区当中，当缓冲区满了以后，CPU再很快速的从缓冲区当中取走数据，所以采用这种方式的话很明显可以缓和CPU和I&#x2F;O设备之间的速度不匹配的矛盾。</p>
+<p>如果说没有采用缓冲区这种策略的话，I&#x2F;O设备每输入或者每输出一定单位的数据之后，就需要对CPU发出一个中断信号，请求CPU介入处理。假设I&#x2F;O设备是一种字符型设备，那每输入完一个字符或者每输出一个字符，I&#x2F;O设备都会打断CPU，向CPU发出中断信号。而对中断的处理是需要付出一定时间代价的，因此CPU频繁的处理这些中断，显然会降低系统的性能。而如果采用缓冲区这种策略，只有缓冲区的数据被全部取走或者输入的数据充满了缓冲区以后，CPU才需要来介入处理中断，因此采用这种方式可以减少CPU的中断频率，放宽CPU对中断响应时间的限制。</p>
+<p>缓冲区还有一个作用就是解决数据粒度不匹配的问题。比如说此时在CPU上运行的输出进程，每次可以申请一整块的数据，但I&#x2F;O设备每次只能输出一个字符。如果没有采用缓冲区策略的话，输出进程只能一个字符一个字符的给I&#x2F;O设备来传送数据。如果采用缓冲区策略的话，输出进程可以直接把一整块的数据放到缓冲区里，让I&#x2F;O设备从缓冲区里一个字符一个字符的往外取。输入时同理。</p>
+<p>另外，采用缓冲区以后，很显然是可以提供CPU和I&#x2F;O设备之间的并行性的。</p>
+<p>接下来介绍几种缓冲区管理的策略。</p>
+<p>首先看一下单缓冲：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/667d6f73d9c307b7e9f29e08.png" alt="操作系统（五）——IO管理——单缓冲.png">
+
+<p>假设某用户进程请求某种块设备读入若干块的数据。若采用单缓冲的策略，操作系统会在主存中为其分配一个缓冲区（若题目中没有特别说明，一个缓冲区的大小就是一个块）。</p>
+<p>注意，缓冲区有一个特点，当缓冲区数据非空时，不能往缓冲区冲入数据，只能从缓冲区把数据传出;当缓冲区为空时，可以往缓冲区冲入数据，但必须把缓冲区充满以后，才能从缓冲区把数据传出。</p>
+<p>那么看一下对一个数据块的处理需要经历哪些步骤：</p>
+<p>首先系统在主存中，为用户进程分配了一块大小的缓冲区，那么这个块设备会产生一块大小的数据把它输入到缓冲区当中，这个过程假设所耗费的时间为T。</p>
+<p>之后这块数据需要传送到用户进程的工作区当中，才可以被用户进程所处理（在考研当中，默认用户进程的工作区也是刚好可以放得下一块数据）。这个过程假设所耗费的时间为M。</p>
+<p>再之后，用户进程就可以开始对这一块数据进行处理，假设对一块数据进行计算处理所需要的时间为C这么多。当它处理完以后，这个用户进程的工作区就可以被腾空了。</p>
+<p>在考研中经常考察的题型是，<strong>会让计算每处理一块数据平均需要多长的时间</strong>。这里说一个技巧，<strong>可以假定一个初始状态，分析下次到达相同状态需要多少时间，这就是处理一块数据平均所需时间</strong>。</p>
+<p><strong>而在“单缓冲”题型中，可以假设初始状态为工作区满，缓冲区空</strong>。所以对于单缓冲，要分析下一次达到工作区满，缓冲区空这样的一个状态需要花多少时间。这个时间长度就是处理一个数据块平均所需要消耗的时间。</p>
+<p>下面看单缓冲区的第一种情况，假设输入时间T大于处理时间C：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/667d723ad9c307b7e9f9a560.png" alt="操作系统（五）——IO管理——单缓冲处理一个数据块所需时间.png">
+
+<p>根据假设条件，刚开始工作区是满的，缓冲区是空的。所以刚开始CPU就可以处理工作区中的这一块数据，这个处理过程需要花费C这么长的时间。另外由于刚开始缓冲区为空，所以块设备可以往其中冲入一块数据，这个时间总共耗费了T这么久。</p>
+<p>由于T&gt;C，因此CPU处理完数据后，并不能紧接着将下一块数据传送到工作区，必须等待缓冲区中冲满数据并且把数据传送到工作区以后，才可以进行下一块数据的处理。</p>
+<p>显然在T这个时间点缓冲区充满，可以紧接着将这一块数据传送到工作区当中，这个过程又要花费M这么长的时间。</p>
+<p>此时经历了T+M这么的时间以后，就再次回到了刚刚假设的初始状态，也就是缓冲区满，工作区空。接下来的数据处理无非就是重复刚刚分析的过程，因此通过刚刚的分析可以发现，平均每处理一块数据的用时是T+M这么多。</p>
+<p>下面看第二种情况，假设输入时间T小于处理时间C：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/667d7464d9c307b7e9fe29ee.png" alt="操作系统（五）——IO管理——单缓冲处理一个数据块所需时间1.png">
+
+<p>刚开始同第一种情况一样，刚开始工作区是满的，缓冲区是空的。所以刚开始CPU就可以处理工作区中的这一块数据，这个处理过程需要花费C这么长的时间。另外由于刚开始缓冲区为空，所以块设备可以往其中冲入一块数据，这个时间总共耗费了T这么久。</p>
+<p>由于这次T&lt;C，因此缓冲区中冲满数据后，暂时不能继续冲入下一块数据，必须等待CPU处理结束后，才能将数据从缓冲区传送到工作区。</p>
+<p>显然也是在C这个时间点CPU处理结束，可以紧接着将这一块数据传送到工作区当中，这个过程又要花费M这么长的时间。</p>
+<p>此时经历了C+M这么的时间以后，就再次回到了刚刚假设的初始状态，也就是缓冲区满，工作区空。接下来的数据处理同样是重复刚刚分析的过程，因此通过刚刚的分析可以发现，平均每处理一块数据的用时是C+M这么多。</p>
+<p>通过分析上面两种情况，可以总结如下图的结论：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/667d7bb6d9c307b7e90d749e.png" alt="操作系统（五）——IO管理——单缓冲处理一个数据块所需时间2.png">
+
+<p><strong><font color=red>结论：采用单缓冲策略，处理一块数据平均耗时Max(C，T)+M。</font></strong></p>
+<p>接下来看一下双缓冲策略：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/667d7cadd9c307b7e90f6b58.png" alt="操作系统（五）——IO管理——双缓冲策略.png">
+
+<p>假设某用户进程请求某种块设备读入若干块的数据。若采用双缓冲的策略，操作系统会在主存中为其分配两个缓冲区（若题目中没有特别说明，一个缓冲区的大小就是一个块)。</p>
+<p>类似的，双缓冲问题也经常<strong>会让计算每处理一块数据平均需要多长的时间</strong>。</p>
+<p>在双缓冲题目中，假设初始状态为：工作区空，其中一个缓冲区满，另一个缓冲区空。</p>
+<p><strong>先看第一种情况，如上图，假设T&gt;C+M：</strong></p>
+<p>根据假设的初始状态，缓冲区1中此时是有一块数据的，缓冲区2和工作区是空的。所以在0这个时刻，可以把缓冲区1中的数据传送到工作区当中，这个过程耗时是M这么多。而接下来CPU就可以处理工作区当中的数据，耗时为C。</p>
+<p>另一方面，在刚开始缓冲区2是空的，所以刚开始块设备可以往缓冲区2中输入数据，充满缓冲区2总共耗时T。</p>
+<p>由于T&gt;C+M，所以虽然在C+M这个时刻，CPU已经把工作区中的数据给处理完了，工作区已经空了。但是由于缓冲区2此时这个时刻还没有充满，所以暂时不能把缓冲区2的数据传送到工作区当中，必须等到T这个时刻，缓冲区2才可以被充满，所以到T这个时刻就回到了假设的初始状态。</p>
+<p>因此，当T&gt;C+M的时候，处理一块数据平均用时为T。</p>
+<p><strong>下面看第二种情况，假设T&lt;C+M：</strong></p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/667d7fb5d9c307b7e916ea6b.png" alt="操作系统（五）——IO管理——双缓冲处理一个数据块所需时间.png">
+
+<p>刚开始缓冲区2是空的，所以刚开始设备可以往缓冲区2中冲入数据，耗时为T。另一方面，由于刚开始，缓冲区1当中是充满数据的，所以一开始就可以把缓冲区1的数据传送到工作区当中。到M这个时刻工作区会充满，然后CPU就可以开始处理数据，耗时C这么长。</p>
+<p>处理完工作区中的数据以后，缓冲区2中也已经充满了下一块的数据，因此接下来可以紧接着把缓冲区2当中的数据传送到工作区当中，接着继续处理工作区中的这一块数据。</p>
+<p>接着回头看数据输入的这个过程，在T这个时刻，缓冲区2已经被充满，设备开始空闲。并且，由于缓冲区1当中的数据在M这个时刻就已经被取空了，因此当缓冲区2的数据被充满以后，设备就可以紧接着往缓冲区1中冲入数据，这个耗时也是T这么多。</p>
+<p>假设2T&lt;2M+C，则I&#x2F;O设备将缓冲区1冲满时，缓冲区2的数据尚未取空，因此I&#x2F;O设备暂时不能冲入数据，只有缓冲区2当中的数据被取空以后，这个设备才可以继续往缓冲区2当中写入下一块的数据。</p>
+<p>经过分析可以发现，如果采用双缓冲结构，并且T&lt;C+M，那么很难找到一个和刚开始的初始状态一模一样的一个状态。所以对于这种情况，上面假设的先假定一个初始状态，然后分析下次到达相同状态需要多少时间这种方法就不太好使用了。</p>
+<p>但是通过甘特图的方式往下分析可以发现，每经过M+C这么长的时间，就会有一块数据被处理完毕，因此，当T&lt;C+M就意味着设备输入数据块的速度要比处理机处理数据块的速度更快。每处理一个数据块平均耗时C+M。</p>
+<p>经过上面的两种情况的分析，可以知道采用双缓冲策略，处理一个数据块的平均耗时为Max(T,C+M)。</p>
+<p>下面看一下单缓冲和双缓冲在通信时的区别：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/667d8417d9c307b7e91fea36.png" alt="操作系统（五）——IO管理——单缓冲和双缓冲在通信时的区别1.png">
+
+<p>单缓冲和双缓冲策略不仅可以在主机和设备之间的数据传送当中使用，在两台主机通信时，也可以采用这种缓冲策略，用于数据的发送和接收。</p>
+<p>如上图，如果说为两台通信的主机配置单缓冲区的话，A主机想要发送的数据，要先放入A主机缓冲区中，等缓冲区满时就可以将数据发送到B缓冲区中。之后，B主机将缓冲区中的数据全部取走后，才能向A主机发送数据。</p>
+<p>显然，若两个相互通信的机器只设置单缓冲区，则在任一时刻只能实现数据的单向传输。</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/667d857ad9c307b7e922d343.png" alt="操作系统（五）——IO管理——单缓冲和双缓冲在通信时的区别2.png">
+
+<p>为了实现同一时刻双向传输，可以给两台机器配置双缓冲区，其中一个缓冲区用来暂存即将发送的数据，而另一个缓冲区用来接收输入的数据。所以如果采用双缓冲结构，那么这两台主机可以同时往自己的发送缓冲区当中冲入自己想要发送出去的数据，接下来可以同时往对方的接收缓冲区当中冲入数据。这样就实现了同一时刻双向传输的功能。</p>
+<p>接下来看另一种缓冲区——循环缓冲区：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/667d85a2d9c307b7e92329b0.png" alt="操作系统（五）——IO管理——循环缓冲区.png">
+
+<p>很多时候只有两个缓冲区依然不能满足进程的实际需要，所以操作系统可以给一个进程分配多个大小相等的缓冲区，让这些缓冲区连成一个循环的队列。</p>
+<p>在上图中，橙色表示已经被充满数据的缓冲区，而绿色表示的是此时为空的缓冲区。系统会保持两个指针用于缓冲区的管理。其中，in指针，指向下一个可以冲入数据的空缓冲区；out指针，指向下一个可以取出数据的满缓冲区。当out指针指向的缓冲区数据被取空以后，out指针就会指向下一个满缓冲区。类似地，如果in指针所指向的缓冲区被充满以后，in指针也需要指向下一个为空的缓冲区。</p>
+<p>在考研中，一般来说只有单缓冲和双缓冲需要分析处理一个数据平均所需要的消耗时间，循环缓冲只需要了解大致的原理就可以了。</p>
+<p>接下来看一下缓冲池的概念：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/667d860bd9c307b7e9240a81.png" alt="操作系统（五）——IO管理——缓冲池.png">
+
+<p>缓冲池由系统中共用的缓冲区组成。这些缓冲区按使用状况可以分为:空缓冲队列、装满输入数据的缓冲队列（输入队列)、装满输出数据的缓冲队列(输出队列）。</p>
+<p>另外，根据一个缓冲区在实际运算中扮演的功能不同，又设置了四种工作缓冲区：用于收容输数据的工作缓冲区(hin)、用于提取输入数据的工作缓冲区(sin)、用于收容输出数据的工作缓冲区(hout)、用于提取输出数据的工作缓冲区(sout)。</p>
+<p>如果一个输入进程要请求输入一块数据，那么系统会从空缓冲队列的队头当中，取下一块空的缓冲区，把它作为**用于收容输入数据的缓冲区(hin)**，当这块缓冲区被充满以后，就会被挂到输入队列的队尾上。</p>
+<p>如果计算进程想要取得一块之前已经输入的数据，那么操作系统会从输入队列的队头取下一个缓冲区，把它作为**提取输入的工作缓冲区(sin)**，接下来这块缓冲区当中的数据会被传送到计算进程的工作区当中，所以这块缓冲区中的数据就被取空了，当它取空之后，这个缓冲区又会被挂回到空缓冲队列的队尾。</p>
+<p>如果此时计算进程已经准备好了数据，想要把这些数据冲入到缓冲区，那么系统会从空缓冲队列的队头取下一个空闲的缓冲区，把这个缓冲区作为**收容这个进程想要输出数据的工作缓冲区(hout)**，因此接下来这个缓冲区慢慢的会被充满，由于这块缓冲区的数据接下来是要输出到I&#x2F;O设备上的，所以这块数据会被挂到输出队列的队尾。</p>
+<p>如果某个输出进程请求输出一块数据，那么操作系统会从输出队列中取得一块冲满输出数据的缓冲区作为**提取输出数据的工作缓冲区(sout)**。缓冲区读空后挂到空缓冲区队列。</p>
+<p>下面对本节进行一个小结：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/667d862cd9c307b7e9245053.png" alt="操作系统（五）——IO管理——缓冲区管理小结.png">
+
+<h2 id="10-磁盘的结构"><a href="#10-磁盘的结构" class="headerlink" title="10. 磁盘的结构"></a>10. 磁盘的结构</h2><p>磁盘的结构知识总览：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/667e14fbd9c307b7e9c83ec8.png" alt="操作系统（五）——IO管理——磁盘的结构小结.png">
+
+<p>首先看一下磁盘、磁道、扇区的概念：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/667e1566d9c307b7e9c8d0d2.png" alt="操作系统（五）——IO管理——磁盘、磁道、扇区的概念.png">
+
+<p>磁盘的表面由一些磁性物质组成，可以用这些磁性物质来记录二进制数据。磁盘的结果如上图右。</p>
+<p>磁盘的盘面被划分成一个个磁道。如上图左的一个“圈”就是一个磁道。注意，在实际的磁盘中磁道数量会有很多，这里图中因为画不下，所以只画了几道。</p>
+<p>而一个磁道又可以被划分成一个个扇区，每个扇区就是一个“磁盘块”。而且各个扇区存放的数据量相同，如1KB，即每个扇区的大小是1KB这么多。注意，不同磁道的扇区大小也是相同的，所以，由于最内侧磁道上的扇区面积最小，因此数据密度最大。</p>
+<p>在上图的磁盘结构中还会发现，在磁盘的中间会有一个马达，这个马达转动时就可以带动磁盘的转动。</p>
+<p>另外，为了方便查找，可以给扇区进行编号。</p>
+<p>接下来看一下怎么从磁盘当中读写数据：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/667e174bd9c307b7e9cb4360.png" alt="操作系统（五）——IO管理——磁盘的读写.png">
+
+<p>首先，需要把“磁头”移动到想要读&#x2F;写的扇区所在的磁道。磁头会由磁头臂带动，磁盘会由中间马达带动转起来，让目标扇区从磁头下面划过，这样才能完成对扇区的读&#x2F;写工作。</p>
+<p>如上图左，就是将磁头移动到橙色磁道，并让电机旋转带动磁盘旋转进行橙色磁道数据读取的示意图。</p>
+<p>注意，上图左只给了一个盘片，但事实上磁盘当中会有很多个这样的盘片，如下图：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/667e1853d9c307b7e9cca01a.png" alt="操作系统（五）——IO管理——盘面和柱面.png">
+
+<p>相应的，每个盘面上都会有一个磁头，然后这些磁头都会由磁头臂统一的带动着往里或往外移动。</p>
+<p>我们可以对这些盘面进行编号，每个盘面都会对应一个用于读取磁盘数据的磁头。</p>
+<p>另外，在有的磁盘当中，一个盘片有可能会对应两个盘面，也就是盘片的正面和背面。</p>
+<p>还有一点需要注意的是所有的磁头都是连在同磁臂上的，因此所有磁头只能共进退。</p>
+<p>还要知道，磁盘盘面中相对位置相同的磁道组成柱面。</p>
+<p>所以对于磁盘的物理地址，我们结合上面的定义，就可以用下图的三元组来表示：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/667e19bbd9c307b7e9cf4f86.png" alt="操作系统（五）——IO管理——磁盘的物理地址.png">
+
+<p>可用（柱面号，盘面号，扇区号）来定位任意一个“磁盘块”。其中柱面号用来定位盘面中某一个磁道，盘面号用来选择到底是哪一个盘面中的磁道，而扇区号用来选择在这个磁道中到底是哪一个扇区。在“文件的物理结构”小节中，我们经常提到文件数据存放在外存中的几号块，这个块号就可以转换成（柱面号，盘面号，扇区号)的地址形式。</p>
+<p>所以如果要读取某一个文件在某一个盘块中的数据的话，那么磁盘会根据这个地址来找到磁盘块对应的位置，具体步骤如下：</p>
+<p>①根据“柱面号”移动磁臂，让磁头指向指定柱面；</p>
+<p>②激活指定盘面对应的磁头；</p>
+<p>③磁盘旋转的过程中，指定的扇区会从磁头下面划过，这样就完成了对指定扇区的读&#x2F;写。</p>
+<p>接下来看一下，磁盘有哪些分类：</p>
+<p>按照磁头是否可以移动划分，有下图两种：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/667e1cead9c307b7e9d3e870.png" alt="操作系统（五）——IO管理——磁盘的分类.png">
+
+<p>按照盘片是否可以更换也有下图两种分类：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/667e1d1cd9c307b7e9d42cfa.png" alt="操作系统（五）——IO管理——磁盘的分类1.png">
+
+<p>最后对本部分进行小结：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/667e1d5fd9c307b7e9d483fa.png" alt="操作系统（五）——IO管理——磁盘的结构总结.png">
+
+<h2 id="11-磁盘调度算法"><a href="#11-磁盘调度算法" class="headerlink" title="11. 磁盘调度算法"></a>11. 磁盘调度算法</h2><p>本节知识点总览：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/667e1da8d9c307b7e9d4f44e.png" alt="操作系统（五）——IO管理——磁盘的调度算法知识总览.png">
+
+<p>本节首先要掌握一次磁盘读&#x2F;写操作需要多久的时间，应该怎么计算，计算时会从寻道时间、延迟时间和传输时间三个部分入手。而磁盘调度算法的不同会影响寻道时间的长短，所以选择一个合适的调度算法对磁盘整体的性能是有很大影响的。这里要重点掌握上图列出的四种算法。</p>
+<p>首先看一下一次磁盘的读或写操作需要多久的时间。</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/667e1fded9c307b7e9d8238c.png" alt="操作系统（五）——IO管理——一次磁盘读写所需时间.png">
+
+<p>磁盘的读写操作需要时间包含三部分，分别是寻道时间、延迟时间、传输时间。上图给出了这三个部分的详细计算已经介绍，这里就不再对其计算过程进行重复。</p>
+<p>从上图的公式中可以看到，延迟时间和传输时间都与磁盘转速相关，且为线性相关。而转速是硬件的固有属性，因此操作系统也无法优化延迟时间和传输时间。所以操作系统唯一可以影响的时间就是寻道时间，根据不同的磁盘调度算法，寻道时间会有很大差异。</p>
+<p>接下来就看一下各种磁盘调度算法：</p>
+<p>首先看一下先来先服务算法：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/667e4295d9c307b7e91245a6.png" alt="操作系统（五）——IO管理——先来先服务算法.png">
+
+<p>所谓先来先服务算法就是根据进程请求访问磁盘的先后顺序进行调度。</p>
+<p>这里根据上图给出的例子，可以看到，按照先来先服务的规则，按照请求到达的顺序，磁头需要依次移动到55、58、39、18、90、160、150、38、184号磁道，磁头总共移动了498个磁道。响应一个请求平均需要移动55.3个磁道。</p>
+<p>所以先来先服务算法的优点就是公平；如果请求访问的磁道比较集中的话，算法性能还可以。缺点是如果有大量进程竞争使用磁盘，请求访问的磁道很分散，则FCFS在性能上很差，会有很多时间浪费在寻道上。</p>
+<p>接下来看第二种磁盘调度算法——最短寻找时间优先：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/667e43fad9c307b7e9156a15.png" alt="操作系统（五）——IO管理——最短寻找时间优先算法.png">
+
+<p>最短寻找时间优先算法会优先处理的磁道是与当前磁头最近的磁道。这样可以保证每次的寻道时间最短，但是并不能保证总的寻道时间最短。(其实就是贪心算法的思想，只是选择眼前最优，但是总体未必最优。)</p>
+<p>根据上图还是之前的例子，可以看到，按照最短寻找时间优先的规则，磁头需要依次移动到90、58、55、39、38、18、150、160、184号磁道，磁头总共移动了248个磁道。响应一个请求平均需要移动27.5个磁道。</p>
+<p>最短寻找时间优先算法的优点是性能较好，平均寻道时间短。缺点是可能产生“饥饿”现象。比如本例中，如果在处理18号磁道的访问请求时又来了一个38号磁道的访问请求，处理38号磁道的访问请求时又来了一个18号磁道的访问请求。如果有源源不断的18号、38号磁道的访问请求到来的话，150、160、184号磁道的访问请求就永远得不到满足，从而产生“饥饿”现象。</p>
+<p>产生饥饿的原因在于：磁头在一个小区域内来回来去地移动。为了解决饥饿的问题，人们又提出了扫描算法。</p>
+<p>接下来看第三种磁盘调度算法——扫描算法：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/667e4619d9c307b7e9188272.png" alt="操作系统（五）——IO管理——扫描算法.png">
+
+<p>SSTF算法会产生饥饿的原因在于：磁头有可能在一个小区域内来回来去地移动。为了防止这个问题，可以规定，<strong>只有磁头移动到最外侧磁道的时候才能往内移动，移动到最内侧磁道的时候才能往外移动。这就是扫描算法(SCAN)的思想</strong>。由于磁头移动的方式很像电梯，因此也叫电梯算法。</p>
+<p>如上图例子，假设某磁盘的磁道为0~200号，磁头的初始位置是100号磁道，且此时磁头正在往磁道号增大的方向移动，有多个进程先后陆续地请求访问55、58、39、18、90、160、150、38、184号磁道，此时磁头就会从100的位置一直增大，直到移动到200号磁道，才会开始回来往磁道号变小的方向移动。</p>
+<p>在磁头访问磁道的过程中，磁头总共移动了282个磁道，平均响应一个请求需要移动31.3个磁道。</p>
+<p>这种扫描算法的优点是性能较好，平均寻道时间较短，不会产生饥饿现象。但缺点也很明显有两点：①只有到达最边上的磁道时才能改变磁头移动方向，如上例，事实上，处理了184号磁道的访问请求之后就不需要再往右移动磁头了，但是该算法依然会向右移动到最大磁道处才返回。②SCAN算法对于各个位置磁道的响应频率不平均。比如假设此时磁头正在往右移动，且刚处理过90号磁道，那么下次处理90号磁道的请求就需要等磁头移动很长一段距离；而响应了184号磁道的请求之后，磁头往返之后很快又可以再次响应184号磁道的请求。</p>
+<p>下面就来看一下对于扫描算法的这两个缺点的改进：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/667e463fd9c307b7e918bb82.png" alt="操作系统（五）——IO管理——LOOK调度算法.png">
+
+<p>首先看扫描算法的第一个缺点，只有到达最边上的磁道时才能改变磁头移动方向，事实上，处理了184号磁道的访问请求之后就不需要再往右移动磁头了。为了解决这个问题，人们提出了LOOK调度算法。</p>
+<p>LOOK调度算法规定，如果在磁头移动方向上已经没有别的请求，就可以立即改变磁头移动方向。(边移动边观察，因此叫LOOK。)</p>
+<p>如上图还是同一个例子，只不过此次磁头往磁道号增大的方向移动不需要移动到200了，当移动到184号磁道时，此时在磁头移动方向上已经没有别的请求，就可以立即改变磁头移动方向。</p>
+<p>在这个过程中，磁头总共移动了(184-100)+(184-18)&#x3D; 250个磁道，响应一个请求平均需要移动250&#x2F;9&#x3D; 27.5个磁道（平均寻找长度)。</p>
+<p>经过改进可以看到，比起SCAN算法来，不需要每次都移动到最外侧或最内侧才改变磁头方向，使寻道时间进一步缩短。</p>
+<p>下面看对扫描算法的第二个缺点的改进：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/667e469dd9c307b7e91941c1.png" alt="操作系统（五）——IO管理——循环扫描算法.png">
+
+<p>SCAN算法对于各个位置磁道的响应频率不平均，为了解决这个问题，于是循环扫描(C-SCAN)算法就出现了。</p>
+<p>循环扫描(C-SCAN)算法规定只有磁头朝某个特定方向移动时才处理磁道访问请求，而返回时直接快速移动至起始端而不处理任何请求。</p>
+<p>如上图，还是同一个例子，假设C-SCAN算法只有在向右移动时才会处理磁道访问请求，而且根据C-SCAN算法的规定，磁头只有到了最边上的磁道才能改变磁头移动方向。磁头返回途中不处理任何请求。</p>
+<p>在这个过程中，磁头总共移动了(200-100)+(200-0)+(9o-0)&#x3D; 390个磁道，响应一个请求平均需要移动390&#x2F;9 &#x3D;43.3个磁道（平均寻找长度)。</p>
+<p>所以C-SCAN比起SCAN来，对于各个位置磁道的响应频率很平均。但是缺点也一样，只有到达最边上的磁道时才能改变磁头移动方向，事实上，处理了184号磁道的访问请求之后就不需要再往右移动磁头了；并且，磁头返回时其实只需要返回到18号磁道即可，不需要返回到最边缘的磁道。另外，比起SCAN算法来，C-SCAN平均寻道时间更长。</p>
+<p>为了应对这个问题，人们效仿LOOK调度算法，提出了C-LOOK调度算法。</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/667e46d1d9c307b7e919978f.png" alt="操作系统（五）——IO管理——C-LOOK调度算法.png">
+
+<p>C-SCAN算法的主要缺点是只有到达最边上的磁道时才能改变磁头移动方向，并且磁头返回时不一定需要返回到最边缘的磁道上。C-LOOK算法就是为了解决这个问题。</p>
+<p>C-LOOK算法规定，如果磁头移动的方向上已经没有磁道访问请求了，就可以立即让磁头返回，并且磁头只需要返回到有磁道访问请求的位置即可。</p>
+<p>如上图，同样的例子，假设某磁盘的磁道为0~200号，磁头的初始位置是100号磁道，且此时磁头正在往磁道号增大的方向移动，有多个进程先后陆续地请求访问55、58、39、18、90、160、150、38、184号磁道。使用C-LOOK算法在磁头移动到184处时，在磁头移动方向上已经没有别的请求，这是就可以让磁头返回。而磁头只需要返回到最靠近边缘的、并且需要访问的磁道上即可，并不需要回到最左边边缘处。</p>
+<p>在这个过程中，磁头总共移动了(184-100)+(184-18)+(90-18)&#x3D; 322个磁道，响应一个请求平均需要移动322&#x2F;9&#x3D; 35.8个磁道(平均寻找长度)。</p>
+<p>很明显C-LOOK比起C-SCAN算法来，不需要每次都移动到最外侧或最内侧才改变磁头方向，使寻道时间进一步缩短。</p>
+<p>下面看一下本部分小结：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/667e4707d9c307b7e919eff1.png" alt="操作系统（五）——IO管理——磁盘调度算法小结.png">
+
+<p>这里注意一点，若题目中无特别说明，则默认题目中的SCAN算法就是LOOK算法，C-SCAN算法就是C-LOOK算法。</p>
+<h2 id="12-减少磁盘延迟时间的方法"><a href="#12-减少磁盘延迟时间的方法" class="headerlink" title="12. 减少磁盘延迟时间的方法"></a>12. 减少磁盘延迟时间的方法</h2><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/667e4d7cd9c307b7e9243f8a.png" alt="操作系统（五）——IO管理——减少磁盘延迟时间引例.png">
+
+<p>我们意识到了一次读磁盘或者写磁盘的操作，需要寻道时间、延迟时间和传输时间这样三个部分组成。其中延迟时间指的是把目标扇区转到磁头下面所花的时间。如上图，比如说我们此时要读取橙色的这些区域的话，那么我们首先需要有一段延迟时间是用来转动磁盘的，让橙色区域放到这个磁头的下面。</p>
+<p>假设现在要连续读取橙色区域的2、3、4扇区，磁头读取一块的内容（也就是一个扇区的内容）后，需要一小段时间处理，而盘片又在不停地旋转。因此，如果2、3号扇区相邻着排列，则读完2号扇区后无法连续不断地读入3号扇区，必须等盘片继续旋转，3号扇区再次划过磁头，才能完成扇区读入。</p>
+<p>所以，由于磁头读入一个扇区数据后需要一小段时间处理，如果逻辑上相邻的扇区在物理上也相邻，则读入几个连续的逻辑扇区，可能需要很长的“延迟时间”。</p>
+<p>面对上面的这个问题，我们可以采用交替编号的方式来处理：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/667e4dedd9c307b7e924f343.png" alt="操作系统（五）——IO管理——交替编号.png">
+
+<p>所谓交替编号，就是让逻辑上相邻的扇区在物理上有一定的间隔。如上图，我们编好了0号扇区后，并不是在它后面紧接着就规定1号扇区，而是在间隔了一个扇区后，才把下一个扇区编为1号扇区。然后依次类推。</p>
+<p>假设现在这个磁头指向0号扇区位置，如果接下来要读入的是2号、3号和4号扇区，那由于首先要读入的是2号扇区，所以需要先转动磁盘让2号扇区放到磁头下面，接下来在这个磁盘继续转动的过程中就可以把2号扇区的数据给堵住了。在读完了2号扇区之后，磁头需要有一小段时间做中间的准备，在这段时间内，磁头是不能读入任何数据的，但是由于采用了交替编号的策略，所以在3号扇区划过磁头前，这个磁头就做好了下一次读取数据的准备。因此，这个磁盘继续旋转，3号扇区从磁头下面划过，磁头也可以顺利的把3号扇区里的数据给读进来。</p>
+<p>从上面这个过程中可以看到，采用交替编号这样的策略，可以使读取连续的逻辑扇区所需要的延迟时间更小。</p>
+<p>接下来探讨一个磁盘地址结构的问题：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/667e5717d9c307b7e9350079.png" alt="操作系统（五）——IO管理——磁盘地址结构设计.png">
+
+<p>通过之前的学习可以知道，磁盘的物理地址是按(柱面号，盘面号、扇区号)这种顺序的一个三元组，现在思考一下，为什么不是(盘面号，柱面号，扇区号)这种顺序的一个三元组呢？也就是说，为什么柱面号一定要在前，盘面号一定要在后？这里来分析一下这个问题。</p>
+<p>用上图的磁盘为例，假设这个磁盘有8个柱面&#x2F;磁道（假设最内侧柱面&#x2F;磁道号为0 )，4个盘面，8个扇区。则可用3个二进制位表示柱面，2个二进制位表示盘面，3个二进制位表示扇区。</p>
+<p>若物理地址结构是（盘面号，柱面号，扇区号)，且假设现在需要连续读取物理地址(00, 000,000) ~ (00,001,111）的扇区。</p>
+<p>首先(00,000,000) ~ ( 00, 000,111 )这些扇区就是0号盘面0号柱面的8个扇区，根据之前的分析可以知道，在转了一圈之后，这个磁头可以依次读入0123这几个扇区的数据。再转第二圈后，这个磁头可以依次读入4567这几个扇区的数据，也就是说(00,000,000) ~ ( 00, 000,111 )这个物理地址范围内的数据只需要转两圈就可以读完。之后再读取物理地址相邻的区域(00,001,000) ~ ( 00,001,111)，即0号盘面1号柱面的8个扇区，这时由于柱面号变了，所以需要启动磁头臂，将磁头移动到下一个磁道。</p>
+<p>通过之前的学习可以知道，启动磁头臂还有移动磁头是一种物理上的移动，它所需要花费的时间是比较高的，这是盘面号在柱面号之前的情况，下面看一下盘面号在柱面号之后的情况。</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/667e5747d9c307b7e93545cf.png" alt="操作系统（五）——IO管理——磁盘地址结构设计1.png">
+
+<p>若物理地址结构是(柱面号，盘面号，扇区号)，假设此时需要读取的取物理地址依然是(000,00,000) ~ (000,01,111)的扇区。</p>
+<p>同样的，首先要读取(00,000,000) ~ ( 00, 000,111 )即0号盘面0号柱面的8个扇区，根据上面的分析可以知道，这部分需要转两圈才可以读完。</p>
+<p>接下来还要读取(00,001,000) ~ ( 00,001,111)范围内的数据，但是这里采用的是(柱面号，盘面号，扇区号)即柱面号在前，盘面号在后的物理地址结构，所以(00,001,000) ~ ( 00,001,111)对应的是0号柱面1号盘面的8个扇区。而由于柱面号&#x2F;磁道号相同，只是盘面号不同，因此不需要移动磁头臂，只需要激活相邻盘面的磁头即可。并不需要像之前一样要启动磁头臂，然后来回移动磁头。</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/667e5769d9c307b7e9357bcf.png" alt="操作系统（五）——IO管理——磁盘地址结构设计2.png">
+
+<p>因此磁盘的物理地址是(柱面号，盘面号，扇区号)而不是(盘面号，柱面号，扇区号)的原因，就是读取地址连续的磁盘块时，采用(柱面号，盘面号，扇区号)的地址结构可以减少磁头移动消耗的时间。</p>
+<p>理解了上面的问题之后，接下来再看第二种减少延迟时间的方法——错位命名：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/667e57bbd9c307b7e935f798.png" alt="操作系统（五）——IO管理——错位命名1.png">
+
+<p>先来看一下，不采用错位命名方式在读取编号连续的扇区会发生什么情况。</p>
+<p>假设0号盘面和1号盘面在它们相对位置相同的这些扇区的编号都是相同的，也就是0号盘面的0号扇区下面，对应的刚好是1号盘面的0号扇区，然后0号盘面的4号扇区下面对应的也是1号盘面的4号扇区，这些扇区号是一一对应的，两个盘面对应的磁头也是指向一个相对位置相同的地方。</p>
+<p>现在假设这个0号盘面的橙色区域对应的扇区编号的物理地址为(000,00,111)，由于磁盘的地址结构是(柱面号，盘面号，扇区号)，所以与这个扇区序号相邻的下一个扇区的编号应该是(000,01,000)，也就是1号盘面的0号扇区，即上图右的橙色区域。</p>
+<p>由于所有盘面都是一起连轴转的，因此读取完磁盘块(000,00,111)之后，需要短暂的时间处理，而盘面又在不停地转动，因此当（000,01,000)第一次划过1号盘面的磁头下方时，并不能读取数据，只能再等该扇区再次划过磁头。</p>
+<p>为了解决上述问题，可以使用错位命名的方式来命名，如下图：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/667e57f2d9c307b7e93647ca.png" alt="操作系统（五）——IO管理——错位命名2.png">
+
+<p>错位命名就是就将相邻盘面中的偏下方的盘面的扇区编号向后移动一位，以达到与上方盘面错开编号的目的，如上图的0号盘面和1号盘面就是错位命名，可以看到，0号盘面在1号盘面正上方，0号盘面的0号扇区它的正下方对应的是1号盘面的7号扇区，然后0号盘面的4号扇区下面对应的也是1号盘面的0号扇区，也就是说这些盘面的扇区编号是错开的，这就是为什么叫错位命名。</p>
+<p>还是使用上面的例子作分析，由于采用错位命名法，因此读取完磁盘块( 000,00,111)之后，还有一段时间可以用于处理，当(000,01,000)第一次划过1号盘面的磁头下方时，就可以直接读取数据，从而减少了延迟时间。</p>
+<p>下面对本节进行一个小结：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/667e581cd9c307b7e93689b3.png" alt="操作系统（五）——IO管理——减少磁盘延迟时间小结.png">
+
+<h2 id="13-磁盘的管理"><a href="#13-磁盘的管理" class="headerlink" title="13. 磁盘的管理"></a>13. 磁盘的管理</h2><p>本节知识点总览：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/667e584fd9c307b7e936df56.png" alt="操作系统（五）——IO管理——磁盘的管理知识总览.png">
+
+<p>首先看一下什么是磁盘初始化：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/667e59aad9c307b7e93912c6.png" alt="操作系统（五）——IO管理——磁盘的初始化.png">
+
+<p>磁盘刚被制造出来时，只被划分成了一个一个的磁道，在磁盘正式出厂之前，还需要进行一个低级格式化的过程，这个过程就是一个划分扇区的过程。一个扇区通常可分为头、数据区域、尾三个部分组成。每个扇区的数据区域所能存放的数据数量都是相同的，比如512B，所以前面说的一个扇区可以存放的数据大小，其实指的是数据区域可以存放的大小。</p>
+<p>另外，在文件的物理结构的部分说过一种链式结构，也就是把文件的那些数据块用链接的方式把它们连起来，那前一个数据块指向下一个数据块的指针就可以保存在尾部这个部分。也就是说链接部分并不需要占用数据区域，这样的话可以方便操作系统的管理。</p>
+<p>除此以外，管理扇区所需要的各种数据结构一般存放在头、尾两个部分，包括扇区校验码（如奇偶校验、CRC循环冗余校验码等，校验码用于校验扇区中的数据是否发生错误)。</p>
+<p>在正式使用磁盘之前，还需要对磁盘进行逻辑上的分区，每个分区由若干个相邻的柱面组成，这里所谓的分区就是我们平时熟悉的C盘、D盘等。</p>
+<p>在划分了分区以后，需要进行逻辑格式化。逻辑格式化所做的事情就是创建文件系统，包括创建文件系统的根目录、初始化存储空间管理所用的数据结构（如位示图、空闲分区表)。</p>
+<p>上面是磁盘初始化时要做的事情，接下来看一下什么是磁盘的引导块：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/667e59e5d9c307b7e9397628.png" alt="操作系统（五）——IO管理——磁盘的引导块.png">
+
+<p>在磁盘完成了物理格式化、磁盘分区和逻辑格式化以后，就可以把操作系统相关的数据写到磁盘中，也就是安装操作系统的一个过程。</p>
+<p>计算机开机时需要进行一系列初始化的工作（包括初始化CPU、内存等），这些初始化工作是通过执行初始化程序（自举程序）完成的。一般来说，初始化程序是存放在ROM（只读存储器）中的，而ROM中的数据在出厂时就写入了(一般来说，ROM在出厂时就直接集成在了电脑主板上)，并且以后不能再修改。</p>
+<p>也就是说，计算机开机时，首先会读取ROM当中的程序，并且执行这些程序完成初始化的工作。但是思考一下，把初始化程序程序（自举程序）放在ROM中存在什么问题？</p>
+<p>假设自举程序需要更新的话就会很不方便，因为ROM当中的数据是无法更改的，但是由于自举程序本身又比较复杂，所以不太可能保证自举程序相关的数据永远不改变。对于这个问题，应该如何解决呢？</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/667e5a18d9c307b7e939ca59.png" alt="操作系统（五）——IO管理——磁盘的引导块1.png">
+
+<p>那现在的操作系统一般是只在ROM当中存放很小的一个自举装入程序，而完整的自举程序放在磁盘的启动块(即引导块&#x2F;启动分区)上，启动块位于磁盘的固定位置。比如上图指向C盘的几个盘块，这几个盘块就可以称为启动分区或者叫引导块。</p>
+<p>当计算机开机的时候，首先会先执行ROM当中的自举装入程序，在执行自举装入程序的过程中，CPU就可以知道接下来需要执行的自举程序是存放在硬盘当中的哪个位置。通过自举装入程序的引导，CPU就可以从磁盘中读取完整的自举程序，这样的话就可以完成初始化。</p>
+<p>自举装入程序的复杂度不高，所以其实是可以保证自举装入程序是不会出错的，不需要更改的。而自举程序需要更改的话，就把自举程序放在磁盘的固定位置，这样的话当自举程序需要更新的时候，就只需要重新把这些引导块当中的数据，把它重新更新一下就可以。所以这种方案带来的好处就是自举程序更新会变得很方便。</p>
+<p>一般来说，拥有启动分区(启动块、引导块)的磁盘称为启动磁盘或系统磁盘。</p>
+<p>接下来再看一下对磁盘的坏块应该进行什么样的管理：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/667e5a5bd9c307b7e93a3798.png" alt="操作系统（五）——IO管理——坏块的管理.png">
+
+<p>所谓的坏块就是指那些坏了、无法正常使用的扇区。这属于硬件故障，操作系统是无法修复的。应该将坏块标记出来，以免错误地使用到它。</p>
+<p>对于简单的磁盘，可以在逻辑格式化时（建立文件系统时）对整个磁盘进行坏块检查，标明哪些扇区是坏扇区，比如：在FAT表(文件分配表)上标明。被标记为坏块的块，之后不再分配给任何一个文件。由于操作系统在对存储空间进行管理时肯定需要读取文件分配表的内容，而哪些块是坏块是记录在文件分配表当中的，因此采用这种方式的话，坏块对这个操作系统是不透明的。</p>
+<p>对于复杂的磁盘，磁盘控制器（磁盘设备内部的一个硬件部件）会维护一个坏块链表，并在磁盘出厂前进行低级格式化（物理格式化）时就将坏块链进行初始化。另外，磁盘控制器会保留一些“备用扇区”，用于替换坏块。比如操作系统想使用一个本来已经坏掉的块，那么在硬件层次，磁盘控制器这个硬件部件就会用其中的某一个好的备用块来替换这个坏块，但是这个过程对操作系统是透明的，操作系统是不可知的。这种方案也称为扇区备用。</p>
+<p>上面就是对磁盘坏块管理的两种方法。下面对本节进行一个小结：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/667e5a8cd9c307b7e93a8877.png" alt="操作系统（五）——IO管理——磁盘的管理小结.png">
+
+<h2 id="14-固态硬盘SSD"><a href="#14-固态硬盘SSD" class="headerlink" title="14. 固态硬盘SSD"></a>14. 固态硬盘SSD</h2></article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="http://bandit-ljC-1.github.io">liujinC</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="http://bandit-ljc-1.github.io/2024/06/10/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%EF%BC%88%E4%BA%94%EF%BC%89%E2%80%94%E2%80%94%E8%BE%93%E5%85%A5%E8%BE%93%E5%87%BA%EF%BC%88IO%EF%BC%89%E7%AE%A1%E7%90%86/">http://bandit-ljc-1.github.io/2024/06/10/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%EF%BC%88%E4%BA%94%EF%BC%89%E2%80%94%E2%80%94%E8%BE%93%E5%85%A5%E8%BE%93%E5%87%BA%EF%BC%88IO%EF%BC%89%E7%AE%A1%E7%90%86/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://bandit-ljC-1.github.io" target="_blank">无名高手🍭</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/408%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">408学习笔记</a><a class="post-meta__tags" href="/tags/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">操作系统</a></div><div class="post_share"><div class="social-share" data-image="/myphotos/article_cover/13.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2024/06/30/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86%EF%BC%88%E5%85%AD%EF%BC%89%E2%80%94%E2%80%94%E6%80%BB%E7%BA%BF/" title="计算机组成原理（六）——总线"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/myphotos/article_cover/9.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">计算机组成原理（六）——总线</div></div></a></div><div class="next-post pull-right"><a href="/2024/06/10/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86%EF%BC%88%E4%BA%94%EF%BC%89%E2%80%94%E2%80%94%E4%B8%AD%E5%A4%AE%E5%A4%84%E7%90%86%E5%99%A8/" title="计算机组成原理（五）——中央处理器"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/myphotos/article_cover/7.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">计算机组成原理（五）——中央处理器</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2024/03/22/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%EF%BC%88%E4%B8%80%EF%BC%89%E2%80%94%E2%80%94%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F%E6%A6%82%E8%BF%B0/" title="操作系统（一）——计算机系统概述"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/myphotos/article_cover/3.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2024-03-22</div><div class="title">操作系统（一）——计算机系统概述</div></div></a></div><div><a href="/2024/05/18/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%EF%BC%88%E4%B8%89%EF%BC%89%E2%80%94%E2%80%94%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86/" title="操作系统（三）——内存管理"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/myphotos/article_cover/8.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2024-05-18</div><div class="title">操作系统（三）——内存管理</div></div></a></div><div><a href="/2024/04/09/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%EF%BC%88%E4%BA%8C%EF%BC%89%E2%80%94%E2%80%94%E8%BF%9B%E7%A8%8B%E4%B8%8E%E7%BA%BF%E7%A8%8B/" title="操作系统（二）——进程与线程"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/myphotos/article_cover/5.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2024-04-09</div><div class="title">操作系统（二）——进程与线程</div></div></a></div><div><a href="/2024/06/04/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%EF%BC%88%E5%9B%9B%EF%BC%89%E2%80%94%E2%80%94%E6%96%87%E4%BB%B6%E7%AE%A1%E7%90%86/" title="操作系统（四）——文件管理"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/myphotos/article_cover/11.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2024-06-04</div><div class="title">操作系统（四）——文件管理</div></div></a></div><div><a href="/2024/03/07/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%EF%BC%88%E4%B8%80%EF%BC%89%E2%80%94%E2%80%94%E7%BA%BF%E6%80%A7%E8%A1%A8/" title="数据结构（一）——线性表"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/myphotos/article_cover/3.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2024-03-07</div><div class="title">数据结构（一）——线性表</div></div></a></div><div><a href="/2024/04/09/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%EF%BC%88%E4%B8%89%EF%BC%89%E2%80%94%E2%80%94%E4%B8%B2/" title="数据结构（三）——串"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/myphotos/article_cover/8.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2024-04-09</div><div class="title">数据结构（三）——串</div></div></a></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/myphotos/avatar.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">liujinC</div><div class="author-info__description"></div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">29</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">8</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">3</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://home.liujinc.cn"><i class="fab fa-github"></i><span>网站主页</span></a><div class="card-info-social-icons is-center"><a class="social-icon faa-parent animated-hover" href="/myphotos/WeChat.png" target="_blank" title="微信"><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon-weixin"></use></svg></a><a class="social-icon faa-parent animated-hover" href="/myphotos/QQ.jpg" target="_blank" title="QQ"><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon-QQ"></use></svg></a><a class="social-icon faa-parent animated-hover" href="https://space.bilibili.com/1941048387?spm_id_from=333.1007.0.0" target="_blank" title="B站"><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon-bilibili"></use></svg></a><a class="social-icon faa-parent animated-hover" href="https://blog.csdn.net/qq_63040545?spm=1000.2115.3001.5343" target="_blank" title="CSDN"><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon-csdn"></use></svg></a><a class="social-icon faa-parent animated-hover" href="https://github.com/Bandit-ljC-1" target="_blank" title="GitHub"><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon-github1"></use></svg></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">今年18岁傍50岁富婆，来年50岁包18岁姑娘。</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%EF%BC%88%E4%BA%94%EF%BC%89%E2%80%94%E2%80%94%E8%BE%93%E5%85%A5-%E8%BE%93%E5%87%BA%EF%BC%88I-O%EF%BC%89%E7%AE%A1%E7%90%86"><span class="toc-text">操作系统（五）——输入&#x2F;输出（I&#x2F;O）管理</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-I-O%E8%AE%BE%E5%A4%87%E7%9A%84%E6%A6%82%E5%BF%B5%E5%92%8C%E5%88%86%E7%B1%BB"><span class="toc-text">1. I&#x2F;O设备的概念和分类</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-I-O%E6%8E%A7%E5%88%B6%E5%99%A8"><span class="toc-text">2. I&#x2F;O控制器</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-I-O%E6%8E%A7%E5%88%B6%E6%96%B9%E5%BC%8F"><span class="toc-text">3. I&#x2F;O控制方式</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#3-1-%E7%A8%8B%E5%BA%8F%E7%9B%B4%E6%8E%A5%E6%8E%A7%E5%88%B6%E6%96%B9%E5%BC%8F"><span class="toc-text">3.1 程序直接控制方式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-2-%E4%B8%AD%E6%96%AD%E9%A9%B1%E5%8A%A8%E6%96%B9%E5%BC%8F"><span class="toc-text">3.2 中断驱动方式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-3-DMA%E6%96%B9%E5%BC%8F"><span class="toc-text">3.3 DMA方式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-4-%E9%80%9A%E9%81%93%E6%8E%A7%E5%88%B6%E6%96%B9%E5%BC%8F"><span class="toc-text">3.4 通道控制方式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-5-I-O%E6%8E%A7%E5%88%B6%E6%96%B9%E5%BC%8F%E5%B0%8F%E7%BB%93"><span class="toc-text">3.5 I&#x2F;O控制方式小结</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-I-O%E8%BD%AF%E4%BB%B6%E5%B1%82%E6%AC%A1%E7%BB%93%E6%9E%84"><span class="toc-text">4. I&#x2F;O软件层次结构</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#4-1-%E7%94%A8%E6%88%B7%E5%B1%82%E8%BD%AF%E4%BB%B6"><span class="toc-text">4.1 用户层软件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-2-%E8%AE%BE%E5%A4%87%E7%8B%AC%E7%AB%8B%E6%80%A7%E8%BD%AF%E4%BB%B6"><span class="toc-text">4.2 设备独立性软件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-3-%E8%AE%BE%E5%A4%87%E9%A9%B1%E5%8A%A8%E7%A8%8B%E5%BA%8F"><span class="toc-text">4.3 设备驱动程序</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-4-%E4%B8%AD%E6%96%AD%E5%A4%84%E7%90%86%E7%A8%8B%E5%BA%8F"><span class="toc-text">4.4 中断处理程序</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-5-I-O%E8%BD%AF%E4%BB%B6%E5%B1%82%E6%AC%A1%E5%B0%8F%E7%BB%93"><span class="toc-text">4.5 I&#x2F;O软件层次小结</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-%E8%BE%93%E5%85%A5%E8%BE%93%E5%87%BA%E5%BA%94%E7%94%A8%E7%A8%8B%E5%BA%8F%E6%8E%A5%E5%8F%A3%E5%92%8C%E9%A9%B1%E5%8A%A8%E7%A8%8B%E5%BA%8F%E6%8E%A5%E5%8F%A3"><span class="toc-text">5. 输入输出应用程序接口和驱动程序接口</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#6-I-O%E6%A0%B8%E5%BF%83%E5%AD%90%E7%B3%BB%E7%BB%9F"><span class="toc-text">6. I&#x2F;O核心子系统</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#7-%E5%81%87%E8%84%B1%E6%9C%BA%E6%8A%80%E6%9C%AF"><span class="toc-text">7. 假脱机技术</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#8-%E8%AE%BE%E5%A4%87%E7%9A%84%E5%88%86%E9%85%8D%E4%B8%8E%E5%9B%9E%E6%94%B6"><span class="toc-text">8. 设备的分配与回收</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#9-%E7%BC%93%E5%86%B2%E5%8C%BA%E7%AE%A1%E7%90%86"><span class="toc-text">9. 缓冲区管理</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#10-%E7%A3%81%E7%9B%98%E7%9A%84%E7%BB%93%E6%9E%84"><span class="toc-text">10. 磁盘的结构</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#11-%E7%A3%81%E7%9B%98%E8%B0%83%E5%BA%A6%E7%AE%97%E6%B3%95"><span class="toc-text">11. 磁盘调度算法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#12-%E5%87%8F%E5%B0%91%E7%A3%81%E7%9B%98%E5%BB%B6%E8%BF%9F%E6%97%B6%E9%97%B4%E7%9A%84%E6%96%B9%E6%B3%95"><span class="toc-text">12. 减少磁盘延迟时间的方法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#13-%E7%A3%81%E7%9B%98%E7%9A%84%E7%AE%A1%E7%90%86"><span class="toc-text">13. 磁盘的管理</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#14-%E5%9B%BA%E6%80%81%E7%A1%AC%E7%9B%98SSD"><span class="toc-text">14. 固态硬盘SSD</span></a></li></ol></li></ol></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2024 - 2025 By liujinC</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js?v=4.12.0"></script><script src="/js/main.js?v=4.12.0"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0.32/dist/fancybox/fancybox.umd.min.js"></script><script src="https://cdn.jsdelivr.net/npm/instant.page@5.2.0/instantpage.min.js" type="module"></script><script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@17.8.5/dist/lazyload.iife.min.js"></script><script src="https://cdn.jsdelivr.net/npm/node-snackbar@0.1.16/dist/snackbar.min.js"></script><script>function panguFn () {
+  if (typeof pangu === 'object') pangu.autoSpacingPage()
+  else {
+    getScript('https://cdn.jsdelivr.net/npm/pangu@4.0.7/dist/browser/pangu.min.js')
+      .then(() => {
+        pangu.autoSpacingPage()
+      })
+  }
+}
+
+function panguInit () {
+  if (false){
+    GLOBAL_CONFIG_SITE.isPost && panguFn()
+  } else {
+    panguFn()
+  }
+}
+
+document.addEventListener('DOMContentLoaded', panguInit)</script><div class="js-pjax"></div><canvas id="snow"></canvas><script async src="/js/snow.js"></script><canvas id="universe"></canvas><script defer src="/js/universe.js"></script><script defer src="/js/mouse.js"></script><script async src="//at.alicdn.com/t/c/font_4451089_fok8y2foa3.js"></script><script defer type="text/javascript" src="https://cdn1.tianli0.top/npm/sweetalert2@8.19.0/dist/sweetalert2.all.js"></script><script defer src="/js/festival/lunar.js"></script><script defer src="/js/festival/day.js"></script><script async src="/js/fps.js"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="is-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据库加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div id="local-search-results"></div><div id="local-search-stats-wrap"></div></div></div><div id="search-mask"></div><script src="/js/search/local-search.js?v=4.12.0"></script></div></div><!-- hexo injector body_end start --> <script data-pjax>if(document.getElementById('recent-posts') && (location.pathname ==='/'|| '/' ==='all')){
+    var parent = document.getElementById('recent-posts');
+    var child = '<div class="recent-post-item" style="width:100%;height: auto"><div id="catalog_magnet"><div class="magnet_item"><a class="magnet_link" href="http://bandit-ljC-1.github.io/tags/408学习笔记/"><div class="magnet_link_context" style=""><span style="font-weight:500;flex:1">🐱‍👓 路漫漫其修远，我探索不了一点。 (25)</span><span style="padding:0px 4px;border-radius: 8px;"><i class="fas fa-arrow-circle-right"></i></span></div></a></div><div class="magnet_item"><a class="magnet_link" href="http://bandit-ljC-1.github.io/tags/前端/"><div class="magnet_link_context" style=""><span style="font-weight:500;flex:1">🍨 前端UI到转行平面设计 (2)</span><span style="padding:0px 4px;border-radius: 8px;"><i class="fas fa-arrow-circle-right"></i></span></div></a></div><a class="magnet_link_more"  href="http://bandit-ljC-1.github.io/tags" style="flex:1;text-align: center;margin-bottom: 10px;">查看更多...</a></div></div>';
+    console.log('已挂载magnet')
+    parent.insertAdjacentHTML("afterbegin",child)}
+     </script><style>#catalog_magnet{flex-wrap: wrap;display: flex;width:100%;justify-content:space-between;padding: 10px 10px 0 10px;align-content: flex-start;}.magnet_item{flex-basis: calc(50% - 5px);background: #f2f2f2;margin-bottom: 10px;border-radius: 8px;transition: all 0.2s ease-in-out;}.magnet_item:hover{background: #b30070}.magnet_link_more{color:#555}.magnet_link{color:black}.magnet_link:hover{color:white}@media screen and (max-width: 600px) {.magnet_item {flex-basis: 100%;}}.magnet_link_context{display:flex;padding: 10px;font-size:16px;transition: all 0.2s ease-in-out;}.magnet_link_context:hover{padding: 10px 20px;}</style>
+    <style></style><script data-pjax>
+    function butterfly_categories_card_injector_config(){
+      var parent_div_git = document.getElementById('recent-posts');
+      var item_html = '<style>li.categoryBar-list-item{width:32.3%;}.categoryBar-list{max-height: 380px;overflow:auto;}.categoryBar-list::-webkit-scrollbar{width:0!important}@media screen and (max-width: 650px){.categoryBar-list{max-height: 320px;}}</style><div class="recent-post-item" style="height:auto;width:100%;padding:0px;"><div id="categoryBar"><ul class="categoryBar-list"><li class="categoryBar-list-item" style="background:url(/myphotos/article_cover/1.jpg);"> <a class="categoryBar-list-link" href="categories/网页开发/">网页开发</a><span class="categoryBar-list-count">2</span><span class="categoryBar-list-descr">优秀的设计师</span></li><li class="categoryBar-list-item" style="background:url(/myphotos/article_cover/2.jpg);"> <a class="categoryBar-list-link" href="categories/hexo/">hexo</a><span class="categoryBar-list-count">2</span><span class="categoryBar-list-descr">五等分的blog</span></li><li class="categoryBar-list-item" style="background:url(/myphotos/article_cover/3.jpg);"> <a class="categoryBar-list-link" href="categories/学习笔记/">学习笔记</a><span class="categoryBar-list-count">25</span><span class="categoryBar-list-descr">埼玉的成长之路</span></li></ul></div></div>';
+      console.log('已挂载butterfly_categories_card')
+      parent_div_git.insertAdjacentHTML("afterbegin",item_html)
+      }
+    if( document.getElementById('recent-posts') && (location.pathname ==='/'|| '/' ==='all')){
+    butterfly_categories_card_injector_config()
+    }
+  </script><script data-pjax>
+  function butterfly_swiper_injector_config(){
+    var parent_div_git = document.getElementById('recent-posts');
+    var item_html = '<div class="recent-post-item" style="height: auto;width: 100%"><div class="blog-slider swiper-container-fade swiper-container-horizontal" id="swiper_container"><div class="blog-slider__wrp swiper-wrapper" style="transition-duration: 0ms;"><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" href="2024/01/01/Markdown语法/" alt=""><img width="48" height="48" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="myphotos/article_cover/6.jpg" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/></a><div class="blog-slider__content"><span class="blog-slider__code">2024-01-01</span><a class="blog-slider__title" href="2024/01/01/Markdown语法/" alt="">青春男大遇到不会写的Markdown语法</a><div class="blog-slider__text">本文是博主写博客时遇到的一些不会写的Markdown语法，特在此汇总</div><a class="blog-slider__button" href="2024/01/01/Markdown语法/" alt="">详情   </a></div></div><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" href="2024/03/07/数据结构（一）——线性表/" alt=""><img width="48" height="48" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="myphotos/article_cover/3.jpg" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/></a><div class="blog-slider__content"><span class="blog-slider__code">2024-03-07</span><a class="blog-slider__title" href="2024/03/07/数据结构（一）——线性表/" alt="">数据结构（一）——线性表</a><div class="blog-slider__text">本文是数据结构中有关线性表的复习笔记，因此只记录一些重点知识与兄弟们交流，并不适合零基础的兄弟。</div><a class="blog-slider__button" href="2024/03/07/数据结构（一）——线性表/" alt="">详情   </a></div></div><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" href="2024/03/02/基于hexo搭建的个人博客常见问题处理/" alt=""><img width="48" height="48" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="myphotos/article_cover/6.jpg" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/></a><div class="blog-slider__content"><span class="blog-slider__code">2024-03-02</span><a class="blog-slider__title" href="2024/03/02/基于hexo搭建的个人博客常见问题处理/" alt="">基于hexo搭建的个人博客常见问题处理</a><div class="blog-slider__text">该文主要是站长对使用hexo搭建博客时出现的一些问题进行了整理</div><a class="blog-slider__button" href="2024/03/02/基于hexo搭建的个人博客常见问题处理/" alt="">详情   </a></div></div><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" href="2024/02/08/CSS基础语法及应用/" alt=""><img width="48" height="48" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="myphotos/article_cover/6.jpg" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/></a><div class="blog-slider__content"><span class="blog-slider__code">2024-02-08</span><a class="blog-slider__title" href="2024/02/08/CSS基础语法及应用/" alt="">CSS基础语法及应用</a><div class="blog-slider__text">本文主要整理CSS的基本语法，可以搭配HTML5基本语法进行学习</div><a class="blog-slider__button" href="2024/02/08/CSS基础语法及应用/" alt="">详情   </a></div></div><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" href="2024/02/01/HTML5基础语法大全/" alt=""><img width="48" height="48" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="myphotos/article_cover/13.jpg" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/></a><div class="blog-slider__content"><span class="blog-slider__code">2024-02-01</span><a class="blog-slider__title" href="2024/02/01/HTML5基础语法大全/" alt="">HTML5基本语法大全</a><div class="blog-slider__text">本文主要整理了HTML5的基本语法，方便初学者快速入门</div><a class="blog-slider__button" href="2024/02/01/HTML5基础语法大全/" alt="">详情   </a></div></div></div><div class="blog-slider__pagination swiper-pagination-clickable swiper-pagination-bullets"></div></div></div>';
+    console.log('已挂载butterfly_swiper')
+    parent_div_git.insertAdjacentHTML("afterbegin",item_html)
+    }
+  var elist = 'undefined'.split(',');
+  var cpage = location.pathname;
+  var epage = '/';
+  var flag = 0;
+
+  for (var i=0;i<elist.length;i++){
+    if (cpage.includes(elist[i])){
+      flag++;
+    }
+  }
+
+  if ((epage ==='all')&&(flag == 0)){
+    butterfly_swiper_injector_config();
+  }
+  else if (epage === cpage){
+    butterfly_swiper_injector_config();
+  }
+  </script><script defer src="https://npm.elemecdn.com/hexo-butterfly-swiper/lib/swiper.min.js"></script><script defer data-pjax src="https://npm.elemecdn.com/hexo-butterfly-swiper/lib/swiper_init.js"></script><script data-pjax>
+  function butterfly_footer_beautify_injector_config(){
+    var parent_div_git = document.getElementById('footer-wrap');
+    var item_html = '<div id="workboard"></div><p id="ghbdages"><a class="github-badge" target="_blank" href="https://hexo.io/" style="margin-inline:5px" data-title="博客框架为Hexo_v6.2.0" title=""><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img.shields.io/badge/Frame-Hexo-blue?style=flat&amp;logo=hexo" alt=""/></a><a class="github-badge" target="_blank" href="https://butterfly.js.org/" style="margin-inline:5px" data-title="主题版本Butterfly_v4.3.1" title=""><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img.shields.io/badge/Theme-Butterfly-6513df?style=flat&amp;logo=bitdefender" alt=""/></a><a class="github-badge" target="_blank" href="https://vercel.com/" style="margin-inline:5px" data-title="本站采用多线部署，主线路托管于Vercel" title=""><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img.shields.io/badge/Hosted-Vercel-brightgreen?style=flat&amp;logo=Vercel" alt=""/></a><a class="github-badge" target="_blank" href="https://dashboard.4everland.org/" style="margin-inline:5px" data-title="本站采用多线部署，备用线路托管于4EVERLAND" title=""><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img.shields.io/badge/Hosted-4EVERLAND-22DDDD?style=flat&amp;logo=IPFS" alt=""/></a><a class="github-badge" target="_blank" href="https://github.com/" style="margin-inline:5px" data-title="本站项目由Github托管" title=""><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img.shields.io/badge/Source-Github-d021d6?style=flat&amp;logo=GitHub" alt=""/></a><a class="github-badge" target="_blank" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" style="margin-inline:5px" data-title="本站采用知识共享署名-非商业性使用-相同方式共享4.0国际许可协议进行许可" title=""><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img.shields.io/badge/Copyright-BY--NC--SA%204.0-d42328?style=flat&amp;logo=Claris" alt=""/></a></p>';
+    console.log('已挂载butterfly_footer_beautify')
+    parent_div_git.insertAdjacentHTML("beforeend",item_html)
+    }
+  var elist = 'null'.split(',');
+  var cpage = location.pathname;
+  var epage = 'all';
+  var flag = 0;
+
+  for (var i=0;i<elist.length;i++){
+    if (cpage.includes(elist[i])){
+      flag++;
+    }
+  }
+
+  if ((epage ==='all')&&(flag == 0)){
+    butterfly_footer_beautify_injector_config();
+  }
+  else if (epage === cpage){
+    butterfly_footer_beautify_injector_config();
+  }
+  </script><script async src="/js/clock.js"></script><div class="js-pjax"><script async="async">var arr = document.getElementsByClassName('recent-post-item');
+for(var i = 0;i<arr.length;i++){
+    arr[i].classList.add('wow');
+    arr[i].classList.add('animate__zoomIn');
+    arr[i].setAttribute('data-wow-duration', '2s');
+    arr[i].setAttribute('data-wow-delay', '1s');
+    arr[i].setAttribute('data-wow-offset', '100');
+    arr[i].setAttribute('data-wow-iteration', '1');
+  }</script><script async="async">var arr = document.getElementsByClassName('card-widget');
+for(var i = 0;i<arr.length;i++){
+    arr[i].classList.add('wow');
+    arr[i].classList.add('animate__zoomIn');
+    arr[i].setAttribute('data-wow-duration', '');
+    arr[i].setAttribute('data-wow-delay', '');
+    arr[i].setAttribute('data-wow-offset', '');
+    arr[i].setAttribute('data-wow-iteration', '');
+  }</script></div><script defer src="/css/wowjs/wow.min.js"></script><script defer src="/css/wowjs/wow_init.js"></script><!-- hexo injector body_end end --></body></html>

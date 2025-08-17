@@ -1,0 +1,895 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>操作系统（三）——内存管理 | 无名高手🍭</title><meta name="author" content="liujinC"><meta name="copyright" content="liujinC"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="ffffff"><meta name="description" content="第三卷——小有所成“内存管理”">
+<meta property="og:type" content="article">
+<meta property="og:title" content="操作系统（三）——内存管理">
+<meta property="og:url" content="http://bandit-ljc-1.github.io/2024/05/18/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%EF%BC%88%E4%B8%89%EF%BC%89%E2%80%94%E2%80%94%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86/index.html">
+<meta property="og:site_name" content="无名高手🍭">
+<meta property="og:description" content="第三卷——小有所成“内存管理”">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://bandit-ljc-1.github.io/myphotos/article_cover/8.jpg">
+<meta property="article:published_time" content="2024-05-18T02:16:00.000Z">
+<meta property="article:modified_time" content="2024-05-26T07:54:00.000Z">
+<meta property="article:author" content="liujinC">
+<meta property="article:tag" content="408学习笔记">
+<meta property="article:tag" content="操作系统">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://bandit-ljc-1.github.io/myphotos/article_cover/8.jpg"><link rel="shortcut icon" href="/myphotos/icon.png"><link rel="canonical" href="http://bandit-ljc-1.github.io/2024/05/18/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%EF%BC%88%E4%B8%89%EF%BC%89%E2%80%94%E2%80%94%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css?v=4.12.0"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.5.1/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/node-snackbar@0.1.16/dist/snackbar.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0.32/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":true,"top_n_per_article":-1,"unescape":false,"languages":{"hits_empty":"找不到您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: undefined,
+  noticeOutdate: {"limitDay":365,"position":"top","messagePrev":"It has been","messageNext":"days since the last update, the content of the article may be outdated."},
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":230},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: {"chs_to_cht":"你已切换为繁体中文","cht_to_chs":"你已切换为简体中文","day_to_night":"你已切换为深色模式","night_to_day":"你已切换为浅色模式","bgLight":"#49b1f5","bgDark":"#1f1f1f","position":"top-right"},
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid@4.11.0/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyload: true,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '操作系统（三）——内存管理',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2024-05-26 15:54:00'
+}</script><script>(win=>{
+      win.saveToLocal = {
+        set: (key, value, ttl) => {
+          if (ttl === 0) return
+          const now = Date.now()
+          const expiry = now + ttl * 86400000
+          const item = {
+            value,
+            expiry
+          }
+          localStorage.setItem(key, JSON.stringify(item))
+        },
+      
+        get: key => {
+          const itemStr = localStorage.getItem(key)
+      
+          if (!itemStr) {
+            return undefined
+          }
+          const item = JSON.parse(itemStr)
+          const now = Date.now()
+      
+          if (now > item.expiry) {
+            localStorage.removeItem(key)
+            return undefined
+          }
+          return item.value
+        }
+      }
+    
+      win.getScript = (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        script.onerror = reject
+        script.onload = script.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          script.onload = script.onreadystatechange = null
+          resolve()
+        }
+
+        Object.keys(attr).forEach(key => {
+          script.setAttribute(key, attr[key])
+        })
+
+        document.head.appendChild(script)
+      })
+    
+      win.getCSS = (url, id = false) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onerror = reject
+        link.onload = link.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          link.onload = link.onreadystatechange = null
+          resolve()
+        }
+        document.head.appendChild(link)
+      })
+    
+      win.activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', 'ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          const now = new Date()
+          const hour = now.getHours()
+          const isNight = hour <= 6 || hour >= 18
+          if (t === undefined) isNight ? activateDarkMode() : activateLightMode()
+          else if (t === 'light') activateLightMode()
+          else activateDarkMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+      const detectApple = () => {
+        if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+          document.documentElement.classList.add('apple')
+        }
+      }
+      detectApple()
+    })(window)</script><link rel="stylesheet" href="/css/custom.css" media="defer" onload="this.media='all'"><link rel="stylesheet" href="/css/light.css" media="defer" onload="this.media='all'"><link rel="stylesheet" href="/css/snow.css"><link rel="stylesheet" href="/css/universe.css"><link rel="stylesheet" href="/css/mouse.css"><link rel="stylesheet" href="//at.alicdn.com/t/c/font_4451089_fok8y2foa3.css" media="defer" onload="this.media='all'"><link rel="stylesheet" href="/css/page_style.css"><span id="fps"></span><link rel="stylesheet" href="/css/pangu_control.css"><div id="myscoll"></div><!-- hexo injector head_end start --><link rel="stylesheet" href="/css/categorybar.css"><link rel="stylesheet" href="https://npm.elemecdn.com/hexo-butterfly-swiper/lib/swiper.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="/css/swiper/swiperstyle.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://unpkg.zhimg.com/hexo-butterfly-footer-beautify@1.0.0/lib/runtime.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="/css/wowjs/animate.min.css" media="print" onload="this.media='screen'"><!-- hexo injector head_end end --><meta name="generator" content="Hexo 6.3.0"></head><body><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/myphotos/avatar.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">29</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">8</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">3</div></a></div><hr class="custom-hr"/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> 列表</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音乐</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 电影</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/comments/"><i class="fa-fw fas fa-envelope-open"></i><span> 留言板</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('/myphotos/article_cover/8.jpg')"><nav id="nav"><span id="blog-info"><a href="/" title="无名高手🍭"><span class="site-name">无名高手🍭</span></a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search" href="javascript:void(0);"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> 列表</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音乐</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 电影</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/comments/"><i class="fa-fw fas fa-envelope-open"></i><span> 留言板</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">操作系统（三）——内存管理</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2024-05-18T02:16:00.000Z" title="发表于 2024-05-18 10:16:00">2024-05-18</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2024-05-26T07:54:00.000Z" title="更新于 2024-05-26 15:54:00">2024-05-26</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">学习笔记</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">21.1k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>61分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="操作系统（三）——内存管理"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h1 id="操作系统（三）——内存管理"><a href="#操作系统（三）——内存管理" class="headerlink" title="操作系统（三）——内存管理"></a>操作系统（三）——内存管理</h1><h2 id="1-内存的基础知识"><a href="#1-内存的基础知识" class="headerlink" title="1. 内存的基础知识"></a>1. 内存的基础知识</h2><h3 id="1-1-内存"><a href="#1-1-内存" class="headerlink" title="1.1 内存"></a>1.1 内存</h3><p>写在开头：这部分相当于对计组内存相关知识的复习。深入理解可以去学习计算机组成原理第三章——存储系统。这里给个跳转链接：<a href="./%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86%EF%BC%88%E4%B8%89%EF%BC%89%E2%80%94%E2%80%94%E5%AD%98%E5%82%A8%E7%B3%BB%E7%BB%9F.md">计算机组成原理(三)——存储系统</a></p>
+<p>首先复习一下内存的概念：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/6648124dd9c307b7e923f14b.png" alt="操作系统（三）——内存管理——内存的概念.png">
+
+<p>内存用来存放数据，程序执行前需要先放到内存中才能被CPU处理。</p>
+<p>为了区分各个程序的数据在内存里的存放位置，就要给内存编号，这就是内存地址。内存地址是从0开始，每个地址对应一个存储单元。</p>
+<p>存储单元的大小和计算机编址方式有关，如果使用按字节编址，则每个存储单元大小为1字节；如果按字编址，则每个存储单元大小为1个字。</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/664813eed9c307b7e9259185.png" alt="操作系统（三）——内存管理——内存的大小.png">
+
+<p>内存的地址使用二进制编码方式，题目中会出现给内存的大小，求地址长度，这时候要先考虑编址方式，然后转换成对应2<sup>n</sup>模型，得到地址长度就是n。</p>
+<h3 id="1-2-指令"><a href="#1-2-指令" class="headerlink" title="1.2 指令"></a>1.2 指令</h3><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/664828d0d9c307b7e93ed74d.png" alt="操作系统（三）——内存管理——指令工作的基本原理.png">
+
+<p>使用高级语言编写的代码经过编译以后，会形成与之等价的机器语言指令，每一条指令就是让CPU干一件具体的事情。</p>
+<p>当一个程序运行时，系统会为其建立一个相应的进程，一个进程在内存中会有一片区域叫程序段，用于存放进程相关代码指令。另外还有一个部分叫数据段，用来存放程序处理的一些变量之类的数据。</p>
+<p>CPU执行一条一条指令的实质就是处理内存或寄存器当中的数据。而怎么找到这些数据，就要基于地址来寻找。内存会有自己的地址编址，同样的寄存器也会有自己的地址编址。所以，指令的工作是基于“地址”的，每个地址对应一个数据的存储单元。</p>
+<p>上图给出了一个x&#x3D;x+1的例子，通过编译以后，转换成了右边三条指令。这里以第三条指令为例，该指令的意思是将寄存器地址为00000011中的数据放到内存的地址01001111中，这里指令给出的内存地址是物理地址（绝对地址），直接指明了放到内存的某个位置，能这么使用的原因是，该程序在内存里是连续存放的且以0地址为起始地址。</p>
+<p>现在考虑一下，如果该进程在程序里的地址不是从0开始的呢？为了方便理解，我们默认操作系统给进程分配的是一片连续内存空间。</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/66483600d9c307b7e94ea8f4.png" alt="操作系统（三）——内存管理——指令的寻址.png">
+
+<p>C语言经过编译、链接处理后，生成装入模块，即可执行文件，然后就可以把可执行文件放入内存中，然后开始执行这个程序。</p>
+<p>需要注意的是，在装入模块里指明的地址参数是逻辑地址或称为相对地址，它是基于该进程的起始地址的地址。同样的例子，把该装入模块放入内存里，如果从0地址起始，这里指令里对应的地址不在是主存的物理地址，而是相对于该模块起始地址0的相对地址。比如指令里的79，原先指主存地址79，但这里指的是进程起始地址偏移79，即0+79得到在内存里的存放地址。</p>
+<p>下面这个例子会更好的理解：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/66483792d9c307b7e950c927.png" alt="操作系统（三）——内存管理——相对地址与物理地址.png">
+
+<p>在上面这个例子里，将装入模块放入到了主存地址的100<del>279内，该装入模块在主存里的起始地址变为100。这时候再看指令0，这里的79指的就是相对地址，该指令所找的存储单元地址就是100+79&#x3D;179，而不是79，如果看成物理地址，那所找的地址就是79，不在100</del>279范围内，显然该操作是违法的，因为它改动了非自己区域的地址79，而这个79地址可能属于别的进程。</p>
+<p>这里补充两点，</p>
+<ol>
+<li><strong>物理地址与逻辑地址的概念：物理地址就是内存中各物理存储单元的地址从统一的基地址进行的顺序编址，物理地址也可以看成内存的绝对地址。而逻辑地址是指程序代码中使用的地址，它是由程序员或操作系统生成的。</strong></li>
+<li>一个程序经过编译会生成装入模块，里面存放当前程序所要执行的指令以及数据等。当装入模块放入主存里以后就会被CPU调用运行，进而形成进程。进程运行的实质就是存储在主存里的指令的执行，在第二章进程里我们学过，两个进程之间是不能直接互相访问数据的，若想相互访问数据，需要通过CPU分配共享空间。所以，指令的调用数据都是在自己的装入模块内，如果指令的访问地址，不在装入模块存放在主存里的地址范围内，那么该指令可能访问的是共享空间或指令特殊，否则认为该指令违法。</li>
+</ol>
+<p>经过上面两点的补充，我们知道装入模块会被放入到内存的哪个物理地址是无法确定的，所以程序员写程序时使用的都是逻辑地址，而操作系统会将逻辑地址转换为物理地址。</p>
+<p>这里就有一个很重要的问题，操作系统如何实现逻辑地址转换为物理地址。接下来就探讨地址转换的问题。</p>
+<h3 id="1-3-地址转换"><a href="#1-3-地址转换" class="headerlink" title="1.3 地址转换"></a>1.3 地址转换</h3><p>这部分会介绍三种策略来解决逻辑地址转换为物理地址的问题。</p>
+<p>三种策略：</p>
+<ol>
+<li>绝对装入。</li>
+<li>可重定位装入（静态重定位）。</li>
+<li>动态运行时装入（动态重定位）。</li>
+</ol>
+<h4 id="1-3-1-绝对装入"><a href="#1-3-1-绝对装入" class="headerlink" title="1.3.1 绝对装入"></a>1.3.1 绝对装入</h4><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/66483eedd9c307b7e95991b5.png" alt="操作系统（三）——内存管理——绝对装入.png">
+
+<p>绝对装入，指在编译时将逻辑地址转换为物理地址。如果在编译时知道程序要放入内存中的哪个位置，编译程序将产生绝对地址的目标代码，装入程序按照装入模块的地址，将程序和数据装入内存。</p>
+<p>比如上图例子，在编译时知道装入模块要从地址为100的地方开始存放，编译链接后的装入模块指令就会变成物理地址。</p>
+<p>如果此时想让这个程序的可执行文件放到另一台电脑当中运行，如果另一台电脑无法让该文件装入100为起始地址的存储区，那么该程序的可执行文件就无法运行，所以这种方式的灵活性很差，只适用于单道程序环境。</p>
+<h4 id="1-3-2-可重定位装入"><a href="#1-3-2-可重定位装入" class="headerlink" title="1.3.2 可重定位装入"></a>1.3.2 可重定位装入</h4><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/66484098d9c307b7e95bccdf.png" alt="操作系统（三）——内存管理——可重定位装入.png">
+
+<p>与绝对装入不同，可重定位编译和链接后的装入模块地址都是从0开始的逻辑地址，只有当装入模块装入内存时，才会在装入内存的过程中将逻辑地址改为物理地址。</p>
+<p>这种装入模式的特点是，给这些作业分配的地址空间必须是连续的，而且作业要一次性全部装入内存。如果没有足够的内存，就不能装入作业，而且作业一旦进入内存后，在运行期间就不能再移动（如果移动，但地址不会被更改，就会出现地址指向错误），也不能再申请内存空间。</p>
+<p>可重定位装入适用于早期的多道批处理操作系统。</p>
+<h4 id="1-3-3-动态重定位"><a href="#1-3-3-动态重定位" class="headerlink" title="1.3.3 动态重定位"></a>1.3.3 动态重定位</h4><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/6648422ed9c307b7e95da81a.png" alt="操作系统（三）——内存管理——动态重定位.png">
+
+<p>动态重定位，编译和链接后的装入模块地址都是从0开始的逻辑地址，而且当装入模块装入内存时，也不会把逻辑地址变成物理地址，只有在指令真正运行时，才会将逻辑地址变为物理地址。</p>
+<p>动态重定位实现逻辑地址与物理地址的转换是通过重定位寄存器来进行的，重定位寄存器里存放装入模块的起始位置，运行指令时，需要将指令里的逻辑地址与重定位寄存器里的起始地址相加得到真正的物理地址。显然，通过这种方式装入，想要改变进程的存放位置是很方便的，如果存放位置改变，也只需要跟着改变重定位寄存器里的起始位置即可。</p>
+<p>除此以外，动态分配方式还有很多的优点，可参考上图，这里可能有不理解的地方，可以等学完虚拟存储部分再回来理解。</p>
+<p>动态重定位装入适用于现代的操作系统。</p>
+<h3 id="1-4-写程序到程序运行的过程"><a href="#1-4-写程序到程序运行的过程" class="headerlink" title="1.4 写程序到程序运行的过程"></a>1.4 写程序到程序运行的过程</h3><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/6648446fd9c307b7e9623861.png" alt="操作系统（三）——内存管理——写程序到运行程序.png">
+
+<p>写程序到程序运行的过程如上图，源代码文件编译后，会形成与之对应的目标模块，并且这些目标模块里已经包含了源代码里所对应的指令，而这些指令的编址都是逻辑地址且从0开始编址（各目标模块的逻辑地址相互独立）。</p>
+<p>接下来会执行链接步骤，将这些目标模块组装成一个完整的装入模块，而且装入模块也有完整的逻辑地址。</p>
+<p>接下来把装入模块调入主存就可以开始运行。</p>
+<p>这就是从写程序到运行程序的完整执行过程。</p>
+<p>之前介绍的是装入的三种方式，接下来看一下链接的三种方式。</p>
+<h3 id="1-5-链接的三种方式"><a href="#1-5-链接的三种方式" class="headerlink" title="1.5 链接的三种方式"></a>1.5 链接的三种方式</h3><h4 id="1-5-1-静态链接"><a href="#1-5-1-静态链接" class="headerlink" title="1.5.1 静态链接"></a>1.5.1 静态链接</h4><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/664845e0d9c307b7e963e85b.png" alt="操作系统（三）——内存管理——静态链接.png">
+
+<p>静态链接和前面介绍写程序到运行程序的过程中的装入方式很类似，就是在程序运行前将各目标模块组装成完整的装入模块，之后就不再拆开。也就是说在形成装入模块后，就确定了装入模块的完整逻辑地址。</p>
+<h4 id="1-5-2-装入时动态链接"><a href="#1-5-2-装入时动态链接" class="headerlink" title="1.5.2 装入时动态链接"></a>1.5.2 装入时动态链接</h4><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/664846bfd9c307b7e964d70e.png" alt="操作系统（三）——内存管理——装入时动态链接.png">
+
+<p>装入时动态链接，将各目标模块边装入内存边链接。也就是说，采用这种方式的话，这个进程的完整逻辑地址是一边装入一边形成的。</p>
+<h4 id="1-5-3-运行时动态链接"><a href="#1-5-3-运行时动态链接" class="headerlink" title="1.5.3 运行时动态链接"></a>1.5.3 运行时动态链接</h4><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/66484822d9c307b7e9665206.png" alt="操作系统（三）——内存管理——运行时动态链接.png">
+
+<p>运行时动态链接，只有在需要该模块时，才会把该模块调入内存。比如上图一开始，只运行main函数，就把main函数的目标模块调入内存，当运行过程中，调用到了a函数，就又会把a的目标模块调入内存。没有用到b函数，就不会把b的目标模块调入内存。</p>
+<p>采用这种方式的灵活性就比较高，且资源利用率也比较高。</p>
+<h3 id="1-6-内存的基础知识小结"><a href="#1-6-内存的基础知识小结" class="headerlink" title="1.6 内存的基础知识小结"></a>1.6 内存的基础知识小结</h3><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/6648486ed9c307b7e9669695.png" alt="操作系统（三）——内存管理——内存的基础知识小结.png">
+
+<h2 id="2-内存管理的概念"><a href="#2-内存管理的概念" class="headerlink" title="2. 内存管理的概念"></a>2. 内存管理的概念</h2><p>操作系统作为系统资源的管理者，当然也要对内存进行管理，那么操作系统在管理内存时，需要做一些什么事情呢？</p>
+<p>我们知道，各种进程投入内存时，首先要把进程的相关数据放到内存当中，那么内存当中有的区域已经被分配出去了，而有的区域还是空闲的，操作系统应该怎么管理这些空闲和非空闲的区域。</p>
+<p>另外如果有一个新的进程想要投入运行，那么这个进程的相关数据需要放入内存当中，但是如果内存当中有很多个地方都可以放入这个进程的相关数据，那这个数据应该放在什么位置呢？这也是操作系统需要回答的问题。</p>
+<p>如果有一个进程运行结束了，那么这个进程之前所占有的那些内存空间应该怎么被回收呢？</p>
+<p>因此内存管理的第一件事，就是要操作系统来负责内存空间的分配与回收。</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/66484936d9c307b7e967679e.png" alt="操作系统（三）——内存管理——内存管理的功能一.png">
+
+<p>在第一章节介绍操作系统虚拟性时说过，一个游戏大小为60GB，但电脑运行内存只有4GB，那这个游戏为什么可以顺利运行呢？</p>
+<p>因此内存管理的第二件事，就是操作系统要提供某种技术从逻辑上对内存空间进行扩充（把物理上很小的内存扩充为逻辑上很大的内促）。</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/66484bf5d9c307b7e96a5433.png" alt="操作系统（三）——内存管理——内存管理的功能二.png">
+
+<p>为了方便编程，使程序员只需要关注指令、数据的逻辑地址，所以操作系统需要提供地址转换功能。</p>
+<p>内存管理的第三件事就是负责程序的逻辑地址与物理地址的转换。</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/66484c2fd9c307b7e96a9337.png" alt="操作系统（三）——内存管理——内存管理的功能三.png">
+
+<p>内存管理的第四个功能是提供内存保护。即保证各进程在各自存储空间内运行、互不干预。</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/66484d48d9c307b7e96bb8ca.png" alt="操作系统（三）——内存管理——内存管理的功能四.png">
+
+<p>这里对内存保护进行进一步介绍：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/66484dcbd9c307b7e96c4b14.png" alt="操作系统（三）——内存管理——内存保护方法一.png">
+
+<p>在内存当中，一般来说会分成操作系统使用的内存区域和普通的用户程序使用的内存区域，各个用户进程都会被分配到各自的内存空间，如上图左。</p>
+<p>此时，如果进程一想访问操作系统的内存空间是不可以的，如果进程一可以随意更改操作系统的数据，很明显会影响整个系统的安全。同理，进程一也无法访问进程二的内存空间，进程一只能访问进程一的内存空间。</p>
+<p>假设进程一的逻辑地址空间为0<del>179，物理地址空间为100</del>279。则有两种方式进行内存保护，第一种如上图右。</p>
+<p>第一种方式通过设置上、下限寄存器来存储进程在内存空间的上下限，从而实现内存保护。如果进程一的某条指令想访问某个内存单元时，CPU会根据指令当中想要访问的内存单元的地址与上下限的地址进行比较，只有在上下地址之间，才允许被访问。</p>
+<p>下面看第二种方法，采用重定位寄存器和界地址寄存器进行越界检查。如下图，重定位寄存器存放进程的起始物理地址，界地址寄存器存放进程的最大逻辑地址。</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/66484fa2d9c307b7e96e5d29.png" alt="操作系统（三）——内存管理——内存保护方法二.png">
+
+<p>上图也给出了内存保护第二种方法的例子，先与界地址寄存器相比，判断要访问存储单元的逻辑地址是否越界，没有则根据重定位寄存器算出存储单元的物理地址。</p>
+<p>最后，对本部分内容进行小结：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/66485073d9c307b7e96f5188.png" alt="操作系统（三）——内存管理——内存管理小结.png">
+
+<h2 id="3-覆盖与交换"><a href="#3-覆盖与交换" class="headerlink" title="3. 覆盖与交换"></a>3. 覆盖与交换</h2><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/66485114d9c307b7e9701e24.png" alt="操作系统（三）——内存管理——交换与覆盖知识总览.png">
+
+<p>在2. 内存管理的概念中，我们知道了内存管理的4个功能，如上图。其中地址转换我们在1. 内存的基础知识里已经说过，存储保护在2. 内存管理中也说过了，本部分看内存空间的扩充。</p>
+<p>内存空间的扩充有三种技术，如上图，虚拟存储技术是操作系统里的一个重点，会放在后面介绍。这部分先介绍覆盖与交换技术。</p>
+<p>注意，这两个技术在今年的考纲里已经删除，可以跳过不看，但我觉得可以辅助学习理解内存空间的扩充，所以还是在这里记录一下。</p>
+<h3 id="3-1-覆盖技术"><a href="#3-1-覆盖技术" class="headerlink" title="3.1 覆盖技术"></a>3.1 覆盖技术</h3><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/66485666d9c307b7e9777f97.png" alt="操作系统（三）——内存管理——覆盖技术.png">
+
+<p>覆盖技术的概念和特征如上图，接下来看一个具体的覆盖技术的例子。</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/664857f5d9c307b7e9793da6.png" alt="操作系统（三）——内存管理——覆盖技术的例子.png">
+
+<p>如果程序的调用结构如上图左，采用覆盖技术就可以进行如图右的设置，可以把包含main函数的固定模块A放到固定区里，这个固定区的大小就是A的大小为8K。由于B、C两模块不能同时被访问，也就是同一时间段内，内存要么有B要么有C，所以可以让B、C两模块共享一个覆盖区，这个覆盖区的大小为B、C两模块中的最大模块为准，也就是10K。同理D、E、F丧模块共占一个覆盖区，大小为12K。</p>
+<p>可以看到采用了覆盖技术，只需要30K的内存大小就可以让程序顺利运行。</p>
+<p>但这个技术有很明显的缺点，因为程序当中的调用结构操作系统是不知道的，所以程序的调用结构必须由程序员来显性的声明。然后操作系统会根据程序员的声明来自动完成覆盖。所以这种技术的缺点是对用户不透明，增加了用户编程负担，现在已经很少使用该技术。</p>
+<h3 id="3-2-交换技术"><a href="#3-2-交换技术" class="headerlink" title="3.2 交换技术"></a>3.2 交换技术</h3><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/66485bb7d9c307b7e97d9964.png" alt="操作系统（三）——内存管理——交换技术.png">
+
+<p>交换技术的设计思想如上图，在第二章说处理机调度时，已经说过一个和交换技术息息相关的知识点——中级调度。中级调度就是为了实现交换技术而使用的一种策略。</p>
+<p>本来在内存当中有很多进程在并发运行，如果某一时刻发现内存紧张，就可以把其中的某些进程暂时换出外存，而进程的相关PCB会保留在内存当中，并且插入到挂起队列，直到内存空间不紧张时，这些进程的相关数据才会换入内存。</p>
+<p>进程的PCB需要常驻内存的原因：进程被换出外存后，必须要通过某种方式记录下这个进程到底放在外存的什么位置，这个信息就可以记录在与之对应的PCB中，操作系统就可以根据PCB当中的记录信息对进程进行管理。所以进程的PCB需要常驻内存。</p>
+<p>中级调度也称内存调度，其实就是在交换技术当中选择一个处于外存的进程，把它换入内存的这样一个过程。</p>
+<p>这里就会有几个新的疑问，被换出的进程存放在外存的什么位置？什么时候进行交换？那些进程应该换出？对于这三个问题，下图给出了完美的解释，这里我就不再过多赘述。</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/66485c07d9c307b7e97df6ab.png" alt="操作系统（三）——内存管理——交换技术的应用.png">
+
+<h3 id="3-3-覆盖与交换小结"><a href="#3-3-覆盖与交换小结" class="headerlink" title="3.3 覆盖与交换小结"></a>3.3 覆盖与交换小结</h3><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/66485c22d9c307b7e97e1d0c.png" alt="操作系统（三）——内存管理——覆盖与交换小结.png">
+
+<h2 id="4-连续分配管理方式"><a href="#4-连续分配管理方式" class="headerlink" title="4. 连续分配管理方式"></a>4. 连续分配管理方式</h2><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/66496bc4d9c307b7e9b24b6e.png" alt="操作系统（三）——内存管理——连续分配管理方式.png">
+
+<p>前面说过了内存管理的存储保护、地址转换和内存空间的扩充，这部分看一下内存空间的分配与回收。内存空间的分配与回收主要包括连续分配管理方式和非连续分配管理方式。连续分配方式主要包括单一连续分配、固定分区分配和动态分区分配。</p>
+<p>接下来着重看一下这三种连续分配管理方式。</p>
+<h3 id="4-1-单一连续分配"><a href="#4-1-单一连续分配" class="headerlink" title="4.1 单一连续分配"></a>4.1 单一连续分配</h3><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/66496cbad9c307b7e9b394eb.png" alt="操作系统（三）——内存管理——单一连续分配.png">
+
+<p>单一连续分配的工作方式如上图，由于在单一连续分配里，内存中只能有一道用户程序，所以这种分配方式的优点是无外部碎片，但缺点是有内部碎片。</p>
+<p>这里补充一下外部碎片与内部碎片的概念：</p>
+<p>外部碎片：还没有被分配出去，但由于太小无法分配给新进程的内存空闲区域，处于已分配区域或页面外部的空闲存储块。</p>
+<p>内部碎片：已经被分配出去但不能被利用的内存空间，处于区域内部或页面内部的存储块。</p>
+<h3 id="4-2-固定分区分配"><a href="#4-2-固定分区分配" class="headerlink" title="4.2 固定分区分配"></a>4.2 固定分区分配</h3><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/66497a26d9c307b7e9c53d97.png" alt="操作系统（三）——内存管理——固定分区分配.png">
+
+<p>固定分区分配就是将整个用户空间划分为若干个固定大小的分区，在每一个分区里只装入一道作业。</p>
+<p>固定分区分配可以分为两种，一种是分区大小相等，另一种是分区大小不等。</p>
+<p>如果采用大小相等策略，系统会把整片用户区分割为若干个固定大小并且大小相等的区域。这种策略缺乏灵活性，可能一个很小的进程就会占用一个很大的空间，也可能会有一个很大的进程所需空间大于分区的空间，从而导致大进程无法装入系统。当然这种策略也有自己的适用范围，比如在工厂里对多个相同控制对象进行控制时，程序大小都一样，就可以采用这种方式实现控制。</p>
+<p>如果采用大小不相等策略，系统会把整片用户区分割为若干个固定大小但大小不相等的区域。这种策略灵活性会有所增加，可以根据常在系统中运行的作业大小情况进行划分空间，这样小的进程会分给小的分区，大的进程会分给大的分区。</p>
+<p>接下来考虑下一个问题，操作系统如何记录内存当中各个分区的空闲或分配情况？</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/66497a57d9c307b7e9c5877c.png" alt="操作系统（三）——内存管理——固定分区分配1.png">
+
+<p>操作系统会建立一个分区说明表的结构，用来记录内存当中各个分区的空闲或分配情况。如上图，如果操作系统的内存结构如上图右，则可以建立一个如上图左的分区说明表，每个表项对应其中一个分区，表中包含对应分区的大小，起始地址和分配状态。</p>
+<p>如果一个程序想转入内存，操作系统就会根据程序大小检索分区说明表，从中找到一个能满足大小的，未分配的分区，将之分配给该程序，然后修改状态为“已分配”。</p>
+<p>这种分区分配方式也不会产生外部碎片，但仍然会存在产生内部碎片的问题。</p>
+<h3 id="4-3-动态分区分配"><a href="#4-3-动态分区分配" class="headerlink" title="4.3 动态分区分配"></a>4.3 动态分区分配</h3><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/664984c9d9c307b7e9d13eb7.png" alt="操作系统（三）——内存管理——动态分区分配概念.png">
+
+<p>动态分区分配与前面两种不同，这种分配管理方式是在进程装入内存时，根据进程的大小动态地建立分区，并使分区大小正好适合进程的需要，因此在动态分区分配里，系统分区的大小和数目是可变的。</p>
+<p>举个例子，假设计算机内存大小为64MB，系统区占8MB，用户去共56MB，进程1占用20MB，进程2占用14MB，进程3占用18MB，此时用户区还有4MB剩余，操作系统应该用什么样的数据结果来记录内存的使用情况呢？</p>
+<p>如果此时进程2运行结束，并且被移除内存，那么内存当中就会多出14MB的空间。如果此时有新进程到达，并且新进程要占用4MB空间，那这4MB的新进程是会放到进程2刚空出来的空间内，还是放到内存区里原本剩下的4MB内呢，这就是动态分区分配要面对的第二个问题，当很多个空闲分区都能满足需求时，应该选择哪个分区进行分配？</p>
+<p>假设现在进程3运行结束，并且被移除内存，那么内存当中就会多出18MB的内存，那这个18MB的分区如何进行处理，即动态分区分配的方式如何进行分区的分配与回收操作？</p>
+<p>接下来看第一个问题：操作系统应该用什么样的数据结果来记录内存的使用情况呢？</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/66497a98d9c307b7e9c5da7f.png" alt="操作系统（三）——内存管理——动态分区分配1.png">
+
+<p>上面是第一个问题的解答，一般来说操作系统会用两种数据结构来记录内存的使用情况，要么是空闲分区表，要么是空闲分区链。</p>
+<p>上图给出了，图左占用情况的两种存储结构的例子，可以看到，不论是空闲分区表还是空闲分区链，存储的都是空闲分区的信息，而已被分出去占用的空间则没有被存储。</p>
+<p>接下来看第二个问题：当很多个空闲分区都能满足需求时，应该选择哪个分区进行分配？</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/664987c5d9c307b7e9d601b2.png" alt="操作系统（三）——内存管理——动态分区分配2.png">
+
+<p>当很多个空闲分区都能满足需求时，应该选择哪个分区进行分配？这个问题的处理涉及到动态分区分配算法，至于选择哪个分区，需要根据所使用的算法来确定，而有关动态分区分配算法的知识会在接下来的5. 动态分区分配算法里详细介绍。</p>
+<p>接下来看第三个问题：如何进行分区的分配与回收操作？</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/664989bfd9c307b7e9d8dd74.png" alt="操作系统（三）——内存管理——动态分区分配3.png">
+
+<p>假设系统采用空闲分区表记录内存使用情况（空闲分区链的工作方式一样），现在要把进程5放入内存，如上图，经过某种分配算法处理以后，决定把进程5分配到第一个空闲分区，这个时候在把进程5放入内存时也要把相应的空闲分区表进行更新。</p>
+<p>上面是空闲区大小大于进程大小的情况，下面看一下空闲区大小等于进程大小的情况：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/664989bfd9c307b7e9d8dd74.png" alt="操作系统（三）——内存管理——动态分区分配3.png">
+
+<p>上面是空闲区大小等于进程大小的情况，这个时候在把进程5放入内存时也要把相应的空闲分区在空闲分区表中删除。</p>
+<p>上面两种是分配的情况，下面来看一下回收的情况：</p>
+<p>情况一：回收区的后面有一个相邻的空闲分区</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/66498a6ad9c307b7e9d9be06.png" alt="操作系统（三）——内存管理——动态分区分配回收情况1_1.png">
+
+<p>上面是回收时面对的情况一，回收区的后面有一个相邻的空闲分区，如上图左的存储情况，这时候要进程4运行结束，要回收进程4的空间，此时进程4空出的4MB空间要与后面相邻的空闲分区合并，并更新空闲分区表，如下图：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/66498aded9c307b7e9da4cde.png" alt="操作系统（三）——内存管理——动态分区分配回收情况1_2.png">
+
+<p>情况二：回收区的前面有一个相邻的空闲分区</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/66498b04d9c307b7e9da80d8.png" alt="操作系统（三）——内存管理——动态分区分配回收情况2_1.png">
+
+<p>上面是回收时面对的情况二，回收区的前面有一个相邻的空闲分区，如上图左的存储情况，这时候要进程3运行结束，要回收进程3的空间，此时进程3空出的18MB空间要与前面相邻的空闲分区合并，并更新空闲分区表，如下图：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/66498b4ad9c307b7e9dadda6.png" alt="操作系统（三）——内存管理——动态分区分配回收情况2_2.png">
+
+<p>情况三：回收区的前、后各有一个相邻的空闲分区</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/66498b66d9c307b7e9db0603.png" alt="操作系统（三）——内存管理——动态分区分配回收情况3_1.png">
+
+<p>上面是回收时面对的情况三，回收区的前、后各有一个相邻的空闲分区，如上图左的存储情况，这时候要进程3运行结束，要回收进程3的空间，此时进程3空出的18MB空间要与前、后相邻的空闲分区合并，并更新空闲分区表，如下图：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/66498bafd9c307b7e9db5f5d.png" alt="操作系统（三）——内存管理——动态分区分配回收情况3_2.png">
+
+<p>情况四：回收区的前、后没有相邻的空闲分区</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/66498bcfd9c307b7e9db8601.png" alt="操作系统（三）——内存管理——动态分区分配回收情况4_1.png">
+
+<p>上面是回收时面对的情况四，回收区的前、后没有相邻的空闲分区，如上图左的存储情况，这时候要进程2运行结束，要回收进程2的空间，此时进程2空出的14MB要更新到空闲分区表，即在空闲分区表添加一个空闲分区项，如下图：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/66498c26d9c307b7e9dbfdda.png" alt="操作系统（三）——内存管理——动态分区分配回收情况4_2.png">
+
+<p>接下来对动态分区分配进行总结：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/66498cd8d9c307b7e9dcff3e.png" alt="操作系统（三）——内存管理——动态分区分配.png">
+
+<p>动态分区分配没有内部碎片，但是会产生外部碎片，如果内存空间中的空闲空间的总和本来可以满足某些进程的要求，但由于进程需要的是一整块连续的内存空间，因此这些碎片不能满足进程的需求，这个时候为了避免空间浪费，可以通过紧凑技术来移动各个进程的空间，将所有碎片拼接起来，以满足新进程运行的需求。</p>
+<p>因为紧凑技术需要频繁移动进程的位置，所以采用动态重定位的装入方式最方便实现。</p>
+<p>另外，紧凑之后，需要把进程的起始地址给修改掉，而进程的起始地址信息一般存放在PCB里，如果采用动态重定位的装入还要把起始地址信息更新到重定位寄存器里。</p>
+<h3 id="4-4-连续分配管理方式的小结"><a href="#4-4-连续分配管理方式的小结" class="headerlink" title="4.4 连续分配管理方式的小结"></a>4.4 连续分配管理方式的小结</h3><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/66498e5ad9c307b7e9df0b3b.png" alt="操作系统（三）——内存管理——连续分配管理小结.png">
+
+<h2 id="5-动态分区分配算法"><a href="#5-动态分区分配算法" class="headerlink" title="5. 动态分区分配算法"></a>5. 动态分区分配算法</h2><p>在4.3里遗留了一个问题，就是动态分区分配算法，这部分来详细看一下。</p>
+<p>动态分区分配算法：在动态分区分配方式中，当很多个空闲分区都能满足时，应该选择哪个分区进行分配？</p>
+<p>动态分区分配算法有四种：</p>
+<ol>
+<li>首次适用算法。</li>
+<li>最佳适用算法。</li>
+<li>最坏适应算法。</li>
+<li>邻近适用算法。</li>
+</ol>
+<p>接下来分别看一下这四种算法。</p>
+<h3 id="5-1-首次适用算法"><a href="#5-1-首次适用算法" class="headerlink" title="5.1 首次适用算法"></a>5.1 首次适用算法</h3><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/664997dfd9c307b7e9ebb6ea.png" alt="操作系统（三）——内存管理——首次适用算法.png">
+
+<p>首次适用算法思想就是从低地址开始查找，找到第一个能满足大小的空闲分区。然后将进程放到第一个满足需求的分区。</p>
+<p>在首次适用算法里，<strong>空闲分区以地址递增的次序排列</strong>，每次分配内存时顺序查找空闲分区链（或空闲分区表），找到大小能满足要求的第一个空闲分区。</p>
+<p>如上图的空闲分区，假设使用空闲分区链存储，现在有一个需要15MB的进程要放入分区，通过查找空闲分区链发现第一个空闲分区就满足要求，这时就会将进程放到第一个空闲分区里，并更新空闲分区链，如下图：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/664998d3d9c307b7e9ecbef8.png" alt="操作系统（三）——内存管理——首次适用算法1.png">
+
+<p>在上面这个例子里，我们会发现，首次适用算法有一个很明显的缺点：**<font color=red>首次适用算法每次都从低地址开始查找适合分区，这样虽然会使高地址留下大空闲分区方便大作业进入，但会给低地址部分产生许多小碎片。另外，由于它每次都从低地址开始查找，而低地址在用一段时间后就全是很小的碎片，难以支持进程运行，而且碎片数量会很多，此时还从低地址查找，会产生许多不必要的开销。</font>**。</p>
+<h3 id="5-2-邻近适用算法"><a href="#5-2-邻近适用算法" class="headerlink" title="5.2 邻近适用算法"></a>5.2 邻近适用算法</h3><p>为了解决首次适用算法存在的问题，人们又提出了邻近适用算法。</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/66499f29d9c307b7e9f586c5.png" alt="操作系统（三）——内存管理——邻近适用算法1.png">
+
+<p>在邻近适用算法里，<strong>空闲分区以地址递增的次序排列</strong>，每次分配内存时<font color=red><strong>从上次查找结束的位置开始</strong></font>查找空闲分区链（或空闲分区表），找到大小能满足要求的第一个空闲分区。</p>
+<p>可以用上图的循环空闲分区链存储空闲分区信息，现在若有一个5MB的进程5想要进入空闲分区，刚开始会从链头开始查找，查找到第二个分区有6MB，满足要求，就会将5MB放入6MB的分区，此时该分区还剩1MB，要更新分区信息。下次若还有进程进入，就会从第二个分区，即当前分区开始往后找，而不是从链头开始。如下图：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/6649a0b1d9c307b7e9f7c0b3.png" alt="操作系统（三）——内存管理——邻近适用算法2.png">
+
+<p><strong><font color=red>邻近适用算法每次都从上一次查找到分区开始往后查找，这就导致无论地址高低，每个空闲分区都有相同概率被使用，这也就导致，高地址的大分区更可能被使用划分为小分区，最后导致无大分区可用的问题。</font></strong></p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/6649a0d5d9c307b7e9f7e96a.png" alt="操作系统（三）——内存管理——邻近适用算法的缺点.png">
+
+<h3 id="5-3-最佳适用算法"><a href="#5-3-最佳适用算法" class="headerlink" title="5.3 最佳适用算法"></a>5.3 最佳适用算法</h3><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/6649992ed9c307b7e9ed1acf.png" alt="操作系统（三）——内存管理——最佳适用算法1.png">
+
+<p>最佳适用算法<strong>将空闲分区按容量递增次序链接</strong>，每次分配内存是顺序查找空闲分区链，找到大小能满足要求的第一个空闲分区。这种算法可以让每次给进程分配的空间都是当前空闲区里最适合该进程的空间（即大小能满足，且是能满足里的最小分区）。</p>
+<p>上图左下给出了一个内存空间占用情况的例子，其对应的存储结构描述在右边，假设使用空闲分区链存储，现在有一个需要9MB的进程要放入分区，通过查找空闲分区链发现第二个空闲分区满足要求，这时就会将进程放到第二个空闲分区里，并更新空闲分区链，由于此时空闲区2只剩下1MB，小于空闲分区1，所以此时还要将空闲分区链重新排序，如下图：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/66499aa2d9c307b7e9eebe9b.png" alt="操作系统（三）——内存管理——最佳适用算法2.png">
+
+<p>在上面这个例子里，我们会发现，最佳适用算法有一个很明显的缺点：**<font color=red>每次都选最小的分区进行分配，会留下越来越多的、很小的、难以利用的内存块，因此这种方法会产生很多的外部碎片</font>**。</p>
+<h3 id="5-4-最坏适用算法"><a href="#5-4-最坏适用算法" class="headerlink" title="5.4 最坏适用算法"></a>5.4 最坏适用算法</h3><p>为了解决最佳适用算法存在的问题，人们又提出了最坏适用算法。</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/66499d0ed9c307b7e9f28342.png" alt="操作系统（三）——内存管理——最坏适用算法1.png">
+
+<p>最坏适用算法<strong>将空闲分区按容量递减次序链接</strong>，每次分配内存是顺序查找空闲分区链，找到大小能满足要求的第一个空闲分区。</p>
+<p>依然举个例子，上图左下给出了一个内存空间占用情况的例子，其对应的存储结构描述在右边，假设使用空闲分区链存储，现在新进入进程5需要3MB，就会放到第一个分区，此时要更新空闲分区链，第一个空闲分区留下17MB。紧接着进程6需要9MB，也会放到第一个分区，此时要更新空闲分区链，第一个空闲分区留下8MB，此时要更新空闲分区链，但8MB已经不是最大剩余空间，所以要将空闲分区链重新排序，如下图：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/66499e23d9c307b7e9f4014f.png" alt="操作系统（三）——内存管理——最坏适用算法2.png">
+
+<p>**<font color=red>最坏适用算法确实解决了最佳适用算法留下太多难以利用的碎片的问题，但也产生了新的问题，由于每次都选择最大的分区进行分配，这就导致大分区会不断被分为一个一个小分区，之后如果有一个大进程到达，就没有连续大分区可用</font>**。</p>
+<h3 id="5-5-四种分配算法总结比较"><a href="#5-5-四种分配算法总结比较" class="headerlink" title="5.5 四种分配算法总结比较"></a>5.5 四种分配算法总结比较</h3><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/6649a1bbd9c307b7e9f910d9.png" alt="操作系统（三）——内存管理——分配算法小结.png">
+
+<p><strong><font color=red>综合来看，四种算法中，首次适用算法的效果反而更好。</font></strong></p>
+<h2 id="6-基本分页存储管理"><a href="#6-基本分页存储管理" class="headerlink" title="6. 基本分页存储管理"></a>6. 基本分页存储管理</h2><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/6649a29fd9c307b7e9fa19c2.png" alt="操作系统（三）——内存管理——非连续分配管理.png">
+
+<p>到这里，对于文件管理的概念，还有非连续分配管理方式没有说，非连续分配管理方式有三种，分别是基本分页存储管理、基本分段存储管理、段页式存储管理。</p>
+<p>这部分先重点看一下基本分页存储管理。</p>
+<h3 id="6-1-基本分页存储管理概念"><a href="#6-1-基本分页存储管理概念" class="headerlink" title="6.1 基本分页存储管理概念"></a>6.1 基本分页存储管理概念</h3><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/6649a47ed9c307b7e9fd667c.png" alt="操作系统（三）——内存管理——什么是分页存储.png">
+
+<p>上图给出了什么是分页存储的概念，这里讲的很清楚，我就不再赘述了，接下来看一个问题，进程的页面与内存的页框有一一对应的关系，那操作系统是怎么记录这种一一对应的关系的呢？这就涉及到一个很重要的数据结构叫页表。</p>
+<p>接下来看一下什么是页表：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/6649a659d9c307b7e9ffe957.png" alt="操作系统（三）——内存管理——什么是页表.png">
+
+<p>为了能知道进程的每个页面在内存中存放的位置，操作系统要为每个进程建立一张页表。页表通常放在进程的PCB中。</p>
+<p>一个进程对应一张页表，进程中的每个页面对应一个页表项，页表项由页号和块号组成，如上图，其中页号对应进程中的页号，块号对应内存中的页框号。每个页表项里的一组页号和块号则表示着进程页号与内存块号的映射关系。另外注意，每个页表项的长度是相等的。</p>
+<p>现在要思考这么几个问题，每个页表项多大？占几个字节？如何通过页表实现逻辑地址到物理地址的转换？</p>
+<p>先看问题一，每个页表项占多少字节。</p>
+<p>要知道页表项占多少字节，我们得知道页号和块号的长度。这里以一个例子来看一下如何求页表项。假设某系统物理内存大小为4GB，页面大小为4KB，则每个页表项至少应该为多少字节？</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/6649a7e9d9c307b7e9019401.png" alt="操作系统（三）——内存管理——块号长度.png">
+
+<p>先求块号，如上图，根据内存块大小&#x3D;页面大小，可以知道内存块大小为4KB，由于内存一个有4GB，所以可以分成2<sup>20</sup>个内存块。所以至少需要3B来表示块号。</p>
+<p>接下来再看一下，页号要占多少字节：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/6649a8ead9c307b7e9028e1b.png" alt="操作系统（三）——内存管理——页号长度.png">
+
+<p>由于页表项是连续存放的，因此页号可以是隐含的，不占存储空间。那如果假设页表中的各项页表项从内存地址为X的地方开始连续存放，如何找到页号为i的页表项呢？</p>
+<p>根据前面所求，我们知道块号为3B，页号不占存储空间，所以页表项的大小为3B，由于页表项连续存放，所以要想找到i号页面对应的页表项可以通过x+3*i得到i号页表项的存放地址。</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/6649a9ebd9c307b7e903bbba.png" alt="操作系统（三）——内存管理——块号对应地址.png">
+
+<p>对于该例，每个页表也占3B，如果进程有n页，由于是从0页开始，所以存储整个页表至少需要3*(n+1)B。</p>
+<p>另外，需要注意，块号对应的只是内存块号，而不是内存块的起始地址，要想求得起始地址，还要用块号乘内存块大小才能求得。</p>
+<p>接下来看第二个问题，如何通过页表实现逻辑地址到物理地址的转换？</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/6649aaead9c307b7e904dc77.png" alt="操作系统（三）——内存管理——非连续存储地址转换.png">
+
+<p>由于分页存储管理是非连续存储，所以我们不能按照连续存储的方式进行地址转换。但是，不难发现，虽然进程的各个页面是离散存放的，但是页面内部是连续存放的，所以我们可以按照上图的步骤，找到逻辑地址对应的页号，然后根据页表再找到在内存中的起始地址，最后只要确定该逻辑地址的页内偏移量，就可以确定对应的物理地址。</p>
+<p>这里查页表的过程我们已经知道了，现在还要考虑如何获得逻辑地址对应的页号，以及逻辑地址的页内偏移量。下面以一个例子来理解。</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/6649ac79d9c307b7e90680b8.png" alt="操作系统（三）——内存管理——逻辑地址转换例子.png">
+
+<p>通过上面的例子，可以总结出页号&#x3D;逻辑地址&#x2F;页面长度，页内偏移量&#x3D;逻辑地址%页面长度。注意，这里的页号要取整数，除不尽的部分就是余数，余数就是页内偏移量。</p>
+<p>得到了页号和页内偏移量，就可以找到逻辑地址在内存中的物理地址。</p>
+<p>上面的例子里页面大小是50B，但其实在现实生活中，计算机内部是用二进制来表示的，如果页面大小刚好是2的整数倍，则计算机硬件可以很快速的把逻辑地址拆分成页号、页内偏移量，如下图：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/6649af09d9c307b7e9091fc6.png" alt="操作系统（三）——内存管理——二进制拆分.png">
+
+<p>经过上面的举例，可以总结处如果每个页面大小为2<sup>k</sup>B，则用二进制数表示逻辑地址，则末尾k位即为页内偏移量，其余部分就是页号。这里牵扯到无符号数左移右移的知识，理解不了的可以记忆。</p>
+<p>除了这个好处，使用二进制还有下面的好处：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/6649afe2d9c307b7e90a061b.png" alt="操作系统（三）——内存管理——二进制拆分2.png">
+
+<p>根据上图的例子，可以发现如果页面大小刚好是2的整数幂，则只需把页表中记录的物理块号拼接上页内偏移量就能得到对应的物理地址。</p>
+<p>经过这样的两个例子，可以总结一下页面大小取2的整数幂的好处，如下图：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/6649b037d9c307b7e90a5b03.png" alt="操作系统（三）——内存管理——二进制拆分总结.png">
+
+<p>如果页面大小是2的整数幂，则可以把逻辑地址分为如下图的两个部分：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/6649b0d5d9c307b7e90b0386.png" alt="操作系统（三）——内存管理——逻辑地址结构.png">
+
+<p>根据上图的逻辑地址结构，可以轻而易举的得到页号和页内偏移量，但如果页面大小不是2的整数次幂，则还是要采用最原始的方法计算。</p>
+<p>下面这部分进行一个小结：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/6649b19cd9c307b7e90d1e36.png" alt="操作系统（三）——内存管理——基本分页存储管理概念小结.png">
+
+<h3 id="6-2-基本地址变换机构"><a href="#6-2-基本地址变换机构" class="headerlink" title="6.2 基本地址变换机构"></a>6.2 基本地址变换机构</h3><p>这部分介绍一下基本分页存储管理的基本地址变换机构（用于实现逻辑地址到物理地址转换的一组硬件机构）。</p>
+<p>该部分内容是重点，需要着重掌握基本地址变换机构的工作原理与流程。</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/664b49b9d9c307b7e92c2b9b.png" alt="操作系统（三）——内存管理——基本地址变换机构.png">
+
+<p>基本地址变换机构可以借助进程的页表将逻辑地址转换为物理地址，通常会在系统重设置一个页表寄存器(PTR)，存放页表在内存中的起始地址F和页表长度M。进程未执行时，页表的始址和页表长度放在进程控制块（PCB）中，当进程被调度时，操作系统内核会把它们放到页表寄存器中。</p>
+<p>接下来看一下逻辑地址转换为物理地址的流程：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/664b4b10d9c307b7e9309ecd.png" alt="操作系统（三）——内存管理——逻辑地址转换为物理地址的流程.png">
+
+<p>操作系统会把内存分为系统区和用户区，在系统区当中会存放着一些操作系统对整个计算机软硬件进行管理的一些相关的数据结构，包括进程控制块PCB也是存放在系统区当中的。如果一个进程被调度上处理机运行，进程切换相关的内核程序就会把这个进程的运行环境给恢复。这些进程运行环境相关的信息本来是保存在PCB当中的，当调度上处理机运行以后，内核程序会把这些信息放到相应的一些列寄存器当中，其中就包括页表寄存器的存放信息。</p>
+<p>页表寄存器当中存放着进程的页表起始地址和页表的长度。PC会指向这个进程下一条需要执行的指令的逻辑地址，而这个逻辑地址转换为物理地址的过程就如上图演示。</p>
+<p>除了上图的流程演示，也可以参考下图的文字描述：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/664b4d2bd9c307b7e935814b.png" alt="操作系统（三）——内存管理——逻辑地址转换为物理地址的描述.png">
+
+<p>上面给出的逻辑地址转换为物理地址是通用的转换方法。如果内存块号、页面偏移量是用二进制表示的，那么可以直接把二者拼起来，这样可以更快得到物理地址。</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/664b4dd6d9c307b7e9382f4f.png" alt="操作系统（三）——内存管理——逻辑地址转换为物理地址的例题.png">
+
+<p>在分页存储管理（页式管理）的系统中，只要确定了每个页面的大小，逻辑地址结构就确定了。因此，**<font color=red>页式管理中地址是一维的</font>**。即，只要给出一个逻辑地址，系统就可以自动地算出页号、页内偏移量两个部分，并不需要显式地告诉系统这个逻辑地址中，页内偏移量占多少位。</p>
+<p>前面了解过，每个页表项长度相同，页号是隐含的。所以，可以参考下图的例子，对6.1里提过的页表项大小问题进行进一步探讨：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/664b5124d9c307b7e944fba2.png" alt="操作系统（三）——内存管理——页表大小进一步探索.png">
+
+<p>从上图的例子里可以看到，一个页面为4KB，每个页表项3B，一个页框可以存储1365个页表项（0号~1364号），但是会剩下1B的页内碎片，这1B的空间不足以再次存储页表项，所以1365号页表项会放到下一个页框里。</p>
+<p>在实际应用中，为了使空间充分利用以及方便查询页表等操作，即使每个页表项只占3B，也会让其占用4B，这样每个页框刚好可以存储，物理地址的计算也更加方便。</p>
+<p>如果考试时题目遇到像上图的例子，但问题是最少要多个页框存储页表，则还是按照3B去计算，但也要清楚实际应用上可能会采用4B。总而言之，考试时求得什么样的数据，就用什么样的数据，根据题目做就好，应试考试，不用考虑实际的应用。</p>
+<p>下面对该部分内容进行一个小结：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/664b548ad9c307b7e94f27f4.png" alt="操作系统（三）——内存管理——基本地址变换机构小结.png">
+
+<p>这里再补充一个很重要的知识点，在CPU得到一个想要访问的逻辑地址之后，一直到实际访问这个逻辑地址对应的内存单元的整个过程当中，总共需要进行两次访问内存的操作。第一次访问是在查询页表的时候，第二次访问是在实际访问目标内存单元的时候。</p>
+<h3 id="6-3-具有快表的地址变换机构"><a href="#6-3-具有快表的地址变换机构" class="headerlink" title="6.3 具有快表的地址变换机构"></a>6.3 具有快表的地址变换机构</h3><p>基本地址变换机构的基础上引入快表，可以加快地址的变换过程，这部分内容和计组存储系统里的虚拟存储器内容一样，但计组里只是简单介绍了一下，重点还是在操作系统里讲解。不过可以去计组里先了解一下，这样可以更好的辅助操作系统的该部分内容学习。这里给个计组的跳转链接：<a href="./%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86%EF%BC%88%E4%B8%89%EF%BC%89%E2%80%94%E2%80%94%E5%AD%98%E5%82%A8%E7%B3%BB%E7%BB%9F.md">计算机组成原理（三）——存储系统</a></p>
+<p>接下来首先看一下什么是快表：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/664b5666d9c307b7e9564445.png" alt="操作系统（三）——内存管理——什么是快表.png">
+
+<p>快表是一种访问速度比内存快很多的高速缓存，用来存放最近访问的页表项的副本，要记住，快表不是内存。</p>
+<p>在6.2里，我们说在CPU得到一个想要访问的逻辑地址之后，一直到实际访问这个逻辑地址对应的内存单元的整个过程当中，总共需要进行两次访问内存的操作。但如果添加了快表，CPU可以在快表里找到逻辑地址的对应页表项副本，则只需要进行一次访存就可以，所以快表可以加速地址变换的速度。</p>
+<p>现在思考一下，能否把整个页表都放在快表里？答案是显然不行的，快表作为高速缓存，其增加了访问速度的同时，也变得更加昂贵，为了保证成本，一般快表的存储容量很小，所以不能把整个页表都放在快表里。</p>
+<p>接下来看一下具有快表的地址变换机构的逻辑地址转换为物理地址的流程：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/664b5855d9c307b7e95d45ed.png" alt="操作系统（三）——内存管理——具有快表的逻辑地址转换为物理地址的流程.png">
+
+<p>假设某进行执行过程中要依次访问（0,0）和（0,4）这两个逻辑地址。在访问（0,0）时，快表里没有存储数据，所以快表查询不到，还是要去页表里查询，当查询到对应的页表项以后，会计算对应的物理地址，同时也会把该页表项的副本保存到快表里。当第二个逻辑地址（0,4）执行时，由于页号0对应的页表项经过上一个逻辑地址（0,0）的查找，已经被保存到快表里，所以（0,4）逻辑地址可以直接在快表里命中页号0对应的页表项，此时不需要访问内存查询页表可以直接计算得到物理地址，工作流程的演示可以参考上图，文字描述可以参考下图。</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/664b5a11d9c307b7e9627ab8.png" alt="操作系统（三）——内存管理——具有快表的逻辑地址转换为物理地址的描述.png">
+
+<p>注意这里的一点，由于局部性原理，一般来说快表的命中率可以达到90%之上。这里的局部性原理如果学过计组可以轻松理解，没学过也可以去看下面的解释。在解释局部性原理之前，先看一个快表加快访问速度的例子：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/664b5aa5d9c307b7e9645b82.png" alt="操作系统（三）——内存管理——具有快表的逻辑地址转换为物理地址的例子.png">
+
+<p>注意，有的系统支持快表和慢表同时查找，但也有的系统不支持，考试时要具体问题具体分析。</p>
+<p>接下来看一下局部性原理：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/664b5b2cd9c307b7e966f982.png" alt="操作系统（三）——内存管理——局部性原理.png">
+
+<p>上图已经明确给出了局部性原理的介绍，这里再说的简单一点，所谓局部性原理就是指当前访问的数据，短期内可能会频繁的被访问，且由于程序尽可能连续存储的特性，当前访问数据的周围数据也有可能会被访问。</p>
+<p>下面看一下这部分小结：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/664b5c16d9c307b7e96ab9b1.png" alt="操作系统（三）——内存管理——具有快表的基本地址变换机构小结.png">
+
+<p>这里也补充一点，快表和cache并不一样，两者存在一定差别，快表中只有页表项的副本，而cache中可能会有其他各种数据的副本。</p>
+<h3 id="6-4-两级页表"><a href="#6-4-两级页表" class="headerlink" title="6.4 两级页表"></a>6.4 两级页表</h3><p>先看一下单级页表的问题：</p>
+<p>通过下图给出的例子，可以总结出问题一：想要根据页号查询页表，则页表必须连续存放，因此当页表很大时，需要占用很多个连续的页框。</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/664b5d14d9c307b7e96d7df9.png" alt="操作系统（三）——内存管理——单级页表问题一.png">
+
+<p>同样是根据上图的例子，再结合局部性原理可以得到问题二：根据局部性原理可知，很多时候，进程在一段时间内只需要访问某几个页面就可以正常运行了。因此没有必要让整个页表都常驻内存。</p>
+<p>面对单级页表的这两个问题，我们需要思考一下，如何解决单级页表连续存储的问题？</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/664b5e08d9c307b7e9719578.png" alt="操作系统（三）——内存管理——二级页表.png">
+
+<p>结合我们引入单级页表的原因，我们可以将一个单级页表分组，结合我们前面引出问题的例子，可以根据一个内存块里所能存储的页表项的个数，来进行页表分组，比如一个内存块里所能存储的页表项的个数为n，则可以将页表中n个页表项分为一组。然后我们可以离散的将这些分组装入内存块。</p>
+<p>另外，为了能找到对应分组在内存块里的地址，还要再建立一张页表，称为页目录表，用来指示映射原页表的分组在内存块里的存储地址。</p>
+<p>下面结合图像进一步理解：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/664b62d9d9c307b7e9838992.png" alt="操作系统（三）——内存管理——页表分组.png">
+
+<p>如上图，对于一个页表过大时，我们可以根据页面大小将页表分为多个组别。如上图左，一个页面可以存储1024个页表项，就可以将1024个页表项划为一组，这样一个有1048575个页表项的页表，就可以分为1024个有1024个页表项的分组。另外注意一点，被拆分以后，每个分组的页表项的编号都是从0开始的，比如原页表里的1024页表项，被拆分到第二个分组里，成了第二个分组的起始页表项，页号就变成了0。</p>
+<p>在把一个大页表拆分为多个小页表以后，就可以将这些小页表放入到内存块中。为了记录这些小页表的相对顺序，还有他们在内存当中存放的内存块号，就需要为这些小页表，建立再上一级的页表，这一级页表就是页目录表。相应的，这些小页表就称之为二级页表。拆分以后的结构如下图：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/664b6591d9c307b7e98fc289.png" alt="操作系统（三）——内存管理——页表分组得二级页表.png">
+
+<p>从上图中可以很直观的看到，页目录表建立了二级页表的页号与二级页表在内存当中存放的块号的映射关系。</p>
+<p>如果此时想找到0号页表，可以通过页目录表知道0号页表存放在3号内存块里。</p>
+<p>由于采用了两级页表结构，逻辑地址结构也要发生对应的变化。我们可以把以前的20位页号拆分为两个部分，第一部分是10位的二进制用来表示一级页号（即页表号），第二个部分也是10位的二进制用来表示二级页号（即二级页表内的页号）。10位二进制刚好可以表示0~1023的范围。</p>
+<p>接下来结合一个例子看一下怎么实现地址变换：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/664b67add9c307b7e9970bab.png" alt="操作系统（三）——内存管理——二级页表的地址变换.png">
+
+<p>上图给出了一个逻辑地址转换为物理地址的例子，我们可以通过一级页号知道要找0号页表，并通过查询一级页表（一级页表的位置会通过页表寄存器得到）找到0号页表在内存里的存放位置。然后根据二级页号知道要查找0号页表里的1号页表项，通过查询二级页表可以得到0号页表里的1号页表项的起始物理地址，然后加上页内偏移量就可以得到实际的物理地址。这就是逻辑地址转换为物理地址的过程。</p>
+<p>经过之前的分析，解决了单级页表的第一个问题，接下来看单级页表的第二个问题：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/664b691ad9c307b7e99d3fbf.png" alt="操作系统（三）——内存管理——单级页表第二个问题处理.png">
+
+<p>对于第二个问题，可以通过在页表里添加标志位来判断该页面是否已经调入内存。在需要访问页面时，才把页面调入内存（虚拟存储技术）。由于想访问的页面不在内存中，所以要会有缺页中断，即先停止访问，然后把目标页面调入内存，再允许继续访问。</p>
+<p>注：这部分牵扯到虚拟存储的知识，可以结合计组先理解一下，更为详细的介绍可以翻到下面看虚拟存储部分。</p>
+<p>接下来强调几个需要注意的细节，如下图：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/664b6a4dd9c307b7e9a440c2.png" alt="操作系统（三）——内存管理——两级页表细节注意.png">
+
+<p>上图强调了两个需要注意的细节，但这里还要补充一点，假设没有快表，单级页表访问逻辑地址需要进行两次访存，而两级页表需要三次，所以两级页表虽然解决了单级页表的问题，但是这种内存空间利用率上升所付出的代价是多了一次访存，这就导致访问逻辑地址需要花费更多的时间。</p>
+<p>另外，这里可以总结一下，如果没有快表机构，对于n级页表访问逻辑地址时需要进行n+1次访存。</p>
+<p>最后，对两级页表做个小结：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/664b6aa3d9c307b7e9a700dd.png" alt="操作系统（三）——内存管理——两级页表小结.png">
+
+<h2 id="7-基本分段存储"><a href="#7-基本分段存储" class="headerlink" title="7. 基本分段存储"></a>7. 基本分段存储</h2><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/664c989ed9c307b7e9a3ca8b.png" alt="操作系统（三）——内存管理——什么是分段.png">
+
+<p>分段就是按照程序自身的逻辑关系划分为若干个段，每个段都有一个段名，每段从0开始编址。</p>
+<p>由于在分段存储中，是按照逻辑功能进行模块划分，所以用户编程更方便，程序的可读性高。</p>
+<p>另外用户在编程时是使用各个段名来操纵各个段，但CPU具体执行时，使用的是段号。编译程序会把段名转换为段号。</p>
+<p>注意：分段与分页最大的区别是离散分配时所分配的地址空间的基本单位不同。</p>
+<p>采用分段机制之后，逻辑地址结构就由段号和段内地址组成，如下图：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/664c9c1fd9c307b7e9aaf6cc.png" alt="操作系统（三）——内存管理——分段.png">
+
+<p>上图给出了一个分段逻辑地址的例子，在这个例子里，段内地址占16位，段号也占16位。这里需要牢记一点，段号的位数决定了每个进程最多可以分几个段，段内地址位数决定了每个段的最大长度是多少。</p>
+<p>另外如上图下，写程序时使用的段名会被编译成对应段号，助记符A单元和B单元会被编译成段内地址。</p>
+<p><strong>程序被分为多个段，各段离散地装入内存，为了保证程序能正常运行，就必须能从物理内存中找到各个逻辑段的存放位置。为此，需为每个进程建立一张段映射表，简称“段表”。</strong>段表的使用如下图：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/664c9ebcd9c307b7e9ae5a72.png" alt="操作系统（三）——内存管理——段表.png">
+
+<p>段表的作用与页表一样，但不同的是由于分段的长度不确定，所以段表里会添加一列段长字段，用来记录各个段长是多少。</p>
+<p>另外，由于各个段表项的长度是相同的，所以段表也可以像页表一样，将段号隐含。若段表的存放起始地址为M，则K号段对应的段表项的存放地址为M+K*段表项的长度。</p>
+<p>这里要注意一点，段表项的长度由段长字段的长度加上基址字段长度组成。段表项的长度求法可以参考上图第二点给出的例子。</p>
+<p>接下来看一下分段存储的地址变换过程：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/664ca0c8d9c307b7e9b13750.png" alt="操作系统（三）——内存管理——段表地址变换.png">
+
+<p>如上图的汇编语言写的指令，经过编译以后，会形成等价的机器指令。假设编译后的机器指令中的逻辑地址的二进制表示也如图上下所示，现在看一下如何将其从逻辑地址变换为物理地址。</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/664ca208d9c307b7e9b3079f.png" alt="操作系统（三）——内存管理——段表地址变换过程.png">
+
+<p>上图给出了分段存储的逻辑地址转换为物理地址的过程。同分页存储一样，进程切换相关的内核程序会根据PCB内信息恢复进程运行环境，其中就包括段表寄存器，系统可以根据段表寄存器得到段表在内存的位置以及段表的长度。然后系统访问进程的过程中，就不可避免的要访问一些逻辑地址，此时系统就要结合逻辑地址与段表将逻辑地址转换为物理地址，转换过程可以参考上图。有了前面基本分页存储变换的基础，这里可以很容易理解上图，我就不再过多赘述这个过程。</p>
+<p>接下来看一下分段与分页的对比：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/664ca3e8d9c307b7e9b5d695.png" alt="操作系统（三）——内存管理——分段分页管理对比.png">
+
+<p>页是信息的物理单位，在分页时只考虑各个页面的大小，另外分页对用户是不可见的，也就是说用户并不知道自己的进程被分为了几页，甚至不知道自己的进程有没有被分页。</p>
+<p>段时信息的逻辑单位，在分段时要考虑信息的逻辑关系，另外分段对用户是可见的，用户编程时要显示的给出段名，所以用户知道自己的程序会被分段，甚至知道会被分为几个段，每个段的段名是多少。</p>
+<p>再补充一点，页的大小是固定的且由系统决定。段的长度却不固定，决定于用户编写的程序。</p>
+<p>分页的用户进程地址空间是一维的，程序员只需给出一个记忆符即可表示一个地址，如上图左下。</p>
+<p>分段的用户进程地址空间是二维的，程序员在标识一个地址时，既要给出段名，也要给出段内地址，如上图右下。</p>
+<p>在分页管理系统当中，在用户看来，自己的地址空间是连续的。但在分段管理系统当中，用户也知道自己的进程地址空间是被分为一个一个段，并且每个段会占据一连串的地址空间。</p>
+<p>除了前面所说，分段相比于分页来说，最大的一个优点是分段更容易实现信息的共享和保护，如下图：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/664ca432d9c307b7e9b64db3.png" alt="操作系统（三）——内存管理——分段分页管理对比1.png">
+
+<p>假设一个生产进程总共16KB，那么可能会被分成如图的三个段，1号段用来实现判断缓冲区是否可访问的功能。除了这个生产者进程外，其他的生产者、消费者进程也需要进行判断缓冲区是否可访问的功能。因此1号段的代码应该运行生产者和消费者进程共享访问。</p>
+<p>那如何实现共享访问呢？假设生产者进程有一个段表，如上图所示，它的1号段存放在内存的120K地址开始处，消费者进程要想共享的使用1号段，可以让消费者的某个段表项同样指向120K处。所以要想实现共享，只需要让各进程的段表项指向同一个段即可。</p>
+<p>这里要注意一点，只有纯代码才可能共享的被访问，可修改的代码是不能被共享的。</p>
+<p>接下来看一下，为什么分页当中不方便实现信息的共享，如下图：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/664ca459d9c307b7e9b688bf.png" alt="操作系统（三）——内存管理——分段分页管理对比2.png">
+
+<p>还是前面的生产者进程，如果进行分页，分页结果如上图，这时候就发现问题，生产者进程的分页里可能会存有两个分段的数据，如上图，第二个页面里就由3KB的橙色分段部分和1KB的绿色分段部分组成。从前面的假设里我们可以知道，这个分页里，绿色部分是可以共享的，橙色部分是不可以被共享的，所以对于分页就很难实现共享。</p>
+<p>对于信息的保护原理也很类似，在分段中1号进程可以允许被其它进程访问，所以只要把1号段标记为允许其他进程访问，其它段标记为不允许，这就很简单的实现了对各个段的保护。</p>
+<p>但如果采用分页存储管理，1、2号页只有一部分允许其他进程访问，因此很难用页表实现信息保护。</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/664ca475d9c307b7e9b6af41.png" alt="操作系统（三）——内存管理——分段分页管理对比3.png">
+
+<p>最后看一下在分页和分段访问一个逻辑地址需要几次访存。对于单级页表的分页只需要进行两次，对于分段也只需要进行两次，具体哪两次，可以看上图下的解释。</p>
+<p>与分页系统类似，分段系统中也可以引入快表机构，将近期访问过的段表项放到快表中，这样可以少一次访存，加快地址变换速度。</p>
+<p>最后对本节做个小结：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/664ca49cd9c307b7e9b6e34a.png" alt="操作系统（三）——内存管理——分段存储小结.png">
+
+<h2 id="8-段页式管理方式"><a href="#8-段页式管理方式" class="headerlink" title="8. 段页式管理方式"></a>8. 段页式管理方式</h2><p>先看一下分段和分页的优缺点：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/664cb1a2d9c307b7e9d38cd2.png" alt="操作系统（三）——内存管理——分段分页的优缺点.png">
+
+<p>这里补充一点：分段管理中产生的外部碎片也可以用“紧凑”来解决，只是需要付出较大的时间代价。</p>
+<p>基于分段管理和分页管理的优缺点，人们又提出了分段和分页两种思想的结合，于是产生了段页式管理。段页式管理就具备了分段和分页两种管理的优点。</p>
+<p>段页式管理中，一个进程会按逻辑模块分段，之后各个段还会分页，如下图：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/664cb280d9c307b7e9d906fd.png" alt="操作系统（三）——内存管理——段页式管理.png">
+
+<p>假设每个页面大小为4KB，内存空间也被分为大小相同的内存块，每个内存块大小和系统当中的页面大小是一样的，各个页面就会被存储当各个内存块当中。</p>
+<p>接下来看一下段页式管理的逻辑地址结构：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/664cb33bd9c307b7e9dde05d.png" alt="操作系统（三）——内存管理——段页式管理的逻辑地址结构.png">
+
+<p>这里需要注意一点，“分段”对用户是可见的，程序员编程时需要显式地给出段号、段内地址。而将各段“分页”对用户是不可见的。系统会根据段内地址自动划分页号和页内偏移量。</p>
+<p>因此，段页式管理的地址结构也是二维的。</p>
+<p>与前面讲的分段与分页思想相同，对进程进行分段再分页以后，也需要记录各个段和各个页面的存放位置，如下图：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/664cb424d9c307b7e9e29ebb.png" alt="操作系统（三）——内存管理——段表页表.png">
+
+<p>系统会为进程建立一个段表，进程里的每个段对应一个段表项，每个段表项由段号、页表长度、页表存放块号(页表起始地址）组成。每个段表项长度相等，段号是隐含的。</p>
+<p>由于每个内存块大小是固定的，所以只要知道页表存放的物理块号，就可以知道页表存放的实际物理起始地址。比如要查找0号段对应的页表，根据段表，就可以知道0号段对应的页表存放在内存为1号块的地方。</p>
+<p>由于0号段长度为7KB，而每个页面大小为4KB，所以它会被分成两个页面，这两个页面就会依次对应页表当中的一个页表项。每个页表项记录了每个页面存放的内存块号到底是多少。</p>
+<p>从这部分介绍就可以看到，段页式存储中，段表的结构与分段存储的段表不太一样，但页表与分页存储的页表基本一致。</p>
+<p>另外，对于段页式存储的段表、页表的段号和页号也是可以隐藏的。</p>
+<p>接下来看一下，对于段页式存储如何实现逻辑地址与物理地址的转换：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/664cb467d9c307b7e9e2f104.png" alt="操作系统（三）——内存管理——段页式存储地址变换.png">
+
+<p>段页式存储如何实现逻辑地址与物理地址的转换如上图，这里转换过程看图即可。除了转换过程，还要注意访存的次数以及位置，可以根据上图理解。</p>
+<p>当然也可以引入快表，用段号和页号作为快表的查询关键字，这样就只需要一次访存。</p>
+<p>最后对这部分进行小结：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/664cb49cd9c307b7e9e3392d.png" alt="操作系统（三）——内存管理——段页式存储小结.png">
+
+<h2 id="9-虚拟存储"><a href="#9-虚拟存储" class="headerlink" title="9. 虚拟存储"></a>9. 虚拟存储</h2><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/664d48fad9c307b7e95fc2e2.png" alt="操作系统（三）——内存管理——知识总览.png">
+
+<p>上图是内存管理这一章的知识总览，目前仅剩下虚拟存储技术没有介绍，所以接下来会着重介绍虚拟存储的概念。</p>
+<h3 id="9-1-虚拟内存的基本概念"><a href="#9-1-虚拟内存的基本概念" class="headerlink" title="9.1 虚拟内存的基本概念"></a>9.1 虚拟内存的基本概念</h3><p>先看一下传统存储管理方式的缺点：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/664d49a0d9c307b7e9604f8d.png" alt="操作系统（三）——内存管理——传统存储管理方式的缺点.png">
+
+<p>基于上图的传统存储管理方式的缺点，可以使用虚拟技术来解决。虚拟存储技术的提出，是基于著名的局部性原理。</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/664d4a4cd9c307b7e960e005.png" alt="操作系统（三）——内存管理——虚拟存储的局部性原理.png">
+
+<p>为了加深理解与记忆，这里就再说一次什么是局部性原理，如上图。</p>
+<p>接下来看一下虚拟内存的定义与特征：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/664d4aeed9c307b7e9617501.png" alt="操作系统（三）——内存管理——虚拟内存的定义与特征.png">
+
+<p>虚拟内存也是操作系统虚拟性的一个体现。所谓虚拟性就是内存的实际物理容量没有变，只是操作系统通过虚拟技术，实现了逻辑上拓充内存容量。</p>
+<p>接下来看一下如何实现虚拟内存技术：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/664d4c65d9c307b7e962a80d.png" alt="操作系统（三）——内存管理——实现虚拟内存的管理技术.png">
+
+<p>虚拟内存技术，允许一个作业分多次调入内存。如果采用连续分配方式，会不方便实现。因此，虚拟内存的实现需要建立在离散分配的内存管理方式基础上。</p>
+<p>在传统的非连续分配存储管理方式之上，使用虚拟技术，就形成了与传统的非连续分配存储管理方式对应的请求分页存储管理、请求分段存储管理和请求段页式存储管理。</p>
+<p>传统的管理方式与虚拟内存的管理方式最主要的区别在于：</p>
+<ol>
+<li>在程序执行过程中，当所访问的信息不在内存时，由操作系统负责将所需信息从外存调入内存，然后继续执行程序。为了满足这个虚拟，操作系统需要在基本的存储管理方式的基础上，再增加请求调页（调段）功能。</li>
+<li>若内存空间不够，由操作系统负责将内存中暂时用不到的信息换出到外存。为了满足这个虚拟，操作系统需要在基本的存储管理方式的基础上，再增加页面置换（或段置换）功能。</li>
+</ol>
+<p>最后小结本部分内容：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/664d4fa5d9c307b7e9658b52.png" alt="操作系统（三）——内存管理——虚拟内存基础小结.png">
+
+<h3 id="9-2-请求分页管理方式"><a href="#9-2-请求分页管理方式" class="headerlink" title="9.2 请求分页管理方式"></a>9.2 请求分页管理方式</h3><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/664d5390d9c307b7e96a9e63.png" alt="操作系统（三）——内存管理——请求分页管理方式.png">
+
+<p>请求分页存储管理方式是在基本分页存储管理方式的基础上进行扩展，从而实现的一种虚拟内存管理技术。相比于基本分页管理，操作系统还要新增两个基本的功能。</p>
+<p>第一个功能是请求调页功能，系统需要判断一个页面是否已经调入内存，如果还没有，即页面缺失的话，还需要将页面从外存调入到内存当中。</p>
+<p>第二个功能是页面置换功能，就是当内存不够用时，需要决定把哪个页面换出到外存。</p>
+<p>与基本分页一样，请求分页也需要通过页面来实现逻辑地址与物理地址的映射，如下图：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/664d550ed9c307b7e96c0576.png" alt="操作系统（三）——内存管理——请求页表.png">
+
+<p>与基本分页的页表不一样的是，请求分页的页表需要添加状态位来标志该页面是否被调入内存，如果被访问的页面没有调入内存，还需要先调入内存。</p>
+<p>另外，请求分页的页表还需要添加修改位来标志该页面是否被修改，若没有被修改，则调出时就不需要写回外存。</p>
+<p>还有，请求分页的页表还需要添加访问字段来记录最近被访问过几次或记录上次访问的时间，供置换算法选择换出页面时考虑。</p>
+<p>最后，请求分页的页表还需要一个字段来记录该页面在外存的地址。</p>
+<p>为了实现请求调页功能，系统中需要引入缺页中断机构，接下来看一下缺页中断机构知识：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/664d5716d9c307b7e96d9210.png" alt="操作系统（三）——内存管理——缺页中断机构.png">
+
+<p>在请求分页系统中，为了访问逻辑地址，需要查询页表，缺页机构会根据对应的页表项来判断此时这个页面是否已经在内存当中，如果没有在内存当中，便产生一个缺页中断，然后由操作系统的缺页中断处理程序处理中断。</p>
+<p>由于中断处理过程需要IO操作，把页面从外存调入内存，所以在等待IO操作完成的过程当中，之前发生缺页的进程应该被阻塞，然后被调入阻塞队列中，调页完成后再将其唤醒，重新放回就绪队列。</p>
+<p>需要注意，如果内存中有空闲块，则为进程分配一个空闲块，将所缺页面装入该块，并修改页表中相应的页表项；如果内存中没有空闲块，则由页面置换算法选择一个页面淘汰，若该页面在内存期间被修改过，则要将其写回外存。未修改过的页面不用写回外存。</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/664d6cdad9c307b7e983c542.png" alt="操作系统（三）——内存管理——缺页中断机构1.png">
+
+<p>缺页中断是因为当前执行的指令想要访问的目标页面未调入内存而产生的，因此属于内中断。</p>
+<p>另外，一条指令在执行期间，可能产生多次缺页中断。比如: copy A to B，即将逻辑地址A中的数据复制到逻辑地址B，而A、B属于不同的页面，如果这两个页面都没有被调入内存，则产生两次缺页中断。</p>
+<p>接下来看一下请求分页的地址变换：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/664d6d60d9c307b7e984323f.png" alt="操作系统（三）——内存管理——请求分页地址变换.png">
+
+<p>请求分页存储管理与基本分页存储管理相比，在查找到页面对应的页表项时，要先对页面是否在这个内存进行判断。如果发现此时想访问的页面没有调入内存，就需要进行页面置换的功能。当页面调入、调出或者被访问时，需要对它对应的页表项进行数据修改。</p>
+<p>下面来看一下请求分页管理的执行过程：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/664d6df6d9c307b7e98596b7.png" alt="操作系统（三）——内存管理——请求分页地址变换过程.png">
+
+<p>请求分页管理的执行过程大体上基本分页一致，但要注意前面所说的几个要增加的地方。</p>
+<p>另外，上图给出的过程是具有快表的，需要注意的是快表中有的页面一定是在内存中的。若某个页面被换出外存，则快表中的相应表项也要删除,否则可能访问错误的页面。</p>
+<p>下图给出了更为具体的流程，另外需要注意下图右边提出的几个细节地方：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/664d71a7d9c307b7e9892e1a.png" alt="操作系统（三）——内存管理——请求分页地址变换过程细节补充.png">
+
+<p>这里再补充一点，在具有快表机构的请求分页系统中，访问一个逻辑地址时，若发生缺页，则地址变换步骤是：查快表(未命中)――查慢表(发现未调入内存)――调页(调入的页面对应的表项会直接加入快表)――查快表(命中)――访问目标内存单元。</p>
+<p>最后对该部分内容进行一个小结：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/664d7214d9c307b7e9899e13.png" alt="操作系统（三）——内存管理——请求分页存储小结.png">
+
+<h3 id="9-3-页面置换算法"><a href="#9-3-页面置换算法" class="headerlink" title="9.3 页面置换算法"></a>9.3 页面置换算法</h3><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/6652c129d9c307b7e9ce6ba1.png" alt="操作系统（三）——内存管理——页面置换算法.png">
+
+<p>这部分重点看一下上图的五种页面置换算法。</p>
+<h4 id="9-3-1-最佳置换算法（OPT）"><a href="#9-3-1-最佳置换算法（OPT）" class="headerlink" title="9.3.1 最佳置换算法（OPT）"></a>9.3.1 最佳置换算法（OPT）</h4><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/6652c1ced9c307b7e9cfd9c5.png" alt="操作系统（三）——内存管理——最佳置换算法.png">
+
+<p>最佳置换算法就是从当前要置换的位置开始往后找，找到当前内存已经存储的页面中最后一个被访问或永久不访问的页面置换掉。</p>
+<p><strong><font color=red>注意，最佳置换算法可以保证最低的缺页率，但实际上，只有在进程执行的过程中才能知道接下来会访问到的是哪个页面。操作系统无法提前预判页面访问序列。因此，最佳置换算法只是理想算法，在实际应用中是无法实现的。</font></strong></p>
+<h4 id="9-3-2-先进先出置换算法（FIFO）"><a href="#9-3-2-先进先出置换算法（FIFO）" class="headerlink" title="9.3.2 先进先出置换算法（FIFO）"></a>9.3.2 先进先出置换算法（FIFO）</h4><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/6652c3f2d9c307b7e9d2f700.png" alt="操作系统（三）——内存管理——先进先出置换算法1.png">
+
+<p>先进先出置换算法就是每次选择淘汰的页面是最早进入内存的页面。</p>
+<p>先进先出的实现方法：把调入内存的页面根据调入的先后顺序排成一个队列，需要换出页面时选择队头页面即可。队列的最大长度取决于系统为进程分配了多少个内存块。</p>
+<p>这里要注意一点，上图给的例子是系统为进程分配了三个内存块，总共出现9次缺页，如果我们将内存块扩大，按理来说缺页次数应该下降，但对于先进先出算法来说，缺页次数可能还会出现上升的情况，如下图，是我们将内存块由3个变成4个的情况：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/6652c4dbd9c307b7e9d40e9c.png" alt="操作系统（三）——内存管理——先进先出置换算法2.png">
+
+<p>从上图可以发现，内存块由3个变成4个缺页次数变成了10次，这就是Belady异常，注意，5个页面置换算法里，只有这一个会出现Belady异常。</p>
+<h4 id="9-3-3-最近最久未使用置换算法（LRU）"><a href="#9-3-3-最近最久未使用置换算法（LRU）" class="headerlink" title="9.3.3 最近最久未使用置换算法（LRU）"></a>9.3.3 最近最久未使用置换算法（LRU）</h4><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/6652c5f1d9c307b7e9d54829.png" alt="操作系统（三）——内存管理——最近最久未使用置换算法.png">
+
+<p>最近最久未使用置换算法（LRU)：每次淘汰的页面是最近最久未使用的页面。</p>
+<p>注意，在这几个页面置换算法中，最近最久未使用的性能是最接近最佳置换算法的。</p>
+<h4 id="9-3-4-时钟置换算法（CLOCK）"><a href="#9-3-4-时钟置换算法（CLOCK）" class="headerlink" title="9.3.4 时钟置换算法（CLOCK）"></a>9.3.4 时钟置换算法（CLOCK）</h4><p>之前的算法都无法实现性能与开销的平衡，所以人们又提出了CLOCK算法。对于时钟置换算法，需要掌握两种，一种是简单的CLOCK算法，另一种是改进型CLOCK算法。</p>
+<h5 id="9-3-4-1-简单CLOCK算法"><a href="#9-3-4-1-简单CLOCK算法" class="headerlink" title="9.3.4.1 简单CLOCK算法"></a>9.3.4.1 简单CLOCK算法</h5><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/6652c781d9c307b7e9d706cb.png" alt="操作系统（三）——内存管理——简单CLOCK算法.png">
+
+<p>上面是简单CLOCK算法，实现方法描述的很清晰，但这里要提一点，页面是通过循环队列构成，每次置换时，是从循环队列的指针当前所指位置开始向后访问查找访问位为0的页面，而不是每次都从队头开始查找。</p>
+<h5 id="9-3-4-2-改进的CLOCK算法"><a href="#9-3-4-2-改进的CLOCK算法" class="headerlink" title="9.3.4.2 改进的CLOCK算法"></a>9.3.4.2 改进的CLOCK算法</h5><p>简单的时钟置换算法仅考虑到一个页面最近是否被访问过。事实上，如果被淘汰的页面没有被修改过，就不需要执行I&#x2F;O操作写回外存。只有被淘汰的页面被修改过时，才需要写回外存。</p>
+<p>因此，在简单CLOCK算法基础上，添加一个修改位，用来判断页面是否被修改过就是改进CLOCK算法。</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/6652c976d9c307b7e9d9400c.png" alt="操作系统（三）——内存管理——改进CLOCK算法.png">
+
+<p>改进CLOCK算法的算法规则在上图描述的很详细，我就不在继续赘述。</p>
+<h4 id="9-3-5-页面置换算法小结"><a href="#9-3-5-页面置换算法小结" class="headerlink" title="9.3.5 页面置换算法小结"></a>9.3.5 页面置换算法小结</h4><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/6652c9abd9c307b7e9d97a68.png" alt="操作系统（三）——内存管理——页面置换算法小结.png">
+
+<h3 id="9-4-页面分配策略"><a href="#9-4-页面分配策略" class="headerlink" title="9.4 页面分配策略"></a>9.4 页面分配策略</h3><p>先看一下驻留集的概念：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/6652ca6cd9c307b7e9da585c.png" alt="操作系统（三）——内存管理——驻留集.png">
+
+<p>对于驻留集，考虑一个极端情况，若某进程共有100个页面，则该进程的驻留集大小为100时进程可以全部放入内存，运行期间不可能再发生缺页。若驻留集大小为1，则进程运行期间必定会极频繁地缺页。所以，若驻留集太小，会导致缺页频繁，系统要花大量的时间来处理缺页，实际用于进程推进的时间很少；驻留集太大，又会导致多道程序并发度下降，资源利用率降低。所以应该选择一个合适的驻留集大小。</p>
+<p>针对驻留集大小是否可变的问题，人们提出了固定分配和可变分配两种分配策略。</p>
+<p>另外，当页面置换时，置换的范围又该是什么，对此，人们提出了局部置换和全局置换两种置换策略。</p>
+<p>将置换和分配的策略两两结合，可以得到上图下的表格，但要注意，固定分配和全局置换不可组合，因为全局置换必导致驻留集大小发生改变。</p>
+<p>下面看一下另外三种组合构成的分配、置换策略：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/6652cc28d9c307b7e9dc1351.png" alt="操作系统（三）——内存管理——页面分配。置换策略.png">
+
+<p>这里要补充说明一点：在可变分配全局置换策略里，提到未锁定的概念，这里解释一下，系统会锁定一些页面，这些页面的内容不能置换出外存，如重要的内核数据可以设为锁定。</p>
+<p>一个进程的页面存储空间已经被分配好，那什么时候调入页面呢？</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/6652cd3fd9c307b7e9dd374f.png" alt="操作系统（三）——内存管理——何时调入页面.png">
+
+<p>对于什么时候调入页面，一般来说，有两种策略，如上图。</p>
+<p>先看第一种预调页策略，根据局部性原理，可以知道，如果访问了某个页面，那么在不久的之后，也有可能访问与他相邻的那些页面，因此，基于这方面的考虑，如果能一次调入若干个相邻的页面，那么可能会比一次调入一个页面更加高效。但如果提前调入的页面中大多数都没被访问过，则又是低效的。因此可以预测不久之后可能访问到的页面，将它们预先调入内存。但目前预测成功率只有50%左右。故这种策略主要用于进程的首次调入，由程序员指出应该先调入哪些部分。</p>
+<p>第二种请求调页策略，就是我们前面一直在讲的策略，在运行期间发现缺页才将所缺页面调入内存，这种策略前面一直在说，在这里我就不过多介绍了。</p>
+<p>这里要注意一点，预调页策略是在进程运行前调入，请求调页策略是在进程运行中调入。</p>
+<p>接下来考虑一下，该从什么地方调入页面：</p>
+<p>从什么地方调入页面，这与外存的对换区大小有关，若对换区足够大，则页面的调入调出是内存与对换区之间进行的，如下图：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/6652ceffd9c307b7e9df21c1.png" alt="操作系统（三）——内存管理——系统拥有足够的对换区空间.png">
+
+<p>若对换区不够大，如下图：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/6652cf6fd9c307b7e9df9bde.png" alt="操作系统（三）——内存管理——系统不拥有足够的对换区空间.png">
+
+<p>UNIX系统的页面调入方式：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/6652cfafd9c307b7e9dfe2ad.png" alt="操作系统（三）——内存管理——UNIX系统调入页面的方式.png">
+
+<p>下面，说一下抖动现象：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/6652d00bd9c307b7e9e11b69.png" alt="操作系统（三）——内存管理——抖动现象.png">
+
+<p>为进程分配的物理块太少，会使进程发生抖动现象。为进程分配的物理块太多，又会降低系统整体的并发度，降低某些资源的利用率。为了研究应该为每个进程分配多少个物理块，提出了进程的“工作集”的概念。</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/6652d08bd9c307b7e9e204e3.png" alt="操作系统（三）——内存管理——工作集.png">
+
+<p>上图给出了工作集的概念，另外要注意区分工作集和驻留集。</p>
+<p>最后对该部分进行小结：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/6652d6c7d9c307b7e9e8db96.png" alt="操作系统（三）——内存管理——页面分配策略小结.png">
+
+<h3 id="9-5-内存映射文件"><a href="#9-5-内存映射文件" class="headerlink" title="9.5 内存映射文件"></a>9.5 内存映射文件</h3><p>首先看一下什么是内存映射文件：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/6652d73fd9c307b7e9e9673a.png" alt="操作系统（三）——内存管理——内存映射文件.png">
+
+<p>内存映射文件，简单来说就是操作系统向上层程序员提供的功能，程序员可以很方便的去访问文件数据，另外这个功能也可以方便让多个进程共享同一个文件。</p>
+<p>先来看第一点，为什么说内存映射文件可以方便程序员去使用文件数据。</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/6652dac0d9c307b7e9ed16d8.png" alt="操作系统（三）——内存管理——传统内存映射文件.png">
+
+<p>先看一下传统的文件访问方式，如上图，假设文件被拆分成一个一个块存到磁盘里。每个进程都有自己的虚拟地址空间，如果这个进程想要访问这个文件数据，首先要使用open系统调用，来指明打开这个文件。接下来需要使用seek系统调用，来指明想要读取这个文件的哪部分数据，操作系统会用一个读写指针来记录这个位置。接下来，进程可以使用read系统调用，来指明从读写指针所指位置读入多长的数据，该部分数据会被读入内存。进程可以在内存里修改这部分数据。如果想要刚刚的修改被保存，进程会使用write系统调用，把内存里的数据写回磁盘。</p>
+<p>上面是传统文件访问方式，读写文件数据的操作比较麻烦，为了解决这个问题，所以有了内存映射文件。</p>
+<p>还是上面的例子，看一下如果支持内存映射文件，该如何进行文件读写：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/6652df24d9c307b7e9f2c4f0.png" alt="操作系统（三）——内存管理——传统内存映射文件访问.png">
+
+<p>如果支持内存映射文件，程序员可以使用open系统调用打开文件。接下来使用mmap系统调用，让操作系统把文件映射到进程的虚拟地址空间，这个调用会给程序员返回一个指针，这个指针指向刚刚映射区域的起始地址，接下来就可以用访问内存的方式访问文件数据（根据起始地址加上偏移量去访问后面的数据）。</p>
+<p>注意，通过mmp系统调用后，操作系统只是建立了文件数据和内存之间的一个映射关系，但并没有把文件数据直接读入内存，这就相当于一个缺页的状态。接下来假设要访问的数据刚好在第二块，此时操作系统发现这一块数据还没有调入内存，就出现了缺页异常，此时操作系统会自动的把这一块数据给读入内存。</p>
+<p>当一块数据被读入内存以后，进程就可以对其进行修改，当进程不再需要使用一个文件，进程可以使用close系统调用来关闭文件，当它关闭文件以后，操作系统会自动的把文件当中修改的数据给写回磁盘。</p>
+<p>通过对比两种文件访问方式，可以发现，对于支持内存映射文件的操作系统，其文件的读写操作会由操作系统自动执行，而不需要像传统方式一样，需要程序员去手动写入写回。</p>
+<p>接下来第二点，为什么说内存映射文件可以方便文件数据共享。</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/6652df43d9c307b7e9f2e832.png" alt="操作系统（三）——内存管理——内存映射文件共享.png">
+
+<p>通过前面的学习知道，对一个文件，进程1可以把该文件映射到自己的虚拟空间里，同理，进程2可以把该文件映射到自己的虚拟空间里。此时，两个进程的虚拟地址空间是相互独立的，但是操作系统会把这两块虚拟地址空间映射到相同的物理内存上，这样两个进程实际上是在共享同一份文件的数据。在这种情况下，当一个进程修改了文件的数据以后，另一个进程立马也可以看到这个文件的数据改变，所以通过内存映射的方式，多个进程可以共享同一个文件的数据。</p>
+<p>注意，文件数据的读入&#x2F;写出完全由操作系统负责，这么做的好处在于，操作系统可以通过某些策略去优化磁盘IO的效率。比如预读入、缓写出等。</p>
+<p>最后小结一下本节内容 ：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/6652e407d9c307b7e9f7e771.png" alt="操作系统（三）——内存管理——内存映射文件小结.png">
+
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="http://bandit-ljC-1.github.io">liujinC</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="http://bandit-ljc-1.github.io/2024/05/18/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%EF%BC%88%E4%B8%89%EF%BC%89%E2%80%94%E2%80%94%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86/">http://bandit-ljc-1.github.io/2024/05/18/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%EF%BC%88%E4%B8%89%EF%BC%89%E2%80%94%E2%80%94%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://bandit-ljC-1.github.io" target="_blank">无名高手🍭</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/408%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">408学习笔记</a><a class="post-meta__tags" href="/tags/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">操作系统</a></div><div class="post_share"><div class="social-share" data-image="/myphotos/article_cover/8.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2024/05/28/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%EF%BC%88%E5%85%AD%EF%BC%89%E2%80%94%E2%80%94%E6%9F%A5%E6%89%BE/" title="数据结构（六）——查找"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/myphotos/article_cover/5.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">数据结构（六）——查找</div></div></a></div><div class="next-post pull-right"><a href="/2024/05/14/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%EF%BC%88%E4%BA%94%EF%BC%89%E2%80%94%E2%80%94%E5%9B%BE/" title="数据结构（五）——图"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/myphotos/article_cover/10.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">数据结构（五）——图</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2024/03/22/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%EF%BC%88%E4%B8%80%EF%BC%89%E2%80%94%E2%80%94%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F%E6%A6%82%E8%BF%B0/" title="操作系统（一）——计算机系统概述"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/myphotos/article_cover/3.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2024-03-22</div><div class="title">操作系统（一）——计算机系统概述</div></div></a></div><div><a href="/2024/04/09/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%EF%BC%88%E4%BA%8C%EF%BC%89%E2%80%94%E2%80%94%E8%BF%9B%E7%A8%8B%E4%B8%8E%E7%BA%BF%E7%A8%8B/" title="操作系统（二）——进程与线程"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/myphotos/article_cover/5.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2024-04-09</div><div class="title">操作系统（二）——进程与线程</div></div></a></div><div><a href="/2024/06/10/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%EF%BC%88%E4%BA%94%EF%BC%89%E2%80%94%E2%80%94%E8%BE%93%E5%85%A5%E8%BE%93%E5%87%BA%EF%BC%88IO%EF%BC%89%E7%AE%A1%E7%90%86/" title="操作系统（五）——输入&#x2F;输出（I&#x2F;O）管理"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/myphotos/article_cover/13.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2024-06-10</div><div class="title">操作系统（五）——输入&#x2F;输出（I&#x2F;O）管理</div></div></a></div><div><a href="/2024/06/04/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%EF%BC%88%E5%9B%9B%EF%BC%89%E2%80%94%E2%80%94%E6%96%87%E4%BB%B6%E7%AE%A1%E7%90%86/" title="操作系统（四）——文件管理"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/myphotos/article_cover/11.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2024-06-04</div><div class="title">操作系统（四）——文件管理</div></div></a></div><div><a href="/2024/03/07/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%EF%BC%88%E4%B8%80%EF%BC%89%E2%80%94%E2%80%94%E7%BA%BF%E6%80%A7%E8%A1%A8/" title="数据结构（一）——线性表"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/myphotos/article_cover/3.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2024-03-07</div><div class="title">数据结构（一）——线性表</div></div></a></div><div><a href="/2024/04/09/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%EF%BC%88%E4%B8%89%EF%BC%89%E2%80%94%E2%80%94%E4%B8%B2/" title="数据结构（三）——串"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/myphotos/article_cover/8.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2024-04-09</div><div class="title">数据结构（三）——串</div></div></a></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/myphotos/avatar.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">liujinC</div><div class="author-info__description"></div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">29</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">8</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">3</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://home.liujinc.cn"><i class="fab fa-github"></i><span>网站主页</span></a><div class="card-info-social-icons is-center"><a class="social-icon faa-parent animated-hover" href="/myphotos/WeChat.png" target="_blank" title="微信"><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon-weixin"></use></svg></a><a class="social-icon faa-parent animated-hover" href="/myphotos/QQ.jpg" target="_blank" title="QQ"><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon-QQ"></use></svg></a><a class="social-icon faa-parent animated-hover" href="https://space.bilibili.com/1941048387?spm_id_from=333.1007.0.0" target="_blank" title="B站"><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon-bilibili"></use></svg></a><a class="social-icon faa-parent animated-hover" href="https://blog.csdn.net/qq_63040545?spm=1000.2115.3001.5343" target="_blank" title="CSDN"><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon-csdn"></use></svg></a><a class="social-icon faa-parent animated-hover" href="https://github.com/Bandit-ljC-1" target="_blank" title="GitHub"><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon-github1"></use></svg></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">今年18岁傍50岁富婆，来年50岁包18岁姑娘。</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%EF%BC%88%E4%B8%89%EF%BC%89%E2%80%94%E2%80%94%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86"><span class="toc-text">操作系统（三）——内存管理</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-%E5%86%85%E5%AD%98%E7%9A%84%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86"><span class="toc-text">1. 内存的基础知识</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-1-%E5%86%85%E5%AD%98"><span class="toc-text">1.1 内存</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-2-%E6%8C%87%E4%BB%A4"><span class="toc-text">1.2 指令</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-3-%E5%9C%B0%E5%9D%80%E8%BD%AC%E6%8D%A2"><span class="toc-text">1.3 地址转换</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-3-1-%E7%BB%9D%E5%AF%B9%E8%A3%85%E5%85%A5"><span class="toc-text">1.3.1 绝对装入</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#1-3-2-%E5%8F%AF%E9%87%8D%E5%AE%9A%E4%BD%8D%E8%A3%85%E5%85%A5"><span class="toc-text">1.3.2 可重定位装入</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#1-3-3-%E5%8A%A8%E6%80%81%E9%87%8D%E5%AE%9A%E4%BD%8D"><span class="toc-text">1.3.3 动态重定位</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-4-%E5%86%99%E7%A8%8B%E5%BA%8F%E5%88%B0%E7%A8%8B%E5%BA%8F%E8%BF%90%E8%A1%8C%E7%9A%84%E8%BF%87%E7%A8%8B"><span class="toc-text">1.4 写程序到程序运行的过程</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-5-%E9%93%BE%E6%8E%A5%E7%9A%84%E4%B8%89%E7%A7%8D%E6%96%B9%E5%BC%8F"><span class="toc-text">1.5 链接的三种方式</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-5-1-%E9%9D%99%E6%80%81%E9%93%BE%E6%8E%A5"><span class="toc-text">1.5.1 静态链接</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#1-5-2-%E8%A3%85%E5%85%A5%E6%97%B6%E5%8A%A8%E6%80%81%E9%93%BE%E6%8E%A5"><span class="toc-text">1.5.2 装入时动态链接</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#1-5-3-%E8%BF%90%E8%A1%8C%E6%97%B6%E5%8A%A8%E6%80%81%E9%93%BE%E6%8E%A5"><span class="toc-text">1.5.3 运行时动态链接</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-6-%E5%86%85%E5%AD%98%E7%9A%84%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86%E5%B0%8F%E7%BB%93"><span class="toc-text">1.6 内存的基础知识小结</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86%E7%9A%84%E6%A6%82%E5%BF%B5"><span class="toc-text">2. 内存管理的概念</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-%E8%A6%86%E7%9B%96%E4%B8%8E%E4%BA%A4%E6%8D%A2"><span class="toc-text">3. 覆盖与交换</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#3-1-%E8%A6%86%E7%9B%96%E6%8A%80%E6%9C%AF"><span class="toc-text">3.1 覆盖技术</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-2-%E4%BA%A4%E6%8D%A2%E6%8A%80%E6%9C%AF"><span class="toc-text">3.2 交换技术</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-3-%E8%A6%86%E7%9B%96%E4%B8%8E%E4%BA%A4%E6%8D%A2%E5%B0%8F%E7%BB%93"><span class="toc-text">3.3 覆盖与交换小结</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-%E8%BF%9E%E7%BB%AD%E5%88%86%E9%85%8D%E7%AE%A1%E7%90%86%E6%96%B9%E5%BC%8F"><span class="toc-text">4. 连续分配管理方式</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#4-1-%E5%8D%95%E4%B8%80%E8%BF%9E%E7%BB%AD%E5%88%86%E9%85%8D"><span class="toc-text">4.1 单一连续分配</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-2-%E5%9B%BA%E5%AE%9A%E5%88%86%E5%8C%BA%E5%88%86%E9%85%8D"><span class="toc-text">4.2 固定分区分配</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-3-%E5%8A%A8%E6%80%81%E5%88%86%E5%8C%BA%E5%88%86%E9%85%8D"><span class="toc-text">4.3 动态分区分配</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-4-%E8%BF%9E%E7%BB%AD%E5%88%86%E9%85%8D%E7%AE%A1%E7%90%86%E6%96%B9%E5%BC%8F%E7%9A%84%E5%B0%8F%E7%BB%93"><span class="toc-text">4.4 连续分配管理方式的小结</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-%E5%8A%A8%E6%80%81%E5%88%86%E5%8C%BA%E5%88%86%E9%85%8D%E7%AE%97%E6%B3%95"><span class="toc-text">5. 动态分区分配算法</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#5-1-%E9%A6%96%E6%AC%A1%E9%80%82%E7%94%A8%E7%AE%97%E6%B3%95"><span class="toc-text">5.1 首次适用算法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-2-%E9%82%BB%E8%BF%91%E9%80%82%E7%94%A8%E7%AE%97%E6%B3%95"><span class="toc-text">5.2 邻近适用算法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-3-%E6%9C%80%E4%BD%B3%E9%80%82%E7%94%A8%E7%AE%97%E6%B3%95"><span class="toc-text">5.3 最佳适用算法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-4-%E6%9C%80%E5%9D%8F%E9%80%82%E7%94%A8%E7%AE%97%E6%B3%95"><span class="toc-text">5.4 最坏适用算法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-5-%E5%9B%9B%E7%A7%8D%E5%88%86%E9%85%8D%E7%AE%97%E6%B3%95%E6%80%BB%E7%BB%93%E6%AF%94%E8%BE%83"><span class="toc-text">5.5 四种分配算法总结比较</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#6-%E5%9F%BA%E6%9C%AC%E5%88%86%E9%A1%B5%E5%AD%98%E5%82%A8%E7%AE%A1%E7%90%86"><span class="toc-text">6. 基本分页存储管理</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#6-1-%E5%9F%BA%E6%9C%AC%E5%88%86%E9%A1%B5%E5%AD%98%E5%82%A8%E7%AE%A1%E7%90%86%E6%A6%82%E5%BF%B5"><span class="toc-text">6.1 基本分页存储管理概念</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6-2-%E5%9F%BA%E6%9C%AC%E5%9C%B0%E5%9D%80%E5%8F%98%E6%8D%A2%E6%9C%BA%E6%9E%84"><span class="toc-text">6.2 基本地址变换机构</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6-3-%E5%85%B7%E6%9C%89%E5%BF%AB%E8%A1%A8%E7%9A%84%E5%9C%B0%E5%9D%80%E5%8F%98%E6%8D%A2%E6%9C%BA%E6%9E%84"><span class="toc-text">6.3 具有快表的地址变换机构</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6-4-%E4%B8%A4%E7%BA%A7%E9%A1%B5%E8%A1%A8"><span class="toc-text">6.4 两级页表</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#7-%E5%9F%BA%E6%9C%AC%E5%88%86%E6%AE%B5%E5%AD%98%E5%82%A8"><span class="toc-text">7. 基本分段存储</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#8-%E6%AE%B5%E9%A1%B5%E5%BC%8F%E7%AE%A1%E7%90%86%E6%96%B9%E5%BC%8F"><span class="toc-text">8. 段页式管理方式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#9-%E8%99%9A%E6%8B%9F%E5%AD%98%E5%82%A8"><span class="toc-text">9. 虚拟存储</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#9-1-%E8%99%9A%E6%8B%9F%E5%86%85%E5%AD%98%E7%9A%84%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5"><span class="toc-text">9.1 虚拟内存的基本概念</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#9-2-%E8%AF%B7%E6%B1%82%E5%88%86%E9%A1%B5%E7%AE%A1%E7%90%86%E6%96%B9%E5%BC%8F"><span class="toc-text">9.2 请求分页管理方式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#9-3-%E9%A1%B5%E9%9D%A2%E7%BD%AE%E6%8D%A2%E7%AE%97%E6%B3%95"><span class="toc-text">9.3 页面置换算法</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#9-3-1-%E6%9C%80%E4%BD%B3%E7%BD%AE%E6%8D%A2%E7%AE%97%E6%B3%95%EF%BC%88OPT%EF%BC%89"><span class="toc-text">9.3.1 最佳置换算法（OPT）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#9-3-2-%E5%85%88%E8%BF%9B%E5%85%88%E5%87%BA%E7%BD%AE%E6%8D%A2%E7%AE%97%E6%B3%95%EF%BC%88FIFO%EF%BC%89"><span class="toc-text">9.3.2 先进先出置换算法（FIFO）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#9-3-3-%E6%9C%80%E8%BF%91%E6%9C%80%E4%B9%85%E6%9C%AA%E4%BD%BF%E7%94%A8%E7%BD%AE%E6%8D%A2%E7%AE%97%E6%B3%95%EF%BC%88LRU%EF%BC%89"><span class="toc-text">9.3.3 最近最久未使用置换算法（LRU）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#9-3-4-%E6%97%B6%E9%92%9F%E7%BD%AE%E6%8D%A2%E7%AE%97%E6%B3%95%EF%BC%88CLOCK%EF%BC%89"><span class="toc-text">9.3.4 时钟置换算法（CLOCK）</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#9-3-4-1-%E7%AE%80%E5%8D%95CLOCK%E7%AE%97%E6%B3%95"><span class="toc-text">9.3.4.1 简单CLOCK算法</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#9-3-4-2-%E6%94%B9%E8%BF%9B%E7%9A%84CLOCK%E7%AE%97%E6%B3%95"><span class="toc-text">9.3.4.2 改进的CLOCK算法</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#9-3-5-%E9%A1%B5%E9%9D%A2%E7%BD%AE%E6%8D%A2%E7%AE%97%E6%B3%95%E5%B0%8F%E7%BB%93"><span class="toc-text">9.3.5 页面置换算法小结</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#9-4-%E9%A1%B5%E9%9D%A2%E5%88%86%E9%85%8D%E7%AD%96%E7%95%A5"><span class="toc-text">9.4 页面分配策略</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#9-5-%E5%86%85%E5%AD%98%E6%98%A0%E5%B0%84%E6%96%87%E4%BB%B6"><span class="toc-text">9.5 内存映射文件</span></a></li></ol></li></ol></li></ol></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2024 - 2025 By liujinC</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js?v=4.12.0"></script><script src="/js/main.js?v=4.12.0"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0.32/dist/fancybox/fancybox.umd.min.js"></script><script src="https://cdn.jsdelivr.net/npm/instant.page@5.2.0/instantpage.min.js" type="module"></script><script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@17.8.5/dist/lazyload.iife.min.js"></script><script src="https://cdn.jsdelivr.net/npm/node-snackbar@0.1.16/dist/snackbar.min.js"></script><script>function panguFn () {
+  if (typeof pangu === 'object') pangu.autoSpacingPage()
+  else {
+    getScript('https://cdn.jsdelivr.net/npm/pangu@4.0.7/dist/browser/pangu.min.js')
+      .then(() => {
+        pangu.autoSpacingPage()
+      })
+  }
+}
+
+function panguInit () {
+  if (false){
+    GLOBAL_CONFIG_SITE.isPost && panguFn()
+  } else {
+    panguFn()
+  }
+}
+
+document.addEventListener('DOMContentLoaded', panguInit)</script><div class="js-pjax"></div><canvas id="snow"></canvas><script async src="/js/snow.js"></script><canvas id="universe"></canvas><script defer src="/js/universe.js"></script><script defer src="/js/mouse.js"></script><script async src="//at.alicdn.com/t/c/font_4451089_fok8y2foa3.js"></script><script defer type="text/javascript" src="https://cdn1.tianli0.top/npm/sweetalert2@8.19.0/dist/sweetalert2.all.js"></script><script defer src="/js/festival/lunar.js"></script><script defer src="/js/festival/day.js"></script><script async src="/js/fps.js"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="is-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据库加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div id="local-search-results"></div><div id="local-search-stats-wrap"></div></div></div><div id="search-mask"></div><script src="/js/search/local-search.js?v=4.12.0"></script></div></div><!-- hexo injector body_end start --> <script data-pjax>if(document.getElementById('recent-posts') && (location.pathname ==='/'|| '/' ==='all')){
+    var parent = document.getElementById('recent-posts');
+    var child = '<div class="recent-post-item" style="width:100%;height: auto"><div id="catalog_magnet"><div class="magnet_item"><a class="magnet_link" href="http://bandit-ljC-1.github.io/tags/408学习笔记/"><div class="magnet_link_context" style=""><span style="font-weight:500;flex:1">🐱‍👓 路漫漫其修远，我探索不了一点。 (25)</span><span style="padding:0px 4px;border-radius: 8px;"><i class="fas fa-arrow-circle-right"></i></span></div></a></div><div class="magnet_item"><a class="magnet_link" href="http://bandit-ljC-1.github.io/tags/前端/"><div class="magnet_link_context" style=""><span style="font-weight:500;flex:1">🍨 前端UI到转行平面设计 (2)</span><span style="padding:0px 4px;border-radius: 8px;"><i class="fas fa-arrow-circle-right"></i></span></div></a></div><a class="magnet_link_more"  href="http://bandit-ljC-1.github.io/tags" style="flex:1;text-align: center;margin-bottom: 10px;">查看更多...</a></div></div>';
+    console.log('已挂载magnet')
+    parent.insertAdjacentHTML("afterbegin",child)}
+     </script><style>#catalog_magnet{flex-wrap: wrap;display: flex;width:100%;justify-content:space-between;padding: 10px 10px 0 10px;align-content: flex-start;}.magnet_item{flex-basis: calc(50% - 5px);background: #f2f2f2;margin-bottom: 10px;border-radius: 8px;transition: all 0.2s ease-in-out;}.magnet_item:hover{background: #b30070}.magnet_link_more{color:#555}.magnet_link{color:black}.magnet_link:hover{color:white}@media screen and (max-width: 600px) {.magnet_item {flex-basis: 100%;}}.magnet_link_context{display:flex;padding: 10px;font-size:16px;transition: all 0.2s ease-in-out;}.magnet_link_context:hover{padding: 10px 20px;}</style>
+    <style></style><script data-pjax>
+    function butterfly_categories_card_injector_config(){
+      var parent_div_git = document.getElementById('recent-posts');
+      var item_html = '<style>li.categoryBar-list-item{width:32.3%;}.categoryBar-list{max-height: 380px;overflow:auto;}.categoryBar-list::-webkit-scrollbar{width:0!important}@media screen and (max-width: 650px){.categoryBar-list{max-height: 320px;}}</style><div class="recent-post-item" style="height:auto;width:100%;padding:0px;"><div id="categoryBar"><ul class="categoryBar-list"><li class="categoryBar-list-item" style="background:url(/myphotos/article_cover/1.jpg);"> <a class="categoryBar-list-link" href="categories/网页开发/">网页开发</a><span class="categoryBar-list-count">2</span><span class="categoryBar-list-descr">优秀的设计师</span></li><li class="categoryBar-list-item" style="background:url(/myphotos/article_cover/2.jpg);"> <a class="categoryBar-list-link" href="categories/hexo/">hexo</a><span class="categoryBar-list-count">2</span><span class="categoryBar-list-descr">五等分的blog</span></li><li class="categoryBar-list-item" style="background:url(/myphotos/article_cover/3.jpg);"> <a class="categoryBar-list-link" href="categories/学习笔记/">学习笔记</a><span class="categoryBar-list-count">25</span><span class="categoryBar-list-descr">埼玉的成长之路</span></li></ul></div></div>';
+      console.log('已挂载butterfly_categories_card')
+      parent_div_git.insertAdjacentHTML("afterbegin",item_html)
+      }
+    if( document.getElementById('recent-posts') && (location.pathname ==='/'|| '/' ==='all')){
+    butterfly_categories_card_injector_config()
+    }
+  </script><script data-pjax>
+  function butterfly_swiper_injector_config(){
+    var parent_div_git = document.getElementById('recent-posts');
+    var item_html = '<div class="recent-post-item" style="height: auto;width: 100%"><div class="blog-slider swiper-container-fade swiper-container-horizontal" id="swiper_container"><div class="blog-slider__wrp swiper-wrapper" style="transition-duration: 0ms;"><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" href="2024/01/01/Markdown语法/" alt=""><img width="48" height="48" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="myphotos/article_cover/6.jpg" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/></a><div class="blog-slider__content"><span class="blog-slider__code">2024-01-01</span><a class="blog-slider__title" href="2024/01/01/Markdown语法/" alt="">青春男大遇到不会写的Markdown语法</a><div class="blog-slider__text">本文是博主写博客时遇到的一些不会写的Markdown语法，特在此汇总</div><a class="blog-slider__button" href="2024/01/01/Markdown语法/" alt="">详情   </a></div></div><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" href="2024/03/07/数据结构（一）——线性表/" alt=""><img width="48" height="48" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="myphotos/article_cover/3.jpg" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/></a><div class="blog-slider__content"><span class="blog-slider__code">2024-03-07</span><a class="blog-slider__title" href="2024/03/07/数据结构（一）——线性表/" alt="">数据结构（一）——线性表</a><div class="blog-slider__text">本文是数据结构中有关线性表的复习笔记，因此只记录一些重点知识与兄弟们交流，并不适合零基础的兄弟。</div><a class="blog-slider__button" href="2024/03/07/数据结构（一）——线性表/" alt="">详情   </a></div></div><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" href="2024/03/02/基于hexo搭建的个人博客常见问题处理/" alt=""><img width="48" height="48" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="myphotos/article_cover/6.jpg" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/></a><div class="blog-slider__content"><span class="blog-slider__code">2024-03-02</span><a class="blog-slider__title" href="2024/03/02/基于hexo搭建的个人博客常见问题处理/" alt="">基于hexo搭建的个人博客常见问题处理</a><div class="blog-slider__text">该文主要是站长对使用hexo搭建博客时出现的一些问题进行了整理</div><a class="blog-slider__button" href="2024/03/02/基于hexo搭建的个人博客常见问题处理/" alt="">详情   </a></div></div><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" href="2024/02/08/CSS基础语法及应用/" alt=""><img width="48" height="48" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="myphotos/article_cover/6.jpg" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/></a><div class="blog-slider__content"><span class="blog-slider__code">2024-02-08</span><a class="blog-slider__title" href="2024/02/08/CSS基础语法及应用/" alt="">CSS基础语法及应用</a><div class="blog-slider__text">本文主要整理CSS的基本语法，可以搭配HTML5基本语法进行学习</div><a class="blog-slider__button" href="2024/02/08/CSS基础语法及应用/" alt="">详情   </a></div></div><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" href="2024/02/01/HTML5基础语法大全/" alt=""><img width="48" height="48" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="myphotos/article_cover/13.jpg" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/></a><div class="blog-slider__content"><span class="blog-slider__code">2024-02-01</span><a class="blog-slider__title" href="2024/02/01/HTML5基础语法大全/" alt="">HTML5基本语法大全</a><div class="blog-slider__text">本文主要整理了HTML5的基本语法，方便初学者快速入门</div><a class="blog-slider__button" href="2024/02/01/HTML5基础语法大全/" alt="">详情   </a></div></div></div><div class="blog-slider__pagination swiper-pagination-clickable swiper-pagination-bullets"></div></div></div>';
+    console.log('已挂载butterfly_swiper')
+    parent_div_git.insertAdjacentHTML("afterbegin",item_html)
+    }
+  var elist = 'undefined'.split(',');
+  var cpage = location.pathname;
+  var epage = '/';
+  var flag = 0;
+
+  for (var i=0;i<elist.length;i++){
+    if (cpage.includes(elist[i])){
+      flag++;
+    }
+  }
+
+  if ((epage ==='all')&&(flag == 0)){
+    butterfly_swiper_injector_config();
+  }
+  else if (epage === cpage){
+    butterfly_swiper_injector_config();
+  }
+  </script><script defer src="https://npm.elemecdn.com/hexo-butterfly-swiper/lib/swiper.min.js"></script><script defer data-pjax src="https://npm.elemecdn.com/hexo-butterfly-swiper/lib/swiper_init.js"></script><script data-pjax>
+  function butterfly_footer_beautify_injector_config(){
+    var parent_div_git = document.getElementById('footer-wrap');
+    var item_html = '<div id="workboard"></div><p id="ghbdages"><a class="github-badge" target="_blank" href="https://hexo.io/" style="margin-inline:5px" data-title="博客框架为Hexo_v6.2.0" title=""><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img.shields.io/badge/Frame-Hexo-blue?style=flat&amp;logo=hexo" alt=""/></a><a class="github-badge" target="_blank" href="https://butterfly.js.org/" style="margin-inline:5px" data-title="主题版本Butterfly_v4.3.1" title=""><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img.shields.io/badge/Theme-Butterfly-6513df?style=flat&amp;logo=bitdefender" alt=""/></a><a class="github-badge" target="_blank" href="https://vercel.com/" style="margin-inline:5px" data-title="本站采用多线部署，主线路托管于Vercel" title=""><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img.shields.io/badge/Hosted-Vercel-brightgreen?style=flat&amp;logo=Vercel" alt=""/></a><a class="github-badge" target="_blank" href="https://dashboard.4everland.org/" style="margin-inline:5px" data-title="本站采用多线部署，备用线路托管于4EVERLAND" title=""><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img.shields.io/badge/Hosted-4EVERLAND-22DDDD?style=flat&amp;logo=IPFS" alt=""/></a><a class="github-badge" target="_blank" href="https://github.com/" style="margin-inline:5px" data-title="本站项目由Github托管" title=""><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img.shields.io/badge/Source-Github-d021d6?style=flat&amp;logo=GitHub" alt=""/></a><a class="github-badge" target="_blank" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" style="margin-inline:5px" data-title="本站采用知识共享署名-非商业性使用-相同方式共享4.0国际许可协议进行许可" title=""><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img.shields.io/badge/Copyright-BY--NC--SA%204.0-d42328?style=flat&amp;logo=Claris" alt=""/></a></p>';
+    console.log('已挂载butterfly_footer_beautify')
+    parent_div_git.insertAdjacentHTML("beforeend",item_html)
+    }
+  var elist = 'null'.split(',');
+  var cpage = location.pathname;
+  var epage = 'all';
+  var flag = 0;
+
+  for (var i=0;i<elist.length;i++){
+    if (cpage.includes(elist[i])){
+      flag++;
+    }
+  }
+
+  if ((epage ==='all')&&(flag == 0)){
+    butterfly_footer_beautify_injector_config();
+  }
+  else if (epage === cpage){
+    butterfly_footer_beautify_injector_config();
+  }
+  </script><script async src="/js/clock.js"></script><div class="js-pjax"><script async="async">var arr = document.getElementsByClassName('recent-post-item');
+for(var i = 0;i<arr.length;i++){
+    arr[i].classList.add('wow');
+    arr[i].classList.add('animate__zoomIn');
+    arr[i].setAttribute('data-wow-duration', '2s');
+    arr[i].setAttribute('data-wow-delay', '1s');
+    arr[i].setAttribute('data-wow-offset', '100');
+    arr[i].setAttribute('data-wow-iteration', '1');
+  }</script><script async="async">var arr = document.getElementsByClassName('card-widget');
+for(var i = 0;i<arr.length;i++){
+    arr[i].classList.add('wow');
+    arr[i].classList.add('animate__zoomIn');
+    arr[i].setAttribute('data-wow-duration', '');
+    arr[i].setAttribute('data-wow-delay', '');
+    arr[i].setAttribute('data-wow-offset', '');
+    arr[i].setAttribute('data-wow-iteration', '');
+  }</script></div><script defer src="/css/wowjs/wow.min.js"></script><script defer src="/css/wowjs/wow_init.js"></script><!-- hexo injector body_end end --></body></html>

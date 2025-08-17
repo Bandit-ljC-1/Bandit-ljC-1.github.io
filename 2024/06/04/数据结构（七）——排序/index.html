@@ -1,0 +1,1294 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>数据结构（七）——排序 | 无名高手🍭</title><meta name="author" content="liujinC"><meta name="copyright" content="liujinC"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="ffffff"><meta name="description" content="本文主要记录数据结构中有关排序的相关知识。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="数据结构（七）——排序">
+<meta property="og:url" content="http://bandit-ljc-1.github.io/2024/06/04/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%EF%BC%88%E4%B8%83%EF%BC%89%E2%80%94%E2%80%94%E6%8E%92%E5%BA%8F/index.html">
+<meta property="og:site_name" content="无名高手🍭">
+<meta property="og:description" content="本文主要记录数据结构中有关排序的相关知识。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://bandit-ljc-1.github.io/myphotos/article_cover/6.jpg">
+<meta property="article:published_time" content="2024-06-04T01:35:00.000Z">
+<meta property="article:modified_time" content="2024-06-23T06:35:00.000Z">
+<meta property="article:author" content="liujinC">
+<meta property="article:tag" content="408学习笔记">
+<meta property="article:tag" content="数据结构">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://bandit-ljc-1.github.io/myphotos/article_cover/6.jpg"><link rel="shortcut icon" href="/myphotos/icon.png"><link rel="canonical" href="http://bandit-ljc-1.github.io/2024/06/04/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%EF%BC%88%E4%B8%83%EF%BC%89%E2%80%94%E2%80%94%E6%8E%92%E5%BA%8F/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css?v=4.12.0"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.5.1/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/node-snackbar@0.1.16/dist/snackbar.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0.32/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":true,"top_n_per_article":-1,"unescape":false,"languages":{"hits_empty":"找不到您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: undefined,
+  noticeOutdate: {"limitDay":365,"position":"top","messagePrev":"It has been","messageNext":"days since the last update, the content of the article may be outdated."},
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":230},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: {"chs_to_cht":"你已切换为繁体中文","cht_to_chs":"你已切换为简体中文","day_to_night":"你已切换为深色模式","night_to_day":"你已切换为浅色模式","bgLight":"#49b1f5","bgDark":"#1f1f1f","position":"top-right"},
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid@4.11.0/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyload: true,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '数据结构（七）——排序',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2024-06-23 14:35:00'
+}</script><script>(win=>{
+      win.saveToLocal = {
+        set: (key, value, ttl) => {
+          if (ttl === 0) return
+          const now = Date.now()
+          const expiry = now + ttl * 86400000
+          const item = {
+            value,
+            expiry
+          }
+          localStorage.setItem(key, JSON.stringify(item))
+        },
+      
+        get: key => {
+          const itemStr = localStorage.getItem(key)
+      
+          if (!itemStr) {
+            return undefined
+          }
+          const item = JSON.parse(itemStr)
+          const now = Date.now()
+      
+          if (now > item.expiry) {
+            localStorage.removeItem(key)
+            return undefined
+          }
+          return item.value
+        }
+      }
+    
+      win.getScript = (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        script.onerror = reject
+        script.onload = script.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          script.onload = script.onreadystatechange = null
+          resolve()
+        }
+
+        Object.keys(attr).forEach(key => {
+          script.setAttribute(key, attr[key])
+        })
+
+        document.head.appendChild(script)
+      })
+    
+      win.getCSS = (url, id = false) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onerror = reject
+        link.onload = link.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          link.onload = link.onreadystatechange = null
+          resolve()
+        }
+        document.head.appendChild(link)
+      })
+    
+      win.activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', 'ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          const now = new Date()
+          const hour = now.getHours()
+          const isNight = hour <= 6 || hour >= 18
+          if (t === undefined) isNight ? activateDarkMode() : activateLightMode()
+          else if (t === 'light') activateLightMode()
+          else activateDarkMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+      const detectApple = () => {
+        if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+          document.documentElement.classList.add('apple')
+        }
+      }
+      detectApple()
+    })(window)</script><link rel="stylesheet" href="/css/custom.css" media="defer" onload="this.media='all'"><link rel="stylesheet" href="/css/light.css" media="defer" onload="this.media='all'"><link rel="stylesheet" href="/css/snow.css"><link rel="stylesheet" href="/css/universe.css"><link rel="stylesheet" href="/css/mouse.css"><link rel="stylesheet" href="//at.alicdn.com/t/c/font_4451089_fok8y2foa3.css" media="defer" onload="this.media='all'"><link rel="stylesheet" href="/css/page_style.css"><span id="fps"></span><link rel="stylesheet" href="/css/pangu_control.css"><div id="myscoll"></div><!-- hexo injector head_end start --><link rel="stylesheet" href="/css/categorybar.css"><link rel="stylesheet" href="https://npm.elemecdn.com/hexo-butterfly-swiper/lib/swiper.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="/css/swiper/swiperstyle.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://unpkg.zhimg.com/hexo-butterfly-footer-beautify@1.0.0/lib/runtime.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="/css/wowjs/animate.min.css" media="print" onload="this.media='screen'"><!-- hexo injector head_end end --><meta name="generator" content="Hexo 6.3.0"></head><body><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/myphotos/avatar.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">29</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">8</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">3</div></a></div><hr class="custom-hr"/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> 列表</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音乐</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 电影</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/comments/"><i class="fa-fw fas fa-envelope-open"></i><span> 留言板</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('/myphotos/article_cover/6.jpg')"><nav id="nav"><span id="blog-info"><a href="/" title="无名高手🍭"><span class="site-name">无名高手🍭</span></a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search" href="javascript:void(0);"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> 列表</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音乐</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 电影</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/comments/"><i class="fa-fw fas fa-envelope-open"></i><span> 留言板</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">数据结构（七）——排序</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2024-06-04T01:35:00.000Z" title="发表于 2024-06-04 09:35:00">2024-06-04</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2024-06-23T06:35:00.000Z" title="更新于 2024-06-23 14:35:00">2024-06-23</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">学习笔记</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">32.7k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>98分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="数据结构（七）——排序"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h1 id="数据结构（七）——排序"><a href="#数据结构（七）——排序" class="headerlink" title="数据结构（七）——排序"></a>数据结构（七）——排序</h1><h2 id="1-排序的基本概念"><a href="#1-排序的基本概念" class="headerlink" title="1. 排序的基本概念"></a>1. 排序的基本概念</h2><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/665e71af5e6d1bfa05be09a5.png" alt="数据结构（七）——排序——排序的基本概念.png">
+
+<p>排序就是把一堆数据元素按照它们关键字递增或递减的顺序，把它们的关键字重新排列一遍。</p>
+<p>在设计排序算法时，除了要关注时间复杂度和空间复杂度两个指标以外，还要关注算法的稳定性。</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/665e73045e6d1bfa05bf3f70.png" alt="数据结构（七）——排序——排序算法的稳定性.png">
+
+<p>所谓稳定性就是两个相同的关键字，在排序前后，其依次出现的顺序没有发生改变，如上图的例子。</p>
+<p>但是不论是稳定的还是不稳定的，其结果都是一样的。另外，稳定的排序算法并不一定比不稳定的好，这需要结合具体实际来判断。</p>
+<p>接下来看一下排序算法的分类：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/665e740f5e6d1bfa05c046f7.png" alt="数据结构（七）——排序——排序算法的分类.png">
+
+<p>排序算法可以分为内部排序和外部排序。</p>
+<p>内部排序就是我们可以把所有的排序需要的数据都放在内存当中，比如自己定义的int型数组。但有时候我们会遇到需要排序的数据量很大，没有办法全部放入内存，这时候就需要外部排序。</p>
+<p>外部排序就是数据太多，无法全部放入内存。比如我们有一个8GB的内存，但是存储在外存的文件远远大于内存容量。这个时候就无法把文件全部读入内存进行排序，所以只能采取一部分一部分排序的策略。</p>
+<p>对于内部排序算法，由于对数据的处理全部都是在内存当中的，而内存又是一个很高速的设备，所以在设计内部算法时更关注算法的时间复杂度和空间复杂度。</p>
+<p>对于外部排序算法，除了关注算法的时间复杂度和空间复杂度外，还要关注怎么追求更少的磁盘&#x2F;读写次数。因为磁盘的读写速度很慢，每次读取数据和写回数据都会浪费大量时间，而内存的处理速度很快，所以当这些数据进入内存以后的处理时间消耗反而不是很多，所以对外部排序算法，重点是要关注怎么让磁盘读写次数更少。</p>
+<p>下面对该部分进行一个小结：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/665e76bf5e6d1bfa05c44fba.png" alt="数据结构（七）——排序——排序的基本概念小结.png">
+
+<h2 id="2-插入排序-希尔排序（插入排序的优化）"><a href="#2-插入排序-希尔排序（插入排序的优化）" class="headerlink" title="2. 插入排序&amp;希尔排序（插入排序的优化）"></a>2. 插入排序&amp;希尔排序（插入排序的优化）</h2><h3 id="2-1-插入排序"><a href="#2-1-插入排序" class="headerlink" title="2.1 插入排序"></a>2.1 插入排序</h3><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/665e770a5e6d1bfa05c48e83.png" alt="数据结构（七）——排序——插入排序思想.png">
+
+<p>插入排序算法思想：每次将一个待排序的记录按其关键字大小插入到前面已排好序的子序列中，直到全部记录插入完成。</p>
+<p>这里以上图例子为例进行算法过程说明，刚开始会从第二个元素38入手，认为在第二个元素之前的数（即第一个数49）是排好序的。现在需要把38与之前已经排好序的数依次进行对比，比当前元素38大的，都要向后移动一位。比如49大于38，所以49要后移，然后把38插到49前面。排序结果如下图：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/665e7a2f5e6d1bfa05c7152b.png" alt="数据结构（七）——排序——插入排序例子1.png">
+
+<p>现在排序65，将65与之前排序好的元素进行比较，发现没有大于65的，所以65不需要前移，97同理。</p>
+<p>接下来排序76，把76与之前已经排好序的数依次进行对比，发现97比76大，所以要把97后移，76放到97的位置。</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/665e7af55e6d1bfa05c7bd95.png" alt="数据结构（七）——排序——插入排序例子2.png">
+
+<p>接下来排序13，把13与之前已经排好序的数依次进行对比，发现97、76、65、49、38都比13大，所以要把这些数都后移一位，13放到38的位置。如下图：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/665e7b435e6d1bfa05c80972.png" alt="数据结构（七）——排序——插入排序例子3.png">
+
+<p>接下来的步骤就不再说，直接给出最后排序的结果：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/665e7b715e6d1bfa05c84827.png" alt="数据结构（七）——排序——插入排序例子4.png">
+
+<p>注意，这里有两个49，第二个是最后排序的49，我们每次排序都是让比当前元素大的后移，与当前元素相等的不会后移，这么做是为了保证算法的稳定性。</p>
+<p>下面看一下代码实现：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/665e7bc85e6d1bfa05c8bb58.png" alt="数据结构（七）——排序——插入排序代码实现.png">
+
+<p>这里算法的排序很简单，代码的实现就是刚刚说的过程，代码也很简单。</p>
+<p>这里需要注意一点，我们在进行比较时，是从当前位置往前依次比较，每有一个比当前元素大的，就将其向后移动一位，直到找到第一个不大于当前元素的元素，则将当前元素插入到该不大于当前元素的后面。另外进行后移操作时，会把当前要插入的元素覆盖掉，所以要先用一个temp变量充当中间变量，将当前插入的元素保存下来。</p>
+<p>当然，也可以采用哨兵的方法，如下图：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/665e7cb05e6d1bfa05ca55dc.png" alt="数据结构（七）——排序——插入排序代码实现（带哨兵）.png">
+
+<p>采用哨兵的方法，就是数组首位空出来充当哨兵，而元素的实际存放位置是从数组下标为1处开始的，每次要进行插入排序时，不再像上面那样定义一个中间变量，而是直接把当前要插入的元素放到数组首位置（即哨兵处），让哨兵充当中间变量。这样做还有一个好处，就是如果前面的值都大于当前元素，则遍历时，不需要加上一个j&gt;&#x3D;0判断，即不需要检查当前位置是否合法。</p>
+<p>带哨兵算法虽然好一点，但好的有限，硬要说的话，带哨兵的其实并没有上面的不带哨兵的算法更清晰易理解，考研中如果考到插入排序算法，可以根据自己喜好选择写哪个。</p>
+<p>接下来分析一下算法的效率：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/665e911f5e6d1bfa05e1cc17.png" alt="数据结构（七）——排序——插入排序空间复杂度.png">
+
+<p>算法里只有了i，j两个用于循环的变量，不带哨兵还会定义一个中间变量temp，所有的这些变量所需要的辅助空间都是常数级的，和问题规模n没有关系。所以这个算法的空间复杂度就是O(1)数量级。</p>
+<p>接下来看时间复杂度，在进行插入排序时，要从第二个元素开始，每个元素都要经历一个for循环，所以总体来看要处理n-1个元素，即需要进行n-1趟处理，每趟处理都需要进行关键字的对比和元素的移动，时间复杂度的主要开销就来自这两个部分。</p>
+<p>先看一下最好的情况：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/665e92235e6d1bfa05e38773.png" alt="数据结构（七）——排序——插入排序时间复杂度最好情况.png">
+
+<p>最好情况就是各个元素的排列本身就是有序的，这样每一趟只需要对比一次关键字，共需要对比n-1趟，时间复杂度为O(n)。</p>
+<p>下面看一下最坏情况：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/665e93c05e6d1bfa05e4e172.png" alt="数据结构（七）——排序——插入排序时间复杂度最坏情况.png">
+
+<p>最坏情况，元素的排列是逆序的，此时要把元素排成顺序，则第i趟需要对比关键字i+1次，移动元素i+2次。则最后一趟，即如上图插入10，如果有n个元素，需要对比n-1次，移动n-1次，时间复杂度达到O(n<sup>2</sup>)。</p>
+<p>综合最优和最坏两种情况，可以得出算法的平均时间复杂度：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/665e94d45e6d1bfa05e5c81d.png" alt="数据结构（七）——排序——插入排序时间复杂度.png">
+
+<p>求平均可得，算法的平均时间复杂度为O(n<sup>2</sup>)，且该算法也是稳定的。</p>
+<p>接下来看一下插入算法的优化：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/665e958a5e6d1bfa05e64ffa.png" alt="数据结构（七）——排序——插入排序算法优化.png">
+
+<p>之前对比都是采用顺序查找的方式找到要插入元素的插入位置，但是由于插入元素前的元素已经排序成功，所以可以采用折半插入的方式进行排序。比如上图插入55，对其前元素进行折半查找，查找结果如下图：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/665e96075e6d1bfa05e6b5e2.png" alt="数据结构（七）——排序——插入排序算法优化1.png">
+
+<p>当low&gt;high时折半查找停止，此时low即其右边的元素都应该大于当前要插入的元素，所以应将[low, i-1]内的元素全部右移，并将A[0]复制到 low所指位置。</p>
+<p>所以55的插入结果如下图：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/665e96875e6d1bfa05e72cce.png" alt="数据结构（七）——排序——插入排序算法优化2.png">
+
+<p>现在插入60这个元素：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/665e96b75e6d1bfa05e754bf.png" alt="数据结构（七）——排序——插入排序算法优化3.png">
+
+<p>可以发现，会出现mid&#x3D;high&#x3D;low，而A[mid]&#x3D;A[0]，这时候为了保证算法的稳定性，要继续进行一步low&#x3D;mid+1，此时low即其右边的元素都应该大于当前要插入的元素，所以应将[low, i-1]内的元素全部右移，并将A[0]复制到 low所指位置。</p>
+<p>插入完60以后，现在要插入90：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/665e97445e6d1bfa05e7cd88.png" alt="数据结构（七）——排序——插入排序算法优化4.png">
+
+<p>可以发现，当low&gt;high时折半查找停止，此时low&gt;i-1，所以low及其右边没有元素，并不需要移动，只需要把A[0]放到low所指位置即可。</p>
+<p>之后的过程同理就再赘述，下面看一下这种算法的代码实现：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/665e986b5e6d1bfa05e8ce92.png" alt="数据结构（七）——排序——插入排序算法优化代码.png">
+
+<p>这里的程序也很简单，其中稍微有点难度的折半查找算法在上一章查找里也已经说过。上图代码里的else部分就是保证算法稳定性的部分。</p>
+<p>与直接插入排序相比，折半查找比较关键字的次数减少了，但是移动元素的次数没变，因此整体来看时间复杂度依然是O(n<sup>2</sup>)，并没有质的飞跃。</p>
+<p>插入排序算法这种思想，前面一直是对顺序表进行操作，但这种思想也可以对链表进行操作，需要注意，如果对链表进行操作，折半插入排序就无法使用，因为链表没有随机存取的特性。</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/665e99485e6d1bfa05e98cf1.png" alt="数据结构（七）——排序——插入排序链表.png">
+
+<p>对链表进行茶蕊排序，移动元素只需改变指针指向即可，不过只能顺序的依次比较各个关键字，用这样的方式来确定插入位置，关键字的比较次数依然会保持O(n<sup>2</sup>)数量级，因此整体来看时间复杂度还是O(n<sup>2</sup>)。</p>
+<p>总之，只要采用插入排序，其时间复杂度总会达到O(n<sup>2</sup>)数量级。但如果元素原本就是有序的，这时插入排序也可以得到一个不错的执行效率。</p>
+<p>下面，对插入排序做个小结：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/665e9a275e6d1bfa05ea5bc9.png" alt="数据结构（七）——排序——插入排序小结.png">
+
+<h3 id="2-2-希尔排序"><a href="#2-2-希尔排序" class="headerlink" title="2.2 希尔排序"></a>2.2 希尔排序</h3><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/665fecd55e6d1bfa054a8eaa.png" alt="数据结构（七）——排序——希尔排序.png">
+
+<p>在插入排序里，我们知道如果数据元素原本就是有序的，那在这种情况下，插入排序可以得到一个很不错的排序效率。或者把条件放宽一点，如果能保证排序元素基本有序，那这种情况下，直接插入的排序效率也很不错，如上图。</p>
+<p>希尔排序的思想就是基于上面的考虑，先追求表中元素部分有序，再逐渐逼近全局有序。</p>
+<p>下面以一个例子来理解希尔排序：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/665feda05e6d1bfa054b56be.png" alt="数据结构（七）——排序——希尔排序例子1.png">
+
+<p>希尔排序会把表里的元素拆分成一个一个子表。在每趟拆分的过程当中都会设置一个增量d，然后把相距距离为d的各个元素看做是一个特殊的子表。然后把这些子表当中的元素进行直接插入排序。比如上图的例子，假设第一趟拆分的d&#x3D;4，如下图。</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/665fee7d5e6d1bfa054c193f.png" alt="数据结构（七）——排序——希尔排序例子1_1.png">
+
+<p>当d&#x3D;4时，会把相距距离为4的元素当做一个子表，拆分结果如上图，然后我们会对每个子表当中的元素进行插入排序，排序结果如下图：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/665feec55e6d1bfa054c5bba.png" alt="数据结构（七）——排序——希尔排序例子1_2.png">
+
+<p>所以经过第一趟排序结果应该如下图：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/665feef35e6d1bfa054c8907.png" alt="数据结构（七）——排序——希尔排序例子1_3.png">
+
+<p>接下来会进行第二趟排序，第二趟排序会缩小增量的值，会在之前d<sub>1</sub>的基础上除2，所以第二趟的增量值d<sub>2</sub>&#x3D;2。这个时候会把距离为2的元素划分为同一个子表，如下图：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/665fefbb5e6d1bfa054d5c63.png" alt="数据结构（七）——排序——希尔排序例子1_4.png">
+
+<p>接下来对子表里的元素进行插入排序，结果如下图：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/665fefe35e6d1bfa054d8864.png" alt="数据结构（七）——排序——希尔排序例子1_5.png">
+
+<p>所以经过第二条排序以后，表里各元素的位置应该如下图这样：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/665ff0165e6d1bfa054db8ca.png" alt="数据结构（七）——排序——希尔排序例子1_6.png">
+
+<p>接下来第三趟处理，会让增量d值继续缩小2倍，此时d<sub>3</sub>&#x3D;1，这就意味着表中所有元素都会被划分为同一个子表，所以最后这趟处理，就是对表中所有元素进行一次总体的直接插入排序。而经过前面两趟的处理，这个时候得到序列已经达成了基本有序的理想状态。接下来对所以元素进行直接插入排序可以得到排序结果，如下图：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/665ff0f65e6d1bfa0550185b.png" alt="数据结构（七）——排序——希尔排序例子1_7.png">
+
+<p>我们对这个例子进行汇总如下图：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/665ff1445e6d1bfa05506f58.png" alt="数据结构（七）——排序——希尔排序例子小结.png">
+
+ 
+
+<p>这里要注意一点，在本例里，我们的增量d第一次取的是元素总数的一半，并且之后缩小时，也是缩小一半，这种改变增量的方法也是希尔本人建议的。但考研里，可能会遇到不同的增量序列，比如d&#x3D;1,2,3。所以要看清题目要求，并会求不同增量序列下的希尔排序，建议找相关题目做一下。</p>
+<p>接下来看一下希尔排序的算法实现：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/665ff7295e6d1bfa05563f27.png" alt="数据结构（七）——排序——希尔排序算法实现.png">
+
+<p>这个算法的程序实现过程与我们前面所说的思想有点出入，如果自己分析不了，建议看一下视频动态讲解：<a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1b7411N798/?p=88&spm_id_from=pageDriver&vd_source=7fb4b255ed876969a742738d7b84f461">希尔排序</a>，大概在10~16分钟。</p>
+<p>接下来看一下希尔排序算法的性能如何：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/665ffbbb5e6d1bfa055b0804.png" alt="数据结构（七）——排序——希尔排序性能分析.png">
+
+<p>显然，对于希尔排序的空间复杂度来说，我们只需要常数级的辅助空间O(1)。</p>
+<p>而时间复杂度的分析就困难的多，比如上图，当采用不同的增量序列时，排序趟数会受到影响，而每一趟中各个元素的对比和移动次数也会受到影响，所以关于希尔排序的时间复杂度是什么样的，到目前为止都没有数学手段能证明其确切的时间复杂度。</p>
+<p>但对于希尔排序来说，如果第一趟的d&#x3D;1，这种情况下，算法就退化成了直接插入排序，所以最坏情况下，希尔排序的时间复杂度也可以达到和直接插入排序一个数量级O(n<sup>2</sup>)。</p>
+<p>另外，如果数据元素的数量不是特别大，在某个范围内时，希尔排序的效率可以达到O(n<sup>1.3</sup>)数量级，相比于O(n<sup>2</sup>)还是提升了很多。所以希尔排序还是比直接插入排序优秀了不少，只不过没有办法用数学手段证明其确定的时间复杂度是多少。</p>
+<p>接下来看一下希尔排序的算法稳定性：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/665ffd635e6d1bfa055c96d5.png" alt="数据结构（七）——排序——希尔排序稳定性.png">
+
+<p>从上图的例子可以看到，希尔排序是不稳定的。</p>
+<p>另一方面，希尔排序的实现只能基于顺序表，因为需要用增量d来快速的找到与之相邻的从属于一个子表的各个元素，所以必须有随机访问的特性才能实现，所以希尔排序只能基于顺序表实现，而不能基于链表实现。</p>
+<p>最后，对希尔排序做个小结：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/665ffe095e6d1bfa055d2ca5.png" alt="数据结构（七）——排序——希尔排序小结.png">
+
+<h2 id="3-交换排序"><a href="#3-交换排序" class="headerlink" title="3. 交换排序"></a>3. 交换排序</h2><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/66728a7cd9c307b7e94f6a4b.png" alt="数据结构（七）——排序——交换排序.png">
+
+<p>所谓交换排序就是根据序列中两个元素关键字的比较结果来对换这两个记录在序列中的位置，交换排序属于一大类，基于交换排序的思想，接下来会学习冒泡排序和快速排序。</p>
+<h3 id="3-1-冒泡排序"><a href="#3-1-冒泡排序" class="headerlink" title="3.1 冒泡排序"></a>3.1 冒泡排序</h3><p><strong>冒泡排序就是从后往前（或从前往后）两两比较相邻元素的值，若为逆序(即A[i-1]&gt;A[i])，则交换它们，直到序列比较完。称这样过程为“一趟”冒泡排序。</strong></p>
+<p>接下来用一个例子来说明冒泡排序的执行过程：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/66607aef5e6d1bfa05e84fdf.png" alt="数据结构（七）——排序——冒泡排序例子1.png">
+
+<p>假设从后往前比较，首先第一趟，先比较27和49，不是逆序，所以不需要改变27与49的位置。然后比较13与27，不是逆序，所以不需要改变13与27的位置。接下来比较76与13，是逆序，所以需要交换76与13的位置。如下图：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/66607c015e6d1bfa05e9f14f.png" alt="数据结构（七）——排序——冒泡排序例子1_1.png">
+
+<p>接下来比较97与13，发现也是逆序，所以需要交换97与13的位置。同理比较65与13，仍为逆序，交换位置。继续比较38与13，为逆序，交换位置。最后比较49与13，逆序，交换位置，则第一趟比较结束，最后结果如下图：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/66607de05e6d1bfa05ec620b.png" alt="数据结构（七）——排序——冒泡排序例子1_2.png">
+
+<p>经过第一趟排序，最后的结果就是最小的一个元素会被放到前面。</p>
+<p>接下来，看第二趟排序：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/66607eb95e6d1bfa05ed5ecc.png" alt="数据结构（七）——排序——冒泡排序例子1_3.png">
+
+<p>第二趟排序同理，从后面开始往前比较，但注意，由于第一趟已经把最小的元素放到了最前面，所以第二趟排序不需要再与前面确定的元素进行比较，所以经过第二趟排序，会把第二小的元素放到第二个位置。</p>
+<p>接下来看第三趟：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/66607f8f5e6d1bfa05ee5d70.png" alt="数据结构（七）——排序——冒泡排序例子1_4.png">
+
+<p>第三趟排序同理，最终会把第三小的元素放到第三个位置，如上图。</p>
+<p>同理进行第四趟：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/66607fea5e6d1bfa05eebd8b.png" alt="数据结构（七）——排序——冒泡排序例子1_5.png">
+
+<p>第五趟：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/6660801a5e6d1bfa05eef271.png" alt="数据结构（七）——排序——冒泡排序例子1_6.png">
+
+<p>在第五趟里，整个过程当中没有发生任何一次交换，这种情况说明整体来看已经达到了一个有序的状态，所以经过第五趟的处理后，就可以确定整个表已经有序，就不需要再进行第六趟的处理，这就是冒泡排序的原理。</p>
+<p>理清楚了刚刚的逻辑以后，代码的理解也会变得简单，代码的实现如下图：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/666080cc5e6d1bfa05efbe1a.png" alt="数据结构（七）——排序——冒泡排序代码实现.png">
+
+<p>注意上图代码里的比较部分，通过这个比较判断，可以确保算法的稳定性。</p>
+<p>接下来分析一下冒泡排序算法的性能：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/666082605e6d1bfa05f1e13f.png" alt="数据结构（七）——排序——冒泡排序算法性能分析.png">
+
+<p>空间复杂度显然是O(1)数量级。</p>
+<p>时间复杂度，最好的情况是本身就是有序的，这样只需要比较n-1次，交换0次，所以最好的时间复杂度是O(n)。最坏情况是原本逆序，此时第一趟要比较n-1次第，第二趟要比较n-2次，按照这样递推下去，最后一趟要比较1次，累加起来，如上图，得到最坏的情况时间复杂度是O(n<sup>2</sup>)。综合来看，平均时间复杂度也会达到O(n<sup>2</sup>)。</p>
+<p>另外要注意这里的交换次数的含义，交换次数是调用交换函数swap的次数，而swap里会移动元素3次，即3次移动次数。所以一次交换次数，会有3次移动次数。要注意区分调用次数与移动次数。</p>
+<p>接下来探讨一个问题，冒泡排序是否适用于链表？显然是可以的，比如下图：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/6660829f5e6d1bfa05f252d2.png" alt="数据结构（七）——排序——冒泡排序适用链表.png">
+
+<p>之前是从后往前，这里可以从前往后，从链头开始，检查当前元素与其后元素，若当前检查元素比其后元素大，则交换位置。若当前检查元素比其后元素小，则不用交换位置，只需要让扫描指针后移即可。在这方式下，每一趟会让一个最大的元素放到末尾。</p>
+<p>这种从前往后的思想在我们学C语言时就已经接触过，现在来说应该很简单，所以考试时如果没有特别要求，也可以写这种我们从C语言基础时就接触的从前往后的冒泡排序。</p>
+<p>下面对这部分进行小结：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/666082c65e6d1bfa05f2a345.png" alt="数据结构（七）——排序——冒泡排序小结.png">
+
+<h3 id="3-2-快速排序-重点"><a href="#3-2-快速排序-重点" class="headerlink" title="3.2 快速排序(重点)"></a><font color=red>3.2 快速排序(重点)</font></h3><p>首先看一下快速排序的思想：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/66703c5cd9c307b7e9a82656.png" alt="数据结构（七）——排序——快速排序算法思想.png">
+
+<p>快速排序的核心思想就是在待排序序列中任取一个元素，然后以这个元素为枢纽，通过一趟排序，将大于这个元素的数放到其右边，小于这个元素的数放到其左边，这样经过一次排序，就可以确定该元素在待排序序列里的位置，并可以将这个排序序列划分为两个独立的部分。</p>
+<p>下面以一个例子来看下快速排序的实现过程：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/66703d9ad9c307b7e9aaddb3.png" alt="数据结构（七）——排序——快速排序1.png">
+
+<p>如上面的待排序序列，如果我们采用快速排序的思想，要先用两个指针low和high分别指向序列头和序列尾。</p>
+<p>然后我们选择low所指向的这个元素，让它作为基准元素，如下图：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/66703e23d9c307b7e9ac0ba4.png" alt="数据结构（七）——排序——快速排序2.png">
+
+<p>这个例子里，我们选取low所指向的元素49，让其做为基准元素，下面我们要做的就是通过移动指针调整数据位置，将序列里小于49的元素放到其左边，大于49的元素放到其右边。</p>
+<p>接下来看怎么操作可以实现上面说的目的：</p>
+<p>在选取了基准元素以后，会让low和high这两个指针开始往中间移动，我们会用low和high这两个指针把所有的这些待排序的元素都给扫描一遍，在整个扫描过程当中，需要保证high所指的位置的右边都是大于等于当前的基准元素49的，而low指针的左边要保证都是小于49的。</p>
+<p>由于low所指的位置是空的，所以会先从high指针所指处开始操作，可以看到，high当前指向的元素是49，属于大于等于基准元素的范畴，所以下标为7的元素并不需要移动，接下来让high左移一步，指到下标为6的位置，如下图。</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/66704035d9c307b7e9b07d52.png" alt="数据结构（七）——排序——快速排序3.png">
+
+<p>此时high所指的位置元素为27，该元素是要小于49的，所以将27放到low所指位置处，如下图。</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/66704088d9c307b7e9b130d1.png" alt="数据结构（七）——排序——快速排序4.png">
+
+<p>现在high所指的位置空出来了，接下来我们要开始操作low指针，可以看到low指针就是刚刚放过来的27，显然是小于49的，所以要把low指针右移，如下图。</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/66704103d9c307b7e9b230b5.png" alt="数据结构（七）——排序——快速排序5.png">
+
+<p>显然，low指针当前所指的元素是38，仍然小于49，所以low指针继续右移。</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/66704160d9c307b7e9b2f072.png" alt="数据结构（七）——排序——快速排序6.png">
+
+<p>这时，low指针指向的元素65是大于49的，所以要把65这个元素放到high指针指向处。</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/667041b9d9c307b7e9b3c916.png" alt="数据结构（七）——排序——快速排序7.png">
+
+<p>此时low指针的位置空出来，接下来要操作high指针。可以看到，high指针指向的位置是大于49的，所以high指针要左移。</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/66704206d9c307b7e9b4665b.png" alt="数据结构（七）——排序——快速排序8.png">
+
+<p>此时high指针指向13，是要小于49的，所以要把13放到low指针处。</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/6670423cd9c307b7e9b4d4d2.png" alt="数据结构（七）——排序——快速排序9.png">
+
+<p>此时high指针位置空出，接下来要操作low指针，显然low指针当前所指是小于49的，所以low指针右移。</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/6670427bd9c307b7e9b55ad7.png" alt="数据结构（七）——排序——快速排序10.png">
+
+<p>显然97大于49，要把97放到high指针处。</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/667042a7d9c307b7e9b5b74b.png" alt="数据结构（七）——排序——快速排序11.png">
+
+<p>low位置空出，开始操作high指针，显然high所指大于49，要把high指针左移，而左移以后的76仍然是大于49的，所以high指针要继续左移，此时high指针与low指针指向同一个位置，如下图。</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/66704301d9c307b7e9b66be5.png" alt="数据结构（七）——排序——快速排序12.png">
+
+<p>当low和high碰到一起的时候，就说明我们已经把所有的待排序元素都给扫描了一遍。所以比基准元素49小的，我们都放到了low指针的左边，比基准元素49大的，我们都放到了high指针的右边。到这一步，我们就可以确定基准元素49是放在下标为3的位置，也就是low和high相遇的位置，如下图。</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/66704423d9c307b7e9b86291.png" alt="数据结构（七）——排序——快速排序13.png">
+
+<p>到这里，就是一次所谓的划分过程。</p>
+<p>这一次划分确定了基准元素49的位置，并把小于49的元素都放到了49的左边，大于49的元素都放到了49的右边。所以，在接下来的排序当中，我们就不需要管49这个元素，只需要再对49左边的元素子表和右边的子表再分别进行划分即可。</p>
+<p>下面先来看对左子表进行划分：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/66704a8ed9c307b7e9c5071e.png" alt="数据结构（七）——排序——快速排序14.png"> 
+
+<p>同样，用low和high指向序列头和尾，然后用low作为基准进行划分，划分结果如下图。</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/66704ad1d9c307b7e9c59567.png" alt="数据结构（七）——排序——快速排序15.png">
+
+<p>可以看到，0<del>2这个子表再一次被刚刚选中的基准元素27划分为了左右两个部分，由于剩余的左右两个部分都只有一个元素，所以显然这两个部分不需要再进行别的处理，也就是说0</del>2这个子表当中，所有这些元素的最终位置此时都已经确定。</p>
+<p>接下来看对4~7这个右子表的处理：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/66704b6cd9c307b7e9c6ce40.png" alt="数据结构（七）——排序——快速排序16.png">
+
+<p>同样的方法，让low所指元素作为基准元素，然后进行一次划分，划分结果如下图。</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/66704ba8d9c307b7e9c74335.png" alt="数据结构（七）——排序——快速排序17.png">
+
+<p>这样，对于4~7这个子表，我们通过基准元素76，再次的把它划分成了更小的两个部分，对于左半部分的处理思路是一样的，处理结果如下图。</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/66704c08d9c307b7e9c80f30.png" alt="数据结构（七）——排序——快速排序18.png">
+
+<p>最后还剩65和97这两个元素，显然这两个元素的最终位置此时也已经确定，所以这就是快速排序的整个过程。</p>
+<p>在快速排序中，我们会不断的进行划分这个动作，每一次的划分都会使得一个连续的序列，被分为左边和右边两个部分，左边的元素都要比基准元素小，而右边的元素都要比基准元素大，接下来只要递归的对左右两个子表分别进行划分就可以实现排序。</p>
+<p>下面看一下具体的代码实现：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/66704cd8d9c307b7e9ca33df.png" alt="数据结构（七）——排序——快速排序代码实现.png">
+
+<p>快速排序算法的代码考察频率是所有排序算法里最高的一个。如果对于递归类算法有基础的话，快速排序代码看起来会很简单。如果对递归没有了解的话，看起来可能会麻烦点。但不论会不会递归，这里都推荐看一下原视频教学，可以动态的看到算法的执行过程以及递归是如何实现的，可以加深对快速排序算法的了解与记忆。原视频跳转链接：<a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1b7411N798?p=90&vd_source=7fb4b255ed876969a742738d7b84f461">快速排序</a>。</p>
+<p>接下来对快速排序算法的效率进行分析：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/66704dfbd9c307b7e9cc7a20.png" alt="数据结构（七）——排序——快速排序时间复杂度.png">
+
+<p>根据上面的分析，再结合程序的实现，可以看到，第一层要处理0~7的范围内的元素，对他们进行一次划分，此时要把这些元素都扫描一遍，它的时间复杂度不会超过O(n)数量级。</p>
+<p>经过第一层的划分，会确定一个元素的最终位置，这个元素把原表划分成了左右两个部分，接下来要对第二层进行一个划分。第二层的划分要扫描除第一层已经确定位置外的所有元素，此时时间复杂度也不会超过O(n)数量级。下面每层的划分同理，都不会超过O(n)数量级。</p>
+<p>每一层的递归调用时间复杂度都不会超过O(n)，所以总的时间复杂度就是O(n*递归层数)。因此快速排序算法的时间复杂度和递归层数是息息相关的。</p>
+<p>空间复杂度同理，如下图：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/66704e2ad9c307b7e9ccdaed.png" alt="数据结构（七）——排序——快速排序空间复杂度.png">
+
+<p>每一层递归的调用都需要开辟一小片空间来保存这层函数调用相关的局部变量、返回地址之类的信息。所以递归调用的层数越深，空间复杂度也会相应的越高。由于在快速排序算法里，每一层的调用只需要几个固定的变量，所以总的空间复杂度就是O(递归层数)。</p>
+<p>由此可以看到，要想研究快速排序算法的时间和空间复杂度，都必须先研究它的递归层数。</p>
+<p>接下来看一下如何得到快速排序算法的递归层数：</p>
+<p>根据之前的例子，我们可以知道，在经历第一层划分时会确定49的位置。然后经过第二层的划分，可以确定49左子表中27的位置和右子表中76的位置。然后经过第三层划分，可以确定13,38,49,97这四个元素的位置。下面经过第四层划分就可以确定最后一个元素65的位置。按层数划分的结果如下图。</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/66704e85d9c307b7e9cd94fd.png" alt="数据结构（七）——排序——快速排序递层数.png">
+
+<p>到这里就可以发现，用刚才的分析思路，可以把n个元素组织成一棵二叉树，而这个二叉树的层数就是递归调用的层数。所以快速排序算法的深度就可以转换成对二叉树的高度的上限和下限的判断。n个结点的二叉树的最小高度和最大高度如上图右下，这个都很熟悉，就不再赘述了。</p>
+<p>求出了递归层数，我们就可以把层数代入之前的时间和空间复杂度之中，如下图：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/66704eadd9c307b7e9cde6fd.png" alt="数据结构（七）——排序——快速排序递复杂度.png">
+
+<p>这里我们可以求得快速排序算法的最好时间和空间复杂度以及最坏时间和空间复杂度。</p>
+<p>经过分析，可以发现，一般来说比较好的情况，就是下面这种：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/66704ee8d9c307b7e9ce5ee3.png">
+
+<p>每一次选中的基准都可以将待排序序列划分为均匀的两个部分，此时递归的深度最小，算法效率最高。</p>
+<p>而最坏的情况是下面这样：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/66704f07d9c307b7e9ce9ea6.png" alt="数据结构（七）——排序——快速排序最坏的情况.png">
+
+<p>每一次选中的基准将待排序序列划分为很不均匀的两个部分，这样会导致递归深度增加，算法效率变低。</p>
+<p>而最坏的情况是初始序列是有序或逆序，如上图，此时快速排序每次选择的都是最靠边的元素，如果按照二叉树的思路，就是我们每次都会在右子树（或者左子树）处增加高度，最后使树高为n。所以这种情况下，快速排序的性能最差。</p>
+<p>所以，对于快速排序，我们可以采用下面提供的思路进行优化，其核心就是尽量选择可以把数据中分的基准元素：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/66704f33d9c307b7e9cef8b6.png" alt="数据结构（七）——排序——快速排序算法的优化思路.png">
+
+<p>但在实际应用中，快速排序算法的平均时间复杂度其实是要将近于最好的时间复杂度的，如下图：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/667055ced9c307b7e9dd8b87.png" alt="数据结构（七）——排序——快速排序算法的实际应用效率.png">
+
+<p>所以在实际应用中，快速排序这个算法是在所以内部排序算法中平均性能最优的排序算法。</p>
+<p>最后看一下算法的稳定性如何，如下图：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/667056c3d9c307b7e9df9b73.png" alt="数据结构（七）——排序——快速排序算法的稳定性.png">
+
+<p>从上图不难发现，这个算法是不稳定的。</p>
+<p>下面对本节进行一个小结：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/66705764d9c307b7e9e121b6.png" alt="数据结构（七）——排序——快速排序算法小结.png">
+
+<p>这里注意一下，上图的思维导图有错误，时间复杂度的最好和最坏情况颠倒了。另外，log是以2为底的，这里也没有显示出来，注意这两点错误。</p>
+<p>另外，要说一点有歧义的地方，在有些教材里，对于快速排序算法所谓的一趟排序和一次划分是画了等号的，一次划分等于一趟排序。但是在408原题中，会告诉我们所谓的一趟排序是对所有的尚未确定最终位置的元素进行一遍处理，这样的一遍处理才叫一趟排序，显然与一次划分是不相同的。如果用上面的例子来看，408原题给的一趟排序的定义其实是指的对一层的处理，所以这一趟可能确定多个元素的位置。而一次划分只是对一个连续区间进行处理，一次划分只能确定一个元素的位置。这里注意一下这个歧义，如果考408就按408的方式来理解，如果自命题，建议看一下往年原题是如何定义的。</p>
+<h2 id="4-选择排序"><a href="#4-选择排序" class="headerlink" title="4. 选择排序"></a>4. 选择排序</h2><h3 id="4-1-简单选择排序"><a href="#4-1-简单选择排序" class="headerlink" title="4.1 简单选择排序"></a>4.1 简单选择排序</h3><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/66610d135e6d1bfa054d8b85.png" alt="数据结构（七）——排序——简单选择排序知识总览.png">
+
+<p>简单选择排序从大类上说属于选择排序这一大类，而除了简单选择排序，8.堆排序里学的堆排序算法也是基于选择排序的的思想。</p>
+<p>选择排序：每一趟在待排序元素中选取关键字最小（或最大）的元素加入有序子序列。</p>
+<p>接下来以一个例子看一下简单选择排序是怎么样运行的：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/66610e065e6d1bfa054e4221.png" alt="数据结构（七）——排序——简单选择排序例1_1.png">
+
+<p>刚开始遍历待排序元素，找到数值最小的元素，显然13是最小的，那么会把13这个位置与最前面的位置（49）进行交换。如下图：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/66610ec55e6d1bfa054ecd3a.png" alt="数据结构（七）——排序——简单选择排序例1_2.png">
+
+<p>此时第一趟排序结束，接下来就不需要管最前面的位置了，第二趟从待排序元素中的第一个开始，进行遍历，找到最小元素27：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/66610f305e6d1bfa054f234c.png" alt="数据结构（七）——排序——简单选择排序例1_3.png">
+
+<p>然后把27放到最前面，与最前面的位置进行调换：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/66610f575e6d1bfa054f451d.png" alt="数据结构（七）——排序——简单选择排序例1_4.png">
+
+<p>到此为止第二趟排序结束。接下来按照这种方式依次进行，最后第七趟结束，得到下图的结果：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/66610fcf5e6d1bfa054fa4fe.png" alt="数据结构（七）——排序——简单选择排序例1_5.png">
+
+<p>此时最后剩一个元素，不需要再处理就知道肯定是最大的一个。</p>
+<p>因此，**<font color=red>对n个元素进行简单选择排序需要n-1趟处理。</font>**</p>
+<p>接下来看一下简单选择排序算法实现：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/6661113b5e6d1bfa0550ba7c.png" alt="数据结构（七）——排序——简单选择排序算法实现.png">
+
+<p>这个算法实现非常简单，感觉就是C语言期中难度，所以不多说了。</p>
+<p>接下来分析一下算法性能：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/666111aa5e6d1bfa055108e2.png" alt="数据结构（七）——排序——简单选择排序性能分析.png">
+
+<p>空间复杂度显然O(1)只需要定义几个变量就可以让算法顺利执行。</p>
+<p>而对于时间复杂度，无论序列是什么样的，都要经历n-1趟处理，并且每一趟处理都要从待排序序列的头到尾，把这些关键关键字进行两两对比，因此对于一个有n个关键字的序列，需要n(n-1)&#x2F;2次对比，整体来看，它的时间复杂度都是O(n<sup>2</sup>)数量级。</p>
+<p>接下来看算法的稳定性：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/666113565e6d1bfa05525986.png" alt="数据结构（七）——排序——简单选择排序稳定性.png">
+
+<p>从上图可以看出来，<strong>该算法是不稳定的</strong>。另外，前面说的都是基于顺序表，显然用链表来实现简单排序算法也是可以适用的，就是把链表从头到尾扫描一遍，然后把最小的关键字放到链尾或链头。</p>
+<p>最后对简单选择排序进行一个小结：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/666113985e6d1bfa055297d1.png" alt="数据结构（七）——排序——简单选择排序小结.png">
+
+<h3 id="4-2-堆排序"><a href="#4-2-堆排序" class="headerlink" title="4.2 堆排序"></a>4.2 堆排序</h3><p>堆排序是选择排序思想的一种，主要的思想和上面的简单选择排序一样，每一趟在待选择排序元素中选取关键字最小（或最大）的元素加入有序子序列。堆排序是比较难理解，同时考察频率也比较高的一种排序算法。这种算法的实线基于一种叫做堆的数据结构，所以接下来先看一下什么是堆。</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/66724205d9c307b7e9d6716d.png" alt="数据结构（七）——排序——堆结构.png">
+
+<p>堆这种数据结构又可以进一步划分为大根堆和小根堆，大根堆和小根堆的定义如上图，如果下标为i的元素比下标为2i和2i+1的元素都大，那就是大根堆，如果下标为i的元素比下标为2i和2i+1的元素都小，那就是小根堆。</p>
+<p>其实堆这种所谓的结构，从物理视角来看，看起来是一个连续存放的数组，但从逻辑视角上来看，我们应该把其理解为是一棵顺序存储的完全二叉树，编号为1的结点就是完全二叉树的根结点。数组下标为i的结点，它的左孩子下标就是2i，右孩子下标是2i+1。另外，当i的值小于等于n&#x2F;2时，这个结点就一定是分支结点。</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/6672448bd9c307b7e9da091a.png" alt="数据结构（七）——排序——大根堆.png">
+
+<p>所以，大根堆简化一点理解就是在完全二叉树当中，如果所有子树的根节点都要大于等于它的左右孩子，这样一棵顺序存储的完全二叉树就是大根堆，如上图。</p>
+<p>同理，小根堆简化一点理解就是在完全二叉树当中，如果所有子树的根节点都要小于等于它的左右孩子，这样一棵顺序存储的完全二叉树就是小根堆，如下图。</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/667244b0d9c307b7e9da5a6f.png" alt="数据结构（七）——排序——小根堆.png">
+
+<p>知道了什么是堆以后，接下来就要基于堆这种数据结构进行排序，而之前也说了，堆排序在大类上属于选择排序当中的一种，而选择排序的一个基本思想就是每一趟在待选择排序元素中选取关键字最小（或最大）的元素加入有序子序列。</p>
+<p>根据堆的特性我们可以知道，如果现在有了一个大根堆(小根堆)，那从大根堆(小根堆)里选择出关键字值最大(最小)的元素就非常方便。所以接下来要探讨的是，对于一个初始序列，如何把它建立成大根堆(小根堆)应该有的特性。</p>
+<p>注：本节以大根堆为例进行探讨，小根堆的方法原理同大根堆一样，故没有对小根堆进行介绍。</p>
+<p>建立大根堆：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/66725b77d9c307b7e9fe24cb.png" alt="数据结构（七）——排序——建立大根堆1.png">
+
+<p>如上图，由于大根堆的特性是根大于等于左右结点，所以我们要保证所有子树的根节点都要比它的左右孩子的值要大，也就是说在上图的这棵树里，要检查所有的分支结点，因为所有的分支结点都是它所属的这棵子树的根节点。</p>
+<p>所以接下来的思路就是把所有非终端结点都检查一遍，看看是否满足大根堆的要求，如果不满足，则进行调整。</p>
+<p>而在之前也说过，对于顺序存储的完全二叉树，非终端结点的编号i&lt;&#x3D;[n&#x2F;2]，所以对于上例中，一共有8个结点，所以i&lt;&#x3D;[8&#x2F;2]&#x3D;4，所以我们只需要检查i小于等于4的结点即可。</p>
+<p>接下来会从后往前，依次处理这个些结点：</p>
+<p>第一步，处理4号结点，检查以4号结点为根的部分，是否满足大根堆的要求。</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/66725f9ed9c307b7e9048c10.png" alt="数据结构（七）——排序——建立大根堆2.png">
+
+<p>我们可以用上图右下角的特性来进行检查，如该例子中，检查以4号结点为根的子树，将4号结点与其左孩子和右孩子比较，由于其没有右孩子，所以只比较左孩子。根据左孩子下标是2i，可以知道左孩子是8号结点，通过比较发现以4号结点为根的子树，其根结点值小于左孩子值，不满足大根堆特性，所以要将当前结点值与其孩子中最大的一个值互换。该例将9和32互换。互换结果如下图。</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/66726108d9c307b7e906b4ec.png" alt="数据结构（七）——排序——建立大根堆3.png">
+
+<p>接下来处理3号结点：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/6672612fd9c307b7e906ed77.png" alt="数据结构（七）——排序——建立大根堆4.png">
+
+<p>3号结点的左右孩子的下标是6和7，由于右孩子的值比其大，所以不符合大根堆的特性，所以将右孩子的值与其互换，互换结果如下图。</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/667261c4d9c307b7e907bd65.png" alt="数据结构（七）——排序——建立大根堆5.png">
+
+<p>接下来处理2号结点：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/66726247d9c307b7e90884ed.png" alt="数据结构（七）——排序——建立大根堆6.png">
+
+<p>同理要和其最大的孩子进行互换，这里最大的孩子是45，所以和45进行互换，互换结果如下图。</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/66726287d9c307b7e908f6fd.png" alt="数据结构（七）——排序——建立大根堆7.png">
+
+<p>接下来处理1号结点：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/667262c8d9c307b7e9095fc1.png" alt="数据结构（七）——排序——建立大根堆8.png">
+
+<p>同理，1号结点值小于其右孩子结点值，要进行互换，互换结果如下图：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/66726311d9c307b7e909d39d.png" alt="数据结构（七）——排序——建立大根堆9.png">
+
+<p>这里产生了问题，当我们把53下坠以后，现在导致以53为根的这一棵子树不符合大根堆的要求，这时候就要继续用之前的方法，将53继续向下调整。现在53的左右子树中，最大的是78这个元素，所以要把53和78进行一个互换，互换结果如下图。</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/667263b9d9c307b7e90ad6db.png" alt="数据结构（七）——排序——建立大根堆10.png">
+
+<p>像53这样的，小元素不断向下调整的过程，一般喜欢称之为小元素不断下坠，当小元素无法继续下坠时，就意味着调整完成。</p>
+<p>到此为止，这一整棵树就符合了大根堆的要求。</p>
+<p>上面用手算的方式实现了大根堆的建立，接下来看一下如何用代码实现：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/66726583d9c307b7e90ddd20.png" alt="数据结构（七）——排序——建立大根堆11.png">
+
+<p>上面是代码实现，这里说一个注意点，可以看到，我们的初始序列0号下标处，一直是没有存放数据的，这个位置是用来充当哨兵的，也就是用来作为交换结点值时的中间暂存位，这一点从上面代码里就可以看出。</p>
+<p>另外，如果在0号位存放数据的话，那么它的左右孩子结点下标就无法通过2i和2i+1来查找，此时应该通过2i+1和2i+2来查找其左右孩子结点，这一点也需要注意。所以，考试时要看清题目是从0号下标开始存储还是1号下标开始存储。</p>
+<p>如果上面代码实现有看不懂的地方，可以点击跳转链接，看代码讲解（大概10分钟~15分钟处）：<a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1b7411N798?p=92&vd_source=7fb4b255ed876969a742738d7b84f461">堆排序</a>。</p>
+<p>在有了大根堆以后，接下来要讨论的就是怎么基于大根堆进行排序：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/66726db0d9c307b7e91be0dc.png" alt="数据结构（七）——排序——基于大根堆排序.png">
+
+<p>基于选择排序的思想，每一趟会让堆顶元素加入有序子序列，即让堆顶元素与待排序序列中的最后一个元素交换。上例中，堆顶元素是87，待排序序列最后一个元素是9，所以会让87和9进行交换。交换结果如下图：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/66726e34d9c307b7e91cb680.png" alt="数据结构（七）——排序——基于大根堆排序1.png">
+
+<p>我们把87换到末尾以后，87的位置就已经确定了，所以接下来的操作中，就不需要考虑87这个元素，可以看到上图，我们把87的连接线画成了虚线。</p>
+<p>在交换以后，我们可以看到，此时根节点为9，不满足大根堆的特性，所以我们要把9下坠，将其调整为大根堆。这里由于87已经确定位置，所以在进行下坠处理时，只需要考虑前7个元素即可，不需要考虑87这个元素。所以可以看到上图右下，我们在进行大根堆处理时，传入的len变成了7，而不是8。</p>
+<p>大根堆处理以后的结果如下图：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/66726f3cd9c307b7e91e6422.png" alt="数据结构（七）——排序——基于大根堆排序2.png">
+
+<p>可以看到，此时上面待排序序列又满足了大根堆的特性，到这里就完成了第一趟处理。在第一趟排序里，我们把最大的元素移到了末尾，同时把剩余的元素恢复成了大根堆的样子。</p>
+<p>接下来进行第二趟处理，同理将堆顶元素和待排序序列最后一个元素进行交换。</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/66726ff7d9c307b7e91fb472.png" alt="数据结构（七）——排序——基于大根堆排序3.png">
+
+<p>此时78和87就已经确定了位置，不需要再处理。而53换到了堆顶，破坏了大根堆的特性，所以接下来要让53这个元素下坠，进行大根堆建立处理。处理结果如下图：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/66727075d9c307b7e9208708.png" alt="数据结构（七）——排序——基于大根堆排序4.png">
+
+<p>这里由于78和87已经确定了，所以不需要对78和87进行操作。因此，这里53是没有右孩子的，只需要和左孩子进行比较即可。53大于其左孩子，所以53就是该以53为根的子树的根结点，下坠完成，此时待排序序列又满足大根堆的特性。</p>
+<p>接下来进行第三趟处理，将65和09进行互换：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/667270fed9c307b7e9218215.png" alt="数据结构（七）——排序——基于大根堆排序5.png">
+
+<p>同理，对09进行下坠处理：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/66727136d9c307b7e921daa5.png" alt="数据结构（七）——排序——基于大根堆排序6.png">
+
+<p>第四趟处理，堆顶53和堆底17进行互换：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/6672716fd9c307b7e92232da.png" alt="数据结构（七）——排序——基于大根堆排序7.png">
+
+<p>同理，对17进行下坠处理：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/66727193d9c307b7e922685d.png" alt="数据结构（七）——排序——基于大根堆排序8.png">
+
+<p>第五趟处理，堆顶45和堆底17进行互换：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/667271cbd9c307b7e922c1bd.png" alt="数据结构（七）——排序——基于大根堆排序9.png">
+
+<p>同理对17进行下坠处理：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/6672721dd9c307b7e9235640.png" alt="数据结构（七）——排序——基于大根堆排序10.png">
+
+<p>第六趟处理，堆顶32和堆底09进行互换：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/66727247d9c307b7e923a509.png" alt="数据结构（七）——排序——基于大根堆排序11.png">
+
+<p>同理，对09进行下坠处理：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/6672726fd9c307b7e923e3bf.png" alt="数据结构（七）——排序——基于大根堆排序12.png">
+
+<p>第七趟处理，堆顶17和堆底09进行互换：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/667272b9d9c307b7e9245f76.png" alt="数据结构（七）——排序——基于大根堆排序13.png">
+
+<p>此时只剩下最后一个待排序元素，则位置已经确定，所以不用再进行调整，最后结果如下图。</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/66727301d9c307b7e924d4ba.png" alt="数据结构（七）——排序——基于大根堆排序14.png">
+
+<p>所以，对于n个元素的序列，在经过了n-1趟处理以后，就可以得到一个递增的元素序列。注意，刚刚是基于大根堆来进行这样的排序，如果是基于小根堆的话，最终得到的应该是递减序列。</p>
+<p>弄清楚原理以后，接下来看一下如何用代码实现基于大根堆的排序：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/6672744cd9c307b7e9280b4a.png" alt="数据结构（七）——排序——基于大根堆排序代码实现.png">
+
+<p>大根堆的排序主要就是将堆顶和堆底元素进行互换，剩下的就是调用上面说的大根堆建立的代码以保证待排序序列是大根堆，所以重点还是大根堆的建立（就是每次交换以后，要保证待排序元素是大根堆，所以需要不断的进行元素下坠的处理），其余的就很简单。个人感觉，这一块重点还是要掌握大根堆建立的代码，只要掌握了大根堆建立的代码实现，剩下的这些操作就是最基础的C语言交换程序。</p>
+<p>下面我们把上面的实现过程汇总起来，如下图：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/66727563d9c307b7e929f2d9.png" alt="数据结构（七）——排序——基于大根堆排序算法效率分析.png">
+
+<p>到此为止，我们就知道了整个堆排序分为这样的两个大步骤，第一步需要建立一个初始的堆，然后有了堆以后才可以根据这个堆进行排序，而在建堆时需要调用下坠调整的函数，当我们在排序时，同样也需要调用下坠调整的函数。所以必须分析下坠调整这个函数的时间复杂度是多少，我们才有可能知道整个堆排序的时间复杂度。</p>
+<p>下面看这样的一个例子，如下图，假设现在要调整09这个元素，让它下坠。</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/667277fdd9c307b7e92e6b49.png" alt="数据结构（七）——排序——基于大根堆排序算法效率分析1.png">
+
+<p>根据代码的逻辑，我们第一步应该对比09这个元素的左右孩子之间，谁更大，所以这涉及到1次关键字对比。然后当确定了一个更大的孩子以后，接下来还需要把根节点和这个更大的孩子进行一次对比，所以这又涉及到了一次关键字对比。所以一个结点如果有左右两个孩子的话，那它往下下坠一层，总共需要对比两次关键字。如下图。</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/66727832d9c307b7e92ec60e.png" alt="数据结构（七）——排序——基于大根堆排序算法效率分析2.png">
+
+<p>接下来，09这个元素还需要继续下坠，此时总共有8个元素，09这个元素的编号是4，然后它的左孩子编号应该是8，那由于此时左孩子的编号和元素的总数是相等的，说明此时的左孩子是没有右兄弟的，因此就不需要再对比左右孩子的关键字。所以如果当前这个结点只有左孩子的话，那只需要进行一次关键字对比，如下图。</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/6672785ad9c307b7e92f0c16.png" alt="数据结构（七）——排序——基于大根堆排序算法效率分析3.png">
+
+<p>经过上面的一系列分析可以知道，一个结点每下坠一层，最多只需要对比关键字2次，所以如果树高为h，然后某个结点在第i层，那这个结点最多只需要下坠h-i层，而每下坠一层最多需要对比两次关键字，所以总的来看，关键字对比次数不会超过2(h-i)次。</p>
+<p>而之前说过，对于一个完全二叉树来说，如果有n个结点，那树高h&#x3D;[log<sub>2</sub>n]+1。另一方面，对于一个完全二叉树，它的第i层最多有2<sup>i-1</sup>个结点。而我们在建立一个初始堆的时候，最下面一层的结点是不要调整的，只有上面的h-1层需要进行下坠调整。</p>
+<p>基于这个思想，我们考虑最坏的情况，即每一层每一个结点都要进行下坠，且有左右孩子，及要对比两次关键字，所以最坏算出的结果如下面的等式，而这个式子经过化简代换处理，最后是小于等于4n的，所以在我们建堆的过程中，关键字的对比次数不会超过4n次，即建堆的时间复杂度为0(n)数量级。如下图。</p>
+<p>这里说一下，关于这个式子的推导过程是比较负杂的，有兴趣可以去看下讲解，讲解链接（大概24~26分钟处）：<a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1b7411N798?p=92&vd_source=7fb4b255ed876969a742738d7b84f461">堆排序</a>。当然如果没时间或理解不了的话，也可以不关注过程，但结果一定要记住。</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/66727b06d9c307b7e933d327.png" alt="数据结构（七）——排序——基于大根堆排序算法效率分析4.png">
+
+<p>现在我们知道了建堆过程是O(n)数量级，也就是说对于下图程序实现的第一步，建立初始堆时需要O(n)数量级的时间复杂度：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/66727dfcd9c307b7e938ad92.png" alt="数据结构（七）——排序——基于大根堆排序算法效率分析5.png">
+
+<p>现在看一下排序的过程的时间复杂度。从上图程序可以看到，整个排序的过程需要进行n-1趟，而每一趟都会把堆底元素交换到堆顶，交换到堆顶的元素又会不断下坠，而这个下坠调整最多会进行h-1层，且之前说过，每下坠一层，最多需要进行两次关键字对比，也就是说关键字每下坠一层，时间开销只需要常数级就可以完成。</p>
+<p>这样看来，根结点总共最多下坠h-1层，那么对根结点的下坠调整，其时间复杂度就不可能超过O(h)这个数量级，而完全二叉树的树高h&#x3D;[log<sub>2</sub>n]+1，所以，每进行一趟的排序，最坏的时间复杂度不可能超过O(log<sub>2</sub>n)这样的数量级。而总共需要进行n-1趟处理，所以排序的总的时间复杂度就应该是O(nlog<sub>2</sub>n)这样的一个数量级。</p>
+<p>因此，一次完整的一个堆排序，需要O(n)的时间来建堆，然后还需要O(nlog<sub>2</sub>n)的时间进行排序，那两个大O相加，只保留更高阶的一项，所以整体来看，时间复杂度应该是O(nlog<sub>2</sub>n)的这样一个量级。而空间复杂度，因为只使用了固定数量的几个常量，所以显然就是O(1)数量级。</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/66728571d9c307b7e9469069.png" alt="数据结构（七）——排序——堆排序的空间和时间复杂度.png">
+
+<p>最后，要探讨一下，堆排序的稳定性如何：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/667285e5d9c307b7e9474cf5.png" alt="数据结构（七）——排序——堆排序的稳定性.png">
+
+<p>如上图的例子，假设初始给的序列是122，现在在初始序列的基础上建立一个大根堆，此时调整根结点，由于左右孩子结点都比根结点要大，所以肯定需要进一次交换。但是现在问题产生了，左右孩子的值都是一样的，根据代码的逻辑，此时优先交换左孩子。因此会把带下划线的2给换上去。</p>
+<p>到此完成了建堆的工作，接下来看排序的过程：把堆顶元素和堆底元素进行交换，如下图：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/66728728d9c307b7e9497b16.png" alt="数据结构（七）——排序——堆排序的稳定性1.png">
+
+<p>此时剩余的元素依然是一个大根堆，所以接下来进行第二趟排序，同样堆顶和堆底进行交换，到此进行了3-1趟排序，排序结束，排序结果如下图：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/6672876dd9c307b7e949eadc.png" alt="数据结构（七）——排序——堆排序的稳定性2.png">
+
+<p>根据排序结构，显然堆排序是不稳定的。</p>
+<p>下面对本节进行小结：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/6672880dd9c307b7e94af366.png" alt="数据结构（七）——排序——堆排序小结.png">
+
+<p>最后再强调一下，本部分只介绍了大根堆的建立与排序，小根堆的思想方法是同理的，所以没有对小根堆进行介绍，不过下面留了一道有关小根堆的练习题，左边是初始序列，右边是进行小根堆建立的结果，可以自己试着去对初始序列进行小根堆建立，然后看看与右边的结果一不一样，之后还可以试着进行排序，但是要注意，小根堆排序的结果是递减序列，与大根堆刚好相反。</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/667288eed9c307b7e94c7b41.png" alt="数据结构（七）——排序——小根堆练习.png">
+
+<h3 id="4-3-堆的插入和删除"><a href="#4-3-堆的插入和删除" class="headerlink" title="4.3 堆的插入和删除"></a>4.3 堆的插入和删除</h3><p>如果有了一个大根堆或小根堆，那么现在要往这个堆里插入或删除一个元素，那应该如何做呢？</p>
+<p>下面首先看一下如何插入一个新元素：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/66751f86d9c307b7e99ac4b8.png" alt="数据结构（七）——排序——堆插入.png">
+
+<p>如上图的小根堆，现在要往这个小根堆里插入一个新元素13，那么这个新插入的13会首先放到表尾的位置，从逻辑视角来看就是放到了堆底这个地方。如下图。</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/6675203ad9c307b7e99be94b.png" alt="数据结构（七）——排序——堆插入1.png">
+
+<p>插入13以后，原本蓝色区域是一个小根堆，现在插入13以后就破坏了原小根堆的特性，即根结点要小于左孩子和右孩子。此时我们需要进行调整处理。</p>
+<p>处理方法：将新元素与父结点相比较，如果新元素比父节点大，则不需要调整；如果新元素比父节点小，则二者互换，然后继续与父结点比较，如果还比父节点小，则继续上升，就这样，直到无法继续上升为止。</p>
+<p>看上图，新元素是插到表尾下标为9的位置，要找其父结点只需要通过[i&#x2F;2]即可找到，这里[9&#x2F;2]&#x3D;4，所以13的父节点存储在下标为4的地方，存储值为32。现在将13与32比较发现13小于32，所以将13与32互换。如下图。</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/667521c5d9c307b7e99f1f3e.png" alt="数据结构（七）——排序——堆插入2.png">
+
+<p>换完以后，还不能停止，还要继续让13与其父结点比较。同理，先找到父结点存储在下标为[4&#x2F;2]&#x3D;2的地方，存储值为17，将13与17比较，发现13小于17，所以要继续互换。如下图。</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/66752288d9c307b7e9a07115.png" alt="数据结构（七）——排序——堆插入3.png">13与17互换以后，调整仍没有结束，接下来要继续向上与父结点对比，13与9对比，发现13不小于9，所以无需互换，此时调整完成。总的来看，<strong>插入13一共经历了3次关键字对比</strong>。</p>
+<p>接下来看插入新元素46：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/667522fcd9c307b7e9a13997.png" alt="数据结构（七）——排序——堆插入4.png">
+
+<p>插入46以后，同理和父结点比较，大于父结点，所以不需要调整，插入结束。<strong>插入新元素46只需要对比关键字1次</strong>。</p>
+<p>接下来看如何删除一个元素：</p>
+<p>还是上面的例子，现在如果删除13这个元素，删除13以后，如下图，此时13的位置看出来，接下来该如何处理呢？</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/667529acd9c307b7e9af8f01.png" alt="数据结构（七）——排序——堆删除1.png">
+
+<p>此时，我们会用堆底的元素来代替被删除的元素，也就是让46移到13之前存储的位置。如下图。</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/667529f6d9c307b7e9b02804.png" alt="数据结构（七）——排序——堆删除2.png">
+
+<p>此时，我们需要让这个整体恢复成小根堆该有的特性，所以我们需要让46这个元素不断下坠，直到无法下坠为止。也就是说，46会和它下一层的两个结点对比，让更小的一个孩子和其交换（这里对比的过程和大根堆一样，先让两个孩子比较，选择较小的那个和46比较，如果较小的那个还比46大，则不需要下坠，否则将其互换）。该例46和17互换，结果如下图。</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/66752aebd9c307b7e9b277e5.png" alt="数据结构（七）——排序——堆删除3.png">
+
+<p>接下来46要继续和下一层对比，将一个更小的元素置换上来，这里46和32互换。结果如下图。</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/66752b18d9c307b7e9b2d097.png" alt="数据结构（七）——排序——堆删除4.png">
+
+<p>到这一步，46无法再继续下坠，所以对堆的调整就结束了。整个过程中，需要4次对比关键字（第一次17和45，第二次17和46，第三次53和32，第四次32和46）。</p>
+<p>注意，这里要注意关键字的对比次数，考试时有可能会出相关题型。在4.2里已经讲过下坠过程中关键字对比的次数，如果只有孩子只有1个，则只需要对比1次，如果孩子有2个，则需要对比2次。这个地方忘了可以回去看一下4.2的内容。</p>
+<p>下面，再看一个删除的例子，还是上面的例子，此时删除65，此时65位置空出，我们就要用堆底元素46进行替换，替换完以后可以发现46小于其孩子结点，所以不需要下坠，如下图。这个过程中会进行2次关键字对比（第一次78和87，选出小的一个，然后第二次用较小的78和46比较，78大于46，所以不需要下坠）。</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/66752cf0d9c307b7e9b686eb.png" alt="数据结构（七）——排序——堆删除5.png">
+
+<p>接下来对该部分进行一个小结：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/66752d49d9c307b7e9b764ef.png" alt="数据结构（七）——排序——堆插入和删除小结.png">
+
+<h2 id="5-归并排序"><a href="#5-归并排序" class="headerlink" title="5. 归并排序"></a>5. 归并排序</h2><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/66752d95d9c307b7e9b824fd.png" alt="数据结构（七）——排序——归并排序.png">
+
+<p>所谓归并排序就是将两个或多个已经有序的序列合并成一个。如上图，已经有了两个有序序列，然后我们会定义一个更大的数组，这样才能将这两个序列合并到一起。接下来可以设置如图的三个指针，然后每次对比i和j所指的两个元素，将更小的一个放到k的位置。</p>
+<p>如上图例子，此时i和j分别指向12和7，很明显更小的元素是7，所以将7放到k所指的位置，然后将j和k都向后移动一位，处理结果如下图：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/667537bfd9c307b7e9ce7c06.png" alt="数据结构（七）——排序——归并排序过程1.png">
+
+<p>接下来继续比较i和j所指位置的元素大小，10小于12，所以把10放到k所指位置，然后j和k都后移，如下图：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/667537f9d9c307b7e9cef312.png" alt="数据结构（七）——排序——归并排序过程2.png">
+
+<p>接下来继续比较i和j所指位置的元素大小，12小于21，所以把12放到k所指位置，然后i和k都后移，如下图：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/66753824d9c307b7e9cf5152.png" alt="数据结构（七）——排序——归并排序过程3.png">
+
+<p>接下来，放入16、24，这两个同理，就不再叙述，直接看接下来的情况：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/66753864d9c307b7e9cff3d2.png" alt="数据结构（七）——排序——归并排序过程4.png">
+
+<p>此时i和j所指元素都是24，这个时候由于代码是我们自己写的，所以我们既可以让i所指24放到k处，也可以让j所指24放到k处，这两种处理方式都可以。一般情况下，我们会让左边的优先，也就是说我们会让i所指24放到k的位置。如下图。</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/667538ded9c307b7e9d12462.png" alt="数据结构（七）——排序——归并排序过程5.png">
+
+<p>接下来还是同理，我们直接跳到最后：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/66753959d9c307b7e9d22ed8.png" alt="数据结构（七）——排序——归并排序过程6.png">
+
+<p>当我们把j所指的37放入k处以后，将j和k都向后移动，此时j所指位置已经超出数组范围，这就说明右边这个数组所有的元素都已经进行了合并，所以接下来就不需要再进行关键字的对比，可以直接把左边表里的所有元素直接放到总表的表尾当中，如下图。</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/667539bdd9c307b7e9d2d5f1.png" alt="数据结构（七）——排序——归并排序过程7.png">
+
+<p>到此，就完成了两个有序序列的归并。</p>
+<p>接下来要引入一个概念——2路归并。</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/66753a8dd9c307b7e9d43edf.png" alt="数据结构（七）——排序——二路归并.png">
+
+<p>所谓2路归并就是刚刚做的这个过程，把两个有序序列合二为一。所以在进行二路归并时，每当要选出一个更小的元素，只需要对比i所指元素和j所指元素谁更小，这里只需要对比一次就可以选出。</p>
+<p>既然有二路归并，当然也可以有多路归并，比如说如下图的四路归并。</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/66753c43d9c307b7e9d82bb0.png" alt="数据结构（七）——排序——四路归并.png">
+
+<p>如上图，给出了4个有序的数组，如果把这四个数组合四为一，这样的一个合四为一的过程就是所谓的四路归并。在上图里，设置了4个指针P1、P2、P3、P4分别指向这四个有序数组当中目前剩余的最小的一个元素，现在要把这四个数组进行归并，就需要每一次都从这四个数组当中挑选出最小的一个元素放到k的位置处。由于总共有四个元素，所以至少需要对比关键字3次，才可以挑出最小的一个。</p>
+<p>所以这里，我们可以总结出一个结论，<font color=red><strong>如果进行m路归并，每选出一个最小（或最大）的元素就需要对比关键字m-1次</strong></font>。因此，如果归并路数越多，挑选一个关键字所需要的对比次数就越多。</p>
+<p>在进行内部排序时，归并排序通常使用二路归并来实现，如下图。</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/66753c71d9c307b7e9d87b6b.png" alt="数据结构（七）——排序——归并排序手算模拟.png">
+
+<p>如果一开始给出一个初始序列，那么刚开始会把这个初始序列当中的每一个单独的元素都看做是一个一个独立的、已经排好序的部分。</p>
+<p>首先，第一趟归并排序，会把相邻的两个部分分别进行二路归并，如上图第一趟归并（由于6单出来，所以单独对其进行归并就相当于什么也没做）。</p>
+<p>接下来，第二趟归并排序，会基于第一趟结果，再次对第一趟归并的结果进行归并，同样如图。</p>
+<p>经过第二趟归并以后，会得到两个已经有序的子序列，所以最后一趟归并排序，只需要再把这两个有序子序列给归并起来，就可以得到一个整体有序的序列。</p>
+<p>经过上面过程的了解可以看到，**归并排序最最重要的一个核心操作就是要能够<font color=red>把数组当中两个有序的序列归并为一个</font>**。</p>
+<p>接下来看如何用代码实现这个核心操作：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/66753f5ad9c307b7e9deaa5a.png" alt="数据结构（七）——排序——两个有序序列的归并代码实现.png">
+
+<p>比如现在有一个如上图的数组A，3到6这个范围是已经有序的，7到9这个范围也是有序的，两个有序子序列相邻，那么会用low指针指向最前面的这个元素，mid指针指向第一个有序子序列的最后一个元素，然后再用high指针指向第二个有序子序列的最后一个元素。这样的话就可以用low、mid、high来区分出要归并的两个有序子序列的范围。</p>
+<p>现在看一下上图的代码是如何实现合并这两个有序子序列的，在这首先会定义一个辅助的数组B，这个数组的大小和A数组一致。现在要归并的是A数组当中low到mid的这个子序列和mid+1到high这个子序列，这两个子序列原本就已经是有序的。</p>
+<p>接下来第一个for循环，会把A数组当中的元素复制到B数组当中。这里用k指针指向low，然后把k所指的元素放到B中，再进行自加操作，将下一个元素放到B中，直到k指针把最后一个元素放到B以后，再次进行自加操作，此时k的指向已经超过high，到此意味着复制完成。</p>
+<p>接下来进入第二个循环，这个for循环所做的事情就是进行归并，如下图：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/66754522d9c307b7e9ecd1eb.png" alt="数据结构（七）——排序——两个有序序列的归并代码实现1.png">
+
+<p>这里用i指针指向第一个有序子序列当中的第一个元素，j指针指向第二个有序子序列当中的第一个元素，k所指位置就是接下来i和j比较得到的小元素的存放位置。这里的过程和前面演示的一样，所以不再重复叙述。</p>
+<p>这里要注意一点，在上面合并的过程中，会出现下图这种i和j所指位置元素一样的情况，这个时候两个元素相等，为了保证算法的稳定性，我们会采用前面的那个元素，将其放到k的位置。</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/667545c3d9c307b7e9ee4082.png" alt="数据结构（七）——排序——两个有序序列的归并代码实现2.png">
+
+<p>当其中一个序列的元素全部放入到A数组中以后，这个for循环就会结束，如下图：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/6675467bd9c307b7e9efc3f7.png" alt="数据结构（七）——排序——两个有序序列的归并代码实现3.png">
+
+<p>此时j指向指向超过第二个子序列的范围，这意味着第二个子序列已经全部放入A数组中，此时for循环结束，接下来的while循环会将另一个子序列的剩下的没有归并完的部分复制到A数组的尾部。到此，将两个有序子序列归并的过程就已经结束了。</p>
+<p>接下来看一下实现归并排序的完整的程序：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/6675479dd9c307b7e9f27f5d.png" alt="数据结构（七）——排序——两个有序序列的归并代码实现4.png">
+
+<p>我们要对一个数组A进行排序，那么会用low和high来这指明这个归并元素的范围，然后会用mid&#x3D;(low+high)&#x2F;2把这一整个无序的序列从中间拆分成左右两部分，左半部分是low到mid，右半部分是mid+1到high，接下来会分别对左半部分和右半部分递归的进行归并排序，经过递归归并排序处理后，左右两个部分都会变得有序，接下来再用上面提到的归并函数，将左右两个有序的子序列进行归并即可。</p>
+<p>注意，这里的牵扯到递归，如果看不懂的话，可以跳转链接，去听动态讲解：<a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1b7411N798?p=94&vd_source=7fb4b255ed876969a742738d7b84f461">归并排序</a>。</p>
+<p>接下来分析一下归并排序算法的效率：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/66756b97d9c307b7e9492a7c.png" alt="数据结构（七）——排序——归并排序算法的效率.png">
+
+<p>如上图归并排序的示意图，有些地方会把其称为归并树，因为它的形态就像一个倒立的二叉树，如果我们把其看成一个倒立的二叉树，那就可以用熟悉的二叉树的知识对其进行分析。</p>
+<p>看上图，如果把其看成一个倒立的二叉树，那树高就为h，归并排序的趟数就为h-1趟，所以可以用这些特性来推算出，含有n个元素的表进行二路归并排序总共需要多少趟。</p>
+<p>而二叉树的第h层最多有2<sup>h-1</sup>个结点，所以如果有n个元素，它所对应的归并树树高为h的话，由于n个元素都应该出现在最后一层，所以应该满足n&lt;&#x3D;2<sup>h-1</sup>这个式子，解这个式子可得<strong>h-1&#x3D;⌈log<sub>2</sub>n⌉</strong>。注意一下，这个式子，如果log<sub>2</sub>n为整数，则h-1&#x3D;log<sub>2</sub>n，如果log<sub>2</sub>n不是整数，则h-1&#x3D;(log<sub>2</sub>n)+1，这是因为h-1是归并趟数，归并趟数不可能为小数，这里的”⌈ ⌉”符号是向上取整符号，千万别和取整符号”[ ]”混淆，”[ ]”取整符号同向下取整” ⌊ ⌋ “是一个意思。</p>
+<p>由于h-1是归并趟数，且<strong>h-1&#x3D;⌈log<sub>2</sub>n⌉</strong>，所以n个元素进行2路归并排序，归并的总趟数就应该是⌈log<sub>2</sub>n⌉，而每一趟归并的时间复杂度都是O(n)数量级，所以算法的总体时间复杂度就应该是每一趟的时间O(n)再乘总趟数log<sub>2</sub>n，就应该是**O(nlog<sub>2</sub>n)**数量级。</p>
+<p>这里可能会对每一趟归并的时间复杂度都是O(n)数量级这个地方有疑问，这里解释一下为什么是O(n)。可以看上面的例子，假设进行最后一趟排序，就是基于第二趟排序的结果，要把第二趟排序产生的两个有序子序列合二为一。合并的过程中会使用i和j两个指针分别指向当前子序列所剩余的最小的元素，然后每对比关键字一次，就可以从中挑出一个更小的元素，那最终把这两个有序子表合二为一，所需要进行的关键字对比次数肯定是小于等于n-1次的，也就是说最多进行n-1次对比，就一定可以完成这一趟归并。所以最后一趟归并，它的关键字对比次数最多是n-1，也就是O(n)数量级。再分析基于初始序列的第一趟归并，把初始序列进行两两对比，那每一对元素都只需要进行一次关键字对比，因此第一趟的归并所需要的关键字对比次数约等于n&#x2F;2，也是O(n)数量级。所以不管是哪一趟的归并，我们所需要的关键字对比次数都是O(n)这样的一个数量级，因此每一趟归并的时间复杂度也是O(n)这个数量级。</p>
+<p>对于归并排序来说，无论给出的初始序列到底是有序还是无序又或者是任何一种状态，最终时间复杂度肯定都是O(nlog<sub>2</sub>n)这个数量级。也就是说归并排序的最好、最坏和平均时间复杂度都是一样的，都是O(nlog<sub>2</sub>n)。</p>
+<p>接下来看空间复杂度，归并排序的空间复杂度主要来自于上面提到的辅助数组B，我们定义的辅助数组B和原本用于存放元素的数组A是同样的大小，长度为n，所以空间复杂度是O(n)。</p>
+<p>对于空间复杂度可能会有疑问，因为归并排序算法是用递归的方式实现的，既然涉及到递归，递归工作栈也是需要一定的辅助空间的，但是因为递归深度不会超过⌈log<sub>2</sub>n⌉这样一个数量级，所以递归带来的空间复杂度应该是O(log<sub>2</sub>n)，它和数组带来的O(n)复杂度进行相比，是低阶的，所以把这两个部分相加，只需要保留更高阶的O(n)，所以整体来看的空间复杂度主要还是受辅助空间B的影响。</p>
+<p>除了上面的空间复杂度和时间复杂度，还要看这个算法的稳定性，而稳定性我们已经说过了，当我们对两个连续的有序子序列进行归并时，如果说在两边同时出现了关键字值相等的情况，那我们会优先让靠前的元素合并，所以归并排序是一个稳定的算法。</p>
+<p>下面对该部分进行小结：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/66756d3dd9c307b7e94d1bb0.png" alt="数据结构（七）——排序——归并排序算法小结.png">
+
+<p>注意，当我们进行内部排序时，归并算法常采用2路归并，但如果将归并算法用于外部排序的话，那就还会使到更多路的归并排序。</p>
+<h2 id="6-基数排序"><a href="#6-基数排序" class="headerlink" title="6. 基数排序"></a>6. 基数排序</h2><p>基数排序不同于之前的排序，之前的排序都是采用比较关键字的大小来进行排序，而基数排序并非如此，下面直接以一个例子说明基数排序的工作方式：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/667594d0d9c307b7e9c2791e.png" alt="数据结构（七）——排序——基数排序示例1.png">
+
+<p>如上图，假设有如图的一些无序序列，现在需要用基数排序将其排为一个递减的序列。注意观察会发现，这里所有的关键字都可以拆分成三个部分，分别是个位、十位和百位。并且个十百这三个部分有可能得到的取值都可能是0<del>9，所以可以建立如图的十个辅助队列，分别对应每一位的取指为0</del>9的十种情况。</p>
+<p>接下来进行第一趟处理，以个位进行分配，第一个元素个位是0，所以把520这个元素放到Q0这个队列中，如下图：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/6675962ed9c307b7e9c7787b.png" alt="数据结构（七）——排序——基数排序示例2.png">
+
+<p>在这个图示当中，辅助队列靠近上面的部分是队头的方向，靠近下方的是队尾的方向。</p>
+<p>接下来的元素同520一样，都按照个位的值进行分配，分配的结果如下图：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/667596c1d9c307b7e9c9209f.png" alt="数据结构（七）——排序——基数排序示例3.png">
+
+<p>这样我们就完成了第一趟的分配操作，也就是以各个关键字的个位作为参考来进行分配。</p>
+<p>在分配结束以后，接下来要进行的操作叫收集，就是要把各个队列里的元素给收集起来组织成一个统一的链表。由于最终是想得到一个递减的排序序列，所以应该从各位值最大的队列开始收集，如下图。</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/6675976cd9c307b7e9cb4541.png" alt="数据结构（七）——排序——基数排序示例4.png">
+
+<p>第一个Q9这个队列是空的。第二个Q8这个队列里有三个元素，队头元素是438，然后它指向下一个元素888，888又指向队尾元素168，那把这三个结点从辅助队列中拆下来，就如下图的样子：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/66759804d9c307b7e9ccf7bd.png" alt="数据结构（七）——排序——基数排序示例5.png">
+
+<p>接下来会依次把Q7、Q6……Q1辅助队列中的元素依次放到收集队列队尾，最后收集的结果如下图：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/667598fdd9c307b7e9cfc586.png" alt="数据结构（七）——排序——基数排序示例6.png">
+
+<p>到这里就完成了第一趟的收集工作，由于第一趟的分配是按个位进行分配的，所以按照这种收集方式，最终会得到一个按照个位递减的排序序列。</p>
+<p>接下来基于第一趟排序的结果进行第二趟排序，如下图，还是同样的辅助队列，不过此次排序是以十位进行分配：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/667599cfd9c307b7e9d235bd.png" alt="数据结构（七）——排序——基数排序示例7.png">
+
+<p>第二趟分配的结果如下图：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/66759a76d9c307b7e9d4697d.png" alt="数据结构（七）——排序——基数排序示例8.png">
+
+<p>可以看到，经过第一趟按个位分配以后，这时候再按十位分配，如果十位相同的话，<strong>个位越大的就越先入队</strong>。</p>
+<p>接下来进行第二趟收集，收集结果如下图：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/66759b28d9c307b7e9d68678.png" alt="数据结构（七）——排序——基数排序示例9.png">
+
+<p>第二趟收集会得到按十位递减排序的序列，如果十位相同的话，就会按个位递减排序。</p>
+<p>接下来进行第三趟排序，第三趟排序会按百位进行分配，分配结果如下图：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/66759b74d9c307b7e9d770a3.png" alt="数据结构（七）——排序——基数排序示例10.png">
+
+<p>可以看到，<strong>在百位相同的情况下，十位越大的就越先入队，如果十位相同的情况下，个位越大的就越先入队</strong>。</p>
+<p>接下来看第三趟的收集：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/66759cbfd9c307b7e9db3689.png" alt="数据结构（七）——排序——基数排序示例11.png">
+
+<p>到这里，就得到了一个全局来看有序的递减序列，因为第三趟的分配是按百位进行分配的，然后又是按照百位从大到小的顺序来收集，所以第三趟分配其实是得到了一个按照百位递减的序列，当百位相同时，又会按照十位递减顺序排列，当十位相同时，又会按照个位递减顺序排列。呈现出这个规律的原因是因为算法第一趟是按照个位分配和收集，第二趟是按照十位分配和收集，第三趟是按照百位分配和收集，这个排序过程是基础排序的原理。</p>
+<p>这里把这个例子的排序过程汇总在下面这张图里，方便对比学习：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/66759e6fd9c307b7e9e037c1.png" alt="数据结构（七）——排序——基数排序示例12.png">
+
+<p>到此，我们就可以把基础排序的过程用文字总结如下图：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/66759ee1d9c307b7e9e17881.png" alt="数据结构（七）——排序——基数排序.png">
+
+<p>假设有一个表长为n的线性表，然后每个节点的关键字都可以拆分为d元组，像上面的例子就是把它拆分成了三元组，分别是百位、十位和个位。那把d元组进行一个编号分别是d-1到0这样的d个编号，最靠近左边的这一位被称为最高位关键字（或叫最主位关键字），最靠近右边的这一位被称为最低位关键字（或叫最次位关键字）。像上面的例子中，百位就是最高位关键字，而个位就是最低位关键字，因为百位的数值是对整个关键字的数值影响最大、最高的，所以我们把它称为最高位的关键字，而个位的数值是对整个关键字的数值影响最小、最低的，所以我们把它称为最低位的关键字。</p>
+<p>由于每一位有可能得到的取值是0到r-1，所以r称为基数。像上面的例子就是0~9这样的一个取值范围，基数r&#x3D;10，说明关键字的每个部分都有可能得到十种不同的取值。</p>
+<p>如果我们要用基数排序得到一个递减的序列的话，其过程如下：</p>
+<ol>
+<li>由于每个关键字位可能得到r种取值，所以需要设置r的辅助队列，来分别对应这r种取值。这r个队列的编号为Qr-1,Qr-2，……，Q0。</li>
+<li>根据关键字位权重递增的次序（例：个-&gt;十-&gt;百）来对这d个关键字分别做分配和收集。</li>
+<li>顺序扫描各个元素，如果当前处理的关键字位等于x，那就要放到Qx队列的队尾。</li>
+<li>由于要得到递减序列，所以会从值更大的队列开始收集。</li>
+</ol>
+<p>上面是基数排序得到递减序列的过程，下面看一下得到递增序列的过程：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/66762900d9c307b7e9ae4238.png" alt="数据结构（七）——排序——基数排序递增序列.png">
+
+<p>可以看到要想得到递增序列，只需要在收集各个位时，先从值更小的队列开始收集，就可以得到一个递增的序列。</p>
+<p>接下来对基数排序算法效率进行分析：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/667629bed9c307b7e9af80c7.png" alt="数据结构（七）——排序——基数排序算法效率分析.png">
+
+<p>基数排序算法大多数情况下都是基于链式存储的结构来实现，所以上面给出的图示就是一个单链表，其结构定义在上图左。然后会定义十个队列，由于队列中链接的元素就是一个一个的结点，所以十个队列就是十个链式队列。每个队列从代码角度看就是定义了一个队头指针和队尾指针，队头指针指向最上面的元素，队尾指针指向最下面的元素，虽然上图没有画出，但要清楚一个队列中各个结点间是用指针互相连接起来的。而上面定义了十个队列，其实就是定义了队列的数组，这个数组当中含有十个元素分别对应十个队列。</p>
+<p>接下来看一下空间复杂度，显然基数排序的执行主要需要定义一个辅助队列，而这个辅助队列的长度是r，又因为每新增一个队列只是增加两个指针域，因此每个队列所需要的空间都是O(1)数量级，所以总的空间复杂度就是Q(r)数量级。</p>
+<p>接下来看时间复杂度，算法执行的过程是总共进行了d趟的分配和收集，而每一趟的分配就是从头到尾把链表(序列)中的元素给扫描一遍，总共有n个元素，所以都扫一遍需要O(n)的时间，而一趟收集只需要O(r)的时间，每收集一个队列的元素只需要O(1)的复杂度，因此总体来看时间复杂度就是O(d(n+r))。</p>
+<p>这里解释一下为什么收集一个队列的元素只需要O(1)的复杂度，如下图：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/66762d32d9c307b7e9b5cd05.png" alt="数据结构（七）——排序——基数排序算法收集效率.png">
+
+<p>假设前面都已经收集完成，现在要收集Q6，用p指针指向已收集的链表的链尾，当我们要收集Q6时，只需要将Q6的队头拼接到已收集的链表尾，然后将p移动到新的表尾即可，如上图右下的程序。这个过程只需要简单的改动指针的指向即可，所以收集一个队列的元素只需要O(1)的复杂度。</p>
+<p>接下来看一下算法的稳定性：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/6676348ad9c307b7e9c4e478.png" alt="数据结构（七）——排序——基数排序算法稳定性.png">
+
+<p>从上图可以看到，同样的两个元素，在原序列里靠前的元素，经过分配收集以后，仍然会处于靠前的位置，所以基数排序算法是稳定的。</p>
+<p>下面看一下基数排序的应用：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/667634ffd9c307b7e9c598fa.png" alt="数据结构（七）——排序——基数排序的应用.png">
+
+<p>假设某一个学校有10000个学生，现在需要把学生信息按年龄递减的顺序进行排序。那么可以用学生的出生年月日来作为关键字进行排序，假设所有学生的出生年份是1991<del>2005这15个可能取值，月有可能取得1</del>12这12个取值，日有可能取得1~31这31个取值。而生日这三组信息，肯定是年的影响大于月大于日，所以按照基数排序的思想，在进行分配和收集时应该先按照日来，再按月，最后再按年进行。</p>
+<p>算法进行的过程设计的辅助队列如上，这里要注意一下，由于要得到年龄递减的排序，而日期越大，出生就越晚，年龄就越小，所以这里的辅助队列是按照数值递增的次序排列的。经过上面的三趟分配与回收就可以得到学生按年龄递减的排序。</p>
+<p>这里计算一下该例的时间复杂度，这里由于三趟的r不同，所以选取最坏的一趟r&#x3D;31，通过O(d(n+r))可以计算出时间复杂度约为O(30000)，而采用之前的排序算法，坏一点的像冒泡之类的，时间复杂度就达到O(n<sup>2</sup>)&#x3D;O(10<sup>8</sup>)，好一点的像堆排序之类的，时间复杂度就为O(nlog<sub>2</sub>n)&#x3D;O(140000)。所以可以看到，在这种场景下，采用基数排序所得到的时间复杂度，要比之前的所有算法都要优秀。</p>
+<p>所以基数排序适合解决的问题，我们就可以总结如下图：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/667637fad9c307b7e9cb4ade.png" alt="数据结构（七）——排序——基数排序适合解决的问题.png">
+
+<p>下面用几个反例来帮助理解上图的这三个条件：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/66763835d9c307b7e9cbc9f8.png" alt="数据结构（七）——排序——基数排序适合解决的问题反例.png">
+
+<p>第一个条件要求拆分的分组d不能太多。这里看一个反例，比如说给5个人的身份证号排序，那每个人的身份证号有18位，也就是d&#x3D;18，这种情况使用基数排序的话，那总共需要进行18趟的分配回收，而本来只有5个人的数据，所以如果数据元素个数n很小，而分组d又很大的时候，这种情况使用基数排序的效率显然是很低很低的。</p>
+<p>第二个条件要求每组关键字取值范围不能太大，即r较小。同样看一个反例，如果说要给人中文人们进行排序，中国人名有可能是三个字又或者两个字、四个字，总之d是比较小的，但名字中会出现各种各样的汉字，这个r是很大的，相应的空间复杂度就会很高，而且时间复杂度也不低，因此这种场景就不适合用基数排序。</p>
+<p>第三个条件，要求数据元素个数n较大。还是身份证的例子，如果n足够大，比如给10亿人的身份证号排序，这时虽然身份证号有18位，要进行18次分配回收，但比起O(nlog<sub>2</sub>n)和O(n<sup>2</sup>)，基数排序仍然会得到一个很好的时间效率。所以，在分析实际问题时，不能教条化，还是要具体问题具体分析。</p>
+<p>下面对基数排序进行小结：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/66763859d9c307b7e9cc1b2b.png" alt="数据结构（七）——排序——基数排序小结.png">
+
+<h2 id="7-外部排序"><a href="#7-外部排序" class="headerlink" title="7. 外部排序"></a>7. 外部排序</h2><p>从本部分开始，往后进入外部排序的篇章。这里先贴一张本节知识总览，方便重点学习和理解。</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/66763b52d9c307b7e9d24a90.png" alt="数据结构（七）——排序——外部排序.png">
+
+<p>首先，看一下外存、内存之间的数据是如何进行交换的：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/66763be3d9c307b7e9d32edd.png" alt="数据结构（七）——排序——外存和内存的数据交换1.png">
+
+<p>这里的外存特指磁盘，就是所谓的机械硬盘。磁盘这种设备有一个特点就是里面存储数据的存储单元是以所谓的磁盘块为单位的，操作系统也是以块为单位对磁盘存储空间进行管理。磁盘块里可以存储各种各样的数据，如图，磁盘块4和11里就存储了数据。现在有一个问题，如何去修改磁盘里的数据？我们要修改这些数据必须做到事情就是需要把对应的磁盘块读到内存里，也就是说要在内存里申请开辟一片缓冲区，缓冲区的大小可以和一个块的大小保持一致，上图例子为1KB。</p>
+<p>接下来就可以把磁盘块4里的数据给读到内存当中，如下图：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/667642dbd9c307b7e9e29205.png" alt="数据结构（七）——排序——外存和内存的数据交换2.png">
+
+<p>磁盘的读写都是以块为单位来进行的，也就是说每次读一块或写一块。</p>
+<p>当数据读入内存以后，接下来就可以用程序代码对内存里的数据进行修改，修改后的样子如下图：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/6676434fd9c307b7e9e3641b.png" alt="数据结构（七）——排序——外存和内存的数据交换3.png">
+
+<p>现在只是修改了内存里的数据，如果想要修改磁盘块的数据，还需要把数据写回磁盘，同样也是以块为单位进行写操作。我们可以把上图中内存里修改的数据写回磁盘块4，当然也可以写到其它磁盘块，比如写到磁盘块11，如下图。这就是内存、外存之间交换的原理，每次以块为单位进行读写。</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/667643e8d9c307b7e9e4b9fd.png" alt="数据结构（七）——排序——外存和内存的数据交换4.png">
+
+<p>理解了外存和内存之间是如何进行数据交换的以后，下面看一下外部排序的原理。</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/66765700d9c307b7e90a91fc.png" alt="数据结构（七）——排序——外部排序1.png">
+
+<p>所谓的外部排序是指数据元素存放在外存中，由于磁盘容量很大而内存容量很小，所以很多时候没有办法把磁盘的数据都给读入内存，所以要对存在于磁盘中的数据进行排序，这就是外部排序。</p>
+<p>而实现外部排序的思想就是基于前面所学的归并排序，使用这种方式，最少只需在内存中分配3块大小的缓冲区即可对任意一个大文件进行排序。也就是说如上图在内存里申请的3个缓冲块，这3个缓冲块的大小都和一个磁盘块的大小是一致的，如果磁盘块大小为1KB，则3个缓冲区大小也都是1KB。</p>
+<p>如上图，为了接下来的演示方便，在此规定整个文件总共只包含16块数据，每个磁盘块里包含3个记录，每个记录都有一个关键字，现在要对整个文件里的所有记录用归并排序的方式把它变成一个递增的序列，接下来看一下如何进行。</p>
+<p>由于归并排序每一趟是把两个有序的子序列合并成一个更长的子序列，所以在归并排序开始前，需要构造一些已经有序的子序列。我们内存里已经有了两块输入缓冲区，可以存放两块内容，那就可以先从磁盘里，把第一块和第二块内容给读到内存中。如下图。</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/66765971d9c307b7e90ecc01.png" alt="数据结构（七）——排序——外部排序2.png">
+
+<p>被读入内存中的数据，我们想怎么操作都可以，所以可以对其进行内部排序，排序结果如下图：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/667659bad9c307b7e90f4b59.png" alt="数据结构（七）——排序——外部排序3.png">
+
+<p>此时，第一块和第二块缓冲区的内容就成了一种递增状态。现在要把调整以后的数据放回外存中，要先把输入缓冲区1的内容放到输出缓冲区，如下图：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/66765a2dd9c307b7e91011b8.png" alt="数据结构（七）——排序——外部排序4.png">
+
+<p>然后通过输出缓冲区写回磁盘，而这些数据的大小刚好是和磁盘块大小一样的，所以把8,9,26写回磁盘的第一个块，如下图：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/66765a71d9c307b7e9111fc3.png" alt="数据结构（七）——排序——外部排序5.png">
+
+<p>同理，可以把36,42,48写回第二个块：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/66765acbd9c307b7e911d03f.png" alt="数据结构（七）——排序——外部排序6.png">
+
+<p>现在，第一个磁盘块和第二个磁盘块里的这些记录就变成了一个递增有序的子序列，也叫归并段，之后就可以用这个有序的子序列来进行归并排序。</p>
+<p>接下来同理，读取剩下块的记录并进行内部排序再写回外存，总共可以得到8个初始的归并段，如下图：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/66765b82d9c307b7e9130e72.png" alt="数据结构（七）——排序——外部排序7.png">
+
+<p>之后，我们可以用这8个初始的归并段进行归并排序。由于整个文件有16块的内容，而每一块的内容都会被读入内存一次，在内存里排好序以后，还会把对应的块写回外存，所以总共有16块的数据，这16个块都要被读一次写一次，所以在上图例子里，构造初始归并段总共发生了16*2&#x3D;32次的读写磁盘的操作。</p>
+<p>上面就是外部排序的第一个步骤，构造初始归并段，接下来使用初始归并段进行归并排序。</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/667664cfd9c307b7e923258b.png" alt="数据结构（七）——排序——外部排序8.png">
+
+<p>第一趟归并排序，如上图，会把初始归并段1和2进行二路归并。我们会先把初始归并段1和2中的更小的块给读入内存，分别放到缓冲区1和缓冲区2中，如下图。</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/6676655bd9c307b7e9242289.png" alt="数据结构（七）——排序——外部排序9.png">
+
+<p>接下来对初始归并段1和2的归并就变成了内部归并排序，这时就按照二路归并排序的算法，对比两个归并段的最小关键字，挑出最小的放到输出缓冲区。然后从剩下的记录里，再次挑出最小的放到输出缓冲区，直到把输出缓冲区放满，如下图。</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/6676673dd9c307b7e9275027.png" alt="数据结构（七）——排序——外部排序10.png">
+
+<p>现在，要输出缓冲区里的数据给写回外存，如下图：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/6676677dd9c307b7e927c577.png" alt="数据结构（七）——排序——外部排序11.png">
+
+<p>此时输出缓冲区里的数据就写回了外存，输出缓冲区被清空，接下来要继续使用归并排序往输出缓冲区里写入数据，此时会出现下图的情况：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/667667d4d9c307b7e9285e24.png" alt="数据结构（七）——排序——外部排序12.png">
+
+<p>我们在继续向输出缓冲区里写数据时，会出现输入缓冲区1空了的情况，由于输入缓冲区1里存放的是归并段1的第一个磁盘块，所以要立即用归并段1的后一个磁盘块里的内容来填补输入缓冲区1，如下图。</p>
+<p>注意，这里说一种情况，由于内存外存之间是按块交换，每个块里有三个数据，如果此时输入缓冲区1空了，而归并段1里也没有未归并的块，则输入缓冲区2中的记录数与输出缓冲区中的剩余可放入记录数之和一定为3，如果输入缓冲区2中有3个记录，则输出缓冲区中记录已满，我们先把输出缓冲区的数据写回外存，再把输入缓冲区2的数据放入输出缓冲区写回外存，然后看归并段2有没有剩余的未归并块，如果有再把归并段2剩余的未归并块直接拼到归并序列的后面即可。如果输入缓冲区2中没有3个记录，则输出缓冲区中记录未满，且剩余数量肯定刚好够把输入缓冲区2中的数据放入，我们就直接把输入缓冲区2的数据放入输出缓冲区凑够一个块，然后写回外存，然后看归并段2有没有剩余的未归并块，如果有再把归并段2剩余的未归并块直接拼到归并序列的后面即可。</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/66766871d9c307b7e92a9701.png" alt="数据结构（七）——排序——外部排序13.png">
+
+<p>这么做可以保证输入缓冲区1永远是包含了归并段1里此时暂时还没有被归并但是数值最小的一个记录，下面继续让两个归并段继续归并，接下来最小的关键字是27，把它写入输出缓冲区，如下图：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/6676691dd9c307b7e92bc95e.png" alt="数据结构（七）——排序——外部排序14.png">
+
+<p>此时把输出缓冲区里数据写回外存，同时由于输入缓冲区2空了，所以要把归并段2的后一个块放入输入缓冲区2，如下图：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/66766960d9c307b7e92c47db.png" alt="数据结构（七）——排序——外部排序15.png">
+
+<p>接下来继续进行归并排序，然后把数据写回外存，最后得到的结果如下图：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/667669b7d9c307b7e92ce6d4.png" alt="数据结构（七）——排序——外部排序16.png">
+
+<p>到此为止，两个归并段就归并为了一个更长更大的段，如上图。</p>
+<p>这里要说一下，在上图里，我们归并之后的归并段并没有放回原位置，这是因为我们把归并之后的归并段放回外存的位置并不一定是一开始两个初始归并段的位置，至于放到哪，这主要涉及到从内存把数据写回外存的写回算法，有兴趣可以去了解一下。</p>
+<p>不过为了方便理解和学习，我们还是把它移动到原位置，如下图：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/66766b49d9c307b7e92faef6.png" alt="数据结构（七）——排序——外部排序17.png">
+
+<p>接下来用同样的方法，把剩下的6个初始归并段进行归并，最后总共可以得到4个更长的归并段，如下图：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/66766bafd9c307b7e93058ef.png" alt="数据结构（七）——排序——外部排序18.png">
+
+<p>到此，第一趟归并就完成了。</p>
+<p>接下来进行第二趟归并，这一趟归并会把4个有序子序列两两归并，归并过程与第一趟归并一致，最后可以得到如下图的归并结果：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/66766c41d9c307b7e9316855.png" alt="数据结构（七）——排序——外部排序19.png">
+
+<p>经过第二趟归并，可以得到两个更长的有序子序列。</p>
+<p>接下来进行第三趟归并，这一趟归并会把第二趟归并得到的2个有序子序列再次归并，归并过程与前面归并一致，最后可以得到如下图的归并结果：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/66766fc6d9c307b7e937c769.png" alt="数据结构（七）——排序——外部排序20.png">
+
+<p>到此，我们就可以得到一个整体有序的排列。</p>
+<p>下面，我们对这个过程进行时间开销分析：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/66767010d9c307b7e9385059.png" alt="数据结构（七）——排序——外部排序时间开销分析.png">
+
+<p>还是上面的例子，我们在进行外部排序时，刚开始是把原始的乱序数据给生成一个初始归并段，这个过程需要读写磁盘块各16次，另外把数据读入内存以后还要进行内部排序，经过这样处理得到了8个初始归并段，每个初始归并段占两块磁盘块。</p>
+<p>接下来会进行3趟归并，每一趟归并会基于上一趟的结果，把两个归并段合并为一个更长的归并段，经过3趟以后，可以得到一个整体有序的文件。</p>
+<p>通过上面的演示过程，不难发现，每一趟归并都需要把16块的数据读入内存16次，然后写回外存16次，在读入以后还需要进行内部归并。</p>
+<p>所以**<font color=red>外部排序时间开销&#x3D;读写外存的时间+内部排序所需时间+内部归并所需时间</font>**。这里面由于读写外存是很慢的，而内部排序和内部归并由于在内存里，处理起来很快，所以大部分时间开销花费在读写外存上，要想优化就要在读写外存上想办法。</p>
+<p>由于读写外存的时间与读写磁盘次数是成正比的，所以通过刚刚的分析可以知道，整个过程需要读写磁盘32+32*3&#x3D;128次，这个式子里的32是文件的总块数，而3是归并趟数，显然文件的总块数32是无法改变的，所以只能想办法让文件归并的趟数减少，归并的趟数变小，读写磁盘的次数就会下降，相应的外部排序时间开销也会下降，所以优化思路就是如何减少归并的趟数。</p>
+<p>下面看一下如何进行优化：</p>
+<p>我们可以采用多路归并来进行归并处理，之前是采用2路归并，现在看一下如果采用4路归并，如下图。</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/66767331d9c307b7e93dee48.png" alt="数据结构（七）——排序——外部排序优化.png">
+
+<p>采用4路归并，相应的就要在内存里分配4个输入缓冲区，然后把4个归并段的内容分别读入缓冲区，接下来归并的原理是一样的。</p>
+<p>如果采用4路归并，那么经过推算可以发现，只需要进行两趟归并，就可以得到一个整体有序的文件。如下图。</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/66767457d9c307b7e9400e6e.png" alt="数据结构（七）——排序——外部排序优化1.png">
+
+<p>因此，如果采用4路归并的话，那归并趟数只需要两趟，读写磁盘次数就只需要96次。所以采用多路归并的方式，可以减少归并趟数，从而减少磁盘I&#x2F;O读写的次数。</p>
+<p>而在归并排序里我们也说过，对r个初始归并段，做k路归并，则归并树可用k叉树表示。对于一个k叉树，第h层最多会有k<sup>h-1</sup>个结点，而r个初始归并段都需要在k叉树的最底层，也就是h层，所以需要满足r&lt;&#x3D;k<sup>h-1</sup>，解这个不等式就可以得到(h-1)<sub>最小</sub>&#x3D;⌈log<sub>k</sub>r⌉。由于归并趟数刚好等于h-1，所以⌈log<sub>k</sub>r⌉也代表了进行k路归并时，有可能得到的最小的归并趟数。而根据对数性质又可以知道，k越大，则归并趟数越少，也就意味着读写磁盘次数会减少。另一方面，如果能让r也就是初始归并段数量变少，那么归并的趟数也可以减少。</p>
+<p>所以，经过分析，对于外部排序，我们可以总结出两种优化思路。第一种就是让归并路数k变得大一些，第二种就是让r也就是初始归并段数量小一些。不过这里要强调一下，并不是让归并路数k越大越好，因为归并路数越多，也会带来一些负面影响。比如k路归并时，需要开辟k个输入缓冲区，内存开销增加。而且每挑选一个关键字需要对比关键字(k-1)次，K变大，内部归并所需时间就会增加（补充一下，这里的k路归并时需要对比的关键字次数可以通过败者树减少）。总之，这里要强调的就是k越大，读写磁盘次数就会变少，相应的外部排序时间开销也会变少，但是k并不是可以无限增大的。</p>
+<p>接下来看怎么减少r，也就是减少初始归并段数量：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/66767937d9c307b7e949e18c.png" alt="数据结构（七）——排序——外部排序优化2.png">
+
+<p>在刚刚进行4路归并时，分配了4个输入缓冲区，既然分配了4个输入缓冲区，对于一个刚开始无序的文件就可以读取4块文件的内容，然后把这些记录在内存里进行排序然后写回外存，这样得到的初始归并段就包含了4块的内容，用这种方式构造初始归并段就只会有4个。<strong>所以如果生成初始归并段的内存工作区越大，那么生成初始归并段的长度就越长，每一个归并段越长，就意味着归并段总数r越少，所以外部排序的整体效率就会提升。</strong></p>
+<p>因此，这里可以得出如下图的结论：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/66767a48d9c307b7e94be9f3.png" alt="数据结构（七）——排序——外部排序优化3.png">
+
+<p>如果能增加初始归并段的长度，则可以减少初始归并段数量r，r越小，则归并趟数越少，读写磁盘次数就越少。</p>
+<p>下面对这部分进行小结：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/66767ae1d9c307b7e94d1648.png" alt="数据结构（七）——排序——外部排序小结.png">
+
+<p>注：按照本节介绍的方法生成的初始归并段，若共N个记录，内存工作区可以容纳L个记录，则初始归并段数量r&#x3D;N&#x2F;L。</p>
+<p>最后，补充一个概念——多路平衡归并。</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/66767b37d9c307b7e94db36d.png" alt="数据结构（七）——排序——多路平衡归并.png">
+
+<p>有的地方可能对多路平衡归并的定义是对r个初始归并段，做k路平衡归并，归并树可用严格k叉树(即只有度为k与度为0的结点的k叉树)来表示。</p>
+<p>上面的这个定义是由问题的，如上图的4路平衡归并，里面包含了度为2的结点，这是不符合上面的定义的，所以上面的定义是有问题的。</p>
+<p>实际上k路过平衡归并的定义应该是：</p>
+<ol>
+<li>最多只能有k个段归并为一个。</li>
+<li>每一趟归并中，若有m个归并段参与归并，则经过这一趟处理得到[m&#x2F;k]个新的归并段。</li>
+</ol>
+<p>满足这两个特性才能叫多路平衡归并。</p>
+<p>下面看一个反例：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/66767d26d9c307b7e9514e15.png" alt="数据结构（七）——排序——多路平衡归并反例.png">
+
+<p>上图的例子用了4路归并，所以是4路归并排序，但一开始的8个归并段经过一趟处理后得到3个新的归并段，并不满足多路平衡归并的第二个特性，所以它不是4路平衡归并。  </p>
+<h2 id="8-败者树"><a href="#8-败者树" class="headerlink" title="8. 败者树"></a>8. 败者树</h2><p>在7.外部排序末说过，如果增加归并路数k的话，那么可以减少归并的趟数，从而可以减少读写磁盘的次数，这样就可以让外部排序的时间开销整体来看有一个较大的优化。但是这么做带来的负面影响就是，如果使用k路平衡归并，那么每从这k路里挑选一个最小的元素就需要对比关键字(k-1)次，这就会导致内部归并所需时间增加。</p>
+<p>而本节学习的败者树可以对这个问题进行优化，可以让我们从k个归并段里挑选出最小的关键字所需要的对比次数变得更少。</p>
+<p>下面首先先来认识一下什么是败者树。</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/6676d289d9c307b7e9f58daf.png" alt="数据结构（七）——排序——败者树的构造.png">
+
+<p>如上图的例子，这时一个很常见的比赛晋级图，我们让两两比赛，胜利者进入下一回合比拼，失败者留在这一回合，最终这8个人经过7次比拼，可以决出一个优胜者。比赛的过程晋级图如上图，这是一个类似二叉树的结构，我们把它称之为败者树。</p>
+<p>败者树的定义如下图：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/6676d3fed9c307b7e9f891b1.png" alt="数据结构（七）——排序——败者树的使用.png">
+
+<p>下面思考一个问题，上图例子里，如果此时天津饭选手宣布放弃冠军，接下来会由另一个选手派大星顶替其位置，那是不是意味着要重新进行7场比赛才能选出冠军呢？</p>
+<p>答案并非如此，我们完全可以基于之前构建好的这棵败者树来对比赛的流程进行优化，可以进行更少的比赛就找出谁最强。</p>
+<p>现在我们根据构建好的败者树来看看如何进行优化：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/6676d513d9c307b7e9faae85.png" alt="数据结构（七）——排序——败者树的使用1.png">
+
+<p>从上图中可以看到，派大星顶替了天津饭的位置，现在要想从这8个人里重新选一个冠军，完全不需要重新进行。根据构建好的败者树，可以发现最右边的4个人不需要重新比赛，因为这4个人中谁更厉害，之前的比赛就已经知道了，而且狼人和程龙谁更厉害也已经知道，所以他们两也不要重新比赛。</p>
+<p>现在不知道的是派大星和阿乐谁更厉害，所以可以让派大星和阿乐比赛一场，假如派大星赢了，接下来就可以让派大星和程龙比赛一场，如果派大星又赢了，接下来就可以让派大星和孙悟空比赛一场，假如孙悟空赢了，那派大星就要留在原来孙悟空的位置，孙悟空就成了新的冠军。所以新的一轮的败者树就构造如下图。</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/6676d749d9c307b7e9ff1dba.png" alt="数据结构（七）——排序——败者树的使用2.png">
+
+<p>这一轮冠军的选取就可以发现，基于已经构建好的败者树，再次选出新的胜者只需要进行3场比赛，并不用重新比赛7场。</p>
+<p>其实这个例子中的比赛就可以看做是关键字的对比，所以接下来就看看怎么样在多路平衡归并中使用败者树减少关键字对比次数。</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/6676d80bd9c307b7e900b2e7.png" alt="数据结构（七）——排序——败者树在多路平衡归并中的应用1.png">
+
+<p>现在有如图的8个归并段，如果要从这8个归并段中每次选出一个最小的数据元素，则每选出一个最小的元素都要进行7次关键字对比。</p>
+<p>不过现在可以使用败者树来减少关键字对比次数，做法如下：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/6676d8b0d9c307b7e901d951.png" alt="数据结构（七）——排序——败者树在多路平衡归并中的应用2.png">
+
+<p>首先我们会先构造一棵败者树，如图，上面这棵败者树的每一个叶子结点会对应一个归并段。现在放到叶子结点里面的这些元素就是每一个归并段的第一个元素（即每个归并段里最小的元素）。接下来会构建这棵败者树，从中找出关键字值最小的一个，构建的方法和前面的比赛晋级的方法一样。</p>
+<p>先来看第一个归并段和第二个归并段，27和12比较，由于要选出最小的值，而12比27更小，因此27就是失败者，12晋级。同理1和17比较，17是失败者，1晋级。接下来2和9，11和4同理，2和4晋级。</p>
+<p>接下来会让晋级的在一起比较，首先比较的就是12和1，1更小，所以1继续晋级；然后比较2和4，2更小，所以2继续晋级。最后1和2对比，1更小，2是失败者，所以2留在了失败结点，1成为冠军，即是最小结点，晋级过程如下图。</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/6676da56d9c307b7e9064972.png" alt="数据结构（七）——排序——败者树在多路平衡归并中的应用3.png">
+
+<p>当我们构造这一棵败者树的时候，在这些失败结点当中通常记录的是失败元素来自于哪一个归并段，而并非失败元素本身。比如第一场的比赛失败元素是27，而27来自归并段1，所以第一个失败结点里记录的就是归并段1的编号1，剩下的依次类推，最后就可以得到一棵初始的败者树，如下图。</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/6676db29d9c307b7e907fb89.png" alt="数据结构（七）——排序——败者树在多路平衡归并中的应用4.png">
+
+<p>在这棵败者树的根节点处，记录了冠军也就是最小的一个元素来自哪一个归并段，这个例子里记录的是3，所以最小的元素来自3号归并段。因此第一轮通过7次关键字对比之后，找到了最小的元素1。</p>
+<p>接下来按照归并排序的规则，还要再在这几个归并段里选出下一个最小的元素，因此接下来会先让归并段3里下一个元素6替代1这个元素位置，如下图。</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/6676dc1bd9c307b7e909d662.png" alt="数据结构（七）——排序——败者树在多路平衡归并中的应用5.png">
+
+<p>接下来，想从这些元素中找出下一个更小的元素，那只需要让新元素6和第四个归并段中最小的元素17进行对比，显然新元素6是更小的，因此3号段的新元素6就会进入下一轮对比。下一轮要和2号段的最小元素进行对比，对比之后，同样是来自3号段的新元素6胜出，因此来自3号段的新元素又可以进入下一轮的对比。接下来要和5号段的最小元素2进行对比，显然5号段的2更小，则来自3号段的新元素6就止步于此，最终选出新的最小元素来自5号段。</p>
+<p>新元素6执行比较的结果如下图：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/6676dd5fd9c307b7e90c7eb5.png" alt="数据结构（七）——排序——败者树在多路平衡归并中的应用6.png">
+
+<p>从这个例子当中可以看到，只要构建好了败者树，接下来每次要选出一个最小的元素只需要进行3次关键字对比，也就是刚好和灰色结点的层数是相等。因此可以把这个结论广义化，<strong>对于k路归并，构建好了败者树以后，接下来选出最小的元素，只需要进行⌈log<sub>2</sub>n⌉次关键字对比即可</strong>。</p>
+<p>接下来解释一下这个结论是怎么来的，由于关键字对比的次数和灰色结点的层数是相等的。那么假设对于k路归并，它所对应的败者树的树高为h，注意这个h是不包含最上方的蓝色结点的，但是它包含最下方的绿色叶子结点，所以h包含的就是一棵完全二叉树。而对于一棵完全二叉树，第h层最多会有2<sup>h-1</sup>个结点，而我们构造的是k路归并所对应的败者树，那k路归并的败者树会对应k个叶子结点，显然对于一棵有h层的完全二叉树，叶子结点的数量k应该是要小于等于2<sup>h-1</sup>，即k&lt;&#x3D;2<sup>h-1</sup>，把这个不等式解出来就可以得到h-1&#x3D;⌈log<sub>2</sub>n⌉，而h-1刚好就代表分支结点有多少层（就是图中灰色结点有多少层）。再结合之前的结论，分支结点有多少层，最多就要进行多少次关键字的对比，因此有了败者树以后，要选出一个最小的关键字最多就只需要进行⌈log<sub>2</sub>n⌉次关键字对比。所以构建了一棵败者树以后，就可以让我们在进行多路归并的时候，关键字对比的次数变得更少。</p>
+<p>考研中对于败者树的考察频率不是很高，如果考察到通常也都是手算，但对于程序的实现思路也要了解一下，下面看一下如何用程序实现败者树：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/6676e0f2d9c307b7e9136f0f.png" alt="数据结构（七）——排序——败者树的代码实现.png">
+
+<p>还是用刚刚的例子，如果要进行8路归并，其实只需要定义一个长度为8的int型数组，用这个数组就可以表示8路归并所对应的败者树。数组下标为1的元素对应了传统意义上的二叉树的根节点，数组下标为0的位置对应的就是新增加的小头头，后续的元素就是和完全二叉树都是对应的。</p>
+<p>另外从上图还可以发现，这些叶子结点在实际的数组当中是不对应任何一个数据的，也就是说这些叶子结点是虚拟的，在逻辑上看这些叶子结点是存在的，并且每一个叶子结点会对应一个归并段，但实际上这些叶子接点只是我们脑补上去的，真正的”叶子结点“其实就是各个归并段里的最小元素。</p>
+<p>下面对这部分进行小结：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/6676e795d9c307b7e922aa0f.png" alt="数据结构（七）——排序——败者树的小结.png">
+
+<p>最后补充一点，我们求得的⌈log<sub>2</sub>n⌉是最多要进行关键字对比的次数，如果出现上图下的五个归并段构建败者树，我们通过⌈log<sub>2</sub>n⌉求得的3是最多要进行关键字对比的次数，也就是4和5这两个归并段选出一个最小的新元素最多要对比3次，但如果新的元素填补在归并段1和2和3的话，最多只需要进行2次归并。所以，这里想补充强调的就是⌈log<sub>2</sub>n⌉是最多要进行关键字对比的次数，并不是每次填补一个新元素都要进行⌈log<sub>2</sub>n⌉次关键字对比。</p>
+<h2 id="9-置换-选择排序"><a href="#9-置换-选择排序" class="headerlink" title="9. 置换-选择排序"></a>9. 置换-选择排序</h2><p>在7.外部排序里，我们说，在进行外部排序时，需要进行S趟k路归并，那么S&#x3D;⌈log<sub>k</sub>r⌉，如果能让初始归并段变得更少，也就是让r减少的话，那么外部排序的效率可以得到进一步的提升。而本部分学习的置换-选择排序就可以用于构造更长的初始归并段，也就是让初始归并段的数量减少。</p>
+<p>下面先来回顾一下之前构造初始归并段的方法：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/6677b802d9c307b7e956667c.png" alt="数据结构（七）——排序——土办法构造初始归并段.png">
+
+<p>如上图，在内存里有两个输入缓冲区也就是说同时最多只能读入两块的内容，然后把这些记录在内存里排序，之后再写回外存，这样就得到了一个初始归并段，如上图。由于上图中用于内部排序的工作区，最多只能容纳6个记录，所以用之前的这种方法构造的初始归并段里面同样也只能包含6个记录。</p>
+<p>对于这个问题的处理，最容易想到的一种方法是，在内存里开辟一片更大的区域，然后专门用这片区域来进行内部排序，这样的话就可以得到更长的初始归并段。如下图</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/6677b9b7d9c307b7e9595e29.png" alt="数据结构（七）——排序——土办法构造初始归并段1.png">
+
+<p>假设对于内存中的用于内部排序的区域，如果我们将其扩充为可以容纳18个记录，那我们就可以一口气把18个记录的信息都给读入到这一片空间里，然后对这18个记录进行内部排序，再依次的输出写回外存，这样的话得到的初始归并段就可以包含18个记录。而每一个初始归并段包含的记录数增多，就意味着整体来看初始归并段的数量r会下降。</p>
+<p>我们在进行内部排序时，如果内存工作区的大小只能容纳l个记录，这就意味着我们构造的初始归并段，每个归并段也只能包含l个记录，所以如果文件总共有n个记录，那最终构造得到的初始归并段数量应该是n&#x2F;l，即初始归并段数量r&#x3D;n&#x2F;l。也就是说构造的初始归并段数量会直接由内存工作区的容量大小决定，这是该方法的局限性。</p>
+<p>接下来看一下，怎么构造一个比内存工作区更大的初始归并段，这个问题就可以用置换-选择排序来解决。置换-选择排序如下图，这里为了演示方便对图示做了简化。</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/6677bb09d9c307b7e95ce5fe.png" alt="数据结构（七）——排序——置换选择排序示例1.png">
+
+<p>如上图右，假设是初始待排序文件包含的记录，接下来会用这些记录来构造一系列的初始归并段，现在假设内存工作区就是用于内部排序的工作区，大小只能容纳3个记录。那按照之前的方法，这个条件就意味着生成的初始归并段，每一个归并段也只能包含3个记录，所以上图总共24个记录就会构造出8个初始归并段。下面看一下选择排序是怎么解决这个问题的。</p>
+<p>在刚开始，会从待排序的序列中读入三个记录，如下图：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/6677bc5fd9c307b7e95f7cfc.png" alt="数据结构（七）——排序——置换选择排序示例2.png">
+
+<p>现在要构造递增的归并段，所以检查内存工作区里的这几个记录，发现关键字最小的是4，那么会把这个记录放到归并段1当中，并且会用一个变量MINIMAX把刚才输出的关键字的值给记录下来，如下图。</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/6677bcb4d9c307b7e9601741.png" alt="数据结构（七）——排序——置换选择排序示例3.png">
+
+<p>现在内存工作区中出现了空位，那么会从待排序文件当中读入下一个记录，如下图：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/6677bcfad9c307b7e9609133.png" alt="数据结构（七）——排序——置换选择排序示例4.png">
+
+<p>再次经过对比发现，此时最小的一个记录应该是6，并且它的值要比刚才输出的4更大，所以把6放到归并段1的后面，然后更新变量MINIMAX为6，由于6移出去了，所以空出一个位置，要把下一个变量13放进来，变换过程如下图。</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/6677bd9bd9c307b7e961b9a1.png" alt="数据结构（七）——排序——置换选择排序示例5.png">
+
+<p>接下来同理，在内存工作区里经过对比，找当当前最小的记录是7，且7大于刚刚输出的6，所以也要把7放到归并段1里6的后面，然后再从待排序文件里读入一个记录。所以接下来相同的过程我们就直接跳过。</p>
+<p>当内存工作区工作到输出的最小值为13时，此时再次读入的值为10，如下图：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/6677be81d9c307b7e96375a3.png" alt="数据结构（七）——排序——置换选择排序示例6.png">
+
+<p>内存工作区此时最小的一个记录是10，但是通过MINIMAX这个变量我们知道，之前我们输出到归并段1的记录应该是13，所以现在10这个记录不能放到归并段1的末尾，因为归并段1的内部肯定是要递增的，因此虽然10这个记录是在内存工作区里最小的，但是不能把它置换出去。而除了10之外，最小的是14，14要比刚刚输出的13大，所以可以把14放到归并段1的末尾，然后读入下一个记录22，过程如下图。</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/6677bf43d9c307b7e965093f.png" alt="数据结构（七）——排序——置换选择排序示例7.png">
+
+<p>接下来的工作过程就是输出16，读入30，然后输出22，读入2，由于2,10均小于刚刚输出的22，所以只能输出30，然后再读入3，此时内存工作区里的记录数量已满，而且都小于MINIMAX，如下图：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/6677bfc6d9c307b7e9660144.png" alt="数据结构（七）——排序——置换选择排序示例8.png">
+
+<p>如果某一时刻，内存工作区当中所有的元素都要比记录下来的MINIMAX更小，那么现在构造的归并段就应该到此为止，也就是说上图中的第一个归并段已经生成结束。</p>
+<p>接下来会构造第二个归并段，现在会把MINIMAX的值刷新，然后再从内存工作区里找出一个最小的元素进行归并段2的构造，如下图。</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/6677c06dd9c307b7e9674fb7.png" alt="数据结构（七）——排序——置换选择排序示例9.png">
+
+<p>此时内存工作里的元素最小的是2，所以会把2输出作为归并段2的第一个元素，然后记录MINIMAX的值为2，由于2输出，此时内存工作区会有一个空记录，所以会从待排序的文件里读入下一个记录19。接下来的工作原理同归并段1构造一样，最后归并段2的构造结果如下图。</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/6677c102d9c307b7e968683d.png" alt="数据结构（七）——排序——置换选择排序示例10.png">
+
+<p>此时内存工作区里的元素值都小于MINIMAX记录的值，所以归并段2构造结束，接下来会刷新MINIMAX进行归并段3的构造。归并段3的构造结构如下图：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/6677c150d9c307b7e9690124.png" alt="数据结构（七）——排序——置换选择排序示例11.png">
+
+<p>到此，整个文件的初始归并段就构造完成，可以看到使用置换-选择排序，可以让每个初始归并段的长度超越内存工作区大小的限制，这也说明使用置换-选择排序可以减少初始归并段的总数量r，而r越小，在进行外部排序时读写磁盘的次数也会相应的越少。所以这就是置换-选择排序的原理。</p>
+<p>下面对刚刚的置换-选择排序的过程中，可能会有疑惑的地方进行一个补充：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/6677c229d9c307b7e96aa328.png" alt="数据结构（七）——排序——置换选择排序示例解释.png">
+
+<p>如上图是刚刚演示过程的例子，这个地方给的所谓的输出文件FO，是存放在磁盘里的，而刚刚的演示过程是每一次把一个记录给输出到磁盘中，但其实背后真正的执行并非如此。在内存里会有一个输出缓冲区，然后每一次选出的这些元素都会先放到输出缓冲区里，每当输出缓冲区满了，凑足了一块的内容之后，才会把整个磁盘块的内容一次性给写回外存，所以虽然刚刚演示的过程是一个记录一个记录的往外写，但其实在背后是把这些记录进行了一个组团的操作，读写磁盘仍然是以磁盘块为单位的。</p>
+<p>对于原始文件的输入也是一样的，刚刚演示的过程也是每次读入一个记录，但其实每次是读入一整块的内容，也就是说一次会读入好几个记录，只不过，每次只会把一个记录给挪到内存工作区。</p>
+<p>下面对置换-选择排序的过程进行一个总结，也是对本节内容进行一个小结：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/6677c3b6d9c307b7e96d8335.png" alt="数据结构（七）——排序——置换选择排序小结.png">
+
+<h2 id="10-最佳归并树"><a href="#10-最佳归并树" class="headerlink" title="10. 最佳归并树"></a>10. 最佳归并树</h2><p>在学习最佳归并树前，先来看一下归并树的一个隐藏性质。通过9.置换-选择排序的学习，我们可以知道，如果使用置换-选择排序来构造初始的归并段的话，那么这些初始归并段的长度可能是各不相同的。如下图。</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/6676e917d9c307b7e925ebcc.png" alt="数据结构（七）——排序——归并树隐藏的性质.png">
+
+<p>上图给出了五个初始归并段，归并段里的数字表示每个归并段占多少个磁盘块，像R2这个归并段就是占5个磁盘块。</p>
+<p>现在要对这5个初始归并段进行二路归并，首先可以归并R2和R3，如下图：</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/6676eb58d9c307b7e92a8fcc.png" alt="数据结构（七）——排序——归并树隐藏的性质1.png">R2和R3的长度一个是5一个是1，所以我们要在内存里对他们进行归并，肯定要把R2的5块内容和R3的1块内容都读入内存，而之前又说过，读写磁盘是以磁盘块为单位的，所以把这6块的数据读入内存，需要读磁盘6次，而在内存中会把这两个归并段把它们合二为一，最终会生成一个总共占6块的归并段，再把这个归并段写回磁盘，总共需要6次的写操作。所以我们把R2和R3进行一个二路归并，总共需要读磁盘和写磁盘各6次。</p>
+<p>接下来归并R4和R5原理同R2和R3一样，归并结果如下图：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/6676eba8d9c307b7e92b3740.png" alt="数据结构（七）——排序——归并树隐藏的性质2.png">
+
+<p>可以看到，把R4和R5进行一个二路归并，总共需要读磁盘和写磁盘各8次。</p>
+<p>接下来，可以把刚才得到的两个较长的归并段再一次进行归并，归并结果如下图：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/6676ebfcd9c307b7e92bdf8b.png" alt="数据结构（七）——排序——归并树隐藏的性质3.png">
+
+<p>可以看到，把这两个较长的归并段进行一个二路归并，总共需要读磁盘和写磁盘各14次。</p>
+<p>最后再把R1这个归并段，和刚刚得到这个比较长的归并段进行一个归并，归并结果如下图：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/6676ec7fd9c307b7e92ce8fb.png" alt="数据结构（七）——排序——归并树隐藏的性质4.png">
+
+<p>可以看到，最后一次二路归并，总共需要读磁盘和写磁盘各16次。</p>
+<p>所以按照这样的策略进行归并，那么总共需要进行读写各44次。</p>
+<p>现在我们来做这样一件事，我们把这些绿色结点，也就是这几个归并段，把它们看做是这棵二叉树的五个叶子结点，那么可以算一下这棵树的带权路径长度等于44(带权路径长度计算过程参考上图)，和我们计算的读或写磁盘的次数是相同的。所以如果算读写的总次数，也就是磁盘的I&#x2F;O次数，就可以用带权路径的长度乘2求出。</p>
+<p>因此这里我们可以得出一个重要结论就是，**<font color=red>在归并过程中的磁盘I&#x2F;O次数&#x3D;归并树的WPL*2</font>**。基于这个结论不难想到，如果我们想追求归并的过程磁盘I&#x2F;O总次数最少，那么这个问题其实就是求一棵带权路径长度最小的归并树，而带权路径最小的树就是哈夫曼树(哈夫曼树的知识忘了可以复习回去第五章)。</p>
+<p>所以接下来我们会构造一棵哈夫曼树，来优化这五个初始归并段的二路归并策略，构造过程如下图：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/6676ee8dd9c307b7e931580b.png" alt="数据结构（七）——排序——构造2路归并的最佳归并树.png">
+
+<p>根据哈夫曼树构造的原理，刚开始我们会把这些结点看做是一个一个独立的树，只不过每棵树只有一个根节点而已。接下来，我们会从这几棵树当中挑选出根节点的权值最小的两棵，让他们成为兄弟。</p>
+<p>刚开始权值最小的是1和2，那就让他们俩成为兄弟，然后新的根节点的权值就是他们俩的权值之和，为3。现在剩下4棵树，根节点权值最小的应该是3和2，所以让他们俩成为兄弟，构造出新的结点，新结点权值因该为3+2&#x3D;5。后面的构造同理，不难发现其实就是哈夫曼树的构造。</p>
+<p>最后，我们可以得到如上图一个哈夫曼树，也就是2路的最佳归并树。而这个归并树背后的含义就是一开始我们会把R1和R3这两个初始归并段，归并成一个总长度为3的新的归并段，然后接下来用长度为3的归并段和R5这个归并段进行一个归并，得到一个长度为5的新的归并段。接下来用长度为5的归并段和R2这个归并段进行一个归并，得到一个长度为10的新的归并段。最后，用长度为10的归并段和R4这个归并段进行一个归并，得到一个总长度为16的有序文件。</p>
+<p>我们通过这棵哈夫曼树计算器带权路径长度，计算结果为34，也就是说用这个归并方案，总共只需要读磁盘34次，写磁盘34次，总的磁盘I&#x2F;O次数只需要68次，而前面的第一种方案总共要88次磁盘I&#x2F;O。所以，这就是为什么这棵树被称为最佳归并树，因为按最佳归并树的方案来进行二路归并，可以得到最少的磁盘I&#x2F;O次数。</p>
+<p>接下来再来看一下多路归并的情况：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/6676f1add9c307b7e9379020.png" alt="数据结构（七）——排序——多路归并的情况.png">
+
+<p>假设现在有如图的几个初始归并段，和之前一样，每个小圆点里的数字表示这个归并段总共占磁盘多少块。那假设现在要采用3路归并的策略，按照之前的方法进行3路归并，归并的结果如下图：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/6676f21fd9c307b7e9386dd9.png" alt="数据结构（七）——排序——多路归并的情况1.png">
+
+<p>计算器磁盘I&#x2F;O次数为484次，显然这并不是一个最佳的归并树。</p>
+<p>那三路归并的最佳归并树应该如何构造呢？其实原理和二路归并是非常类似的。我们会选出权值最小的三个结点，让它们成为兄弟，那首先被选出来的应该就是2,3,6这三个，然后我们把这3个段进行归并，得到一个总长度为11的归并段。归并结果如下图：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/6676f2c8d9c307b7e939d757.png" alt="数据结构（七）——排序——多路最佳归并1.png">
+
+<p>接下来权值最小的三个应该是9,11,12，所以下一次归并会让这三个段进行归并，得到一个长度为32的新的段，结果如下图：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/6676f342d9c307b7e93abdc7.png" alt="数据结构（七）——排序——多路最佳归并2.png">
+
+<p>接下来权值最小的三个应该是17,18,24，所以下一次归并会让这三个段进行归并，得到一个长度为59的新的段，结果如下图：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/6676f36ad9c307b7e93b089a.png" alt="数据结构（七）——排序——多路最佳归并3.png">
+
+<p>接下来还剩三个树，所以再把它们进行一次三路归并，最终得到一个总长度为121块的有序文件，如下图：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/6676f3e0d9c307b7e93be9b0.png" alt="数据结构（七）——排序——多路最佳归并4.png">
+
+<p>使用这样的方法得到的一棵三路归并的归并树，它就是一棵最佳归并树，我们可以算出其带权路径长度为223，也就是说按照这样的方法来进行归并排序，那么总共只需要读写磁盘446次。</p>
+<p>接下来有一个问题，我们刚刚给的是9个归并段，现在我们把长度为30的这个归并段给删掉，也就是说我们只有如下图的8个归并段来参与三路归并。</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/6676f4ecd9c307b7e93e6d53.png" alt="数据结构（七）——排序——缺一个归并段的3路归并.png">
+
+<p>那按照之前构造三叉哈夫曼树的规则，归并到最后会出现这样一种情况，如下图：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/6676f553d9c307b7e9400a8a.png" alt="数据结构（七）——排序——缺一个归并段的3路归并1.png">
+
+<p>如上图，归并到最后会出现只剩下两棵树的情况，那要把这两棵树进行归并肯定只能进行二路归并，归并结果如下图，最终得到一个总长度为91的有序文件。</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/6676f5b8d9c307b7e940c979.png" alt="数据结构（七）——排序——缺一个归并段的3路归并2.png">
+
+<p>我们可以计算出这棵树的带权路径长度为193，那么按照这样的策略来进行归并，总共需要磁盘I&#x2F;O次数为386次。</p>
+<p>这里要强调的是这种构造方法是不对的，问题出在最后的这一次归并只是两路归并而不是三路归并，而如果初始归并段能够再多一个，那就刚好可以保证在每次归并时都是三路归并。</p>
+<p>所以正确的做法应如下图所述：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/6676f684d9c307b7e9424fb6.png" alt="数据结构（七）——排序——缺一个归并段的3路归并的正确处理方法.png">
+
+<p><strong>对于k叉归并，若初始归并段的数量无法构成严格的k叉归并树，则需要补充几个长度为0的“虚段”，再进行k叉哈夫曼树的构造。</strong></p>
+<p>像上面的例子，我们需要先补充一个长度为0的虚段，如上图所示，然后再进行3叉哈夫曼树的构造。所以对于上例，正确的三叉哈夫曼树构造如下图所示：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/6676f72ad9c307b7e94391cd.png" alt="数据结构（七）——排序——缺一个归并段的3路归并的正确处理方法1.png">
+
+<p>上面的这个三叉哈夫曼树就是3路归并的最佳归并树，计算其带权路径长度为163，说明总的磁盘I&#x2F;O次数只需要326次。</p>
+<p>这里再解释一下长度为0的虚段是什么意思，第一次归并应该是2,3,0这几个归并段的一个归并。在进行三路归并时，需要设置三个输入缓冲区，那2这个归并段的数据会被放入第一个输入缓冲区，3这个归并段的数据会被放入第二个输入缓冲区，然后长度为0的虚段就意味着在第三个输入缓冲区里什么也不要放，接下来进行三路归并时，只需要把最后的归并段看作是一个已经把所有元素都归并完的归并段就可以了。这就是虚段背后的原理。</p>
+<p>总之，当进行k路归并时，如果k大于2，就可能遇到初始归并段的数量无法构成严格的k叉归并树这样的情况，如果遇到这种情况就需要补充几个长度为0的虚段，然后再进行k叉哈夫曼树的构造，那到底要补充几个虚段呢，这就是接下来要研究的问题。</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/667791ecd9c307b7e90e461b.png" alt="数据结构（七）——排序——添加虚段的数量.png">
+
+<p>假设现在要进行k路归并，那么k路归并的最佳归并树最终—定是一个严格的k叉树，所谓严格的意思就是说这个树中只包含度为k或度为0的结点。</p>
+<p>现在设度为k的结点有n<sub>k</sub>个，度为0的结点有n<sub>0</sub>个，归并树总结点数&#x3D;n，那么在这棵归并树中，刚开始给出的初始归并段还有补充的虚段它们肯定都是叶子结点，也就是说它们都是度为0的结点，因此，**初始归并段数量+虚段数量&#x3D;n<sub>0</sub>**。</p>
+<p>另外，根据k叉树的性质，还应该有这样两天结论：</p>
+<ol>
+<li>因为这个最佳归并树是严格的k叉树，只包含度为k和度为0的结点，所以把这两类结点的数量加和，就是这棵树的总结点数，即n&#x3D;n<sub>k</sub>+n<sub>0</sub>。</li>
+<li>在这个k叉树归并树里，总共有n<sub>k</sub>这么多个分支结点，而每一个分支结点的度都是k，所以每一个分支节点会发出k个分叉，而除了根节点外，其余所有的节点头上肯定都会连着一个分叉，所以kn<sub>k</sub>应该是分叉的总数量，那么n-1就是总的结点数减掉一个跟节点。这两个值应该是相等的，即kn<sub>k</sub>&#x3D;n-1。</li>
+</ol>
+<p>根据上面得到的两个式子就可以推出：n<sub>0</sub>&#x3D;(k-1)n<sub>k</sub>+1。则n<sub>k</sub>&#x3D;(n<sub>0</sub>-1)&#x2F;(k-1)，在这个式子里，n<sub>k</sub>指的是度为k的节点的数量，它肯定是一个整数，所以式子的右边(n<sub>0</sub>-1)&#x2F;(k-1)这个除式肯定刚好可以除得一个整数。</p>
+<p>因此，再结合前面的的推论，我们将初始归并段数量加上补充的虚段数量再减一，应该是刚好能够除尽k-1的。所以，若**<font color=red>(初始归并段数量-1)%(k-1)&#x3D;0</font><strong>，说明刚好可以构成严格k叉树，此时不需要添加虚段。而如果</strong><font color=red>(初始归并段数量-1)%(k-1)&#x3D;u，u不等于0</font><strong>，那么就说明初始归并段的这些数量无法构成一棵严格的k叉树，那么就需要补充</strong><font color=red>(k-1)-u</font>**个虚段才可以构成严格的k叉树，这里(k-1)-u是怎么得来的，是模运算的问题，如果不懂可以去看下模运算。</p>
+<p>下面对本节进行小结：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/66779752d9c307b7e9181fd9.png" alt="数据结构（七）——排序——最佳归并树小结.png"></article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="http://bandit-ljC-1.github.io">liujinC</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="http://bandit-ljc-1.github.io/2024/06/04/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%EF%BC%88%E4%B8%83%EF%BC%89%E2%80%94%E2%80%94%E6%8E%92%E5%BA%8F/">http://bandit-ljc-1.github.io/2024/06/04/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%EF%BC%88%E4%B8%83%EF%BC%89%E2%80%94%E2%80%94%E6%8E%92%E5%BA%8F/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://bandit-ljC-1.github.io" target="_blank">无名高手🍭</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/408%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">408学习笔记</a><a class="post-meta__tags" href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/">数据结构</a></div><div class="post_share"><div class="social-share" data-image="/myphotos/article_cover/6.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2024/06/04/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%EF%BC%88%E5%9B%9B%EF%BC%89%E2%80%94%E2%80%94%E6%96%87%E4%BB%B6%E7%AE%A1%E7%90%86/" title="操作系统（四）——文件管理"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/myphotos/article_cover/11.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">操作系统（四）——文件管理</div></div></a></div><div class="next-post pull-right"><a href="/2024/05/28/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%EF%BC%88%E5%85%AD%EF%BC%89%E2%80%94%E2%80%94%E6%9F%A5%E6%89%BE/" title="数据结构（六）——查找"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/myphotos/article_cover/5.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">数据结构（六）——查找</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2024/03/07/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%EF%BC%88%E4%B8%80%EF%BC%89%E2%80%94%E2%80%94%E7%BA%BF%E6%80%A7%E8%A1%A8/" title="数据结构（一）——线性表"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/myphotos/article_cover/3.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2024-03-07</div><div class="title">数据结构（一）——线性表</div></div></a></div><div><a href="/2024/04/09/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%EF%BC%88%E4%B8%89%EF%BC%89%E2%80%94%E2%80%94%E4%B8%B2/" title="数据结构（三）——串"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/myphotos/article_cover/8.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2024-04-09</div><div class="title">数据结构（三）——串</div></div></a></div><div><a href="/2024/05/28/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%EF%BC%88%E5%85%AD%EF%BC%89%E2%80%94%E2%80%94%E6%9F%A5%E6%89%BE/" title="数据结构（六）——查找"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/myphotos/article_cover/5.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2024-05-28</div><div class="title">数据结构（六）——查找</div></div></a></div><div><a href="/2024/05/14/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%EF%BC%88%E4%BA%94%EF%BC%89%E2%80%94%E2%80%94%E5%9B%BE/" title="数据结构（五）——图"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/myphotos/article_cover/10.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2024-05-14</div><div class="title">数据结构（五）——图</div></div></a></div><div><a href="/2024/03/28/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%EF%BC%88%E4%BA%8C%EF%BC%89%E2%80%94%E2%80%94%E6%A0%88%E4%B8%8E%E9%98%9F%E5%88%97%E4%B8%8E%E6%95%B0%E7%BB%84/" title="数据结构（二）——栈与队列与数组"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/myphotos/article_cover/11.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2024-03-28</div><div class="title">数据结构（二）——栈与队列与数组</div></div></a></div><div><a href="/2024/04/15/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%EF%BC%88%E5%9B%9B%EF%BC%89%E2%80%94%E2%80%94%E6%A0%91%E4%B8%8E%E4%BA%8C%E5%8F%89%E6%A0%91/" title="数据结构（四）——树与二叉树"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/myphotos/article_cover/7.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2024-04-15</div><div class="title">数据结构（四）——树与二叉树</div></div></a></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/myphotos/avatar.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">liujinC</div><div class="author-info__description"></div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">29</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">8</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">3</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://home.liujinc.cn"><i class="fab fa-github"></i><span>网站主页</span></a><div class="card-info-social-icons is-center"><a class="social-icon faa-parent animated-hover" href="/myphotos/WeChat.png" target="_blank" title="微信"><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon-weixin"></use></svg></a><a class="social-icon faa-parent animated-hover" href="/myphotos/QQ.jpg" target="_blank" title="QQ"><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon-QQ"></use></svg></a><a class="social-icon faa-parent animated-hover" href="https://space.bilibili.com/1941048387?spm_id_from=333.1007.0.0" target="_blank" title="B站"><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon-bilibili"></use></svg></a><a class="social-icon faa-parent animated-hover" href="https://blog.csdn.net/qq_63040545?spm=1000.2115.3001.5343" target="_blank" title="CSDN"><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon-csdn"></use></svg></a><a class="social-icon faa-parent animated-hover" href="https://github.com/Bandit-ljC-1" target="_blank" title="GitHub"><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon-github1"></use></svg></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">今年18岁傍50岁富婆，来年50岁包18岁姑娘。</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%EF%BC%88%E4%B8%83%EF%BC%89%E2%80%94%E2%80%94%E6%8E%92%E5%BA%8F"><span class="toc-text">数据结构（七）——排序</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-%E6%8E%92%E5%BA%8F%E7%9A%84%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5"><span class="toc-text">1. 排序的基本概念</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-%E6%8F%92%E5%85%A5%E6%8E%92%E5%BA%8F-%E5%B8%8C%E5%B0%94%E6%8E%92%E5%BA%8F%EF%BC%88%E6%8F%92%E5%85%A5%E6%8E%92%E5%BA%8F%E7%9A%84%E4%BC%98%E5%8C%96%EF%BC%89"><span class="toc-text">2. 插入排序&amp;希尔排序（插入排序的优化）</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#2-1-%E6%8F%92%E5%85%A5%E6%8E%92%E5%BA%8F"><span class="toc-text">2.1 插入排序</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-2-%E5%B8%8C%E5%B0%94%E6%8E%92%E5%BA%8F"><span class="toc-text">2.2 希尔排序</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-%E4%BA%A4%E6%8D%A2%E6%8E%92%E5%BA%8F"><span class="toc-text">3. 交换排序</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#3-1-%E5%86%92%E6%B3%A1%E6%8E%92%E5%BA%8F"><span class="toc-text">3.1 冒泡排序</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-2-%E5%BF%AB%E9%80%9F%E6%8E%92%E5%BA%8F-%E9%87%8D%E7%82%B9"><span class="toc-text">3.2 快速排序(重点)</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-%E9%80%89%E6%8B%A9%E6%8E%92%E5%BA%8F"><span class="toc-text">4. 选择排序</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#4-1-%E7%AE%80%E5%8D%95%E9%80%89%E6%8B%A9%E6%8E%92%E5%BA%8F"><span class="toc-text">4.1 简单选择排序</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-2-%E5%A0%86%E6%8E%92%E5%BA%8F"><span class="toc-text">4.2 堆排序</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-3-%E5%A0%86%E7%9A%84%E6%8F%92%E5%85%A5%E5%92%8C%E5%88%A0%E9%99%A4"><span class="toc-text">4.3 堆的插入和删除</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-%E5%BD%92%E5%B9%B6%E6%8E%92%E5%BA%8F"><span class="toc-text">5. 归并排序</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#6-%E5%9F%BA%E6%95%B0%E6%8E%92%E5%BA%8F"><span class="toc-text">6. 基数排序</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#7-%E5%A4%96%E9%83%A8%E6%8E%92%E5%BA%8F"><span class="toc-text">7. 外部排序</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#8-%E8%B4%A5%E8%80%85%E6%A0%91"><span class="toc-text">8. 败者树</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#9-%E7%BD%AE%E6%8D%A2-%E9%80%89%E6%8B%A9%E6%8E%92%E5%BA%8F"><span class="toc-text">9. 置换-选择排序</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#10-%E6%9C%80%E4%BD%B3%E5%BD%92%E5%B9%B6%E6%A0%91"><span class="toc-text">10. 最佳归并树</span></a></li></ol></li></ol></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2024 - 2025 By liujinC</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js?v=4.12.0"></script><script src="/js/main.js?v=4.12.0"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0.32/dist/fancybox/fancybox.umd.min.js"></script><script src="https://cdn.jsdelivr.net/npm/instant.page@5.2.0/instantpage.min.js" type="module"></script><script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@17.8.5/dist/lazyload.iife.min.js"></script><script src="https://cdn.jsdelivr.net/npm/node-snackbar@0.1.16/dist/snackbar.min.js"></script><script>function panguFn () {
+  if (typeof pangu === 'object') pangu.autoSpacingPage()
+  else {
+    getScript('https://cdn.jsdelivr.net/npm/pangu@4.0.7/dist/browser/pangu.min.js')
+      .then(() => {
+        pangu.autoSpacingPage()
+      })
+  }
+}
+
+function panguInit () {
+  if (false){
+    GLOBAL_CONFIG_SITE.isPost && panguFn()
+  } else {
+    panguFn()
+  }
+}
+
+document.addEventListener('DOMContentLoaded', panguInit)</script><div class="js-pjax"></div><canvas id="snow"></canvas><script async src="/js/snow.js"></script><canvas id="universe"></canvas><script defer src="/js/universe.js"></script><script defer src="/js/mouse.js"></script><script async src="//at.alicdn.com/t/c/font_4451089_fok8y2foa3.js"></script><script defer type="text/javascript" src="https://cdn1.tianli0.top/npm/sweetalert2@8.19.0/dist/sweetalert2.all.js"></script><script defer src="/js/festival/lunar.js"></script><script defer src="/js/festival/day.js"></script><script async src="/js/fps.js"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="is-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据库加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div id="local-search-results"></div><div id="local-search-stats-wrap"></div></div></div><div id="search-mask"></div><script src="/js/search/local-search.js?v=4.12.0"></script></div></div><!-- hexo injector body_end start --> <script data-pjax>if(document.getElementById('recent-posts') && (location.pathname ==='/'|| '/' ==='all')){
+    var parent = document.getElementById('recent-posts');
+    var child = '<div class="recent-post-item" style="width:100%;height: auto"><div id="catalog_magnet"><div class="magnet_item"><a class="magnet_link" href="http://bandit-ljC-1.github.io/tags/408学习笔记/"><div class="magnet_link_context" style=""><span style="font-weight:500;flex:1">🐱‍👓 路漫漫其修远，我探索不了一点。 (25)</span><span style="padding:0px 4px;border-radius: 8px;"><i class="fas fa-arrow-circle-right"></i></span></div></a></div><div class="magnet_item"><a class="magnet_link" href="http://bandit-ljC-1.github.io/tags/前端/"><div class="magnet_link_context" style=""><span style="font-weight:500;flex:1">🍨 前端UI到转行平面设计 (2)</span><span style="padding:0px 4px;border-radius: 8px;"><i class="fas fa-arrow-circle-right"></i></span></div></a></div><a class="magnet_link_more"  href="http://bandit-ljC-1.github.io/tags" style="flex:1;text-align: center;margin-bottom: 10px;">查看更多...</a></div></div>';
+    console.log('已挂载magnet')
+    parent.insertAdjacentHTML("afterbegin",child)}
+     </script><style>#catalog_magnet{flex-wrap: wrap;display: flex;width:100%;justify-content:space-between;padding: 10px 10px 0 10px;align-content: flex-start;}.magnet_item{flex-basis: calc(50% - 5px);background: #f2f2f2;margin-bottom: 10px;border-radius: 8px;transition: all 0.2s ease-in-out;}.magnet_item:hover{background: #b30070}.magnet_link_more{color:#555}.magnet_link{color:black}.magnet_link:hover{color:white}@media screen and (max-width: 600px) {.magnet_item {flex-basis: 100%;}}.magnet_link_context{display:flex;padding: 10px;font-size:16px;transition: all 0.2s ease-in-out;}.magnet_link_context:hover{padding: 10px 20px;}</style>
+    <style></style><script data-pjax>
+    function butterfly_categories_card_injector_config(){
+      var parent_div_git = document.getElementById('recent-posts');
+      var item_html = '<style>li.categoryBar-list-item{width:32.3%;}.categoryBar-list{max-height: 380px;overflow:auto;}.categoryBar-list::-webkit-scrollbar{width:0!important}@media screen and (max-width: 650px){.categoryBar-list{max-height: 320px;}}</style><div class="recent-post-item" style="height:auto;width:100%;padding:0px;"><div id="categoryBar"><ul class="categoryBar-list"><li class="categoryBar-list-item" style="background:url(/myphotos/article_cover/1.jpg);"> <a class="categoryBar-list-link" href="categories/网页开发/">网页开发</a><span class="categoryBar-list-count">2</span><span class="categoryBar-list-descr">优秀的设计师</span></li><li class="categoryBar-list-item" style="background:url(/myphotos/article_cover/2.jpg);"> <a class="categoryBar-list-link" href="categories/hexo/">hexo</a><span class="categoryBar-list-count">2</span><span class="categoryBar-list-descr">五等分的blog</span></li><li class="categoryBar-list-item" style="background:url(/myphotos/article_cover/3.jpg);"> <a class="categoryBar-list-link" href="categories/学习笔记/">学习笔记</a><span class="categoryBar-list-count">25</span><span class="categoryBar-list-descr">埼玉的成长之路</span></li></ul></div></div>';
+      console.log('已挂载butterfly_categories_card')
+      parent_div_git.insertAdjacentHTML("afterbegin",item_html)
+      }
+    if( document.getElementById('recent-posts') && (location.pathname ==='/'|| '/' ==='all')){
+    butterfly_categories_card_injector_config()
+    }
+  </script><script data-pjax>
+  function butterfly_swiper_injector_config(){
+    var parent_div_git = document.getElementById('recent-posts');
+    var item_html = '<div class="recent-post-item" style="height: auto;width: 100%"><div class="blog-slider swiper-container-fade swiper-container-horizontal" id="swiper_container"><div class="blog-slider__wrp swiper-wrapper" style="transition-duration: 0ms;"><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" href="2024/01/01/Markdown语法/" alt=""><img width="48" height="48" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="myphotos/article_cover/6.jpg" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/></a><div class="blog-slider__content"><span class="blog-slider__code">2024-01-01</span><a class="blog-slider__title" href="2024/01/01/Markdown语法/" alt="">青春男大遇到不会写的Markdown语法</a><div class="blog-slider__text">本文是博主写博客时遇到的一些不会写的Markdown语法，特在此汇总</div><a class="blog-slider__button" href="2024/01/01/Markdown语法/" alt="">详情   </a></div></div><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" href="2024/03/07/数据结构（一）——线性表/" alt=""><img width="48" height="48" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="myphotos/article_cover/3.jpg" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/></a><div class="blog-slider__content"><span class="blog-slider__code">2024-03-07</span><a class="blog-slider__title" href="2024/03/07/数据结构（一）——线性表/" alt="">数据结构（一）——线性表</a><div class="blog-slider__text">本文是数据结构中有关线性表的复习笔记，因此只记录一些重点知识与兄弟们交流，并不适合零基础的兄弟。</div><a class="blog-slider__button" href="2024/03/07/数据结构（一）——线性表/" alt="">详情   </a></div></div><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" href="2024/03/02/基于hexo搭建的个人博客常见问题处理/" alt=""><img width="48" height="48" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="myphotos/article_cover/6.jpg" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/></a><div class="blog-slider__content"><span class="blog-slider__code">2024-03-02</span><a class="blog-slider__title" href="2024/03/02/基于hexo搭建的个人博客常见问题处理/" alt="">基于hexo搭建的个人博客常见问题处理</a><div class="blog-slider__text">该文主要是站长对使用hexo搭建博客时出现的一些问题进行了整理</div><a class="blog-slider__button" href="2024/03/02/基于hexo搭建的个人博客常见问题处理/" alt="">详情   </a></div></div><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" href="2024/02/08/CSS基础语法及应用/" alt=""><img width="48" height="48" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="myphotos/article_cover/6.jpg" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/></a><div class="blog-slider__content"><span class="blog-slider__code">2024-02-08</span><a class="blog-slider__title" href="2024/02/08/CSS基础语法及应用/" alt="">CSS基础语法及应用</a><div class="blog-slider__text">本文主要整理CSS的基本语法，可以搭配HTML5基本语法进行学习</div><a class="blog-slider__button" href="2024/02/08/CSS基础语法及应用/" alt="">详情   </a></div></div><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" href="2024/02/01/HTML5基础语法大全/" alt=""><img width="48" height="48" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="myphotos/article_cover/13.jpg" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/></a><div class="blog-slider__content"><span class="blog-slider__code">2024-02-01</span><a class="blog-slider__title" href="2024/02/01/HTML5基础语法大全/" alt="">HTML5基本语法大全</a><div class="blog-slider__text">本文主要整理了HTML5的基本语法，方便初学者快速入门</div><a class="blog-slider__button" href="2024/02/01/HTML5基础语法大全/" alt="">详情   </a></div></div></div><div class="blog-slider__pagination swiper-pagination-clickable swiper-pagination-bullets"></div></div></div>';
+    console.log('已挂载butterfly_swiper')
+    parent_div_git.insertAdjacentHTML("afterbegin",item_html)
+    }
+  var elist = 'undefined'.split(',');
+  var cpage = location.pathname;
+  var epage = '/';
+  var flag = 0;
+
+  for (var i=0;i<elist.length;i++){
+    if (cpage.includes(elist[i])){
+      flag++;
+    }
+  }
+
+  if ((epage ==='all')&&(flag == 0)){
+    butterfly_swiper_injector_config();
+  }
+  else if (epage === cpage){
+    butterfly_swiper_injector_config();
+  }
+  </script><script defer src="https://npm.elemecdn.com/hexo-butterfly-swiper/lib/swiper.min.js"></script><script defer data-pjax src="https://npm.elemecdn.com/hexo-butterfly-swiper/lib/swiper_init.js"></script><script data-pjax>
+  function butterfly_footer_beautify_injector_config(){
+    var parent_div_git = document.getElementById('footer-wrap');
+    var item_html = '<div id="workboard"></div><p id="ghbdages"><a class="github-badge" target="_blank" href="https://hexo.io/" style="margin-inline:5px" data-title="博客框架为Hexo_v6.2.0" title=""><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img.shields.io/badge/Frame-Hexo-blue?style=flat&amp;logo=hexo" alt=""/></a><a class="github-badge" target="_blank" href="https://butterfly.js.org/" style="margin-inline:5px" data-title="主题版本Butterfly_v4.3.1" title=""><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img.shields.io/badge/Theme-Butterfly-6513df?style=flat&amp;logo=bitdefender" alt=""/></a><a class="github-badge" target="_blank" href="https://vercel.com/" style="margin-inline:5px" data-title="本站采用多线部署，主线路托管于Vercel" title=""><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img.shields.io/badge/Hosted-Vercel-brightgreen?style=flat&amp;logo=Vercel" alt=""/></a><a class="github-badge" target="_blank" href="https://dashboard.4everland.org/" style="margin-inline:5px" data-title="本站采用多线部署，备用线路托管于4EVERLAND" title=""><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img.shields.io/badge/Hosted-4EVERLAND-22DDDD?style=flat&amp;logo=IPFS" alt=""/></a><a class="github-badge" target="_blank" href="https://github.com/" style="margin-inline:5px" data-title="本站项目由Github托管" title=""><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img.shields.io/badge/Source-Github-d021d6?style=flat&amp;logo=GitHub" alt=""/></a><a class="github-badge" target="_blank" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" style="margin-inline:5px" data-title="本站采用知识共享署名-非商业性使用-相同方式共享4.0国际许可协议进行许可" title=""><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img.shields.io/badge/Copyright-BY--NC--SA%204.0-d42328?style=flat&amp;logo=Claris" alt=""/></a></p>';
+    console.log('已挂载butterfly_footer_beautify')
+    parent_div_git.insertAdjacentHTML("beforeend",item_html)
+    }
+  var elist = 'null'.split(',');
+  var cpage = location.pathname;
+  var epage = 'all';
+  var flag = 0;
+
+  for (var i=0;i<elist.length;i++){
+    if (cpage.includes(elist[i])){
+      flag++;
+    }
+  }
+
+  if ((epage ==='all')&&(flag == 0)){
+    butterfly_footer_beautify_injector_config();
+  }
+  else if (epage === cpage){
+    butterfly_footer_beautify_injector_config();
+  }
+  </script><script async src="/js/clock.js"></script><div class="js-pjax"><script async="async">var arr = document.getElementsByClassName('recent-post-item');
+for(var i = 0;i<arr.length;i++){
+    arr[i].classList.add('wow');
+    arr[i].classList.add('animate__zoomIn');
+    arr[i].setAttribute('data-wow-duration', '2s');
+    arr[i].setAttribute('data-wow-delay', '1s');
+    arr[i].setAttribute('data-wow-offset', '100');
+    arr[i].setAttribute('data-wow-iteration', '1');
+  }</script><script async="async">var arr = document.getElementsByClassName('card-widget');
+for(var i = 0;i<arr.length;i++){
+    arr[i].classList.add('wow');
+    arr[i].classList.add('animate__zoomIn');
+    arr[i].setAttribute('data-wow-duration', '');
+    arr[i].setAttribute('data-wow-delay', '');
+    arr[i].setAttribute('data-wow-offset', '');
+    arr[i].setAttribute('data-wow-iteration', '');
+  }</script></div><script defer src="/css/wowjs/wow.min.js"></script><script defer src="/css/wowjs/wow_init.js"></script><!-- hexo injector body_end end --></body></html>

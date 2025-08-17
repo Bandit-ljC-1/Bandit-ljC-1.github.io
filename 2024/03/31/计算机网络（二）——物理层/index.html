@@ -1,0 +1,483 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>计算机网络（二）——物理层 | 无名高手🍭</title><meta name="author" content="liujinC"><meta name="copyright" content="liujinC"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="ffffff"><meta name="description" content="乐子人的计算机网络第二章学习笔记">
+<meta property="og:type" content="article">
+<meta property="og:title" content="计算机网络（二）——物理层">
+<meta property="og:url" content="http://bandit-ljc-1.github.io/2024/03/31/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%EF%BC%88%E4%BA%8C%EF%BC%89%E2%80%94%E2%80%94%E7%89%A9%E7%90%86%E5%B1%82/index.html">
+<meta property="og:site_name" content="无名高手🍭">
+<meta property="og:description" content="乐子人的计算机网络第二章学习笔记">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://bandit-ljc-1.github.io/myphotos/article_cover/7.jpg">
+<meta property="article:published_time" content="2024-03-31T13:38:00.000Z">
+<meta property="article:modified_time" content="2024-04-05T04:51:00.000Z">
+<meta property="article:author" content="liujinC">
+<meta property="article:tag" content="408学习笔记">
+<meta property="article:tag" content="计算机网络">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://bandit-ljc-1.github.io/myphotos/article_cover/7.jpg"><link rel="shortcut icon" href="/myphotos/icon.png"><link rel="canonical" href="http://bandit-ljc-1.github.io/2024/03/31/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%EF%BC%88%E4%BA%8C%EF%BC%89%E2%80%94%E2%80%94%E7%89%A9%E7%90%86%E5%B1%82/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css?v=4.12.0"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.5.1/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/node-snackbar@0.1.16/dist/snackbar.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0.32/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":true,"top_n_per_article":-1,"unescape":false,"languages":{"hits_empty":"找不到您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: undefined,
+  noticeOutdate: {"limitDay":365,"position":"top","messagePrev":"It has been","messageNext":"days since the last update, the content of the article may be outdated."},
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":230},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: {"chs_to_cht":"你已切换为繁体中文","cht_to_chs":"你已切换为简体中文","day_to_night":"你已切换为深色模式","night_to_day":"你已切换为浅色模式","bgLight":"#49b1f5","bgDark":"#1f1f1f","position":"top-right"},
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid@4.11.0/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyload: true,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '计算机网络（二）——物理层',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2024-04-05 12:51:00'
+}</script><script>(win=>{
+      win.saveToLocal = {
+        set: (key, value, ttl) => {
+          if (ttl === 0) return
+          const now = Date.now()
+          const expiry = now + ttl * 86400000
+          const item = {
+            value,
+            expiry
+          }
+          localStorage.setItem(key, JSON.stringify(item))
+        },
+      
+        get: key => {
+          const itemStr = localStorage.getItem(key)
+      
+          if (!itemStr) {
+            return undefined
+          }
+          const item = JSON.parse(itemStr)
+          const now = Date.now()
+      
+          if (now > item.expiry) {
+            localStorage.removeItem(key)
+            return undefined
+          }
+          return item.value
+        }
+      }
+    
+      win.getScript = (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        script.onerror = reject
+        script.onload = script.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          script.onload = script.onreadystatechange = null
+          resolve()
+        }
+
+        Object.keys(attr).forEach(key => {
+          script.setAttribute(key, attr[key])
+        })
+
+        document.head.appendChild(script)
+      })
+    
+      win.getCSS = (url, id = false) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onerror = reject
+        link.onload = link.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          link.onload = link.onreadystatechange = null
+          resolve()
+        }
+        document.head.appendChild(link)
+      })
+    
+      win.activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', 'ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          const now = new Date()
+          const hour = now.getHours()
+          const isNight = hour <= 6 || hour >= 18
+          if (t === undefined) isNight ? activateDarkMode() : activateLightMode()
+          else if (t === 'light') activateLightMode()
+          else activateDarkMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+      const detectApple = () => {
+        if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+          document.documentElement.classList.add('apple')
+        }
+      }
+      detectApple()
+    })(window)</script><link rel="stylesheet" href="/css/custom.css" media="defer" onload="this.media='all'"><link rel="stylesheet" href="/css/light.css" media="defer" onload="this.media='all'"><link rel="stylesheet" href="/css/snow.css"><link rel="stylesheet" href="/css/universe.css"><link rel="stylesheet" href="/css/mouse.css"><link rel="stylesheet" href="//at.alicdn.com/t/c/font_4451089_fok8y2foa3.css" media="defer" onload="this.media='all'"><link rel="stylesheet" href="/css/page_style.css"><span id="fps"></span><link rel="stylesheet" href="/css/pangu_control.css"><div id="myscoll"></div><!-- hexo injector head_end start --><link rel="stylesheet" href="/css/categorybar.css"><link rel="stylesheet" href="https://npm.elemecdn.com/hexo-butterfly-swiper/lib/swiper.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="/css/swiper/swiperstyle.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://unpkg.zhimg.com/hexo-butterfly-footer-beautify@1.0.0/lib/runtime.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="/css/wowjs/animate.min.css" media="print" onload="this.media='screen'"><!-- hexo injector head_end end --><meta name="generator" content="Hexo 6.3.0"></head><body><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/myphotos/avatar.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">29</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">8</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">3</div></a></div><hr class="custom-hr"/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> 列表</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音乐</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 电影</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/comments/"><i class="fa-fw fas fa-envelope-open"></i><span> 留言板</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('/myphotos/article_cover/7.jpg')"><nav id="nav"><span id="blog-info"><a href="/" title="无名高手🍭"><span class="site-name">无名高手🍭</span></a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search" href="javascript:void(0);"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> 列表</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音乐</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 电影</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/comments/"><i class="fa-fw fas fa-envelope-open"></i><span> 留言板</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">计算机网络（二）——物理层</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2024-03-31T13:38:00.000Z" title="发表于 2024-03-31 21:38:00">2024-03-31</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2024-04-05T04:51:00.000Z" title="更新于 2024-04-05 12:51:00">2024-04-05</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">学习笔记</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">5.5k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>16分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="计算机网络（二）——物理层"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h1 id="物理层"><a href="#物理层" class="headerlink" title="物理层"></a>物理层</h1><h2 id="1-物理层的基本概念"><a href="#1-物理层的基本概念" class="headerlink" title="1. 物理层的基本概念"></a>1. 物理层的基本概念</h2><p>物理层考虑的是怎样才能在连接各台计算机的传输媒体上<font color=red><strong>传输数据比特流</strong></font>，而不是具体的传输介质。</p>
+<p>物理层为数据链路层屏蔽了各种传输媒体的差异，使数据链路层只需考虑如何完成本层的协议和服务，而不必考虑网络具体的传输媒体是什么。</p>
+<p>物理层的主要任务：确定与传输媒体<font color=blue><strong>接口</strong></font>有关的一些特性。</p>
+<p>物理层接口的特性的内容：</p>
+<ol>
+<li>机械特性。指明接口所用的接线器的形状和尺寸、引脚数目和排列、固定和锁定装置等。</li>
+<li>电气特性。指明在接口电缆的各条线上的电压范围、传输速率和距离限制等。</li>
+<li>功能特性。指明某条线上出现的某一电平的电压的意义，以及每条线的功能。</li>
+<li>过程特性。也称规程特性。指明对不同功能的各种可能事件的出现顺序（即定义各条物理线路的工作规程和时序关系）。</li>
+</ol>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/66096ae79f345e8d03f38f39.png" alt="计算机网络（二）——物理层——物理层的概念.png">
+
+<h2 id="2-数据通信"><a href="#2-数据通信" class="headerlink" title="2. 数据通信"></a>2. 数据通信</h2><h3 id="2-1-典型的数据通信模型"><a href="#2-1-典型的数据通信模型" class="headerlink" title="2.1 典型的数据通信模型"></a>2.1 典型的数据通信模型</h3><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/66096c019f345e8d03fd68cc.png" alt="计算机网络（二）——物理层——数据通信模型.png">
+
+<h3 id="2-2-数据通信相关概念"><a href="#2-2-数据通信相关概念" class="headerlink" title="2.2 数据通信相关概念"></a>2.2 数据通信相关概念</h3><p>（1）通信的目的：传送消息。</p>
+<p>（2）数据：传送信息的实体，通常是有意的符号符号序列。</p>
+<p>（3）信号：数据的电气或电磁表现。</p>
+<p>（4）信源：产生和发送数据的源头。</p>
+<p>（5）信宿：接收数据的终点。</p>
+<p>（6）信道：信号的传输介质，一条双向通信的线路包含一个发送信道和一个接收信道。</p>
+<p>（7）噪声源：信道上的噪声及分散在通信系统其他各处的噪声的集中表示。</p>
+<p>补充拓展：</p>
+<p>（1）数据和信号都有模拟或数字之分：模拟数据（或模拟信号）的取值是连续的；数字数据（或数字信号）的取值是离散的。</p>
+<p>（2）信道的两种分类方式：</p>
+<ol>
+<li>按传输信号形式的不同，可以分为传送模拟信号的模拟信道和传送数字信号的数字信道。</li>
+<li>按传输介质的不同，可分为无线信道和有线信道。</li>
+</ol>
+<p>（3）信道上传送的信号也有基带信号和宽带信号之分。</p>
+<ol>
+<li>基带信号：将数字信号1和0直接用两种不同的电压表示，然后送到数字信道上传输，这种传输方式也称为基带传输。</li>
+<li>宽带信号：将基带信号进行调制，形成频分复用模拟信号，然后送到模拟信道上传输，这种传输方式也称为宽带传输。</li>
+</ol>
+<p>（4）信道上的噪声是指信道中存在的不需要的电信号。</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/660973069f345e8d03482f14.png" alt="计算机网络（二）——物理层——通信概念.png">
+
+<h3 id="2-3-传输方式"><a href="#2-3-传输方式" class="headerlink" title="2.3 传输方式"></a>2.3 传输方式</h3><h4 id="2-3-1-串行传输和并行传输"><a href="#2-3-1-串行传输和并行传输" class="headerlink" title="2.3.1 串行传输和并行传输"></a>2.3.1 串行传输和并行传输</h4><p>串行传输：数据一个比特一个比特依次发送。串行传输适合远距离传输，例如计算机网络之间的数据传输。</p>
+<p>并行传输：一次发送n个比特，为此在发送端和接收端之间有n个线路。并行传输适合近距离传输，例如计算机内部的总线传输（常见的总线宽度有8位、16位、32位和64位）。</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/660973d69f345e8d03505a1b.png" alt="计算机网络（二）——物理层——并行传输和串行传输.png">
+
+<h4 id="2-3-2-同步传输和异步传输"><a href="#2-3-2-同步传输和异步传输" class="headerlink" title="2.3.2 同步传输和异步传输"></a>2.3.2 同步传输和异步传输</h4><p>同步传输：数据块以稳定的比特流的形式传输，字节之间没有间隔。</p>
+<p>异步传输：以字节为独立的传输单位，字节之间的时间间隔不固定。</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/660975b49f345e8d0363c8c1.png" alt="计算机网络（二）——物理层——同步和异步（1）.png">
+
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/660975ff9f345e8d0366b898.png" alt="计算机网络（二）——物理层——同步和异步（2）.png">
+
+<h4 id="2-3-3-三种通信方式"><a href="#2-3-3-三种通信方式" class="headerlink" title="2.3.3 三种通信方式"></a>2.3.3 三种通信方式</h4><p>（1）单向通信：也称单工通信。只有一个方向的通信而没有反方向的交互，如无线广播、电视广播等。</p>
+<p>（2）半双工通信：通信双方都可以发送或接收信息，但任何一方都不能同时发送和接收信息。</p>
+<p>（3）全双工通信：通信双方都可以同时发送和接收信息。</p>
+<p>注意：单向通信只有一个信道，而半双工和全双工通信都需要两个信道，每个方向一个信道。</p>
+<h3 id="2-4-码元"><a href="#2-4-码元" class="headerlink" title="2.4 码元"></a>2.4 码元</h3><p>码元：码元代表不同离散数值的基本波形（实质上就是构成信号的一段波形）。码元是数字通信中数字信号的计量单位，这个时长内的信号称为k进制码元，而该时长称为码元宽度。</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/660e429b9f345e8d0336e9d1.png" alt="计算机网络（二）——物理层——码元.png">
+
+<p>注意：4进制码元说明码元离散状态有4个，可以知道码元有4种不同的信号波形，可以说明一个码元携带2bit的信息量。</p>
+<h3 id="2-5-数据传输速率"><a href="#2-5-数据传输速率" class="headerlink" title="2.5 数据传输速率"></a>2.5 数据传输速率</h3><p>速率也叫数据率，是指数据的传输速率，表示单位时间内传输的数据量。可以用<font color=red><strong>码元传输速率</strong></font>和<font color=red><strong>信息传输速率</strong></font>来表示。</p>
+<h4 id="2-5-1-码元传输速率"><a href="#2-5-1-码元传输速率" class="headerlink" title="2.5.1 码元传输速率"></a>2.5.1 码元传输速率</h4><p><font color=blue><strong>码元传输速率</strong></font>：又称<strong>波特率、码元速率、波形速率、调制速率、符号速率</strong>等，表示单位时间内数字通信系统所传输的码元数，单位是波特（Baud）。1波特表示每秒传输1码元。码元速率与进制数无关，只与码元长度有关。</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/660e45d49f345e8d034ce0ee.png" alt="计算机网络（二）——物理层——码元传输速率.png">
+
+<h4 id="2-5-2-信息传输速率"><a href="#2-5-2-信息传输速率" class="headerlink" title="2.5.2 信息传输速率"></a>2.5.2 信息传输速率</h4><p><font color=blue><strong>信息传输速率</strong></font>：又称<strong>比特率</strong>，表示单位时间内数字通信系统所传输的二进制码元数（即比特数），单位是比特&#x2F;秒（b&#x2F;s）。</p>
+<h4 id="2-5-3-两种传输速率小结"><a href="#2-5-3-两种传输速率小结" class="headerlink" title="2.5.3 两种传输速率小结"></a>2.5.3 两种传输速率小结</h4><p>(1) <font color=blue><strong>码元传输速率</strong></font>探究的是1s传输多少个码元，<font color=blue><strong>信息传输速率</strong></font>探究的是1s传输多少个比特。</p>
+<p>(2) 在二进制数字信号中能够，他的码元传输速率就对等于他的信息传输速率，因为二进制数字信号的码元，携带1bit信息，所以两者对等（同数不同意）。</p>
+<p>(3) 若一个码元携带 n bit的信息量，则 M Baud的码元传输速率所对应的信息传输速率为M×n bit&#x2F;s。</p>
+<h3 id="2-6-带宽"><a href="#2-6-带宽" class="headerlink" title="2.6 带宽"></a>2.6 带宽</h3><p>在<font color=green><strong>模拟信号系统</strong></font>中，带宽（又称频率带宽）用来表示某个信道所能传输信号的频率范围，即最高频率与最低频率直插，单位是赫兹（Hz）。</p>
+<p>在<font color=green><strong>计算机网络</strong></font>中，带宽用来表示网络的通信线路所能传输数据的能力，即最高数据率，此时带宽的单位是b&#x2F;s。</p>
+<p>注意：拥有更宽的带宽，也就有更大的信息运送能力。</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/660e4f869f345e8d0390af4b.png" alt="计算机网络（二）——物理层——带宽.png">
+
+<h2 id="3-信道的极限容量（重点）"><a href="#3-信道的极限容量（重点）" class="headerlink" title="3. 信道的极限容量（重点）"></a>3. 信道的极限容量（重点）</h2><h3 id="3-1-失真"><a href="#3-1-失真" class="headerlink" title="3.1 失真"></a>3.1 失真</h3><p>任何实际的信道都是不理想的，信号在信道上传输时会不可避免地产生失真。</p>
+<p>失真：指信号在传输过程中与原有信号或标准相比发生了偏差。</p>
+<p>失真产生的因素：</p>
+<ol>
+<li>码元传输速率。码元传输速率越高，越容易失真。</li>
+<li>信号传输距离。信号传输距离越远，干扰越久，信号衰减也越久，信号受到影响也越大。</li>
+<li>噪声干扰。噪声干扰越多，信号越容易失真。</li>
+<li>传输媒体质量。传输媒体质量越差，信号失真越严重。</li>
+</ol>
+<p>在信宿接收到信源的信号会出现两种情况，一种失真但可识别；另一种失真很大已经无法识别。</p>
+<p>如果是第一种情况，失真对目标机的接收来说产生的影响并不大，因为接收机仍能判断出码元界限。</p>
+<p>但如果是第二种情况，失真很大，这个时候在输出端就很难判断这个信号里码元间的分界，信号波形失去了码元之间的清晰界限，这种现象叫做<font color=red><strong>码间串扰</strong></font>。</p>
+<p>在计算机网络中的码间串扰，是指因为码元传输速率太快，导致码元间传输界限不清晰，失去对0和1的判定。</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/660e538b9f345e8d03ae416a.png" alt="计算机网络（二）——物理层——码间串扰.png">
+
+<h3 id="3-2-奈奎斯特定理（奈氏准则）"><a href="#3-2-奈奎斯特定理（奈氏准则）" class="headerlink" title="3.2 奈奎斯特定理（奈氏准则）"></a>3.2 奈奎斯特定理（奈氏准则）</h3><p>为了解决码间串扰的问题，于是奈奎斯特在1924年提出了奈奎斯特定理。</p>
+<p><font color=red><strong>奈氏准则</strong></font>规定：在<font color=blue><strong>理想低通（无噪声，带宽受限）条件</strong></font>下，为了避免码间串扰，极限码元传输速率为2W Baud，W是信道带宽，单位是Hz。</p>
+<p><font color=red><strong>公式：理想低通信道下的极限数据传输率&#x3D;2Wlog<sub>2</sub>V (单位b&#x2F;s)</strong></font> </p>
+<p>在该公式中V是码元离散电平数目（几种码元），W是带宽。</p>
+<p>奈氏准则结论：</p>
+<ol>
+<li>任何信道中，码元传输速率都是有上限的。</li>
+<li>信道的频率带宽越宽，就越可用更高的速率有效地传输码元。</li>
+<li>奈氏准则给出了码元传输速率的限制，但并没有对信息传输速率给出限制。</li>
+<li>由于码元的传输速率受奈氏准则制约，所以要提高数据传输速率，就要设法让每个码元携带更多比特信息量，所以要采用多元制的调制方法。</li>
+</ol>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/660e5d819f345e8d03c802b0.png" alt="计算机网络（二）——物理层——奈氏准则.png">
+
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/660e63b068eb93571319f262.png" alt="计算机网络（二）——物理层——奈氏准则补充.png">
+
+<h3 id="3-3-香农定理"><a href="#3-3-香农定理" class="headerlink" title="3.3 香农定理"></a>3.3 香农定理</h3><p>奈氏准则规定了最高码元传输速率，但并没有规定最高比特传输速率，所以人们又提出了香农定理，来解决比特的传输速率问题。</p>
+<p>香农定理与奈氏准则相比，不仅定义了在信道当中，比特传输的极限传输速率，还考虑到了信道当中实际会存在的电磁干扰（即噪声影响）。</p>
+<p><font color=red><strong>香农定理</strong></font>给出<font color=blue><strong>带宽受限且有高斯噪声干扰的信道的极限数据传输速率，当用该速率传输数据时，不会产生误差</strong></font>。</p>
+<p><font color=red><strong>公式：信道的极限数据传输速率&#x3D;Wlog<sub>2</sub>(1+S&#x2F;N) (单位为b&#x2F;s)</strong></font></p>
+<p>在该公式中，W是信道的频率带宽，S为信道内所传输信号的平均功率，N为信道内的高斯噪声功能。S&#x2F;N为信噪比，即信号的平均功率与噪声的平均功率纸币，信噪比&#x3D;10log<sub>10</sub>(S&#x2F;N) (单位为dB)。</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/660e62dd68eb935713185f6a.png" alt="计算机网络（二）——物理层——香农定理.png">
+
+<p>香农定理的一些推论：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/660e632a68eb93571318fafc.png" alt="计算机网络（二）——物理层——香农定理推论.png">
+
+<h3 id="3-4-信道小结"><a href="#3-4-信道小结" class="headerlink" title="3.4 信道小结"></a>3.4 信道小结</h3><p>(1) 在奈氏准则和香农定理里，信道带宽（W），是指信道能通过的最高频率和最低频率之差，单位使用的是Hz。</p>
+<p>(2) 奈氏准则限制的是码元传输速率有一个上限，香农定理才是真正的限制信息传输速率，即比特率有一个上限。</p>
+<p>(3) 补充——低通、高通、带通、带阻</p>
+<p>低通：允许低于截止频率的信号分量通过。</p>
+<p>高通：允许高于某一频率以上信号分量通过。</p>
+<p>带通：允许某一频率范围内的信号分量通过。</p>
+<p>带阻：不允许某一频率范围内的信号分量通过。</p>
+<p>这部分可以参考这个大佬的博客：<a target="_blank" rel="noopener" href="https://blog.csdn.net/chehec2010/article/details/95941122">低通，高通，带通，带阻滤波器的定义</a></p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/660e648168eb9357131b9b10.png" alt="计算机网络（二）——物理层——信道小结.png">
+
+<h2 id="4-编码与调制"><a href="#4-编码与调制" class="headerlink" title="4. 编码与调制"></a>4. 编码与调制</h2><p>信号是数据的具体表现形式，数据无论是数字的还是模拟的，为了传输的目的，都要转换成信号。<strong>将数据转换为模拟信号的过程称为调制，将数据转换为数字信号过层称为编码。</strong></p>
+<p>数字数据可通过数字发送器转换为数字信号传输，也可通过调制器转换成模拟信号传输；同理，模拟数据可通过PCM编码器转换成数字信号传输，也可替换放大器调制器转换成模拟信号传输。</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/660e6d6968eb9357132e935f.png" alt="计算机网络（二）——物理层——四种编码与调制.png">
+
+<h3 id="4-1-基带信号与宽带信号"><a href="#4-1-基带信号与宽带信号" class="headerlink" title="4.1 基带信号与宽带信号"></a>4.1 基带信号与宽带信号</h3><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/660e6c6f68eb9357132bb000.png" alt="计算机网络（二）——物理层——基带与宽带.png">
+
+<h3 id="4-2-数字数据编码为数字信号"><a href="#4-2-数字数据编码为数字信号" class="headerlink" title="4.2 数字数据编码为数字信号"></a>4.2 数字数据编码为数字信号</h3><p>数字数据编码用于基带传输中，即在基本不改变数字数据信号频率的情况下，直接传输数字信号。具体用什么样的数字信号表示0及用什么样的数字信号表示1，就是所谓的编码。</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/660e6ed668eb935713318699.png" alt="计算机网络（二）——物理层——数字数据转为数字信号.png">
+
+<p>(1) <font color=blue><strong>归零(RZ)编码：</strong></font>用高电平表示1，低电平表示0（或者相反），每个码元传输结束后信号都要“归零”。<font color=green>&gt;（注意：这里低电平表示的0是数字信号的0，而非零电平；最后归零，指的是电平变为零电平。）</font></p>
+<p>每个码元传输结束后都要“归零”，所以接收方只要在信号归零后进行采样即可，不需要单独的时钟信号。</p>
+<p>实际上，归零编码相当于把时钟信号用“归零”方式编码在了数据之内，这称为<font color=red><strong>“自同步”</strong></font>信号。</p>
+<p>但是，归零编码中大部分的数据带宽，都用来传输“归零”而浪费掉了。</p>
+<p>(2) <font color=blue><strong>不归零(NRZ)编码：</strong></font>与RZ编码的区别是不用归零，一个时钟全部用来传输数据，编码效率最高。但NRZ编码的收发双发存在同步问题（即如果出现连续三个数字信号1，则接受方无法进行判断），为此需要额外一根传输线来传输时钟信号，便于发送方和接收同步。但对于计算机网络，宁愿利用这根传输线传输数据信号，而不是传输时钟信号！</p>
+<p>(3) <font color=blue><strong>反向归零(NRZI)编码：</strong></font>与NRZ编码的区别是用电平跳变表示0，电平保持不变表示1。跳变本身可作为一种通知机制。这种编码方式集成了前两种编码的优点，既能传输时钟信号，又能尽量不损失系统带宽。</p>
+<p>(4) <font color=blue><strong>曼彻斯特编码：</strong></font>每个码元中间都发生电平跳变，电平跳变既作为时钟信号（用于同步），又作为数据信号。可用向下跳变表示1，向上跳变表示0，或采用相反规定。</p>
+<p>曼彻斯特编码所占的频带宽带是原始的基带宽度的两倍。每一个码元都被调成两个电平。所以数据传输速率只有调制速率的1&#x2F;2。</p>
+<p>该编码一个时钟周期变化两次，开始一次，中间跳变一次。所以调制速率是比特传输速率的2倍。</p>
+<p>(5) <font color=blue><strong>差分曼彻斯特编码：</strong></font>每个码元的中间都发生电平跳变，与曼彻斯特编码不同的是，电平跳变进表示时钟信号，而不表示数据。数据的表示在于每个码元开始处是否有电平跳变：有跳变表示0，无跳变表示1.差分曼彻斯特编码有更强的抗干扰能力。</p>
+<h3 id="4-3-模拟数据转换为数字信号"><a href="#4-3-模拟数据转换为数字信号" class="headerlink" title="4.3 模拟数据转换为数字信号"></a>4.3 模拟数据转换为数字信号</h3><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/660e994c68eb93571384ddbd.png" alt="计算机网络（二）——物理层——模拟数据转为数字信号.png">
+
+<h3 id="4-4-数字数据调制为模拟信号"><a href="#4-4-数字数据调制为模拟信号" class="headerlink" title="4.4 数字数据调制为模拟信号"></a>4.4 数字数据调制为模拟信号</h3><p>数字数据调制技术在发送端将数字信号转换为模拟信号，而在接收端将模拟信号还原为数字信号，分别对应于调制解调器的调制和解调过程。</p>
+<p>数字调制的基本方法有三种：</p>
+<ol>
+<li><font color=purple>&lt;<strong>调幅(AM)</strong></font>：也称幅移键控（ASK）。通过改变载波的振幅来改变数字信号1和0。</li>
+<li><font color=purple><strong>调频(FM)</strong></font>：也称频移键控（FSK）。通过改变载波的频率来表示数字信号1和0。</li>
+<li><font color=purple><strong>调相(PM)</strong></font>：也称相移键控（PSK）。通过改变载波的相位来表示数字信号1和0。</li>
+</ol>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/660e9de468eb935713947d9e.png" alt="计算机网络（二）——物理层——三种调制方法.png">
+
+<p>通过上面的了解，我们可以知道数字数据如何调制为模拟信号，但是使用基本调制方法，1个码元只能包含1个比特信息。如何能使1个码元包含更多的比特呢？</p>
+<p>答案就是可以使用混合调整的方法。但是频率和相位是相关的，即频率是相位随时间的变化率。所以一次只能调制频率和相位两个中的一个。所以我们只能挑选相位或频率来和振幅进行混合调制。</p>
+<p>通常情况下，选择相位和振幅联合调制，这种调制方式称为<font color=purple><strong>正交振幅调制（QAM）</strong></font>。</p>
+<p><strong>混合调制举例——正交振幅调制QAM-16：</strong></p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/660e9fe868eb935713981603.png" alt="计算机网络（二）——物理层——QAM16.png">
+
+<h3 id="4-5-模拟数据调制为模拟信号"><a href="#4-5-模拟数据调制为模拟信号" class="headerlink" title="4.5 模拟数据调制为模拟信号"></a>4.5 模拟数据调制为模拟信号</h3><p>为了实现传输的有效性，可能需要较高的频率。这种调制方式还可以使用频分复用技术，充分利用带宽资源。在电话机和本地交换机所传输的信号是采用模拟信号传输模拟数据的方式；模拟的声音数据是加载到模拟的载波信号中传输的。</p>
+<h2 id="5-数据交换方式"><a href="#5-数据交换方式" class="headerlink" title="5. 数据交换方式"></a>5. 数据交换方式</h2><p>数据交换的方式有三种，分别是电路交换、报文交换、分组交换。</p>
+<p>其中分组交换又分为数据报方式和虚电路方式。</p>
+<p>然而电路交换、报文交换、分组交换的一些基础性知识，在计算机网络（一）这篇文章里已经介绍过，可以参考我的这篇博客：<a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_63040545/article/details/136405996?spm=1001.2014.3001.5501">电路交换、报文交换和分组交换</a>。这里对于三种分组方式就不再介绍。着重说一下分组交换的两种方式：数据报方式和虚电路方式。</p>
+<h3 id="5-1-数据报方式"><a href="#5-1-数据报方式" class="headerlink" title="5.1 数据报方式"></a>5.1 数据报方式</h3><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/660f6d4768eb935713ed6861.png" alt="计算机网络（二）——物理层——数据报过程.png">
+
+<p>注意：主机B收到的分组并不一定是按照发送顺序排列的，所以主机B还要对数据进行重组。</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/660f6dea68eb935713eec4b5.png" alt="计算机网络（二）——物理层——数据报特点.png">
+
+<p>注意：交换结点丢弃部分分组时，并不是该分组就无法到达目标主机，发送端还会重新发送一遍，所以，最后只是到达早晚的问题。但是需要提出的是，这里发送端的重发，并不是立刻重发的，当中间节点（如路由器或交换机）由于各种原因（如网络拥塞、缓冲区溢出、硬件故障等）丢弃了数据报时，发送方和接收方都不会立即得知。发送方会继续发送后续的数据报，而接收方在接收到不连续的数据报时，可能会发现数据丢失的情况，但这已经是在数据丢失之后的事情了。总的来说，数据报在传送过程中如果数据被中间节点丢弃，通常需要在应用层或传输层采取措施来处理这种情况。这些措施可能包括应用层重传、使用更可靠的传输层协议、网络层优化以及流量控制等。</p>
+<h3 id="5-2-虚电路"><a href="#5-2-虚电路" class="headerlink" title="5.2 虚电路"></a>5.2 虚电路</h3><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/660f6f3368eb935713f18a89.png" alt="计算机网络（二）——物理层——虚电路.png">
+
+<p>注意：释放连接的过程，如果是主机A想释放连接，则主机A会向主机B发送释放请求，主机B确认以后，会返回确认释放信息，并逐层释放连接（与电路交换释放方式一样）。总的来说就是释放是A提出的，但是是从B端开始向A端进行释放。</p>
+<p>虚电路建立的是逻辑连接，而非物理连接，这点与电路交换是不同的。</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/660f815268eb9357131874c2.png" alt="计算机网络（二）——物理层——虚电路特点.png">
+
+<h3 id="5-3-数据报与虚电路的对比"><a href="#5-3-数据报与虚电路的对比" class="headerlink" title="5.3 数据报与虚电路的对比"></a>5.3 数据报与虚电路的对比</h3><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/660f818768eb93571318f773.png" alt="计算机网络（二）——物理层——数据报与虚电路对比.png">
+
+<h2 id="6-物理层传输介质"><a href="#6-物理层传输介质" class="headerlink" title="6. 物理层传输介质"></a>6. 物理层传输介质</h2><p><strong>传输介质也称传输媒体</strong>，是数据传输系统中发送器和接收器之间的<font color=red><strong>物理通路</strong></font>。</p>
+<p>传输介质可分为：</p>
+<ol>
+<li>导向传输介质，指铜线或光纤等，电磁波被导向为沿着固体介质传播；</li>
+<li>非导向传输介质，指自由空间（空气、真空或海水），电磁波在非导向传输介质中的传输称为无线传输。</li>
+</ol>
+<p><font color=red><strong>需要注意的是，传输媒体不属于物理层，它在物理层之下！</strong></font></p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/660ea23b68eb9357139f89e3.png" alt="计算机网络（二）——物理层——传输介质及分类.png">
+
+<h3 id="6-1-双绞线"><a href="#6-1-双绞线" class="headerlink" title="6.1 双绞线"></a>6.1 双绞线</h3><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/660ea2af68eb935713a07717.png" alt="计算机网络（二）——物理层——双绞线.png">
+
+<p>双绞线绞合的作用：抵御部分来自外界的电磁波干扰；减少相邻导线的电磁干扰。</p>
+<h3 id="6-2-同轴电联"><a href="#6-2-同轴电联" class="headerlink" title="6.2 同轴电联"></a>6.2 同轴电联</h3><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/660ea34d68eb935713a166fa.png" alt="计算机网络（二）——物理层——同轴电缆.png">
+
+<h3 id="6-3-光纤"><a href="#6-3-光纤" class="headerlink" title="6.3 光纤"></a>6.3 光纤</h3><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/660ea3ba68eb935713a1d9b6.png" alt="计算机网络（二）——物理层——光纤.png">
+
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/660ea41068eb935713a26c83.png" alt="计算机网络（二）——物理层——单模光纤和多模光纤.png">
+
+<p><strong>光纤的特点：</strong></p>
+<ol>
+<li>传输损耗小，中继距离长，对远距离传输特别经济。</li>
+<li>抗雷电和电磁干扰性能好。</li>
+<li>无串音干扰，保密性好，也不易被窃听或截取数据。</li>
+<li>体积小，重量轻。</li>
+</ol>
+<h3 id="6-4-无线传输介质"><a href="#6-4-无线传输介质" class="headerlink" title="6.4 无线传输介质"></a>6.4 无线传输介质</h3><h4 id="6-4-1-无线波"><a href="#6-4-1-无线波" class="headerlink" title="6.4.1 无线波"></a>6.4.1 无线波</h4><p>无线电波具有较强的穿透能力，可以传输很长的距离，因此广泛用于通信领域。</p>
+<h4 id="6-4-2-微波、红外线和激光"><a href="#6-4-2-微波、红外线和激光" class="headerlink" title="6.4.2 微波、红外线和激光"></a>6.4.2 微波、红外线和激光</h4><p>目前高带宽的无限通信主要使用三种技术：微波、红外线和激光。它们都需要在发送方和接收方之间有一条视线通路，有很强的方向性，沿直线传播。不同的是，红外通信和激光通信将要传输的信号分别转换为各自的信号格式，即红外光信号和激光信号，再直接在空间中传播。</p>
+<h5 id="6-4-2-1-微波"><a href="#6-4-2-1-微波" class="headerlink" title="6.4.2.1 微波"></a>6.4.2.1 微波</h5><p>微波通信的频率较高，频段范围也很宽，载波频率通常为2~40GHz。与通常的无限电波不同，微波通信的信号是沿着直线传播的，因此在地面上的传播距离有限，超过一定距离后就要使用中继站来接力。</p>
+<p>卫星通信利用地球同步卫星作为中继来转发微波信号。卫星通信优点是通信容量大、距离远、覆盖广，缺点是保密性差、端到端传播时延长。</p>
+<p>微波通信优点：</p>
+<ol>
+<li>通信容量大。</li>
+<li>距离远。</li>
+<li>覆盖广。</li>
+<li>广播通信和多址通信。</li>
+</ol>
+<p>微波通信缺点：</p>
+<ol>
+<li>传播时延长。</li>
+<li>受气候影响大。</li>
+<li>误码率较高。</li>
+<li>成本高。</li>
+</ol>
+<h5 id="6-4-2-2-红外线通信"><a href="#6-4-2-2-红外线通信" class="headerlink" title="6.4.2.2 红外线通信"></a>6.4.2.2 红外线通信</h5><p>红外通信有很多缺点，目前已经处于淘汰边缘。</p>
+<p>红外通信缺点：</p>
+<ol>
+<li>需要点对点无线传输。</li>
+<li>沿直线传输，中间不能有障碍物，传输距离短。</li>
+<li>传输速率低（4Mb&#x2F;s~16Mb&#x2F;s）.</li>
+</ol>
+<h5 id="6-4-2-3-激光通信"><a href="#6-4-2-3-激光通信" class="headerlink" title="6.4.2.3 激光通信"></a>6.4.2.3 激光通信</h5><p>激光通信同红外通信一样需要将传输的信号转换为自己的信号格式，即激光信号，才可直接在空间中传播。</p>
+<h2 id="7-物理层设备"><a href="#7-物理层设备" class="headerlink" title="7. 物理层设备"></a>7. 物理层设备</h2><h3 id="7-1-中继器"><a href="#7-1-中继器" class="headerlink" title="7.1 中继器"></a>7.1 中继器</h3><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/660ea83068eb935713adbef4.png" alt="计算机网络（二）——物理层——中继器.png">
+
+<h3 id="7-2-集线器"><a href="#7-2-集线器" class="headerlink" title="7.2 集线器"></a>7.2 集线器</h3><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/660ea86768eb935713add5db.png" alt="计算机网络（二）——物理层——集线器.png"></article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="http://bandit-ljC-1.github.io">liujinC</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="http://bandit-ljc-1.github.io/2024/03/31/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%EF%BC%88%E4%BA%8C%EF%BC%89%E2%80%94%E2%80%94%E7%89%A9%E7%90%86%E5%B1%82/">http://bandit-ljc-1.github.io/2024/03/31/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%EF%BC%88%E4%BA%8C%EF%BC%89%E2%80%94%E2%80%94%E7%89%A9%E7%90%86%E5%B1%82/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://bandit-ljC-1.github.io" target="_blank">无名高手🍭</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/408%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">408学习笔记</a><a class="post-meta__tags" href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">计算机网络</a></div><div class="post_share"><div class="social-share" data-image="/myphotos/article_cover/7.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2024/04/05/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86%EF%BC%88%E4%BA%8C%EF%BC%89%E2%80%94%E2%80%94%E6%95%B0%E6%8D%AE%E7%9A%84%E8%A1%A8%E7%A4%BA%E5%92%8C%E8%BF%90%E7%AE%97/" title="计算机组成原理（二）——数据的表示和运算"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/myphotos/article_cover/6.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">计算机组成原理（二）——数据的表示和运算</div></div></a></div><div class="next-post pull-right"><a href="/2024/03/28/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%EF%BC%88%E4%BA%8C%EF%BC%89%E2%80%94%E2%80%94%E6%A0%88%E4%B8%8E%E9%98%9F%E5%88%97%E4%B8%8E%E6%95%B0%E7%BB%84/" title="数据结构（二）——栈与队列与数组"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/myphotos/article_cover/11.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">数据结构（二）——栈与队列与数组</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2024/03/17/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%EF%BC%88%E4%B8%80%EF%BC%89%E2%80%94%E2%80%94%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84/" title="计算机网络（一）——计算机网络体系结构"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/myphotos/article_cover/8.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2024-03-17</div><div class="title">计算机网络（一）——计算机网络体系结构</div></div></a></div><div><a href="/2024/05/12/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%EF%BC%88%E5%85%AD%EF%BC%89%E2%80%94%E2%80%94%E5%BA%94%E7%94%A8%E5%B1%82/" title="计算机网络（六）——应用层"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/myphotos/article_cover/1.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2024-05-12</div><div class="title">计算机网络（六）——应用层</div></div></a></div><div><a href="/2024/05/10/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%EF%BC%88%E4%BA%94%EF%BC%89%E2%80%94%E2%80%94%E4%BC%A0%E8%BE%93%E5%B1%82/" title="计算机网络（五）——传输层"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/myphotos/article_cover/4.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2024-05-10</div><div class="title">计算机网络（五）——传输层</div></div></a></div><div><a href="/2024/04/10/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%EF%BC%88%E4%B8%89%EF%BC%89%E2%80%94%E2%80%94%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AF%E5%B1%82/" title="计算机网络（三）——数据链路层"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/myphotos/article_cover/4.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2024-04-10</div><div class="title">计算机网络（三）——数据链路层</div></div></a></div><div><a href="/2024/04/24/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%EF%BC%88%E5%9B%9B%EF%BC%89%E2%80%94%E2%80%94%E7%BD%91%E7%BB%9C%E5%B1%82/" title="计算机网络（四）——网络层"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/myphotos/article_cover/12.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2024-04-24</div><div class="title">计算机网络（四）——网络层</div></div></a></div><div><a href="/2024/03/22/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%EF%BC%88%E4%B8%80%EF%BC%89%E2%80%94%E2%80%94%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F%E6%A6%82%E8%BF%B0/" title="操作系统（一）——计算机系统概述"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/myphotos/article_cover/3.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2024-03-22</div><div class="title">操作系统（一）——计算机系统概述</div></div></a></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/myphotos/avatar.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">liujinC</div><div class="author-info__description"></div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">29</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">8</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">3</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://home.liujinc.cn"><i class="fab fa-github"></i><span>网站主页</span></a><div class="card-info-social-icons is-center"><a class="social-icon faa-parent animated-hover" href="/myphotos/WeChat.png" target="_blank" title="微信"><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon-weixin"></use></svg></a><a class="social-icon faa-parent animated-hover" href="/myphotos/QQ.jpg" target="_blank" title="QQ"><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon-QQ"></use></svg></a><a class="social-icon faa-parent animated-hover" href="https://space.bilibili.com/1941048387?spm_id_from=333.1007.0.0" target="_blank" title="B站"><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon-bilibili"></use></svg></a><a class="social-icon faa-parent animated-hover" href="https://blog.csdn.net/qq_63040545?spm=1000.2115.3001.5343" target="_blank" title="CSDN"><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon-csdn"></use></svg></a><a class="social-icon faa-parent animated-hover" href="https://github.com/Bandit-ljC-1" target="_blank" title="GitHub"><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon-github1"></use></svg></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">今年18岁傍50岁富婆，来年50岁包18岁姑娘。</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%89%A9%E7%90%86%E5%B1%82"><span class="toc-text">物理层</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-%E7%89%A9%E7%90%86%E5%B1%82%E7%9A%84%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5"><span class="toc-text">1. 物理层的基本概念</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-%E6%95%B0%E6%8D%AE%E9%80%9A%E4%BF%A1"><span class="toc-text">2. 数据通信</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#2-1-%E5%85%B8%E5%9E%8B%E7%9A%84%E6%95%B0%E6%8D%AE%E9%80%9A%E4%BF%A1%E6%A8%A1%E5%9E%8B"><span class="toc-text">2.1 典型的数据通信模型</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-2-%E6%95%B0%E6%8D%AE%E9%80%9A%E4%BF%A1%E7%9B%B8%E5%85%B3%E6%A6%82%E5%BF%B5"><span class="toc-text">2.2 数据通信相关概念</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-3-%E4%BC%A0%E8%BE%93%E6%96%B9%E5%BC%8F"><span class="toc-text">2.3 传输方式</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#2-3-1-%E4%B8%B2%E8%A1%8C%E4%BC%A0%E8%BE%93%E5%92%8C%E5%B9%B6%E8%A1%8C%E4%BC%A0%E8%BE%93"><span class="toc-text">2.3.1 串行传输和并行传输</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-3-2-%E5%90%8C%E6%AD%A5%E4%BC%A0%E8%BE%93%E5%92%8C%E5%BC%82%E6%AD%A5%E4%BC%A0%E8%BE%93"><span class="toc-text">2.3.2 同步传输和异步传输</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-3-3-%E4%B8%89%E7%A7%8D%E9%80%9A%E4%BF%A1%E6%96%B9%E5%BC%8F"><span class="toc-text">2.3.3 三种通信方式</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-4-%E7%A0%81%E5%85%83"><span class="toc-text">2.4 码元</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-5-%E6%95%B0%E6%8D%AE%E4%BC%A0%E8%BE%93%E9%80%9F%E7%8E%87"><span class="toc-text">2.5 数据传输速率</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#2-5-1-%E7%A0%81%E5%85%83%E4%BC%A0%E8%BE%93%E9%80%9F%E7%8E%87"><span class="toc-text">2.5.1 码元传输速率</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-5-2-%E4%BF%A1%E6%81%AF%E4%BC%A0%E8%BE%93%E9%80%9F%E7%8E%87"><span class="toc-text">2.5.2 信息传输速率</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-5-3-%E4%B8%A4%E7%A7%8D%E4%BC%A0%E8%BE%93%E9%80%9F%E7%8E%87%E5%B0%8F%E7%BB%93"><span class="toc-text">2.5.3 两种传输速率小结</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-6-%E5%B8%A6%E5%AE%BD"><span class="toc-text">2.6 带宽</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-%E4%BF%A1%E9%81%93%E7%9A%84%E6%9E%81%E9%99%90%E5%AE%B9%E9%87%8F%EF%BC%88%E9%87%8D%E7%82%B9%EF%BC%89"><span class="toc-text">3. 信道的极限容量（重点）</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#3-1-%E5%A4%B1%E7%9C%9F"><span class="toc-text">3.1 失真</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-2-%E5%A5%88%E5%A5%8E%E6%96%AF%E7%89%B9%E5%AE%9A%E7%90%86%EF%BC%88%E5%A5%88%E6%B0%8F%E5%87%86%E5%88%99%EF%BC%89"><span class="toc-text">3.2 奈奎斯特定理（奈氏准则）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-3-%E9%A6%99%E5%86%9C%E5%AE%9A%E7%90%86"><span class="toc-text">3.3 香农定理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-4-%E4%BF%A1%E9%81%93%E5%B0%8F%E7%BB%93"><span class="toc-text">3.4 信道小结</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-%E7%BC%96%E7%A0%81%E4%B8%8E%E8%B0%83%E5%88%B6"><span class="toc-text">4. 编码与调制</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#4-1-%E5%9F%BA%E5%B8%A6%E4%BF%A1%E5%8F%B7%E4%B8%8E%E5%AE%BD%E5%B8%A6%E4%BF%A1%E5%8F%B7"><span class="toc-text">4.1 基带信号与宽带信号</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-2-%E6%95%B0%E5%AD%97%E6%95%B0%E6%8D%AE%E7%BC%96%E7%A0%81%E4%B8%BA%E6%95%B0%E5%AD%97%E4%BF%A1%E5%8F%B7"><span class="toc-text">4.2 数字数据编码为数字信号</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-3-%E6%A8%A1%E6%8B%9F%E6%95%B0%E6%8D%AE%E8%BD%AC%E6%8D%A2%E4%B8%BA%E6%95%B0%E5%AD%97%E4%BF%A1%E5%8F%B7"><span class="toc-text">4.3 模拟数据转换为数字信号</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-4-%E6%95%B0%E5%AD%97%E6%95%B0%E6%8D%AE%E8%B0%83%E5%88%B6%E4%B8%BA%E6%A8%A1%E6%8B%9F%E4%BF%A1%E5%8F%B7"><span class="toc-text">4.4 数字数据调制为模拟信号</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-5-%E6%A8%A1%E6%8B%9F%E6%95%B0%E6%8D%AE%E8%B0%83%E5%88%B6%E4%B8%BA%E6%A8%A1%E6%8B%9F%E4%BF%A1%E5%8F%B7"><span class="toc-text">4.5 模拟数据调制为模拟信号</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-%E6%95%B0%E6%8D%AE%E4%BA%A4%E6%8D%A2%E6%96%B9%E5%BC%8F"><span class="toc-text">5. 数据交换方式</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#5-1-%E6%95%B0%E6%8D%AE%E6%8A%A5%E6%96%B9%E5%BC%8F"><span class="toc-text">5.1 数据报方式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-2-%E8%99%9A%E7%94%B5%E8%B7%AF"><span class="toc-text">5.2 虚电路</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-3-%E6%95%B0%E6%8D%AE%E6%8A%A5%E4%B8%8E%E8%99%9A%E7%94%B5%E8%B7%AF%E7%9A%84%E5%AF%B9%E6%AF%94"><span class="toc-text">5.3 数据报与虚电路的对比</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#6-%E7%89%A9%E7%90%86%E5%B1%82%E4%BC%A0%E8%BE%93%E4%BB%8B%E8%B4%A8"><span class="toc-text">6. 物理层传输介质</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#6-1-%E5%8F%8C%E7%BB%9E%E7%BA%BF"><span class="toc-text">6.1 双绞线</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6-2-%E5%90%8C%E8%BD%B4%E7%94%B5%E8%81%94"><span class="toc-text">6.2 同轴电联</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6-3-%E5%85%89%E7%BA%A4"><span class="toc-text">6.3 光纤</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6-4-%E6%97%A0%E7%BA%BF%E4%BC%A0%E8%BE%93%E4%BB%8B%E8%B4%A8"><span class="toc-text">6.4 无线传输介质</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#6-4-1-%E6%97%A0%E7%BA%BF%E6%B3%A2"><span class="toc-text">6.4.1 无线波</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#6-4-2-%E5%BE%AE%E6%B3%A2%E3%80%81%E7%BA%A2%E5%A4%96%E7%BA%BF%E5%92%8C%E6%BF%80%E5%85%89"><span class="toc-text">6.4.2 微波、红外线和激光</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#6-4-2-1-%E5%BE%AE%E6%B3%A2"><span class="toc-text">6.4.2.1 微波</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#6-4-2-2-%E7%BA%A2%E5%A4%96%E7%BA%BF%E9%80%9A%E4%BF%A1"><span class="toc-text">6.4.2.2 红外线通信</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#6-4-2-3-%E6%BF%80%E5%85%89%E9%80%9A%E4%BF%A1"><span class="toc-text">6.4.2.3 激光通信</span></a></li></ol></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#7-%E7%89%A9%E7%90%86%E5%B1%82%E8%AE%BE%E5%A4%87"><span class="toc-text">7. 物理层设备</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#7-1-%E4%B8%AD%E7%BB%A7%E5%99%A8"><span class="toc-text">7.1 中继器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#7-2-%E9%9B%86%E7%BA%BF%E5%99%A8"><span class="toc-text">7.2 集线器</span></a></li></ol></li></ol></li></ol></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2024 - 2025 By liujinC</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js?v=4.12.0"></script><script src="/js/main.js?v=4.12.0"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0.32/dist/fancybox/fancybox.umd.min.js"></script><script src="https://cdn.jsdelivr.net/npm/instant.page@5.2.0/instantpage.min.js" type="module"></script><script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@17.8.5/dist/lazyload.iife.min.js"></script><script src="https://cdn.jsdelivr.net/npm/node-snackbar@0.1.16/dist/snackbar.min.js"></script><script>function panguFn () {
+  if (typeof pangu === 'object') pangu.autoSpacingPage()
+  else {
+    getScript('https://cdn.jsdelivr.net/npm/pangu@4.0.7/dist/browser/pangu.min.js')
+      .then(() => {
+        pangu.autoSpacingPage()
+      })
+  }
+}
+
+function panguInit () {
+  if (false){
+    GLOBAL_CONFIG_SITE.isPost && panguFn()
+  } else {
+    panguFn()
+  }
+}
+
+document.addEventListener('DOMContentLoaded', panguInit)</script><div class="js-pjax"></div><canvas id="snow"></canvas><script async src="/js/snow.js"></script><canvas id="universe"></canvas><script defer src="/js/universe.js"></script><script defer src="/js/mouse.js"></script><script async src="//at.alicdn.com/t/c/font_4451089_fok8y2foa3.js"></script><script defer type="text/javascript" src="https://cdn1.tianli0.top/npm/sweetalert2@8.19.0/dist/sweetalert2.all.js"></script><script defer src="/js/festival/lunar.js"></script><script defer src="/js/festival/day.js"></script><script async src="/js/fps.js"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="is-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据库加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div id="local-search-results"></div><div id="local-search-stats-wrap"></div></div></div><div id="search-mask"></div><script src="/js/search/local-search.js?v=4.12.0"></script></div></div><!-- hexo injector body_end start --> <script data-pjax>if(document.getElementById('recent-posts') && (location.pathname ==='/'|| '/' ==='all')){
+    var parent = document.getElementById('recent-posts');
+    var child = '<div class="recent-post-item" style="width:100%;height: auto"><div id="catalog_magnet"><div class="magnet_item"><a class="magnet_link" href="http://bandit-ljC-1.github.io/tags/408学习笔记/"><div class="magnet_link_context" style=""><span style="font-weight:500;flex:1">🐱‍👓 路漫漫其修远，我探索不了一点。 (25)</span><span style="padding:0px 4px;border-radius: 8px;"><i class="fas fa-arrow-circle-right"></i></span></div></a></div><div class="magnet_item"><a class="magnet_link" href="http://bandit-ljC-1.github.io/tags/前端/"><div class="magnet_link_context" style=""><span style="font-weight:500;flex:1">🍨 前端UI到转行平面设计 (2)</span><span style="padding:0px 4px;border-radius: 8px;"><i class="fas fa-arrow-circle-right"></i></span></div></a></div><a class="magnet_link_more"  href="http://bandit-ljC-1.github.io/tags" style="flex:1;text-align: center;margin-bottom: 10px;">查看更多...</a></div></div>';
+    console.log('已挂载magnet')
+    parent.insertAdjacentHTML("afterbegin",child)}
+     </script><style>#catalog_magnet{flex-wrap: wrap;display: flex;width:100%;justify-content:space-between;padding: 10px 10px 0 10px;align-content: flex-start;}.magnet_item{flex-basis: calc(50% - 5px);background: #f2f2f2;margin-bottom: 10px;border-radius: 8px;transition: all 0.2s ease-in-out;}.magnet_item:hover{background: #b30070}.magnet_link_more{color:#555}.magnet_link{color:black}.magnet_link:hover{color:white}@media screen and (max-width: 600px) {.magnet_item {flex-basis: 100%;}}.magnet_link_context{display:flex;padding: 10px;font-size:16px;transition: all 0.2s ease-in-out;}.magnet_link_context:hover{padding: 10px 20px;}</style>
+    <style></style><script data-pjax>
+    function butterfly_categories_card_injector_config(){
+      var parent_div_git = document.getElementById('recent-posts');
+      var item_html = '<style>li.categoryBar-list-item{width:32.3%;}.categoryBar-list{max-height: 380px;overflow:auto;}.categoryBar-list::-webkit-scrollbar{width:0!important}@media screen and (max-width: 650px){.categoryBar-list{max-height: 320px;}}</style><div class="recent-post-item" style="height:auto;width:100%;padding:0px;"><div id="categoryBar"><ul class="categoryBar-list"><li class="categoryBar-list-item" style="background:url(/myphotos/article_cover/1.jpg);"> <a class="categoryBar-list-link" href="categories/网页开发/">网页开发</a><span class="categoryBar-list-count">2</span><span class="categoryBar-list-descr">优秀的设计师</span></li><li class="categoryBar-list-item" style="background:url(/myphotos/article_cover/2.jpg);"> <a class="categoryBar-list-link" href="categories/hexo/">hexo</a><span class="categoryBar-list-count">2</span><span class="categoryBar-list-descr">五等分的blog</span></li><li class="categoryBar-list-item" style="background:url(/myphotos/article_cover/3.jpg);"> <a class="categoryBar-list-link" href="categories/学习笔记/">学习笔记</a><span class="categoryBar-list-count">25</span><span class="categoryBar-list-descr">埼玉的成长之路</span></li></ul></div></div>';
+      console.log('已挂载butterfly_categories_card')
+      parent_div_git.insertAdjacentHTML("afterbegin",item_html)
+      }
+    if( document.getElementById('recent-posts') && (location.pathname ==='/'|| '/' ==='all')){
+    butterfly_categories_card_injector_config()
+    }
+  </script><script data-pjax>
+  function butterfly_swiper_injector_config(){
+    var parent_div_git = document.getElementById('recent-posts');
+    var item_html = '<div class="recent-post-item" style="height: auto;width: 100%"><div class="blog-slider swiper-container-fade swiper-container-horizontal" id="swiper_container"><div class="blog-slider__wrp swiper-wrapper" style="transition-duration: 0ms;"><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" href="2024/01/01/Markdown语法/" alt=""><img width="48" height="48" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="myphotos/article_cover/6.jpg" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/></a><div class="blog-slider__content"><span class="blog-slider__code">2024-01-01</span><a class="blog-slider__title" href="2024/01/01/Markdown语法/" alt="">青春男大遇到不会写的Markdown语法</a><div class="blog-slider__text">本文是博主写博客时遇到的一些不会写的Markdown语法，特在此汇总</div><a class="blog-slider__button" href="2024/01/01/Markdown语法/" alt="">详情   </a></div></div><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" href="2024/03/07/数据结构（一）——线性表/" alt=""><img width="48" height="48" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="myphotos/article_cover/3.jpg" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/></a><div class="blog-slider__content"><span class="blog-slider__code">2024-03-07</span><a class="blog-slider__title" href="2024/03/07/数据结构（一）——线性表/" alt="">数据结构（一）——线性表</a><div class="blog-slider__text">本文是数据结构中有关线性表的复习笔记，因此只记录一些重点知识与兄弟们交流，并不适合零基础的兄弟。</div><a class="blog-slider__button" href="2024/03/07/数据结构（一）——线性表/" alt="">详情   </a></div></div><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" href="2024/03/02/基于hexo搭建的个人博客常见问题处理/" alt=""><img width="48" height="48" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="myphotos/article_cover/6.jpg" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/></a><div class="blog-slider__content"><span class="blog-slider__code">2024-03-02</span><a class="blog-slider__title" href="2024/03/02/基于hexo搭建的个人博客常见问题处理/" alt="">基于hexo搭建的个人博客常见问题处理</a><div class="blog-slider__text">该文主要是站长对使用hexo搭建博客时出现的一些问题进行了整理</div><a class="blog-slider__button" href="2024/03/02/基于hexo搭建的个人博客常见问题处理/" alt="">详情   </a></div></div><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" href="2024/02/08/CSS基础语法及应用/" alt=""><img width="48" height="48" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="myphotos/article_cover/6.jpg" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/></a><div class="blog-slider__content"><span class="blog-slider__code">2024-02-08</span><a class="blog-slider__title" href="2024/02/08/CSS基础语法及应用/" alt="">CSS基础语法及应用</a><div class="blog-slider__text">本文主要整理CSS的基本语法，可以搭配HTML5基本语法进行学习</div><a class="blog-slider__button" href="2024/02/08/CSS基础语法及应用/" alt="">详情   </a></div></div><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" href="2024/02/01/HTML5基础语法大全/" alt=""><img width="48" height="48" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="myphotos/article_cover/13.jpg" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/></a><div class="blog-slider__content"><span class="blog-slider__code">2024-02-01</span><a class="blog-slider__title" href="2024/02/01/HTML5基础语法大全/" alt="">HTML5基本语法大全</a><div class="blog-slider__text">本文主要整理了HTML5的基本语法，方便初学者快速入门</div><a class="blog-slider__button" href="2024/02/01/HTML5基础语法大全/" alt="">详情   </a></div></div></div><div class="blog-slider__pagination swiper-pagination-clickable swiper-pagination-bullets"></div></div></div>';
+    console.log('已挂载butterfly_swiper')
+    parent_div_git.insertAdjacentHTML("afterbegin",item_html)
+    }
+  var elist = 'undefined'.split(',');
+  var cpage = location.pathname;
+  var epage = '/';
+  var flag = 0;
+
+  for (var i=0;i<elist.length;i++){
+    if (cpage.includes(elist[i])){
+      flag++;
+    }
+  }
+
+  if ((epage ==='all')&&(flag == 0)){
+    butterfly_swiper_injector_config();
+  }
+  else if (epage === cpage){
+    butterfly_swiper_injector_config();
+  }
+  </script><script defer src="https://npm.elemecdn.com/hexo-butterfly-swiper/lib/swiper.min.js"></script><script defer data-pjax src="https://npm.elemecdn.com/hexo-butterfly-swiper/lib/swiper_init.js"></script><script data-pjax>
+  function butterfly_footer_beautify_injector_config(){
+    var parent_div_git = document.getElementById('footer-wrap');
+    var item_html = '<div id="workboard"></div><p id="ghbdages"><a class="github-badge" target="_blank" href="https://hexo.io/" style="margin-inline:5px" data-title="博客框架为Hexo_v6.2.0" title=""><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img.shields.io/badge/Frame-Hexo-blue?style=flat&amp;logo=hexo" alt=""/></a><a class="github-badge" target="_blank" href="https://butterfly.js.org/" style="margin-inline:5px" data-title="主题版本Butterfly_v4.3.1" title=""><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img.shields.io/badge/Theme-Butterfly-6513df?style=flat&amp;logo=bitdefender" alt=""/></a><a class="github-badge" target="_blank" href="https://vercel.com/" style="margin-inline:5px" data-title="本站采用多线部署，主线路托管于Vercel" title=""><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img.shields.io/badge/Hosted-Vercel-brightgreen?style=flat&amp;logo=Vercel" alt=""/></a><a class="github-badge" target="_blank" href="https://dashboard.4everland.org/" style="margin-inline:5px" data-title="本站采用多线部署，备用线路托管于4EVERLAND" title=""><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img.shields.io/badge/Hosted-4EVERLAND-22DDDD?style=flat&amp;logo=IPFS" alt=""/></a><a class="github-badge" target="_blank" href="https://github.com/" style="margin-inline:5px" data-title="本站项目由Github托管" title=""><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img.shields.io/badge/Source-Github-d021d6?style=flat&amp;logo=GitHub" alt=""/></a><a class="github-badge" target="_blank" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" style="margin-inline:5px" data-title="本站采用知识共享署名-非商业性使用-相同方式共享4.0国际许可协议进行许可" title=""><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img.shields.io/badge/Copyright-BY--NC--SA%204.0-d42328?style=flat&amp;logo=Claris" alt=""/></a></p>';
+    console.log('已挂载butterfly_footer_beautify')
+    parent_div_git.insertAdjacentHTML("beforeend",item_html)
+    }
+  var elist = 'null'.split(',');
+  var cpage = location.pathname;
+  var epage = 'all';
+  var flag = 0;
+
+  for (var i=0;i<elist.length;i++){
+    if (cpage.includes(elist[i])){
+      flag++;
+    }
+  }
+
+  if ((epage ==='all')&&(flag == 0)){
+    butterfly_footer_beautify_injector_config();
+  }
+  else if (epage === cpage){
+    butterfly_footer_beautify_injector_config();
+  }
+  </script><script async src="/js/clock.js"></script><div class="js-pjax"><script async="async">var arr = document.getElementsByClassName('recent-post-item');
+for(var i = 0;i<arr.length;i++){
+    arr[i].classList.add('wow');
+    arr[i].classList.add('animate__zoomIn');
+    arr[i].setAttribute('data-wow-duration', '2s');
+    arr[i].setAttribute('data-wow-delay', '1s');
+    arr[i].setAttribute('data-wow-offset', '100');
+    arr[i].setAttribute('data-wow-iteration', '1');
+  }</script><script async="async">var arr = document.getElementsByClassName('card-widget');
+for(var i = 0;i<arr.length;i++){
+    arr[i].classList.add('wow');
+    arr[i].classList.add('animate__zoomIn');
+    arr[i].setAttribute('data-wow-duration', '');
+    arr[i].setAttribute('data-wow-delay', '');
+    arr[i].setAttribute('data-wow-offset', '');
+    arr[i].setAttribute('data-wow-iteration', '');
+  }</script></div><script defer src="/css/wowjs/wow.min.js"></script><script defer src="/css/wowjs/wow_init.js"></script><!-- hexo injector body_end end --></body></html>

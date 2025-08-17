@@ -1,0 +1,909 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>操作系统（四）——文件管理 | 无名高手🍭</title><meta name="author" content="liujinC"><meta name="copyright" content="liujinC"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="ffffff"><meta name="description" content="第四卷——得道“文件管理”">
+<meta property="og:type" content="article">
+<meta property="og:title" content="操作系统（四）——文件管理">
+<meta property="og:url" content="http://bandit-ljc-1.github.io/2024/06/04/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%EF%BC%88%E5%9B%9B%EF%BC%89%E2%80%94%E2%80%94%E6%96%87%E4%BB%B6%E7%AE%A1%E7%90%86/index.html">
+<meta property="og:site_name" content="无名高手🍭">
+<meta property="og:description" content="第四卷——得道“文件管理”">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://bandit-ljc-1.github.io/myphotos/article_cover/11.jpg">
+<meta property="article:published_time" content="2024-06-04T14:47:00.000Z">
+<meta property="article:modified_time" content="2024-06-10T10:21:00.000Z">
+<meta property="article:author" content="liujinC">
+<meta property="article:tag" content="408学习笔记">
+<meta property="article:tag" content="操作系统">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://bandit-ljc-1.github.io/myphotos/article_cover/11.jpg"><link rel="shortcut icon" href="/myphotos/icon.png"><link rel="canonical" href="http://bandit-ljc-1.github.io/2024/06/04/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%EF%BC%88%E5%9B%9B%EF%BC%89%E2%80%94%E2%80%94%E6%96%87%E4%BB%B6%E7%AE%A1%E7%90%86/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css?v=4.12.0"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.5.1/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/node-snackbar@0.1.16/dist/snackbar.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0.32/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":true,"top_n_per_article":-1,"unescape":false,"languages":{"hits_empty":"找不到您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: undefined,
+  noticeOutdate: {"limitDay":365,"position":"top","messagePrev":"It has been","messageNext":"days since the last update, the content of the article may be outdated."},
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":230},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: {"chs_to_cht":"你已切换为繁体中文","cht_to_chs":"你已切换为简体中文","day_to_night":"你已切换为深色模式","night_to_day":"你已切换为浅色模式","bgLight":"#49b1f5","bgDark":"#1f1f1f","position":"top-right"},
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid@4.11.0/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyload: true,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '操作系统（四）——文件管理',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2024-06-10 18:21:00'
+}</script><script>(win=>{
+      win.saveToLocal = {
+        set: (key, value, ttl) => {
+          if (ttl === 0) return
+          const now = Date.now()
+          const expiry = now + ttl * 86400000
+          const item = {
+            value,
+            expiry
+          }
+          localStorage.setItem(key, JSON.stringify(item))
+        },
+      
+        get: key => {
+          const itemStr = localStorage.getItem(key)
+      
+          if (!itemStr) {
+            return undefined
+          }
+          const item = JSON.parse(itemStr)
+          const now = Date.now()
+      
+          if (now > item.expiry) {
+            localStorage.removeItem(key)
+            return undefined
+          }
+          return item.value
+        }
+      }
+    
+      win.getScript = (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        script.onerror = reject
+        script.onload = script.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          script.onload = script.onreadystatechange = null
+          resolve()
+        }
+
+        Object.keys(attr).forEach(key => {
+          script.setAttribute(key, attr[key])
+        })
+
+        document.head.appendChild(script)
+      })
+    
+      win.getCSS = (url, id = false) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onerror = reject
+        link.onload = link.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          link.onload = link.onreadystatechange = null
+          resolve()
+        }
+        document.head.appendChild(link)
+      })
+    
+      win.activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', 'ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          const now = new Date()
+          const hour = now.getHours()
+          const isNight = hour <= 6 || hour >= 18
+          if (t === undefined) isNight ? activateDarkMode() : activateLightMode()
+          else if (t === 'light') activateLightMode()
+          else activateDarkMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+      const detectApple = () => {
+        if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+          document.documentElement.classList.add('apple')
+        }
+      }
+      detectApple()
+    })(window)</script><link rel="stylesheet" href="/css/custom.css" media="defer" onload="this.media='all'"><link rel="stylesheet" href="/css/light.css" media="defer" onload="this.media='all'"><link rel="stylesheet" href="/css/snow.css"><link rel="stylesheet" href="/css/universe.css"><link rel="stylesheet" href="/css/mouse.css"><link rel="stylesheet" href="//at.alicdn.com/t/c/font_4451089_fok8y2foa3.css" media="defer" onload="this.media='all'"><link rel="stylesheet" href="/css/page_style.css"><span id="fps"></span><link rel="stylesheet" href="/css/pangu_control.css"><div id="myscoll"></div><!-- hexo injector head_end start --><link rel="stylesheet" href="/css/categorybar.css"><link rel="stylesheet" href="https://npm.elemecdn.com/hexo-butterfly-swiper/lib/swiper.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="/css/swiper/swiperstyle.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://unpkg.zhimg.com/hexo-butterfly-footer-beautify@1.0.0/lib/runtime.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="/css/wowjs/animate.min.css" media="print" onload="this.media='screen'"><!-- hexo injector head_end end --><meta name="generator" content="Hexo 6.3.0"></head><body><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/myphotos/avatar.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">29</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">8</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">3</div></a></div><hr class="custom-hr"/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> 列表</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音乐</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 电影</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/comments/"><i class="fa-fw fas fa-envelope-open"></i><span> 留言板</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('/myphotos/article_cover/11.jpg')"><nav id="nav"><span id="blog-info"><a href="/" title="无名高手🍭"><span class="site-name">无名高手🍭</span></a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search" href="javascript:void(0);"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> 列表</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音乐</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 电影</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/comments/"><i class="fa-fw fas fa-envelope-open"></i><span> 留言板</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">操作系统（四）——文件管理</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2024-06-04T14:47:00.000Z" title="发表于 2024-06-04 22:47:00">2024-06-04</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2024-06-10T10:21:00.000Z" title="更新于 2024-06-10 18:21:00">2024-06-10</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">学习笔记</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">28.7k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>84分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="操作系统（四）——文件管理"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h1 id="操作系统（四）——文件管理"><a href="#操作系统（四）——文件管理" class="headerlink" title="操作系统（四）——文件管理"></a>操作系统（四）——文件管理</h1><h2 id="1-文件管理基础"><a href="#1-文件管理基础" class="headerlink" title="1. 文件管理基础"></a>1. 文件管理基础</h2><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/665f2a765e6d1bfa05a098ed.png" alt="操作系统（四）——文件管理——初始文件管理.png">
+
+<p>在之前的学习中，我们知道操作系统作为系统资源的管理者，也需要对文件进行管理。</p>
+<p>文件也属于一种系统资源，所谓文件就是一组有意义的信息&#x2F;数据的集合。</p>
+<p>而各种各样的文件，所呈现出的特性也是不一样的，比如图片文件和文字文件。所以不同的文件有不同的属性，而因为文件的属性不同，所以在使用文件时也会有各种各样的差别。<strong>所以第一个需要讨论的问题就是计算机存放了各种各样的文件，一个文件有哪些属性？</strong></p>
+<p><strong>第二个问题，文件是一组有意义的信息&#x2F;数据的集合，那这些信息在内部是怎么被组织起来的（即文件内部组织形式的问题）？</strong></p>
+<p>在系统当中有很多的文件，但是这些文件由于有组织的被存放在一起，所以平时使用时会很方便。<strong>所以第三个问题，文件之间是怎样组织起来的？</strong></p>
+<p>从下往上看，OS的上层应该是应用程序和用户，所以OS应该为其上层提供一些简单易用的接口，用来方便操作各种文件。<strong>所以第四个问题，OS应该为上层提供哪些功能？</strong></p>
+<p>从上往下看，OS的下面是硬件，所以OS也需要对硬件进行管理，而文件一般被存放在外存（磁盘）中，而外存作为计算机的一种硬件，肯定也需要OS对其进行管理。<strong>所以第五个问题，文件的数据应该怎么被存放在外存上？</strong></p>
+<p>以上五个问题，将是我们这一章学习和研究的重点，希望通过上面的介绍，可以对本章有所初步认知。</p>
+<p>接下来我们看一下，文件应该有哪些属性？</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/665f2d5e5e6d1bfa05a458ce.png" alt="操作系统（四）——文件管理——文件的属性.png">
+
+<p>这里要注意区分文件名和标识符的概念，文件名是由用户创建的，而标识符是由操作系统定义的。</p>
+<p>接下来看文件内部数据应该怎么样组织起来？</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/665f2db75e6d1bfa05a4ba50.png" alt="操作系统（四）——文件管理——文件内部数据的组织1.png">
+
+<p>我们平常使用电脑的过程中也会使用各种各样的文件。</p>
+<p>有的文件比如说像txt这样的文件，它是一种看起来没有很明显结构特性的文件，这样的文件是由一些二进制或字符流组成，这就是所谓的<strong>无结构文件</strong>，又称“流式文件”。</p>
+<p>另外，在用户看来，还有一些文件表现出很强的结构特性，比如Excel表，这就是所谓的<strong>有结构文件</strong>。所以对于这种有结构文件来说，它是由一条一条的记录组成，而每一条记录又是由一组相关的数据项组成，比如上图右的例子。<strong>数据项是文件系统当中最基本的数据单位。</strong></p>
+<p>因此，文件可以分为无结构文件和有结构文件两大类，如下图：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/665f2dd75e6d1bfa05a4db10.png" alt="操作系统（四）——文件管理——文件内部数据的组织2.png">
+
+<p>有结构文件中，各个记录间应该如何组织的问题――应该顺序存放？还是用索引表来表示记录间的顺序？这是“文件的逻辑结构“要重点探讨的问题。该部分只是对本章做个概述，目的是让大家有个全局观，所以这个问题在这里先不介绍，在之后的部分会进行讲解。</p>
+<p>接下来看文件之间应该怎么样组织起来：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/665f2e3f5e6d1bfa05a54170.png" alt="操作系统（四）——文件管理——文件间的组织.png">
+
+<p>我们在打开电脑的某个盘时，里面会出现很多文件夹，打开某个文件夹，还会出现更多的文件夹。所以我们平时使用windows系统的组织形式，看起来像是一个树状结构，如上图。</p>
+<p>一个根目录下可以有各种文件目录，也可以有一些普通的文件，而各个目录下还可以创建更深一层的目录。这里所谓的“目录”，就是我们熟悉的文件夹。</p>
+<p>我们普通用户可以自己创建一层一层的目录，各层目录中存放相应的文件。系统中的各个文件就通过一层一层的目录合理有序的组织起来了。</p>
+<p>我们平时看见的目录或者说文件夹其实也是一种特殊的有结构文件（这个有结构文件也是由一些记录组成)，而文件目录是怎么样实现的也是之后会重点探讨的问题。</p>
+<p>总之，文件通过目录的功能，一层一层的组织起来，这样很方便用户的使用。</p>
+<p>接下来考虑一下，OS应该为其上层提供哪些功能：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/665f2e715e6d1bfa05a57475.png">
+
+<p>从生活经验出发，比如说我们可以在一个文件目录下新建一个txt文件，点了新建文件之后，在背后其实是使用了操作系统提供的一个文件创建功能。如上图左，在我们点击新建按钮以后，这个图形化进程其实是在背后调用操作系统向上提供的create系统调用来完成创建这个工作。在我们创建了文件以后，这个文件数据就已经在外存当中。</p>
+<p>我们可以双击打开这个txt文件，为了操作这个文件的数据，需要把文件的数据从外存读到内存，因为只有读到内存以后，才能让CPU处理，所以这里就使用到了一个读文件的功能。在我们双击这个txt文件之后，操作系统先是默认的打开了txt对应的应用程序（即记事本），这个应用程序又调用了操作系统向上提供的read的系统调用来实现读文件的功能。通过读文件的功能，就可以把这个文件的数据放入内存，然后呈现在用户面前。</p>
+<p>当我们把这个txt文件编辑结束以后，我们可以保存文件，在我们点击了文件保存的按钮以后，记事本这个应用程序在背后调用了操作系统向上提供的write系统调用，实现了所谓的写文件功能，这个功能就是负责把文件数据从内存再写回外存。因为我们平时编辑这个文件的时候，只改了文件在内存当中的副本的数据，所以为了保存这个文件的内容，我们必须再使用写文件的功能，将文件数据保存到外存中。</p>
+<p>既然我们可以创建一个文件，当然也可以删除一个文件，如上图，在我们点了删除按钮以后，这个图形化的交互进程在背后调用了操作系统提供的delete系统调用，这样就可以把文件数据从外存当中删除。</p>
+<p>除了这些肉眼可见的功能以为，OS还需要提供打开文件和关闭文件这两个基本的功能，如下图：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/665f2e915e6d1bfa05a59811.png" alt="操作系统（四）——文件管理——OS向上提供的功能2.png">
+
+<p>这里的打开文件和关闭文件功能与我们平时所谓的双击和点击所谓的软件右上角的关闭窗口的“x”是不一样的东西。至于具体打开文件和关闭文件时需要做什么，在之后的内容里会进行探讨。</p>
+<p>但是需要注意，在读&#x2F;写文件前，需要使用open系统调用打开文件；在读&#x2F;写文件后，需要使用close系统调用关闭文件。</p>
+<p>另外，很多对文件的复杂操作，可以用这些基本的功能来进行复合，比如:“复制文件”：先创建一个新的空文件，再把源文件读入内存，再将内存中的数据写到新文件中。而OS在处理这些系统调用的时候，在背后需要做哪些事，这也是之后会展开探讨的问题。</p>
+<p>接下来看一下，既然文件是存放在外存当中的，而外存又属于一种硬件，从上往下看，操作系统是最接近硬件的层次，因此OS需要对硬件进行管理，相应的，这些文件数据应该怎么被放到外存这个硬件当中，当然也是也是操作系统应该关心和解决的问题。</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/665f2ec65e6d1bfa05a5d6a6.png" alt="操作系统（四）——文件管理——文件如何存放在外存.png">
+
+<p>首先需要知道的是，外存与内存一样，也会被分为一个一个的存储单元，每个存储单元可以放一定量的数据，并且每个存储单元对应一个物理地址。</p>
+<p>同样类似于内存分为一个个“内存块”，外存会分为一个个“块&#x2F;磁盘块&#x2F;物理块”。每个磁盘块的大小是相等的，每块一般包含2的整数幂个地址(如上图例中，一块包含210个地址，即1KB）。同样类似的是，文件的逻辑地址也可以分为（逻辑块号，块内地址），操作系统同样需要将逻辑地址转换为外存的物理地址（物理块号，块内地址）的形式。块内地址的位数取决于磁盘块的大小，比如说在上例中，一个磁盘块占2<sup>10</sup>个字节，所以要表示2<sup>10</sup>个物理地址，总共就需要10个二进制位才可以表示，因此在上例中，块内地址位数应该是10。</p>
+<p>注意，操作系统以“块”为单位为文件分配存储空间，因此即使一个文件大小只有10B，但它依然需要占用1KB的磁盘块。</p>
+<p>另外，外存中的数据读入内存时同样以块为单位进行数据交换。</p>
+<p>通过这部分了解可以知道，外存被分为一个一个的磁盘块，如下图：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/665f2f205e6d1bfa05a635af.png" alt="操作系统（四）——文件管理——文件如何存放在外存1.png">
+
+<p>当文件比较大时，文件数据是放在连续的几个磁盘块中，还是离散的分配在磁盘块里，这也是我们之后需要讨论的内容。</p>
+<p>除了分配给文件的这些磁盘块应该怎么组织起来这个问题之外，操作系统还要关心怎么管理这些空闲的磁盘块，怎么对这些磁盘块进行分配与回收这些问题，这也是本章需要讨论的内容。</p>
+<p>所以文件的物理结构，探讨的是文件这些数据在物理上应该是怎么样存放的问题；而文件的逻辑结构，指的是文件的各个记录在逻辑上应该是什么样的一种组织关系的问题。这些知识点会在接下来的内容里进行进一步学习。</p>
+<p>而除了刚刚探讨的功能以外，操作系统还要实现文件共享和文件保护这两个比较重要的功能，如下图：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/665f2f4c5e6d1bfa05a66291.png" alt="操作系统（四）——文件管理——其它由OS提供的文件管理功能.png">
+
+<p>文件共享就是指如何让多个用户可以共享使用一个文件。</p>
+<p>文件保护是指怎么保证不同的用户对文件有不同的操作权限。</p>
+<p>这两个问题在本章也会学习到。</p>
+<p>接下来对上面所说的问题进行一个总结：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/665f2f735e6d1bfa05a68cda.png" alt="操作系统（四）——文件管理——文件管理基础小结.png">
+
+<p>最后说一下，该部分文件管理基础主要是为了帮助建立一个全局观，能在正式学习本章前，对本章内容有一个初步的认识。另外，在本章学习完以后，也可以回来再过一遍该部分，这样可以帮助对本章在宏观上有进一步的掌控。</p>
+<h2 id="2-文件的逻辑结构"><a href="#2-文件的逻辑结构" class="headerlink" title="2. 文件的逻辑结构"></a>2. 文件的逻辑结构</h2><h3 id="2-1-文件的逻辑结构知识总览"><a href="#2-1-文件的逻辑结构知识总览" class="headerlink" title="2.1 文件的逻辑结构知识总览"></a>2.1 文件的逻辑结构知识总览</h3><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/6661ca565e6d1bfa051ca67a.png" alt="操作系统（四）——文件管理——文件的逻辑结构知识总览.png">
+
+<p>所谓的“逻辑结构”，就是指在用户看来,文件内部的数据应该是如何组织起来的。而“物理结构”指的是在操作系统看来，文件的数据是如何存放在外存中的。</p>
+<p>在数据结构中我们已经接触过许多逻辑结构与物理结构的问题，如“线性表”就是一种逻辑结构，在用户角度看来，线性表就是一组有先后关系的元素序列。但是对于一种逻辑结构李硕，也可以用不同的物理结构实现。比如线性表就可以用顺序表或链表的方式实现。顺序表的各个元素在逻辑上相邻，在物理上也相邻；而链表的各个元素在物理上可以是不相邻的。因此，顺序表可以实现“随机访问”，而“链表”无法实现随机访问。</p>
+<p>可见，算法的具体实现与逻辑结构、物理结构都有关。文件也一样，文件操作的具体实现与文件的逻辑结构、物理结构都有关。</p>
+<p>文件可以分为无结构文件与有结构文件，本节需要重点关注的是有结构文件。</p>
+<p>接下来先看一下无结构文件。</p>
+<h3 id="2-2-无结构文件"><a href="#2-2-无结构文件" class="headerlink" title="2.2 无结构文件"></a>2.2 无结构文件</h3><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/6661cbb85e6d1bfa051e7173.png" alt="操作系统（四）——文件管理——无结构文件.png">
+
+<p>所谓无结构文件就是一系列的二进制流或字符流组成，又称为“流式文件“。比如windows系统里的.txt文件就是一种很典型的无结构文件。由于这种结构没有很明显的特性，所以也不必要讨论这种无结构的问题。所以重点关注有结构文件。</p>
+<h3 id="2-3-有结构文件"><a href="#2-3-有结构文件" class="headerlink" title="2.3 有结构文件"></a>2.3 有结构文件</h3><h4 id="2-3-1-有结构文件概念"><a href="#2-3-1-有结构文件概念" class="headerlink" title="2.3.1 有结构文件概念"></a>2.3.1 有结构文件概念</h4><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/6661ccc15e6d1bfa051fd55f.png" alt="操作系统（四）——文件管理——有结构文件1.png">
+
+<p>有结构文件：由一组相似的记录组成，又称“记录式文件”。每条记录由若干个数据项组成。如：数据库表文件。</p>
+<p>如上图的例子就是一张数据库表，记录了各个学生的信息，包括学号、姓名、性别、专业这四个数据项。一般来说每条记录可以有一个数据项作为关键字，像上面的例子中就可以用学号作为关键字，来充当识别不同记录的id。每个学生会对应一条记录，每条记录由若干个数据项组成。</p>
+<p>另外，根据各条记录的长度（占用的存储空间）是否相等，又可分为定长记录和可变长记录两种。</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/6661ceb25e6d1bfa0522256c.png" alt="操作系统（四）——文件管理——有结构文件定长记录.png">
+
+<p>如上图是定长的例子，还是刚刚的例子，可以用32B表示学号，32B表示姓名，4B表示性别，60B表示专业。所以既然每一个数据项长度相同，那么每条记录的总长度也是相同的。并且在定长记录当中，每个数据项在记录中所处的位置也是相同的。</p>
+<p>接下来看一下可变长的例子：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/6661d21a5e6d1bfa05276a66.png" alt="操作系统（四）——文件管理——有结构文件可变长记录.png">
+
+<p>如上图，是可变长记录的例子，还是之前的学生信息表，但这次记录了一个特长数据项，由于每个同学的特长这一项长度是不确定的，有的很多，有的很少，有的甚至没有，所以像这些记录就是一种可变长记录。如果我们给每个学生的特长都分配一个很大的存储空间，显然会出现空间浪费的情况，所以在这个例子里，最好是让这个有结构文件的记录是可变长记录。</p>
+<p>接下来讨论一下这些记录在逻辑上应该被怎么组织起来的问题，也就是有结构文件的逻辑结构问题。<strong>根据有结构文件中的各条记录在逻辑上如何组织，可以分为三类：顺序文件、索引文件、索引顺序文件。</strong>接下来分别看一下这三种结构。</p>
+<h4 id="2-3-2-顺序文件"><a href="#2-3-2-顺序文件" class="headerlink" title="2.3.2 顺序文件"></a>2.3.2 顺序文件</h4><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/6661d4fe5e6d1bfa052aa24c.png" alt="操作系统（四）——文件管理——顺序文件1.png">
+
+<p>顺序文件：文件中的记录一个接一个地顺序排列（逻辑上），记录可以是定长的或可变长的。各个记录在物理上可以顺序存储或链式存储。</p>
+<p>如果文件是顺序存储的话，那么在逻辑上相邻的记录吗，在物理上也是相邻的。而如果采用链式存储结构，逻辑上相邻的记录，物理上不一定相邻。</p>
+<p>根据记录是否按关键字顺序排列，又可以把记录分为串结构和顺序结构。串结构，就是记录之间的顺序与关键字无关。顺序结构就是记录之间的顺序按关键字顺序排列。</p>
+<p>显然，记录到底是定长的还是可变长的，这些记录是否按照关键字有序排列，另外这些记录在物理上到底是顺序存储还是链式存储，这些都会影响文件的操作功能。</p>
+<p>现在重点讨论两个问题，假设已经知道文件的起始地址。第一个问题，能否快速找到第i个记录对应的地址?（即能否实现随机存取)。第二个问题，能否快速找到某个关键字对应的记录存放的位置?</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/6661d52b5e6d1bfa052acf36.png" alt="操作系统（四）——文件管理——顺序文件2.png">
+
+<p>若一个顺序文件在物理上采用链式存储，那么无论这个文件是定长还是可变长记录，也无论是串结构还是顺序结构，都无法实现随机存取。每次只能从第一个记录开始依次往后查找。</p>
+<p>若采用顺序存储的物理结构，并且这个文件是可变长记录文件，则依然无法实现随机存取。如上图左下的记录，由于文件记录是可变长的，所以每个文件的记录长度不一样，需要在每个记录前，用一定的存储空间，来表示这个记录的长度。假设记录长度用1字节表示，第0条记录的逻辑地址就是0。第二条记录的起始地址，就应该是第一条记录的长度L0，加上记录长度1字节。接下来的每条记录的起始地址都应该是前面记录的长度和，由于每条记录的长度不固定，所以每条记录的起始地址并不会呈现一种规律性，所以无法实现随机存取。</p>
+<p>若采用顺序存储的物理结构，并且这个文件是定长记录文件，则可以实现随机存取，如上图右下，第i个文件可以通过起始地址+i*记录长度。若该文件还是串结构，即记录的顺序和关键字的顺序是没有关系的，这就无法快速找到某个关键字对应的记录。若该文件是顺序结构，即记录的顺序和关键字的顺序是有关系的，这样的话就可以用像折半查找之类的方法来快速找到某一个关键字对应的记录。</p>
+<p>到这里就可以回答前面的两个问题，关于能否快速找到第i个记录对应的地址？我们得出的结论是如果物理上采用链式存储，那肯定无法实现。若物理上采用顺序存储，可变长记录的物理是无法实现的，而定长记录的文件是可以实现的。如果在这个基础上，再能保证定长记录的文件是一种顺序结构，就可以实现快速检索某一个记录的功能。</p>
+<p>注：一般来说，考试题目中所说的“顺序文件”指的是物理上顺序存储的顺序文件。之后的讲解中提到的顺序文件也默认如此。</p>
+<h4 id="2-3-3-索引文件"><a href="#2-3-3-索引文件" class="headerlink" title="2.3.3 索引文件"></a>2.3.3 索引文件</h4><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/6661d5515e6d1bfa052afd9c.png" alt="操作系统（四）——文件管理——索引文件.png">
+
+<p>通过前面的学习，我们可以知道，如果一个顺序文件是可变长记录的话，要找到第i个记录，就必须先顺序的查找前面i-1个记录，但是实际生活中，又有很多场景必须使用可变长记录，那能不能解决可变长文件查找效率慢的问题，能否让可变长文件也实现随机访问的功能。基于这种需求，人们提出了索引文件这种逻辑结构。</p>
+<p>每一个文件会建立一张索引表，并且每一个索引表表项，会对应文件的一条记录。文件中的这些记录在物理上可以离散地存放。但索引表的表项在物理上需要连续存放。另外每一个索引表的表项大小是相等的。因此索引表本身可以理解为**<font color=red>定长记录的顺序文件</font>**，所以索引表可以支持随机访问。</p>
+<p>如果让关键字作为索引号的内容，并且让索引表当中的表项按照关键字顺序排列，那么就可以让索引文件支持折半查找，这样就可以大幅度提升索引文件的检索速度。</p>
+<p>既然每个记录都有一个对应的索引项，那么在添加&#x2F;删除一个记录时，也要对应的增加删除一个索引项。</p>
+<p>到这里，我们就可以知道索引文件这种逻辑结构，可以支持很快的检索速度，所以这种逻辑结构主要是用在对于信息处理的及时性要去比较高的场合。另外，除了用关键字作为索引号之外，还可以用别的不同数据项作为索引号，来为一个文件建立多个索引表。</p>
+<h4 id="2-3-4-索引顺序文件"><a href="#2-3-4-索引顺序文件" class="headerlink" title="2.3.4 索引顺序文件"></a>2.3.4 索引顺序文件</h4><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/6661d57b5e6d1bfa052b2950.png" alt="操作系统（四）——文件管理——索引顺序文件1.png">
+
+<p>在索引文件中，每个记录都对应一个索引表项，因此可能记录很小，索引表项很大，这样就会导致空间利用率极低。为了解决这个问题，人们提出了索引顺序文件的概念。</p>
+<p>索引顺序文件是索引文件和顺序文件思想的结合。与索引文件相似的，索引顺序文件中，同样会为文件建立一张索引表，但不同的是，并不是每个记录对应一个索引表项，而是**<font color=red>一组记录对应一个索引表项</font>**。如上图的学生记录例子，而从这个例子也可以发现，索引顺序文件的索引项是每组的第一个关键字，所以索引顺序文件的索引项也不需要按关键字顺序排列，这样可以极大地方便新表项的插入。</p>
+<p>可以看到，用这种策略确实可以让索引表“瘦身”，但是是否会出现不定长记录的顺序文件检索速度慢的问题呢？下面来分析一下。</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/6661d5a35e6d1bfa052b4fd1.png" alt="操作系统（四）——文件管理——索引顺序文件2.png">
+
+<p>假设若一个<strong>顺序文件</strong>有10000个记录，则根据关键字检索文件，只能从头开始顺序查找（这里指的并不是定长记录、顺序结构的顺序文件)，那我们要找到某个关键字对应的记录，<strong>平均须查找5000个记录</strong>。</p>
+<p>采用<strong>索引顺序文件</strong>结构，可把10000个记录分为sqrt(10000)&#x3D; 100组，每组100个记录。则需要先顺序查找索引表找到分组（共100个分组，因此索引表长度为100，平均需要查50次)，找到分组后，再在分组中顺序查找记录（每个分组100个记录，因此平均需要查50次)。可见，采用索引顺序文件结构后，平均查找次数减少为<strong>50+50&#x3D; 100次</strong>。</p>
+<p>同理，若文件共有10个记录，则可分为1000个分组，每个分组1000个记录。根据关键字检索一个记录平均需要查找500+500 &#x3D; 1000次。这个查找次数依然很多，如何解决呢？可以建立多级索引，如下图。</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/6661d5ca5e6d1bfa052b7903.png" alt="操作系统（四）——文件管理——多级索引顺序文件.png">
+
+<p>我们可以先为这个文件建立一张低级索引表，每一个索引表对应100个表项，每一个表项对应一个分组，每一个分组里有100个记录，不难算出会有100张低级索引表。我们可以为100张低级索引表再建立一张顶级索引表，这样就形成了两级索引顺序文件，顶级索引表里有100个表项，低级索引表里每一个索引表也有100个表项，每个分组里也有100个记录，按照这样分组，根据一个关键字检索一个记录，<strong>平均只需要查找50+50+50&#x3D;150次</strong>。</p>
+<p>注意，要会计算平均查找次数。</p>
+<h3 id="2-4-文件的逻辑结构小结"><a href="#2-4-文件的逻辑结构小结" class="headerlink" title="2.4 文件的逻辑结构小结"></a>2.4 文件的逻辑结构小结</h3><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/6661d6185e6d1bfa052bc495.png" alt="操作系统（四）——文件管理——文件的逻辑结构小结.png">
+
+<h2 id="3-文件的物理结构"><a href="#3-文件的物理结构" class="headerlink" title="3. 文件的物理结构"></a>3. 文件的物理结构</h2><h3 id="3-1-文件的物理结构基础"><a href="#3-1-文件的物理结构基础" class="headerlink" title="3.1 文件的物理结构基础"></a>3.1 文件的物理结构基础</h3><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/6662759d5e6d1bfa05ac77c7.png" alt="操作系统（四）——文件管理——OS对磁盘块进行管理.png">
+
+<p>在之前的学习中我们知道，操作系统作为最接近硬件的一个软件层次，需要对硬件进行管理，这其中也包括外存（磁盘）。操作系统对磁盘的管理主要有两点，一是对非空闲磁盘块进行管理，即文件的物理结构问题；二是对空闲磁盘块进行管理，即文件存储空间管理的问题。</p>
+<p>这部分我们先看第一个问题——文件的物理结构：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/6662767b5e6d1bfa05ad7987.png" alt="操作系统（四）——文件管理——文件物理结构.png">
+
+<p>文件的物理结构要探讨的就是文件的数据应该怎么样存放在外存中，总共会分成三种方式：连续分配，链接分配，索引分配。其中链接分配可以进一步分为隐式链接和显示链接。</p>
+<p>在正式开始学习这三种分配方式前，先补充一个知识点——文件块、磁盘块。</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/6662776f5e6d1bfa05ae910b.png" alt="操作系统（四）——文件管理——文件块、磁盘块1.png">
+
+<p>类似于内存分页，磁盘中的存储单元也会被分为一个个大小相等的块，这些块也被称为磁盘块或物理块。相应的，系统也会为这些磁盘块进行编号。另外，在很多操作系统中，磁盘块的大小会设置的和内存块、内存页面大小相同，这么做是为了方便外存和内存之间数据交换。</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/66627d015e6d1bfa05b53c90.png" alt="操作系统（四）——文件管理——文件块、磁盘块2.png">
+
+<p>在内存管理中学过，进程的逻辑地址空间会被分为一个一个页面，这样可以方便操作系统对内存进行管理。相应的，在外存管理中，为了方便对文件数据的管理，文件的逻辑地址空间也被分为一个一个大小相等的文件“块”，因此，文件的逻辑地址也可以表示为（逻辑块号，块内地址）的形式。</p>
+<p>如上图左，假设这个系统当中，一个物理块的大小是1KB，则1MB大小的文件可以被分为1K个块，所以这个文件的逻辑块号应该是从0到1023。因此用户在操作自己的文件时，可以用（逻辑块号，块内地址）的形式定位到自己文件中的任何一个位置。</p>
+<p>文件的数据被分为一个一个数据块以后，操作系统为文件分配存储空间也都是以块为单位的，而文件的块被放到磁盘的什么位置，对用户来说是不可知的。因此用户通过逻辑地址来操作自己的文件，操作系统要负责实现从逻辑地址到物理地址的映射。这也是文件的物理结构需要关注的核心问题，怎么把逻辑块号转化为物理块号。</p>
+<h3 id="3-2-连续分配"><a href="#3-2-连续分配" class="headerlink" title="3.2 连续分配"></a>3.2 连续分配</h3><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/6663097f5e6d1bfa0552daf7.png" alt="操作系统（四）——文件管理——连续分配1.png">
+
+<p>连续分配方式要求每个文件在磁盘上占有一组连续的块。比如说一个文件aaa，它在逻辑上可以分为如图的三个块，如果采用连续分配方式，这些逻辑上相邻的块在物理上也必须相邻，如图，0号逻辑块放到4号物理块，1号逻辑块放到5号物理块，2号逻辑块放到6号物理块。</p>
+<p>现在要考虑一个问题，如果采用这种分配方式，操作系统如何实现从逻辑块号到物理块号的映射和转变呢？</p>
+<p>首先要明确的是，用户在操作自己的文件时，使用的是（逻辑块号，块内地址）这样的一个地址，其实块内地址是不需要转变的，因此操作系统只需要关系逻辑块号到物理块号的映射就可以了。</p>
+<p>为了实现地址映射的功能，在文件的目录表当中必须记录两个文件的属性，第一是一个文件存放的起始块号，第二是文件的长度。比如aaa这个文件，起始块号是4，并且连续占用了三个块，因此长度是3。</p>
+<p>有了上述提到的信息，操作系统就可以完成地址转换。假设用户给出要访问的逻辑块号，那么操作系统需要先找到这个用户想要访问的文件对应的目录项，也就是FCB。在FCB当中就可以知道文件存放的起始块号，再用起始块号加上用户提到逻辑块号就可以得到对应的物理块号。</p>
+<p>另外，操作系统还需要验证用户提供的逻辑块号是否合法，是否已经超过了文件的实际长度。</p>
+<p>通过分析可以发现，如果采用连续分配，那么只要用户给出了自己想要访问的逻辑块号，操作系统就可以直接根据逻辑块号算出它对应的物理块号到底是多少，因此我们说连续分配方式是支持顺序访问和直接访问（随机访问）。</p>
+<p>接下来看一下连续分配方式的第二个优点：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/666309a95e6d1bfa05530c9a.png" alt="操作系统（四）——文件管理——连续分配2.png">
+
+<p>首先我们要知道，磁盘（磁盘的内容可以参考计组第三章存储系统）这种硬件想要读取一个磁盘块的时候，需要把磁头放到磁盘块对应的位置，而访问不同的磁盘块是需要移动磁头的。并且两个磁盘块的距离越远，那么移动磁头所需要的时间就越长。</p>
+<p>比如，现在要读上图三个连续的黄色块。那么首先要把磁头放到第一个块的位置，之后移动到第二个块的位置，再之后移动到第三个块的位置。所以由于这三个块在物理上是相邻的，也就是它们相距距离是最短的。因此这个移动的过程其实磁头的移动距离也是最短的。而假如我们此时想要读取的是紫色的这三个磁盘块的话，由于紫色的块不相邻，所以需要移动磁头的时间就会变长。</p>
+<p>基于上述分析，我们可以知道，如果一个文件采用连续分配，我们在顺序读取这个文件的各个块时，所需要的读写时间是最短的，读写速度是最快的，因此整个过程所需要的磁头移动距离是最短的。	</p>
+<p>接下来看一下连续分配方式有哪些缺点：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/66630fd35e6d1bfa055b1cfb.png" alt="操作系统（四）——文件管理——连续分配缺点.png">
+
+<p>假设在上图中，黄色的部分是一个文件A所占用的连续的三个块，绿色区域是空闲磁盘，橙色区域为其他文件已经占用的磁盘块。</p>
+<p>若此时文件A想要扩展，也就是说想要再增加一个磁盘块的话，那由于连续分配要求为一个文件分配的是连续的块，而文件A后面的相邻的块此时已经被别的文件所占有。因此，如果要扩展文件A，那么我们不得不把文件a的数据整体的迁移到另外的有连续的四个块的区域当中，也就是如下图四个块的样子。</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/66630e9e5e6d1bfa05596e68.png" alt="操作系统（四）——文件管理——连续分配缺点1.png">
+
+<p>进行数据迁移的过程是要耗费很大的开销的，所以可以得出结论，物理上采用连续分配的文件不方便拓展。</p>
+<p>接下来看另一种情况：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/666310cf5e6d1bfa055c8a57.png" alt="操作系统（四）——文件管理——连续分配缺点2.png">
+
+<p>同样假设橙色区域为非空闲块，绿色区域为空闲磁盘块。如上图，此时有五个空闲磁盘块。若此时创建的新文件采用连续分配方式大小为3个块，由于整个磁盘当中并没有连续的三个空闲块，那么无法为其分配足够的存储空间。如果这个系统当中有很多文件大小都是大于一个块的大小，那这些离散的空闲块就很难被利用起来。</p>
+<p>所以可以得出结论：物理上采用连续分配，存储空间利用率低，会产生难以利用的磁盘碎片。这些磁盘碎片就有点类似于在内存管理当中讲过的外部碎片，处理这些碎片的方式也和处理外部碎片的思想是一样的，可以用紧凑的方式来解决。但是紧凑就意味着要移动大量的磁盘块内容，这个过程是需要花费很大的时间代价的。因此产生磁盘碎片这个问题，也是连续分配方式一个很明显的缺点。</p>
+<p>下面对连续分配进行一个总结：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/666312745e6d1bfa055faa89.png" alt="操作系统（四）——文件管理——连续分配总结.png">
+
+<h3 id="3-3-链接分配"><a href="#3-3-链接分配" class="headerlink" title="3.3 链接分配"></a>3.3 链接分配</h3><p>链接分配采取离散分配的方式，可以为文件分配离散的磁盘块，然后用指针链接的方式把这些磁盘块给串联起来。链接方式又可进一步分为隐式链接和显式链接两种。</p>
+<p>下面先看隐式链接这种方式： </p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/66631a265e6d1bfa0568d782.png" alt="操作系统（四）——文件管理——隐式链接1.png">
+
+<p>如果采用隐式链接的方式，在文件的目录项也就是文件对应的FCB当中，需要记录这个文件的起始块号和结束块号。另外，各个块之间都会有一定的存储空间用来存储指向下一块的链接指针，当然，最后一个块是没有指向下一块的链接指针的，而这些指针对于用户来说是透明的。</p>
+<p>那采用这种方式的话，怎么实现逻辑块号到物理块号的转变呢？</p>
+<p>用户首先给出要访问的逻辑块号i，然后操作系统会根据文件名找的他对应的FCB这个目录项，找的这个文件的起始块号，于是操作系统可以先读入这个文件的起始块（即逻辑上的0号块），然后通过起始块的指针找到下一个块，依次类推。因此，如果说我们想要访问逻辑块号为i的这个逻辑块时，那操作系统首先需要先依次地读入0号到i减1号逻辑块，才可以找到i号块的存放位置。因此访问i号逻辑块，总共需要i+1次磁盘I&#x2F;O操作。</p>
+<p>经过上述分析可以得出结论：采用隐式链接方式的文件，只支持顺序访问，不支持随机访问，查找效率低。另外，指向下一个盘块的指针也需要耗费少量的存储空间。</p>
+<p>下面思考另一个问题，采用隐式链接的方式，是否方便实现拓展文件呢？</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/66631a6e5e6d1bfa05693ae2.png" alt="操作系统（四）——文件管理——隐式链接2.png">
+
+<p>还是上面的例子，假设现在要对这个文件进行拓展，由于这个文件的块可以是离散分配的，因此只需要从磁盘中随便找出一个空闲块，把它挂到文件的链尾即可。比如说给文件新分配一个8号块，如图，直接把8号块挂到链尾，然后操作系统还会修改这个文件的FCB的结束块号。</p>
+<p>因此，可以看到采用隐式链接的链接分配方式，很方便文件拓展。另外，所有的空闲磁盘块都可以被利用，不会有碎片问题，外存利用率高。</p>
+<p>经过刚刚的分析，可以把隐式链接的内容总结如下：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/66631a8c5e6d1bfa05695f40.png" alt="操作系统（四）——文件管理——隐式链接3.png">
+
+<p>接下来看显示链接的分配方式：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/66631ac95e6d1bfa0569adc1.png" alt="操作系统（四）——文件管理——显示链接1.png">
+
+<p>显示链接分配会把用于链接文件各物理块的指针显式地存放在一张表中，即文件分配表。</p>
+<p>磁盘当中的各个块的先后顺序都是统一记录在文件分配表当中的，所以一个磁盘有多少个块，在文件分配表里就会有多少个相应的表项。</p>
+<p>假设此时有一个新创建的文件，文件名是aaa，它依次占用了2、5、0、1四个磁盘块。那么在aaa这个文件的FCB当中需要存放aaa的起始块号，如上图左上。另外在文件分配表里，会显示的记录文件aaa的几个物理块的链接关系，如上图中的FAT，作为文件结尾的块，它的下一块指针一般会用-1表示结束。同理，若有一个文件bbb，文件分配表里也会记录其物理块的链接关系。</p>
+<p>从这里就可以看到，一个磁盘仅设置一张FAT，每个文件的盘块先后顺序都是统一的放到一张FAT里。另外，开机时，会将FAT读入内存，并常驻内存。FAT的各个表项在物理上连续存储，且每一个表项长度相同，因此“物理块号”字段可以是隐含的。</p>
+<p>接下来看一下，采用这种方式如何实现文件的逻辑块号到物理块号的转变。</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/66631aec5e6d1bfa0569db8a.png" alt="操作系统（四）——文件管理——显示链接2.png">
+
+<p>一个用户如果给出要访问的逻辑块号i，操作系统会找到该文件对应的目录项。然后从目录项中找到起始块号，若i&gt;0，则查询内存中的文件分配表FAT，往后找到i号逻辑块对应的物理块号。由于FAT是常驻内存的，所以查询FAT的过程并不需要进行读磁盘操作，即逻辑块号转换成物理块号的过程不需要读磁盘操作。</p>
+<p>经过上面的分析，我们可以得出这样的结论，采用显式链接方式的文件，支持顺序访问，也支持随机访问（想访问i号逻辑块时，并不需要依次访问之前的0~i-1号逻辑块，可以直接通过FAT表查找到i号逻辑块存放的地址)，由于块号转换的过程不需要访问磁盘，因此相比于隐式链接来说，访问速度快很多。</p>
+<p>另外，显式链接也不会产生外部碎片，也可以很方便地对文件进行拓展。</p>
+<p>最后，我们对链接分配这一节做出下面的总结：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/66631b095e6d1bfa0569fefa.png" alt="操作系统（四）——文件管理——链接分配总结.png">
+
+<h3 id="3-4-索引分配"><a href="#3-4-索引分配" class="headerlink" title="3.4 索引分配"></a>3.4 索引分配</h3><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/66631f985e6d1bfa057034d6.png" alt="操作系统（四）——文件管理——索引分配1.png">
+
+<p>与链接分配一样，<strong>索引分配也允许文件离散地分配在各个磁盘块中</strong>，系统会为每个文件建立一张<strong>索引表</strong>，<strong>索引表中记录了文件的各个逻辑块对应的物理块</strong>（这里可以发现索引表的功能类似于内存管理中的页表――建立逻辑页面到物理页之间的映射关系）。</p>
+<p>索引表存放的磁盘块称为索引块。文件数据存放的磁盘块称为数据块。</p>
+<p>直接看一个例子，如上图，假设文件aaa的数据依次存放在2、5、13、9这几个磁盘块里。如果采用索引分配的方式，系统会为其建立一张索引表，索引表里记录了逻辑块号与物理块号的映射关系。如果aaa的索引表存放在7号磁盘块里，那么7号磁盘块就是aaa的索引块。而2、5、13、9这几个磁盘块就是aaa的数据块。</p>
+<p>采用索引分配方式的文件，需要在自己的目录项，也就是FCB当中记录自动索引块到底是哪一块。索引块当中存放索引表，所以系统可以根据其索引块找到索引表，进而找到各个逻辑块对应的物理块。</p>
+<p>到这里可以发现，在显式链接的链式分配方式中，文件分配表FAT是一个磁盘对应一张。而索引分配方式中，索引表是一个文件对应一张。</p>
+<p>另外，可以用固定的长度表示物理块号，如假设磁盘总容量为1TB&#x3D;2<sup>40</sup>B，磁盘块大小为1KB，则总共有2<sup>30</sup>个磁盘块，则可用4B表示磁盘块号。经过上述分析，索引表中的“逻辑块号”可以是隐含的，因为索引表的每个表项都是4B，所以只要知道索引表的起始地址，就可以根据逻辑块号直接计算出其对应的表项在什么位置。</p>
+<p>接下来考虑一下，采用索引分配的方式，如何实现逻辑块号到物理块号的转变。</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/66631ff85e6d1bfa0570adb3.png" alt="操作系统（四）——文件管理——索引分配2.png">
+
+<p>假设用户给出要访问的逻辑块号i，操作系统需要先找到该文件对应的目录项（FCB)。然后从中找到文件的索引块号，再从索引块里读出文件的索引表内容。接下来只需要根据逻辑块号查询索引表即可得到某一个逻辑块号对应的物理块号是多少。</p>
+<p>从分析可以知道，如果想访问逻辑块号为i的块，并不需要从头访问，可以直接找到i号块对应的物理块号。因此<strong>索引分配方式支持随机访问</strong>。另外，如果需要对文件进行拓展，只需要给文件分配一个空闲块，并增加一个索引表项即可，所以<strong>索引分配方式也很容易实现文件拓展</strong>。</p>
+<p>但是索引分配的索引表也会占用一定的存储空间，这是索引分配的缺点。</p>
+<p>接下来考虑下一个问题，假设每个磁盘块1KB，一个索引表项4B，则一个磁盘块只能存放256个索引项。如果一个文件的大小超过了256块，那么一个磁盘块是装不下文件的整张索引表的，如何解决这个问题？一般来说有三种方案，分别是：链接方案、多层索引、混合索引。</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/666320235e6d1bfa0570e7c9.png" alt="操作系统（四）——文件管理——索引分配3.png">
+
+<p>下面对链接方案、多层索引、混合索引分别进行介绍。</p>
+<p><strong>(1) 链接方案</strong></p>
+<p>链接方案：如果索引表太大，一个索引块装不下，那么可以将多个索引块链接起来存放。</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/6663efa15e6d1bfa05344e39.png" alt="操作系统（四）——文件管理——链接方案.png">
+
+<p>还是刚才的条件，假设磁盘块大小为1KB，一个索引表项占4B，则一个磁盘块只能存放256个索引项。若一个文件大小超过256个块，那么这个文件的索引项也肯定超过256个。因此可以把这个索引表拆分。为这个文件分配多个索引块，每个索引块中存放256个索引项，并且在每个索引块当中用一定的存储空间存储指向下一个索引块的指针。这样就可以把一个很长的索引表拆分成不同部分，并且使用链接的方式将它们链接起来，如图。</p>
+<p>如果采用链接方案，文件的FCB当中只需要记录它的第一个索引块的块号，如文件aaa只需要要记录它的第一个索引块号7。假设现在要访问的是文件aaa的逻辑块号为256号的逻辑块，为了查到256号逻辑块对应的物理块号，就需要找到aaa对应的第二个索引块。而由于各个索引块间是用链接方式连接起来，所以为了找到第二个索引块号，操作系统需要先把第一个索引块读入内存，然后才能根据第一个索引块当中的指针找到第二个索引块块号，并且把第二个索引块读入内存。只有这样才能找到256这个逻辑块号对应的物理块号是多少。</p>
+<p>现在思考一个问题，若一个文件大小为256*256KB &#x3D;65536KB&#x3D; 64MB。该文件共有256*256个块，也就对应256*256个索引项，也就需要256个索引块来存储，这些索引块用链接方案连起来。若想要访问文件的最后一个逻辑块，就必须找到最后一个索引块(第256个索引块)，而各个索引块之间是用指针链接起来的，因此必须先顺序地读入前255个索引块，显然这样是很低效的，那如何解决这个问题呢？</p>
+<p>为此，就提出了多层索引的概念。</p>
+<p><strong>(2) 多层索引</strong></p>
+<p>多层索引：建立多层索引（原理类似于多级页表)。使第一层索引块指向第二层的索引块。还可根据文件大小的要求再建立第三层、第四层索引块。</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/6663efe55e6d1bfa05349196.png" alt="操作系统（四）——文件管理——多层索引.png">
+
+<p>还是链接方案的例子，文件的大小是256*256个索引块的话，那么这个文件可以为其建立两层索引，第一层索引块总共有256个索引项，第二层索引块，每一块也有256个索引项，然后每一个索引项再指向某一个数据块。而在文件的FCB当中，只需要记录顶级索引表的存放索引块号。</p>
+<p>若某文件采用两层索引，则该文件的最大长度可以到256*256*1KB&#x3D; 65536 KB &#x3D; 64MB。这时因为，**<font color=red>若采用多层索引，则各层索引表大小不能超过一个磁盘块</font>**，也就是说，第一级的索引表最多只有256个索引项，第二个级的索引表最多也只有256个索引项，所以文件大小最多64MB。注意这点很重要，因为考试时经常会遇到让计算文件最大长度的题。</p>
+<p>接下来思考一下，如果采用多级索引，如何实现逻辑块号到物理块号的转变？</p>
+<p>假设用户此时访问的是1026号逻辑块，则1026&#x2F;256&#x3D;4，也就是说1026号索引块对应的索引项应该是4号二级索引表当中存放的，而4号二级索引表的存放位置，操作系统只需要从一级索引表当中找到4号索引项对应的物理块即可。在读入4号二级索引表后，用1026%256&#x3D;2，说明此时应该查询的是4号二级索引表当中的2号表项，找到2号表项以后，就可以找到1026号逻辑块对应的物理块是多少。</p>
+<p>综上，如果采用二级索引表，访问目标数据块，操作系统需要进行3次磁盘I&#x2F;O操作。第一次读入一级索引表，第二次读入二级索引表，第三次读入数据块。类似的，如果采用三级索引结构，则要进行4次磁盘I&#x2F;O操作。所以，我们可以得到这样一条结论：**<font color=red>采用K层索引结构，且顶级索引表未调入内存，则访问一个数据块只需要K+1次读磁盘操作</font>**。与之前链接方案相比，这个方案已经少了很多读磁盘操作。</p>
+<p>现在思考一下，假设一个文件很小，只有1KB，但是这个文件如果在物理上采用两层索引结构的话，那么读入这个1KB文件依然需要3次读磁盘操作。为了解决这个问题，人们又提出了混合索引。</p>
+<p><strong>(3) 混合索引</strong></p>
+<p>混合索引：多种索引分配方式相结合。例如，一个文件的顶级索引表中，既包含直接地址索引（直接指向数据块），又包含一级间接索引（指向单层索引表)、还包含两级间接索引（指向两层索引表)。</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/6663f0275e6d1bfa0534d33f.png" alt="操作系统（四）——文件管理——混合索引.png">
+
+<p>如上图的例子，包含8个直接地址索引，所谓直接地址索引就是这些索引项直接指向数据块，所以8个索引项直接指向8个数据块。另外，这个例子里还包含一级和二级间接索引，所谓一级间接索引就是指向一层索引表，这个索引表表项会指向数据块。二级间接索引就是指向两层索引表，上一层索引表表项会指向下一层索引表，下一层索引表会指向数据块。</p>
+<p>接下来分析一下，如上图的例子，如果要访问某一个逻辑块需要几次读磁盘操作。</p>
+<p>若<strong>顶级索引表还没读入内存</strong>，访问0<del>7号逻辑块需要两次读磁盘，访问8</del>263号逻辑块需要三次读磁盘，访问264~65799号逻辑块需要四次读磁盘。</p>
+<p>所以可以看到，采用混合索引的一个好处就是，对于小文件来说，只需要较少的读磁盘次数就可以访问目标数据块。</p>
+<p>下面对索引分配这部分进行一个知识汇总：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/6663f0545e6d1bfa0534ff4d.png" alt="操作系统（四）——文件管理——索引分配小结.png">
+
+<h3 id="3-5-文件的物理结构小结"><a href="#3-5-文件的物理结构小结" class="headerlink" title="3.5 文件的物理结构小结"></a>3.5 文件的物理结构小结</h3><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/6663f0815e6d1bfa05352906.png" alt="操作系统（四）——文件管理——文件的物理结构小结.png">
+
+<p>另外，这里要补充一个知识点辨析，我们在学习文件物理结构时，发现里面有一个链接分配和文件逻辑结构里的链式存储很像，但又不知道他们之间的具体区别在哪。同样，我们在学习文件物理结构时，还会发现里面有一个索引分配和文件逻辑结构里的索引文件很像，但也不知道他们之间的具体区别在哪。所以接下来对这两点做一个辨析。</p>
+<p><strong>(1) 链式存储和链接分配</strong></p>
+<p>我们在说逻辑结构时，说到顺序文件可以采用链式存储的方式。在说物理结构时，又讲到了链接分配的方式，这两个东西看起来很像，但实际上并不一样。</p>
+<p>文件的逻辑结构里说到的链式存储，指的是我们在文件内部的记录的先后顺序，是用链接指针把它们连接起来的，是由我们创建文件的用户自己设计的。而在文件的物理结构里提到的链接分配，这个链接是由操作系统做的。操作系统会把我们给出的一个很大的文件拆分成一个一个逻辑块，然后在磁盘里存放这些逻辑块时，操作系统会用链接的方式来记录他们之间的先后顺序。</p>
+<p>这里可以自己再思考一下，我的感觉就像是我们用vs写一个学生信息表，里面的学信信息间的关系属于链式存储，是由我们自己定义的。而整个文件的存储是链接分配，是有操作系统决定的。</p>
+<p><strong>(2) 索引文件和索引分配</strong></p>
+<p>文件的逻辑结构里说到的索引文件，这里的索引表是由用户自己建立的，其中主要记录各个关键字到记录存放的逻辑地址之间的映射关系。而在文件的物理结构里提到的索引分配，这里的索引表是由操作系统建立的，用于实现逻辑块号到物理块号之间的映射关系。所以索引文件这种逻辑结构和索引分配这种物理结构很容易混淆，但它们之间其实完全是两个维度的东西。</p>
+<p>这里再补充一个逻辑结构与物理结构的比较：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/6664059b5e6d1bfa054df79c.png" alt="操作系统（四）——文件管理——文件的逻辑结构与物理结构的比较.png">
+
+<h2 id="4-文件目录"><a href="#4-文件目录" class="headerlink" title="4. 文件目录"></a>4. 文件目录</h2><h3 id="4-1-文件目录知识总览"><a href="#4-1-文件目录知识总览" class="headerlink" title="4.1 文件目录知识总览"></a>4.1 文件目录知识总览</h3><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/666464845e6d1bfa05b7917e.png" alt="操作系统（四）——文件管理——文件目录知识总览1.png">
+
+<p>在我们平时生活过程中对文件目录的使用是很频繁的，比如在Windows操作系统里，我们随便打开一个磁盘，里面就有很多的文件夹和文件目录，打开某一个文件夹以后，里面还有更深一层的目录。</p>
+<p>那像这种一层一层的目录对用户来说有什么好处呢？很显然，通过这样的目录结构，可以很方便的找到想要找的文件，可以使整个文件的组织结构更加清晰，易于查找。</p>
+<p>那从操作系统角度看，这些目录结构如何实现呢？这就是本节需要重点探讨的问题。</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/666466295e6d1bfa05b9623d.png" alt="操作系统（四）——文件管理——文件目录知识总览2.png">
+
+<p>所谓的文件目录就是Windows操作系统的文件夹，要实现文件目录的功能需要一个很关键的数据结构————文件控制块。所以接下来先看一下文件控制块的知识。</p>
+<h3 id="4-2-文件控制块"><a href="#4-2-文件控制块" class="headerlink" title="4.2 文件控制块"></a>4.2 文件控制块</h3><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/666466d15e6d1bfa05ba1e4a.png" alt="操作系统（四）——文件管理——文件控制块1.png">
+
+<p>如图，打开电脑中的D盘根目录，会发现这个根目录下有一系列的文件夹和一些普通文件。那么对于这个D盘根目录来说，它对应的目录文件就应该是上图右的样子，其实就是用一个目录表来表示这个目录下面存放了哪些东西。在D盘当中的每一个文件、文件夹都会对应这个目录表当中的一个表项，所以这些一条一条的目录项本身就是一条一条的记录。</p>
+<p>综上，目录本身就是一种有结构文件，由一条一条记录组成，每条记录对应一个放在该目录下的文件。</p>
+<p>在上图的目录表当中，还可以看到，其里面标识了文件的文件名、类型等。另外，这里还需要注意一个很重要的信息，在这个表项当中记录了这个文件在外存当中存放的物理地址，所以，假如我们双击打开“照片”的时候，操作系统会在这个目录表中找到关键字“照片”对应的目录项（也就是记录），然后根据这个目录项当中记录的文件存放位置，从外存中将“照片”目录的信息读入内存，于是，“照片”目录中的内容就可以显示出来了。</p>
+<p>打开照片这个目录后，会发现里面同样有一些文件，如下图：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/66646e565e6d1bfa05c2f54c.png" alt="操作系统（四）——文件管理——文件控制块2.png">
+
+<p>同样的，照片这个目录对应的目录文件也是由一个一个目录项组成，每个目录项对应其中一个目录文件。</p>
+<p>其实目录文件当中的一条记录就是一个文件控制块(FCB)，所以其实这些FCB的有序集合就是文件目录，而一个FCB就是一个文件目录项，很显然每一个文件都会对应一个FCB。</p>
+<p>另外，从上图FCB的例子里也可以看到。FCB中包含了文件的基本信息(文件名、物理地址、逻辑结构、物理结构等)，存取控制信息(是否可读&#x2F;可写、禁止访问的用户名单等)，使用信息(如文件的建立时间、修改时间等)。不过，在这些信息里最重要的还是<strong>文件名和文件存放的物理地址</strong>这两个信息。因为FCB存在的一个最重要的作用，是实现文件名和文件之间的映射，即使用户（用户程序）可以实现“按名存取”，所以FCB必须建立起文件名到文件实际存放的物理地址之间的映射关系。</p>
+<p>除了上述提到的信息以外，之前说过的文件各种各样的属性也可以存放到文件对应的FCB控制块中。</p>
+<p>接下来看一下，我们需要对文件目录进行哪些操作：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/666530ab5e6d1bfa0568a0e9.png" alt="操作系统（四）——文件管理——文件控制块的操作.png">
+
+<p>在操作系统发展过程中，出现了各种各样的目录结构。所以，接下来研究文件目录结构的内容。</p>
+<h3 id="4-3-文件目录结构"><a href="#4-3-文件目录结构" class="headerlink" title="4.3 文件目录结构"></a>4.3 文件目录结构</h3><p><strong>(1) 单级目录结构</strong></p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/666531775e6d1bfa05695df4.png" alt="操作系统（四）——文件管理——单级目录结构.png">
+
+<p>在操作系统发展过程中，最早出现的目录结构是单级目录结构。早期的操作系统只会在这个系统里建立一张目录表，每个文件会占用一个目录表的目录项。</p>
+<p>单级目录结构支持按名存取，但是不允许文件重名。这是因为，各个目录项的关键字是文件名，如果出现了重名文件，比如出现两个文件名都是“a”的文件，如果告诉操作系统要按文件名a来存取文件时，操作系统就无法判断是哪个文件。</p>
+<p>所以，在单级目录里，创建一个文件时，需要先检查目录表中有没有重名文件，确定不重名后才能允许建立文件，并将新文件对应的目录项插入目录表中。</p>
+<p>如果这个计算机有很多用户的话，那显然不同用户的文件名是很容易重复的，因此**<font color=red>单级目录结构不适用于多用户操作系统</font>**。为了解决这个问题，人们提出了两级目录结构。</p>
+<p><strong>(2) 两级目录结构</strong></p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/666531c15e6d1bfa05699551.png" alt="操作系统（四）——文件管理——两级目录结构.png">
+
+<p>在两级目录结构里，会把目录分为两级。第一级为主文件目录，第二级为用户文件目录。</p>
+<p>主文件目录记录用户名及相应用户文件目录的存放位置。而用户文件目录由该用户的文件对应的FCB组成。</p>
+<p>由于不同的用户文件是存放在不同的用户文件目录下，所以允许不同用户的文件重名。文件名虽然相同，但是对应的其实是不同的文件。</p>
+<p>两级目录结构允许不同用户的文件重名，也可以在目录上实现实现访问限制，比如说上图的User1想要访问User2的用户文件目录，操作系统可以验证一下User1和User2这两个名字是否匹配，发现不匹配，就可以拒绝让User1访问。</p>
+<p>但是两级目录结构依然缺乏灵活性，用户不能对自己的文件进行分类。为此人们又提出了多级目录结构，又叫树形目录结构。</p>
+<p><strong>(3) 多级目录结构</strong></p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/666532065e6d1bfa0569d517.png">
+
+<p>多级目录结构也是现在操作系统很常用的一个目录结构。每个目录下面可以有更低一级的目录，同时在各个目录下面也可以有一些普通文件，并且不同目录下的文件可以重名，但是文件名虽然相同，对应的其实是不同的文件。</p>
+<p>如果采用多级目录结构，用户(或用户进程）要访问某个文件时要用文件路径名标识文件，操作系统才可以根据这个文件的路径名来找到这个文件。文件路径名是个字符串。各级目录之间用“&#x2F;”隔开。从根目录出发的路径称为<strong>绝对路径</strong>。</p>
+<p>如果采用绝对路径，那每有一级都要经历一次读操盘的操作，如上图的例子。很多时候，用户会连续访问同一目录内的多个文件，如果每次都从根目录开始查找，是很低效的。所以可以设置一个当前目录，当用户想要访问某个文件时，可以使用从当前目录出发的<strong>相对路径</strong>。</p>
+<p>下图给出了引入相对路径的例子：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/6665323d5e6d1bfa056a0392.png" alt="操作系统（四）——文件管理——多级目录结构2.png">
+
+<p>可见，引入“当前目录”和“相对路径”后，磁盘I&#x2F;O的次数减少了。这就提升了访问文件的效率。</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/6665327d5e6d1bfa056a3d7f.png" alt="操作系统（四）——文件管理——多级目录结构3.png">
+
+<p>树形目录结构可以很方便地对文件进行分类，层次结构清晰，也能够更有效地进行文件的管理和保护。但是，**<font color=red>树形结构不便于实现文件的共享</font>**。为此，提出了“无环图目录结构”。</p>
+<p><strong>(4) 无环图目录结构</strong></p>
+<p>无环图目录结构和树形结构比较相似，只是在树形目录结构的基础上，增加一些指向同一节点的有向边，使整个目录成为一个<strong>有向无环图</strong>。可以更方便地实现多个用户间的文件共享。如下图</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/666542ed5e6d1bfa057cc324.png" alt="操作系统（四）——文件管理——无环图目录结构1.png">
+
+<p>从上图例子里可以发现，可以用不同的文件名指向同一个文件（文件共享），甚至可以指向同一个目录（目录也是一个特殊的文件）。</p>
+<p>但是引入了共享文件以后，删除就不能向以前一样，只要用户让把一个文件删除，就把这个文件的实际数据删除。因为这个文件可能是被多个用户使用的，所以需要为每个共享结点设置一个共享计数器，用于记录此时有多少个地方在共享该结点。用户提出删除结点的请求时，只是删除该用户的FCB、并使共享计数器减1，并不会直接删除共享结点。</p>
+<p>如上图，如果删除User1的demo，操作系统只会把User1对应的demo目录项删除，并让共享计数器减1，而文件的实际内容并不会直接被删除。如下图：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/666544365e6d1bfa057e1471.png" alt="操作系统（四）——文件管理——无环图目录结构.png">
+
+<p>当一个文件的共享计数器变为0时，才会把文件的实际数据删除。</p>
+<p>另外，需要注意，共享文件不同于复制文件。在共享文件中，由于各用户指向的是同一个文件，因此只要其中一个用户修改了文件数据，那么所有用户都可以看到文件数据的变化。</p>
+<h3 id="4-4-索引结点"><a href="#4-4-索引结点" class="headerlink" title="4.4 索引结点"></a>4.4 索引结点</h3><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/666545095e6d1bfa058046f2.png" alt="操作系统（四）——文件管理——索引结点.png">
+
+<p>索引结点是对FCB这种数据结构的改进。通过前面的学习可以知道，由一系列FCB控制块组成了一个一个的文件目录。但是操作系统实际查找各级目录的过程中，只需要使用文件名这个信息就可以，而其它冗余的信息暂时不要。只有文件匹配时，才会去关心这个文件存放的物理位置。所以可以考虑让目录表简化，从而提升目录表的搜索效率。</p>
+<p>由于按照文件名搜索目录时，并不需要关心除了文件名之外的其它信息，因此可以把其它的信息放到另外一个地方，也就是索引结点当中。除了文件名之外，像文件的类型，文件的存放物理位置等等这些信息，都可以放到文件对应的索引结点当中。</p>
+<p>每一个文件都会有一个唯一的索引结点，而采用了索引结点这个机制之后，目录当中只包含文件名和指向索引结点的指针这两个信息。这样的话，这个目录表所占用的存储空间就会小很多。</p>
+<p>接下来看一下，采用这种方式怎么加快查找效率：</p>
+<p>假设一个FCB是64B，磁盘块的大小为1KB，则每个盘块中只能存放16个FCB。若一个文件目录中共有640个目录项，则共需要占用640&#x2F;16&#x3D; 40个盘块。因此按照某文件名检索该目录，平均需要查询320个目录项，**<font color=red>平均需要启动磁盘20次（每次磁盘l&#x2F;O读入一块）</font>**。</p>
+<p>若使用索引结点机制，假设文件名占14B，索引结点指针站2B，则每个盘块可存放64个目录项，那么按文件名检索目录平均只需要读入320&#x2F;64 &#x3D;5个磁盘块。显然，**<font color=red>这将大大提升文件检索速度</font>**。</p>
+<p>当找到文件名对应的目录项时，才需要将索引结点调入内存，索引结点中记录了文件的各种信息，包括文件在外存中的存放位置，根据“存放位置”即可找到文件。</p>
+<p>存放<strong>在外存中</strong>的索引结点称为**<font color=red>“磁盘索引结点”</font><strong>，当索引结点放入</strong>内存<strong>后称为</strong><font color=red>“内存索引结点”</font><strong>。相比之下</strong>内存索引结点中需要增加一些信息**，比如:文件是否被修改、此时有几个进程正在访问该文件等。</p>
+<h3 id="4-5-文件目录小结"><a href="#4-5-文件目录小结" class="headerlink" title="4.5 文件目录小结"></a>4.5 文件目录小结</h3><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/666548555e6d1bfa0583f5e8.png" alt="操作系统（四）——文件管理——文件目录小结.png">
+
+<h2 id="5-文件存储空间管理"><a href="#5-文件存储空间管理" class="headerlink" title="5. 文件存储空间管理"></a>5. 文件存储空间管理</h2><p>在之前学习了文件的物理结构，也就是对非空闲磁盘块的管理，这部分学习对文件存储空间的管理，即空闲磁盘块的管理。</p>
+<p>下面是本节知识总览：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/666553145e6d1bfa05907b38.png" alt="操作系统（四）——文件管理——文件存储空间管理.png">
+
+<p>首先看一下存储空间的划分与初始化。</p>
+<h3 id="5-1-存储空间的划分与初始化"><a href="#5-1-存储空间的划分与初始化" class="headerlink" title="5.1 存储空间的划分与初始化"></a>5.1 存储空间的划分与初始化</h3><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/666554e65e6d1bfa0592773c.png" alt="操作系统（四）——文件管理——文件存储空间的划分与初始化.png">
+
+<p>在我们安装Windows系统时，有一个必经的步骤是为磁盘分区，也就是我们平时熟悉的C盘、D盘等。这些所谓的C盘、D盘就是文件卷或者叫逻辑卷、逻辑盘。我们的一些文件就是存放在这些文件卷里。</p>
+<p>另外，在存储空间初始化过程当中，也需要把这些文件卷进一步划分，划分为目录区和文件区。其中目录区主要用于存放文件目录信息(FCB)、用于磁盘存储空间管理的信息。而文件区用于存放文件数据。所以这就是文件区与目录区的区别。</p>
+<p>在有的系统支持超大型文件的操作系统当中，也可支持由多个物理磁盘组成一个文件卷。平时我们自己使用的电脑是把一个物理磁盘划分为多个逻辑磁盘，但是有的操作系统当中可以把多个物理磁盘合并成一个逻辑磁盘。</p>
+<h3 id="5-2-文件存储空间的管理方法"><a href="#5-2-文件存储空间的管理方法" class="headerlink" title="5.2 文件存储空间的管理方法"></a>5.2 文件存储空间的管理方法</h3><h4 id="5-2-1-空闲表法"><a href="#5-2-1-空闲表法" class="headerlink" title="5.2.1 空闲表法"></a>5.2.1 空闲表法</h4><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/666555915e6d1bfa05933331.png" alt="操作系统（四）——文件管理——文件存储空间管理——空闲表法.png">
+
+<p>如上图左，是一个系统目前的情况，绿色的是空闲块，橙色的是非空闲块。如果使用空闲表法，此时磁盘对应的空闲表应该如上图右的样子。这个空闲表与第三章内存管理里的动态分区分配里学习过的空闲表十分类似，都记录了空闲区间的起始位置和空闲区间的长度。</p>
+<p>举个例子，像第一个空闲区间是0,1这两个连续的空闲块，所以这个空闲区间对应的是第一个表项，第一个空闲盘块号是0，空闲盘块数是2。</p>
+<p><strong><font color=blue>空闲表法一般来说适用于文件的物理结构是连续分配的场景。</font></strong></p>
+<p>接下来探讨一下采用这种方法该如何分配磁盘块：这里和内存管理的动态分配很类似，为一个文件分配连续的存储空间，同样可采用动态分区分配的算法——首次适用、最佳适应、最坏适应等。这里可以参考第三章的动态分配分配算法内容，这里就不再重复一遍了，<strong>但是要注意，分配完以后，要更新空闲盘块表。</strong></p>
+<p>同样，回收磁盘块时的操作也和第三章动态分区分配的回收一样，都要讨论四种情况，这里也参考第三章动态分区分配的回收方法，这里不再重复。但是也要注意，<strong>回收完以后要对空闲盘块表进行更新</strong>。</p>
+<h4 id="5-2-2-空闲链表法"><a href="#5-2-2-空闲链表法" class="headerlink" title="5.2.2 空闲链表法"></a>5.2.2 空闲链表法</h4><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/666574e15e6d1bfa05b685e7.png" alt="操作系统（四）——文件管理——文件存储空间管理——空闲链表法.png">
+
+<p>空闲链表发又可以进一步划分为空闲盘块链和空闲盘区链。</p>
+<p>它们的区别在于空闲盘块链是以盘块为单位组成一条空闲链，如上图左，每一个空闲盘块中存储着下一个空闲盘块的指针。</p>
+<p>而空闲盘区链是以盘区为单位组成一条空闲链，所谓盘区就是一些连续的空闲盘块可以组成一个盘区，如上图右，每一个空闲盘区中第一个盘块内记录了盘区的长度和下一个空闲盘区的指针。</p>
+<p>接下来看一下，采用这两种方式，对磁盘块的分配与回收有什么区别。</p>
+<p>首先看一下空闲盘块链：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/6665765c5e6d1bfa05b7d48b.png" alt="操作系统（四）——文件管理——文件存储空间管理——空闲盘块链的分配与回收.png">
+
+<p>如果采用空闲盘块链，首先系统会保存着链头、链尾的指针。</p>
+<p>若某文件申请K个盘块，则从链头开始依次摘下K个盘块分配，并修改空闲链的链头指针，如上图，上图绿色为空闲盘块，橙色为被占用磁盘块。</p>
+<p>回收的时候，回收的盘块依次挂到链尾，并修改空闲链的链尾指针。</p>
+<p>从分配与回收的过程可以看到，这种方式一般适用于离散分配的物理结构。</p>
+<p>由于分配时要从链头摘下一个一个磁盘块，所以为文件分配多个盘块时可能要重复多次操作。</p>
+<p>接下来看一下空闲盘区链：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/666576955e6d1bfa05b8085c.png" alt="操作系统（四）——文件管理——文件存储空间管理——空闲盘区链的分配与回收.png">
+
+<p>与空闲盘块链相同，如果采用空闲盘区链，首先系统会保存着链头、链尾的指针。</p>
+<p>在进行分配时，若某文件申请K个盘块，则可以采用首次适应、最佳适应等算法，从链头开始检索，按照算法规则找到一个大小符合要求的空闲盘区，分配给文件。若没有合适的连续空闲块，也可以将不同盘区的盘块同时分配给一个文件，注意分配后可能要修改相应的链指针、盘区大小等数据。</p>
+<p>回收时，若回收区和某个空闲盘区相邻，则需要将回收区合并到空闲盘区中。若回收区没有和任何空闲区相邻，将回收区作为单独的一个空闲盘区挂到链尾。</p>
+<p>从分配与回收的过程可以看到，这种方式既适用于离散分配，也适用于连续分配。并且比起空闲盘块链来说，它给一个文件分配多个盘块时，效率更高，因为盘块链只能从链当中一个一个把空闲磁盘块摘下来，而盘区链可以一次摘取一片空闲连续区间。</p>
+<h4 id="5-2-3-位示图法"><a href="#5-2-3-位示图法" class="headerlink" title="5.2.3 位示图法"></a>5.2.3 位示图法</h4><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/666576e85e6d1bfa05b84fef.png" alt="操作系统（四）——文件管理——文件存储空间管理——位示图法.png">
+
+<p>位示图法：就是一个一个的二进制位，来分别对应各个盘块的是否已分配的信息。</p>
+<p>如上图的例子，用“0”代表盘块空闲，用“1”代表盘块已分配。如果上图左的磁盘里，绿色表示空闲块，橙色表示不空闲块，那前4个块对应的就是0101，与上图右上的表开始的4个是对应的。这就是位示图法的原理，并不难理解。</p>
+<p>一般来说，位示图的数据在系统当中存储时，都会存储成一系列连续的“字”。比如上图的例子，一个字的字长是16位，也就是一行16位，那每个字就由16个二进制位组成，因此可以用如图的字号和位号这样的二元组，来定位到其中的某一个二进制位。</p>
+<p><strong>考试时经常考的就是如何通过字号和位号来推测出对应的盘块号，或者如何通过盘块号来逆推出对应的字号和位号，这类题目要重点掌握。另外做题时要注意题目条件中，盘块号、字号、位号到底是从0开始还是从1开始。</strong></p>
+<p>如上图的例子，盘块号、字号、位号到底是从0开始，如果说用n表示字长，那字号i和位号j转换成对应盘块号b的公式就可以写成：<strong>b&#x3D;ni+j</strong>。从盘块号逆推字号：<strong>i&#x3D;b&#x2F;n</strong>。从盘块号逆推出位号：<strong>j&#x3D;b%n</strong>。（注意，这里几个公式是基于盘块号、字号、位号到底是从0开始的前提，考试时要能根据题目自己写出转换关系。）</p>
+<p>接下来考虑一下，采用位示图法，怎么进行磁盘块的分配与回收：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/6665770e5e6d1bfa05b878e8.png" alt="操作系统（四）——文件管理——文件存储空间管理——位示图法的分配与回收.png">
+
+<p>在进行分配时，若文件需要K个块，①顺序扫描位示图，找到K个相邻或不相邻的“O”；②根据字号、位号算出对应的盘块号，将相应盘块分配给文件；③将相应位设置为“1”。</p>
+<p>回收时，①根据回收的盘块号计算出对应的字号、位号；②将相应二进制位设为“0”。</p>
+<h4 id="5-2-4-成组链接法"><a href="#5-2-4-成组链接法" class="headerlink" title="5.2.4 成组链接法"></a>5.2.4 成组链接法</h4><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/6665a72b5e6d1bfa05eac069.png" alt="操作系统（四）——文件管理——文件存储空间管理——成组链接法.png">
+
+<p>之前说的空闲表法、空闲链表法不适用于大型文件系统，因为空闲表或空闲链表可能过大。所以UNIX系统中采用了<strong>成组链接法</strong>对磁盘空闲块进行管理。</p>
+<p><strong>文件卷的目录区</strong>中专门用一个磁盘块作为**<font color=red>“超级块”</font>**，当系统启动时需要将超级块读入内存。并且要保证内存与外存中的“超级块”数据一致。</p>
+<p>接下来看一下超级块有什么作用：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/6665a8055e6d1bfa05ebf237.png" alt="操作系统（四）——文件管理——文件存储空间管理——成组链接法1.png">
+
+<p>在超级块中记录了下一组空闲盘块的数量，比如上图例子，下一组总共有100个空闲盘块，另外超级块还需要记住这100个空闲盘块的盘块号。通过这些盘块号，就可以依次找到下一个分组的各个盘块。如上图，通过超级块可以找到第一个空闲盘块的分组，总共有100个，分别是201~300号。</p>
+<p>300号磁盘块作为分组的第一个磁盘块，其中还需要记录下一组空闲盘块的信息，如上图，300号磁盘块里的100表示下一个空闲盘块的分组总共有100个空闲盘块。其中的数字，代表下一个空闲盘块的分组的各个磁盘号，通过这些盘块号，又可以找到再下一个分组的盘块分别是哪些。</p>
+<p>同样与之前类似，由300号磁盘块得到的下一个分组里，400号磁盘块作为分组的第一个磁盘块，其中也需要记录下一分组的空闲盘块的数量和盘块号，通过这种方式就可以把整个系统当中所有的空闲盘块给一一连起来。</p>
+<p>再倒数第二个分组的第一个盘块处，可以最后的位置设置一个-1，如上图，这就代表再下一个分组已经是最后一个分组。所以找到值为-1的节点，就证明之后已经没有更多的分组。</p>
+<p>另外，需要注意的是，一个分组中的块号不需要连续，上图只是为了让大家更方便看出各个分组的数量才连续显示的。另外一个要注意的是，最后一个分组的盘块数是要比其它的分组要少的，原因就出在要用一个-1来表示结束。</p>
+<p>接下来看一下，这种方法如何进行磁盘块的分配：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/6665aece5e6d1bfa05f426d1.png" alt="操作系统（四）——文件管理——文件存储空间管理——成组链接法分配1.png">
+
+<p>假设此时某个文件需要分配1个空闲块，首先是需要检查第一个分组的盘块到底够不够这个文件的需求。由于超级块此时已经读入内存（超级块在系统启动时读入内存），所以在进行这个检查的时候，并不需要进行读磁盘的操作，只需要找到内存当中的超级块数据，并且检查一下下一组的空闲盘块数是否大于此时要求得到的空闲盘块数。</p>
+<p>由于此时1&lt;100，说明第一个分组的空闲磁盘块数量是够分配的，接下来就会把这个分组当中的最后的磁盘块（即201号磁盘块）分配给这个文件。在该盘块分配出去以后，需要在超级块里把该块的数据删除，并且把下一分组的空闲盘块数减1，这样就完成了分配一个空闲块的任务。</p>
+<p>下图是分配一个空闲块以后的结果：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/6665af9b5e6d1bfa05f52384.png" alt="操作系统（四）——文件管理——文件存储空间管理——成组链接法分配2.png">
+
+<p>如果现在有一个文件需要分配100个分组该如何分配：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/6665afe75e6d1bfa05f581cf.png" alt="操作系统（四）——文件管理——文件存储空间管理——成组链接法分配3.png">
+
+<p>如上图，首先依然检查第一个分组的块数是否足够。由100&#x3D;100可以确定是足够的。因此接下来会把第一个分组的磁盘块全部分配出去，但要注意的是300号磁盘块存储了再下一个分组的磁盘块信息，因此如果把300号磁盘块直接分配出去却不做任何处理的话，那和下一组的链接信息就断掉了。因此，在把300号磁盘块正式分配给文件之前，需要把300号磁盘块当中的数据复制到超级块里，这样就可以保证虽然这个分组已经全部分配给文件，但是下一个分组的链接信息依然保存在超级块当中。</p>
+<p>如果文件需要更多的磁盘块，依然可以用同样的方式把这些分组一个一个的全部分配出去。但一定要注意，分组分配出去之前，要先把分组当中指向下一个分组的链接信息保存到超级块当中。所以超级块就充当一个链头的作用，在这个链头当中要永远保持指向下一个分组的链接信息。</p>
+<p>接下来看一下怎么回收一个空闲磁盘块：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/6665b1e65e6d1bfa05f85093.png" alt="操作系统（四）——文件管理——文件存储空间管理——成组链接法回收1.png">
+
+<p>假设每个分组的磁盘块上限是100块，而第一个分组此时只有99块，如上图。此时要回收一个空闲块，由于第一个分组没有满，所以可以把这个空闲块插入到第一个分组当中。比如说回收的是201号块，那么就可以把201号块插入到分组当中，并且把超级块当中的下一组空闲盘块数从99+1变成100，如下图。</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/6665b2345e6d1bfa05f8ce5e.png" alt="操作系统（四）——文件管理——文件存储空间管理——成组链接法回收2.png">
+
+<p>上面是第一种情况，分组没有满。现在看第二个情况，如果分组已经满了，该怎么回收：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/6665b2805e6d1bfa05f941e9.png" alt="操作系统（四）——文件管理——文件存储空间管理——成组链接法回收3.png">
+
+<p>如上图，分组已经满了，此时还要再回收一个块，显然无法放到分组里，所以可以把这个新回收的空闲块作为一个新的分组，不过需要注意的是，需要把超级块当中的内容复制到新回收的块里，这样的话，新回收的块作为一个新的分组，就拥有了指向下一个分组的链接的指针。</p>
+<p>而超级块要永远指向第一个分组，所以超级块的数据就要进行修改，让他指向第一个分组，即新的回收块组成的分组。由于新分组中此时只有一个空闲块，所以超级块里的数据为1，指向的块号为300。如下图。</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/6665b3b05e6d1bfa05fac8fa.png" alt="操作系统（四）——文件管理——文件存储空间管理——成组链接法回收4.png">
+
+<h3 id="5-3-文件的存储空间管理小结"><a href="#5-3-文件的存储空间管理小结" class="headerlink" title="5.3 文件的存储空间管理小结"></a>5.3 文件的存储空间管理小结</h3><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/6665b3fd5e6d1bfa05fb2754.png" alt="操作系统（四）——文件管理——文件存储空间管理小结.png">
+
+<h2 id="6-文件的基本操作"><a href="#6-文件的基本操作" class="headerlink" title="6. 文件的基本操作"></a>6. 文件的基本操作</h2><p>本节将要学的文件的基本操作如下：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/666666215e6d1bfa0596e436.png" alt="操作系统（四）——文件管理——文件的基本操作.png">
+
+<h3 id="6-1-创建文件"><a href="#6-1-创建文件" class="headerlink" title="6.1 创建文件"></a>6.1 创建文件</h3><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/666666785e6d1bfa0597443a.png" alt="操作系统（四）——文件管理——文件的基本操作——创建文件.png">
+
+<p>在我们创建文件时，背后的操作是调用了操作系统的create系统调用。</p>
+<p>进行create系统调用时，需要提供的几个主要参数：</p>
+<ol>
+<li>所需的外存空间大小</li>
+<li>文件存放路径</li>
+<li>文件名</li>
+</ol>
+<p>操作系统在处理Create系统调用时，主要做了两件事：</p>
+<ol>
+<li>在外存中找到文件所需的空间</li>
+<li>根据文件存放路径的信息找到该目录对应的目录文件，在目录文件中创建该文件对应的目录项。</li>
+</ol>
+<h3 id="6-2-删除文件"><a href="#6-2-删除文件" class="headerlink" title="6.2 删除文件"></a>6.2 删除文件</h3><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/666666b65e6d1bfa0597845e.png" alt="操作系统（四）——文件管理——文件的基本操作——删除文件.png">
+
+<p>在我们删除文件时，背后的操作是调用了操作系统的delete系统调用。</p>
+<p>进行delete系统调用时，需要提供的几个主要参数：</p>
+<ol>
+<li>文件存放路径</li>
+<li>文件名</li>
+</ol>
+<p>操作系统在处理delete系统调用时，主要做了三件事：</p>
+<ol>
+<li>根据文件存放路径找到相应的目录文件，从目录中找到文件名对应的目录项。</li>
+<li>根据该目录项记录的文件在外存的存放位置、文件大小等信息，回收文件占用的磁盘块。</li>
+<li>从目录表中删除文件对应的目录项。</li>
+</ol>
+<h3 id="6-3-打开文件"><a href="#6-3-打开文件" class="headerlink" title="6.3 打开文件"></a>6.3 打开文件</h3><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/666666eb5e6d1bfa0597b844.png" alt="操作系统（四）——文件管理——文件的基本操作——打开文件1.png">
+
+<p>在很多操作系统中，在对文件进行操作之前，都要求用户先使用open系统调用“打开文件”。</p>
+<p>在打开文件时，需要提供的几个主要参数：</p>
+<ol>
+<li>文件存放路径</li>
+<li>文件名</li>
+<li>要对文件的操作类型（如只读r等）</li>
+</ol>
+<p>操作系统在处理open系统调用时，主要做了几件事：</p>
+<ol>
+<li>根据文件存放路径找到相应的目录文件，从目录中找到文件名对应的的目录项，并检查该用户是否有指定的操作权限。如上图的例子就是找到了Demo文件对应的目录表。另外用户对文件的访问权限信息也是记录在目录项中，所以可以根据目录项来检查此时用户请求的操作是否合法。</li>
+<li>若用户有操作权限，则将目录项复制到内存中的“打开文件表”中。并将对应表目的编号返回给用户。之后用户使用打开文件表的编号来指明要操作的文件。这样之后操作文件就不需要每次都重新查目录，可以加快文件的访问速度。</li>
+</ol>
+<p>另外要注意的是有两种打开文件表，一种是系统的打开文件表，整个系统只有一张；一种是进程的打开文件表，如下图：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/666667715e6d1bfa059836c5.png" alt="操作系统（四）——文件管理——文件的基本操作——打开文件2.png">
+
+<p>系统的打开文件表会记录所有的正在被其他进程使用的文件的信息。</p>
+<p>进程的打开文件表会记录记录了自己的进程已经打开的文件是哪些。</p>
+<p>在进程的打开文件当中有系统表的索引号，比如上图的test.txt文件，在系统表当中编号是k的表项。同样的，如果另一个进程B也打开了test.txt这个文件，那它也会指向同一个系统打开表的表项。</p>
+<p>这里需要注意的是，在系统的打开表里有一个字段叫打开计数器，用来记录这个文件此时已经被几个进程给打开了。此时如果有两个进程打开了这个文件，那打开计数器就应该修改为2。</p>
+<p>打开计数器这个字段是系统的打开表特有的字段，在整个系统当中设置一个打开文件表的总表，这样的方式是比较方便实现某些文件管理的功能的。例如：在Windows系统中，我们尝试删除某个txt文件，如果此时该文件已被某个“记事本”进程打开，则系统会提示我们“暂时无法删除该文件”。其实系统在背后做的事就是先检查了系统打开文件表，确认此时是否有进程正在使用该文件。</p>
+<p>另外在进程的打开文件表里有两个特殊的字段，一是叫读写指针，它记录了这个进程对文件的读写操作进行到了什么位置。二是叫访问权限，注明了该进程可以对该文件进行什么样的操作。</p>
+<h3 id="6-4-关闭文件"><a href="#6-4-关闭文件" class="headerlink" title="6.4 关闭文件"></a>6.4 关闭文件</h3><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/666667c55e6d1bfa05988a49.png" alt="操作系统（四）——文件管理——文件的基本操作——关闭文件1.png">
+
+<p>当一个用户使用完文件，选择关闭文件时，主要做了几件事：</p>
+<ol>
+<li>将进程的打开文件表相应表项删除。</li>
+<li>回收分配给该文件的内存空间等资源。</li>
+<li>系统打开文件表的打开计数器count 减1，若count &#x3D;0，则删除对应表项。</li>
+</ol>
+<p>上图的关闭文件的结果如下图所示：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/666667e95e6d1bfa0598b3b6.png" alt="操作系统（四）——文件管理——文件的基本操作——关闭文件2.png">
+
+<h3 id="6-5-读文件"><a href="#6-5-读文件" class="headerlink" title="6.5 读文件"></a>6.5 读文件</h3><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/666668165e6d1bfa0598e35d.png" alt="操作系统（四）——文件管理——文件的基本操作——读文件.png">
+
+<p>如上图的例子，在双击打开test.txt这个文档时，在背后是调用了操作系统提供的read系统调用，也就是读文件的功能。但通过前面的学习可以知道，在进行读文件之前是要先打开文件的，所以在正式读文件的时候，记事本这个进程的打开文件表当中，已经有了这个文件对应的一个表项，因此记事本这个进程在读文件时只需要指明，自己要读的文件对应的打开文件表的编号到底是多少。这是读文件时需要提供的第一个参数，就是要指明读的是哪一个文件。</p>
+<p>第二个在读文件时还要指明此时要读入的是多少个数据，比如要把上图的txt文件内容全部读入内存，就要指明读入1KB。另外还需要指明读入数据要放在内存的什么位置。这些参数的填充，都是记事本这个进程在背后自己完成的。</p>
+<p>操作系统在处理read系统调用时，会根据打开文件表当中的读写指针读指针指向的外存地址，将用户指定大小的数据读入用户指定的内存区域中。</p>
+<h3 id="6-6-写文件"><a href="#6-6-写文件" class="headerlink" title="6.6 写文件"></a>6.6 写文件</h3><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/6666683d5e6d1bfa05990dc8.png" alt="操作系统（四）——文件管理——文件的基本操作——写文件.png">
+
+<p>如上图，在编辑完一个文本文档以后，可以点击文件保存这样一个功能。点击保存之后，记事本这个应用程序在背后调用了操作系统提供的write系统调用，将文件数据从内存写回外存。</p>
+<p>所以在write系统调用时，也需要指明是哪个文件（在支持“打开文件”操作的系统中，只需要提供文件在打开文件表中的索引号即可)，还需要指明要写出多少数据（如：写出1KB)、写回外存的数据放在内存中的什么位置。</p>
+<p>操作系统根据write系统调用的参数，会从用户指定的内存区域当中，读出指定大小的数据，然后写回写指针所指向的外存区域当中。</p>
+<h3 id="6-7-文件的基本操作小结"><a href="#6-7-文件的基本操作小结" class="headerlink" title="6.7 文件的基本操作小结"></a>6.7 文件的基本操作小结</h3><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/6666685e5e6d1bfa05993000.png" alt="操作系统（四）——文件管理——文件的基本操作小结.png">
+
+
+
+<h2 id="7-文件共享"><a href="#7-文件共享" class="headerlink" title="7. 文件共享"></a>7. 文件共享</h2><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/6666859b5e6d1bfa05b86dd5.png" alt="操作系统（四）——文件管理——文件共享知识总览.png">
+
+<p>操作系统为用户提供文件共享功能，可以让多个用户共享地使用同一个文件。</p>
+<p>文件共享实现的方式有两种，一种是基于索引结点的共享方式，又叫硬链接方式。另一种是基于符号链的共享方式，又叫软链接方式。</p>
+<p>注意：多个用户共享同一个文件，意味着系统中只有“一份”文件数据。并且只要某个用户修改了该文件的数据，其他用户也可以看到文件数据的变化。</p>
+<p>与共享容易混淆的是复制的概念，如果是多个用户都“复制”了同一个文件，那么系统中会有“好几份”文件数据。其中一个用户修改了自己的那份文件数据，对其他用户的文件数据并没有影响。</p>
+<p>接下来看一下实现文件共享的两种方式。</p>
+<h3 id="7-1-硬链接"><a href="#7-1-硬链接" class="headerlink" title="7.1 硬链接"></a>7.1 硬链接</h3><p>先复习一下索引结点的概念，索引结点是一种文件目录瘦身策略。由于检索文件时只需用到文件名，因此可以将除了文件名之外的其他信息放到索引结点中。这样目录项就只需要包含文件名、索引结点指针。</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/666691805e6d1bfa05d3b0cb.png" alt="操作系统（四）——文件管理——文件共享硬链接1.png">
+
+<p>如上图，假设一个用户User1创建了一个新文件叫aaa，那么这个文件会对应一个索引结点，并且这个索引结点里会包含这个文件的物理地址和其它的相关属性。</p>
+<p>另外，索引结点中会设置一个链接计数变量count，用于表示链接到本索引结点上的用户目录项数。如下图，假设此时有第二个用户想共享的使用这个文件，那么这个用户的目录当中也会有一个目录项是指向这个文件的索引结点的，由于此时是有两个目录项指向该索引结点，所以count&#x3D;2。若count &#x3D; 2，说明此时有两个用户目录项链接到该索引结点上，或者说是有两个用户在共享此文件。</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/666692055e6d1bfa05d6a89a.png" alt="操作系统（四）——文件管理——文件共享硬链接2.png">
+
+<p>从该例中还可以发现，不同用户对这个文件起的名字可以是不同的，在用户1目录下，该文件名叫aaa，而在用户2目录下，该文件名叫bbb。</p>
+<p>如果采用这种共享方式，在删除文件时要注意一些小细节：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/666692d35e6d1bfa05daa09a.png" alt="操作系统（四）——文件管理——文件共享硬链接3.png">
+
+<p>若某个用户决定“删除”该文件，则系统只是把用户目录中与该文件对应的目录项删除，且索引结点的count值减1。若count&gt;0，说明还有别的用户要使用该文件，暂时不能把文件数据删除，否则会导致指针悬空。除非count&#x3D;0时，文件和其索引结点才会真正的从系统当中删除。</p>
+<h3 id="7-2-软链接"><a href="#7-2-软链接" class="headerlink" title="7.2 软链接"></a>7.2 软链接</h3><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/666693365e6d1bfa05dc6fcf.png" alt="操作系统（四）——文件管理——文件共享软链接1.png">
+
+<p>如上图，假设系统当中有两个用户User1和User2正在使用硬链接的方式共享的使用文件1，而另一个用户User3想要使用软链接的方式来共享文件1，那么User3会建立一个新的文件，这个文件是一种特殊的Link型文件。</p>
+<p>Link文件里记录了文件1的存放路径，这种Link型文件有点类似于Windows系统里的快捷方式。当User3访问“ccc”时，操作系统判断文件“ccc”属于Link类型文件，于是会根据其中记录的路径层层查找目录，最终找到User1的目录表中的“aaa”表项，于是就找到了文件1的索引结点。</p>
+<p>所以采用软链接的共享方式，并不是把自己的目录项直接指向这个文件的索引结点，而是创建了一个新的Link型文件，然后Link型文件里记录了这个文件的存放路径，之后操作系统会根据这个路径，来找到想要共享的文件。</p>
+<p>接下来看一下，采用软链接的工作方式，删除一个文件，会不会对软链接造成影响：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/666694d55e6d1bfa05e16ed1.png" alt="操作系统（四）——文件管理——文件共享软链接2.png">
+
+<p>假设User1和User2都不需要再使用文件1，此时count值为0，因此这个文件和其索引结点都会被删除，那此时如果User3访问ccc这个Link型文件，同样的操作系统会首先检查c盘下的User1这个目录，然后从中尝试找到aaa这个文件对应的目录项，但是由于此时aaa这个目录项已经被删除，所以通过这个路径已经找不到文件1，因此这个软链接就失效了。</p>
+<h3 id="7-3-文件共享小结"><a href="#7-3-文件共享小结" class="headerlink" title="7.3 文件共享小结"></a>7.3 文件共享小结</h3><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/6666958e5e6d1bfa05e22af0.png" alt="操作系统（四）——文件管理——文件共享小结.png">
+
+<h2 id="8-文件保护"><a href="#8-文件保护" class="headerlink" title="8. 文件保护"></a>8. 文件保护</h2><p>文件保护就是保护文件数据的安全，一般来说有三种方法：口令保护、加密保护、访问控制。下面依次看这三种算法。</p>
+<h3 id="8-1-口令保护"><a href="#8-1-口令保护" class="headerlink" title="8.1 口令保护"></a>8.1 口令保护</h3><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/666696035e6d1bfa05e2a15b.png" alt="操作系统（四）——文件管理——文件保护——口令保护.png">
+
+<p>口令保护，就是用户请求访问某个文件时，必须提供“口令”。</p>
+<p>比如一个用户为自己的文件设置了一个口令，这个口令是“abc112233”，那其它的用户想要访问这个文件时，就必须提供相同的口令，操作系统会负责验证这个用户提供的口令是否正确，一般来说，正确的口令是存放在与文件相对应的FCB或索引结点当中的，所以操作系统会从FCB当中读出正确的口令，并且和用户提供的口令进行对比，如果这个口令正确，那么就允许这个用户访问文件。</p>
+<p>这种保护口令的优点就是保存口令的空间开销不多，验证口令的时间开销也很小。但缺点在于，这个正确的口令是存放在系统内部的，所以如果有人入侵系统，并且知道了正确的口令，那这个人就可以畅通无阻的访问这个文件，所以口令存在系统内部是不安去的。</p>
+<h3 id="8-2-加密保护"><a href="#8-2-加密保护" class="headerlink" title="8.2 加密保护"></a>8.2 加密保护</h3><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/666696305e6d1bfa05e2cfe1.png" alt="操作系统（四）——文件管理——文件保护——加密保护.png">
+
+<p>加密保护，就是使用某个“密码”对文件进行加密，在访问文件时需要提供正确的“密码”才能对文件进行正确的解密。</p>
+<p>如上图是异或加密的例子，可以看到，如果解密密码不正确，那么看到的结果就不是原始数据。因此，一个用户如果不知道正确的解密密码，是无法正常访问文件数据的。</p>
+<p>加密保护的优点是保密性强，并且不需要在系统中存储”密码”。但缺点也很明显，就是加密&#x2F;解密要花费一定时间。</p>
+<h3 id="8-3-访问控制"><a href="#8-3-访问控制" class="headerlink" title="8.3 访问控制"></a>8.3 访问控制</h3><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/6666965e5e6d1bfa05e41421.png" alt="操作系统（四）——文件管理——文件保护——访问控制1.png">
+
+<p>访问控制就是在每个文件的FCB(或索引结点）中增加一个访问控制列表，该表中记录了各个用户可以对该文件执行哪些操作。</p>
+<p>上图给出了某文件的访问控制列表，其中1表示允许，0表示拒绝，根据这个访问控制表，可以看到各个用户能对该文件进行的操作有哪些。所以在这个系统当中的某个用户，在请求访问某个文件的时候，操作系统就可以查看一下这个文件的访问控制表，检查一下这个用户是否拥有对文件进行某种操作的权限，如果没有权限，就可以拒绝访问。</p>
+<p>在上面的例子当中，是以每个用户为单位，来标识每个用户对某个文件的操作的权限。但是有的计算机可能会有很多个用户，因此访问控制列表可能会很大，这时候可以用精简的访问列表解决这个问题</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/666696835e6d1bfa05e4843f.png" alt="操作系统（四）——文件管理——文件保护——访问控制2.png">
+
+<p>所谓精简的访问列表，就是以“组”为单位，标记各“组”用户可以对文件执行哪些操作。</p>
+<p>如上图，分为系统管理员、文件主、文件主的伙伴、其他用户这几个分组。而每个用户从属于其中一个或两个分组。当某用户想要访问文件时，系统会检查该用户所属的分组是否有相应的访问权限。所以操做系统也需要管理这些用户分组的信息，需要记录每个用户属于哪个分组。精简的访问列表也可以表示成上图的样子。若想要让某个用户能够读取文件，只需要把该用户放入“文件主的伙伴”分组即可。</p>
+<h3 id="8-4-文件保护小结"><a href="#8-4-文件保护小结" class="headerlink" title="8.4 文件保护小结"></a>8.4 文件保护小结</h3><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/666696a55e6d1bfa05e4a835.png" alt="操作系统（四）——文件管理——文件保护小结.png">
+
+<h2 id="9-文件系统的层次结构"><a href="#9-文件系统的层次结构" class="headerlink" title="9. 文件系统的层次结构"></a>9. 文件系统的层次结构</h2><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/66669b955e6d1bfa05ea401b.png" alt="操作系统（四）——文件管理——文件系统的层次结构.png">
+
+<p>如山图，是文件系统的层次结构。</p>
+<p>最上面一层是用户接口，它是最接近用户&#x2F;应用程序的一个层次，因此它的主要功能就是向上层的用户提供一些简单易用的功能接口。并用于处理用户发出的系统调用请求。</p>
+<p>一般来说，用户在访问一个文件时，都是先提供一个文件的路径，所以，文件目录系统这个层次，就需要通过用户提供的路径，来一层一层的找到文件对应的FCB或索引结点（也就是完成一些查询目录等一系列的操作）。所有和目录、目录项相关的管理工作都在本层完成，如：管理活跃的文件目录表、管理打开文件表等。</p>
+<p>文件目录系统找到对应的FCB以后，并不可以直接访问文件。为了保证文件数据的安全，还需要验证用户是否有访问权限。所以存取控制块这一层主要完成了文件保护相关功能。</p>
+<p>在确定了用户对文件的访问权限以后，接下来的逻辑文件系统与文件信息缓冲区这一层次，会负责把用户提供的文件记录号转换成这个记录存放的逻辑地址。在这里有一个文件信息缓冲区，在我们之前学习文件逻辑结构时，有一个逻辑结构叫做索引文件，如果采用的是索引文件的逻辑结构，会为文件当中的各个记录建立一个索引表，那么为了查询到这些记录对应的逻辑地址，就需要查询索引表，而在查询文件的索引表之前，就需要先把索引表调入内存的文件信息缓冲区。</p>
+<p>当找到记录对应的逻辑地址之后，物理文件系统一层会把逻辑地址转换为实际的物理地址。</p>
+<p>如果此时是往文件里添加或删除一些记录的话，显然就有可能需要为这个文件新分配一些物理块或回收一些物理块，这是辅助分配模块所需要做的事情，也就是负责文件存储空间的管理，即负责分配和回收存储空间。</p>
+<p>在之前提到的所有的准备，最后都是为了来操作外存或者说磁盘上的一些数据，所以最后需要由设备管理模块，来负责和设备进行直接交互。因此设备管理模块，也是最接近硬件的一个层次。</p>
+<p>下面用一个例子来辅助理解各层的功能：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/66669bb15e6d1bfa05ea5cb3.png" alt="操作系统（四）——文件管理——文件系统的层次结构例子.png">
+
+<h2 id="10-文件系统的全局结构（布局）"><a href="#10-文件系统的全局结构（布局）" class="headerlink" title="10. 文件系统的全局结构（布局）"></a>10. 文件系统的全局结构（布局）</h2><h3 id="10-1-文件系统在外存当中的结构"><a href="#10-1-文件系统在外存当中的结构" class="headerlink" title="10.1 文件系统在外存当中的结构"></a>10.1 文件系统在外存当中的结构</h3><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/6666a67c5e6d1bfa05f7d266.png" alt="操作系统（四）——文件管理——文件系统的全局结构——原始磁盘.png">
+
+<p>一个磁盘刚被生成出来的时候，里面没有划分扇区，如上图，第一步要做的事情就是低级格式化，也叫物理格式化，如下图。</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/6666a7c85e6d1bfa05f94d89.png" alt="操作系统（四）——文件管理——文件系统的全局结构——物理格式化.png">
+
+<p>物理格式化会把磁盘分为一个一个扇区，同时在物理格式化的时候，也会检测这个磁盘当中有没有坏扇区的存在，如果有坏扇区的存在，那么就会使用一些备用扇区来顶替坏扇区。</p>
+<p>坏扇区的存在对于操作系统来说也是透明的，假设操作系统要访问一个坏扇区，其编号为n，那么磁盘驱动器在物理格式化之后，知道这个是一个坏扇区，那操作系统它想访问n号扇区的时候，磁盘驱动器就会用一个备用扇区来替代坏扇区，替代这个工作是在背后悄悄完成的。</p>
+<p>物理格式化以后，接下来会进行逻辑格式化（又叫高级格式化）：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/6666a9425e6d1bfa05fb0ce1.png" alt="操作系统（四）——文件管理——文件系统的全局结构——逻辑格式化.png">
+
+<p>逻辑格式化会把磁盘分为一个一个的分区，又叫一个一个的分卷，比如上图的C盘、D盘、E盘，就是三个不同的分区。</p>
+<p>一个磁盘被分为多个分区，那每个分区的大小是多少，是从哪个地址到哪个地址（地址范围是多少），这就需要使用分区表来记录。、</p>
+<p>在每个分区当中可以建立各自独立的文件系统，比如在C这个分区里，可以建立UNIX文件系统，UNIX文件系统内部的结构如上图。</p>
+<p>在UNIX文件系统里，首先有一个引导块（引导块的作用可以结合第一章操作系统引导复习）。然后有一个超级块，有了超级块就可以迅速的找到这个磁盘分区里面所有的空闲块，这样当我们要新建一个文件，给一个文件分配磁盘块时，就可以从超级块出发，迅速的找到很多很多的空闲磁盘块用来分配。</p>
+<p>另外，在UNIX文件系统里，还有一个和空闲管理相关的数据结构，比如位示图。位示图可以迅速判断某一个特定的磁盘块是否空闲，而超级块的作用更多的是要迅速的找到若干个空闲的磁盘块。所以这两个数据结构在功能上有一定的重合性，但是在实际使用中会有一些区别。</p>
+<p>接下来，在UNIX文件系统里，会有i结点区，所谓i结点就是我们熟悉的索引结点，每一个文件都会有一个与之对应的索引结点，UNIX文件系统中，所有的索引结点，都是连续存放在i结点区。可以认为这个区域就是一个超大的数组，而数组的元素就是一个一个的索引结点。由于索引结点在这个区域是连续的存储的，而且每个索引结点的大小都相同，所以可以通过一个索引结点的下标，来迅速的定位到一个指定的索引结点。</p>
+<p>下面，在UNIX文件系统里，是根目录。当我们完成了逻辑格式化之后，根目录也会被建立起来，因为任何一个文件系统都必须从根目录出发，来建立新的下一级的目录或存储新的文件。</p>
+<p>所以逻辑格式化以后，在上图当中灰色的部分，就是已经有实际数据的部分，这时逻辑格式化填充进去的东西，而白色的部分会用于保存其他文件和目录，这片区域在逻辑格式化之后是暂时为空的，只有新建了文件或新建了其它目录之后，这些部分，才会慢慢的被填充上数据。这就是逻辑格式化要做的事情、</p>
+<h3 id="10-2-文件系统在内存当中的结构"><a href="#10-2-文件系统在内存当中的结构" class="headerlink" title="10.2 文件系统在内存当中的结构"></a>10.2 文件系统在内存当中的结构</h3><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/6666ad475e6d1bfa05ffb19a.png" alt="操作系统（四）——文件管理——文件系统的全局结构——文件系统在内存当中的结构1.png">
+
+<p>内存分为用户区和内核区，内核区当中有三个比较重要的部分，分别是目录的缓存、系统打开文件表、进程打开文件表。</p>
+<p>首先看一下目录的缓存，最近被访问过的一些目录数据，会暂时被缓存在内存当中。比如说最近查找过目录M，那由于查找目录M，需要把这个目录的数据都给读入主存，如果接下来一段时间内，又访问到了这个目录M，就没有必要反复的从外存一次一次读入，这样很耗费时间。所以近期访问过的一些目录文件数据，会被缓存在内存当中，这么做可以加快目录检索的速度。</p>
+<p>接下来看一下系统的打开文件表和进程的打开文件表。顾名思义，系统打开文件表整个系统只有一张。而进程打开文件表每个进程都有一张，进程打开文件表式包含在每个进程的PCB当中的，记录了某一个进程当前打开了哪些文件。</p>
+<p>接下来用一个例子梳理下，这些东西是怎么工作的：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/6666ad715e6d1bfa05ffe61f.png" alt="操作系统（四）——文件管理——文件系统的全局结构——文件系统在内存当中的结构2.png">
+
+<p>假设现在我们用open系统调用，尝试打开M目录下的A文件。如果现在找到了文件A的存放目录M，接下来会把目录M的数据给读入主存，给它缓存起来。</p>
+<p>读入主存之后，就可以检查这个目录项。一个一个对比，发现其中有一个目录项的名字和要找的文件A是对的上的，接下来要做的事情就是把A这个文件的FCB目录项给复制到系统打开文件表当中，表示这个文件已经打开，同时设置其打开计数为1，这意味着当前有一个进程在使用A这个文件。</p>
+<p>另一方面，刚刚发起open系统调用的进程，有一个进程打开文件表。需要在它的进程打开文件表当中新建一个条目，这个条目当中会记录它的打开方式。在这个进程打开文件表当中，不会保存A这个文件的FCB，只会有一个指向系统打开文件表的索引，这样通过进程打开文件表，就可以找到系统打开文件表中对应的条目，而这个条目当中就可以找到这个文件对应的FCB。</p>
+<p>因此在刚说的进程打开文件表中会新建一个条目，同时返回这个条目的文件描述符，文件描述符就可以简单的理解为指向进程打开文件表的一个指针。也就是说当我们open打开一个文件之后，这个系统调用会给我们程序员返回一个文件描述符fd，接下来我们通过这个文件描述符fd就可以对我们打开的文件进行相应的操作。</p>
+<h2 id="11-虚拟文件系统"><a href="#11-虚拟文件系统" class="headerlink" title="11. 虚拟文件系统"></a>11. 虚拟文件系统</h2><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/6666adbc5e6d1bfa0500377b.png" alt="操作系统（四）——文件管理——普通的文件系统.png">
+
+<p>首先看一下没有虚拟文件系统的情况。普通的文件系统如上图所示。在我们使用计算机的时候，计算机上难免会插上各种各样的外部设备，比如说移动硬盘等。不同的外部存储设备，它里面的文件系统格式可能是各不相同的，比如移动硬盘是NTFS文件系统格式，U盘是FAT文件系统格式，而电脑本身的磁盘可能是UFS文件系统格式。</p>
+<p>所以可以看到，我们的计算机内部有可能同时存在各种各样的文件系统，而不同的文件系统，他的开发者在开发时，定义的函数接口有可能不相同，比如说同样是open打开系统调用，可能UFS系统就只有两个系统参数，而NTFS可能函数名字不一样，参数也只有一个，FAT可能又是另外一种情况，如上图。这就导致，我们在写代码时，如果要从一个文件系统打开一个文件，就需要按照不同的文件系统的规范来写，这对于上层的程序员用户来说很是麻烦。</p>
+<p>因此操作系统内核应该向上层的用户进程提供一个统一标准的函数接口。所以在操作系统当中，就引入了虚拟文件系统(VFS)。</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/6666adf25e6d1bfa05007f97.png" alt="操作系统（四）——文件管理——虚拟文件系统特性1.png">
+
+<p>有了虚拟文件系统之后，用户进程在打开一个文件的时候，只需要根据虚拟文件系统制定的标准来写自己的代码文件即可。而文件具体是在哪个文件系统里用户都不需要管。</p>
+<p>所以<strong>虚拟文件系统的第一个特点就是向上层的用户进程提供统一标准的系统调用接口</strong>，因此虚拟文件系统的存在，对普通用户而言，是帮用户屏蔽了底层具体文件系统的实现差异。</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/6666ae165e6d1bfa0500a6e0.png" alt="操作系统（四）——文件管理——虚拟文件系统特性2.png">
+
+<p>现在虚拟文件系统可以处理上层用户发来的一个标准的系统调用请求，然后这个虚拟文件系统会负责去操作底层的一个具体文件系统。但是刚刚说，每一个文件系统的函数参数列表可能都不一样，这对于虚拟文件系统来说又是一个麻烦。这意味着，只要下层的文件系统对外提供的函数调用接口不统一，那么虚拟文件系统在调用一个具体文件系统的时候，函数代码也要根据不同的文件系统来进行改变，这意味着要频繁修改操作系统内核的代码，显然也是不科学的。为了解决这个问题，虚拟文件系统会要求底层的文件系统必须实现虚拟文件系统规定好的接口。</p>
+<p>因此，<strong>虚拟文件系统的第二个特点就是除了对上层的用户提供了一个统一的文件接口外，还会要求底层的具体文件系统实现规定好的函数接口</strong>。</p>
+<p>如上图，可以看到，虚拟文件系统的底层有可能是一个UFS文件系统，也可能是一个FAT文件系统。我们知道，UFS文件系统的目录项和FAT文件系统的目录项是有很大差别的，如下图：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/6666ae455e6d1bfa0500da0f.png" alt="操作系统（四）——文件管理——虚拟文件系统存在问题.png">
+
+<p>UFS这种文件系统，每个目录项只包含文件名和i结点编号两个信息，我们需要根据i结点编号把i结点读入主存，然后才能知道这个文件具体的原数据以及存储地址等信息。</p>
+<p>而对于FAT文件系统来说，只要读入了某一个文件的目录项，这个FCB里就包含了关于这个文件的所有信息。</p>
+<p>通过分析，可以发现一个新的问题，对于虚拟文件系统来说，当要打开一个具体的文件时，如果文件来自UFS这种文件系统，那读入的文件信息就如上图上。而如果文件来自FAT这种文件系统，那读入的文件信息就如上图下。这样的话，虚拟文件系统在内存当中就必须使用不同的数据结构来表示来自不同文件系统的文件信息。</p>
+<p>为了解决上述问题，在虚拟文件系统当中，每当我们open打开了一个文件之后，这个虚拟文件系统就会给这个文件在主存当中新建一个vnode，也叫v结点。如下图。</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/6666ae735e6d1bfa05010af9.png" alt="操作系统（四）——文件管理——虚拟文件系统特性3.png">
+
+<p>vnode里包含了文件的各种各样的信息。无论打开的文件是来自UFS还是FAT，在打开文件之后，都会把这个文件的相关信息给复制到vnode结点当中。</p>
+<p>这样虚拟文件系统就可以用一个统一的数据结构vnode来表示任何一个文件的信息。</p>
+<p>所以，<strong>虚拟文件系统的第三个特点就是每打开一个文件，VFS就在主存中新建一个vnode，用统一的数据结构表示文件，无论该文件存储在哪个文件系统</strong>。</p>
+<p>这里要注意两个地方，第一个值得注意的地方，如上图，vnode和inode看起来很像，但他们是两个完全不一样的东西，vnode只存在于主存当中，每一个被打开的文件，在主存当中都会有一个与之对应的vnode。而inode既会被调入主存，也会在外存中存储。</p>
+<p>如果此时打开的文件刚好在UFS文件系统中，那么找到这个文件对应的目录项以后，会把文件的inode从外存先读入主存，然后在主存当中会把刚刚读入的inode信息复制到vnode当中。这里要注意vnode和inode的区别。</p>
+<p>接下来说第二个值得注意的地方，依然是上图，可以发现vnode指针里有一个函数功能指针没有说过，之前我们说过，不同的文件系统需要实现虚拟文件系统规定的一些函数的功能，比如open、read等，如下图。</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/6666aeb55e6d1bfa05014e9e.png" alt="操作系统（四）——文件管理——vnode.png">
+
+<p>而不同的文件系统对应的open、read等，其背后的具体实现代码是不相同的，所以<strong>vnode当中的函数功能指针，其实是指向了对应文件系统的函数功能列表</strong>。这样只要open打开了一个文件，之后对文件的任何操作，都可以先找到这个文件对应的vnode，然后根据vnode当中记录的这个函数功能指针，再找到具体的对应的文件系统的函数功能列表，然后执行具体的函数，这样就可以实现从上到下，一层一层函数的调用。</p>
+<p>所以在vnode当中，除了文件的原数据各种信息之外，还会保存这个文件所属的文件系统所提供的函数功能的列表。</p>
+<p>接下来看文件系统的挂载：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/6666af255e6d1bfa0501c7d0.png" alt="操作系统（四）——文件管理——文件系统挂载.png">
+
+<p>文件系统的挂载又叫文件系统的安装&#x2F;装载，也就是如何将一个文件系统挂载的操作系统上。</p>
+<p>比如把一个U盘插到电脑上，那U盘这个文件系统就需要挂载到操作系统上，具体来说就是要挂载到操作系统的虚拟文件系统里。</p>
+<p>文件系统的挂载需要做的事：</p>
+<ol>
+<li>在VFS中注册新挂载的文件系统。在<strong>内存中</strong>，虚拟文件系统会管理一个数据结构叫做挂载表，<strong>挂载表包含每个文件系统的相关信息</strong>，包括文件系统类型、容量大小等。</li>
+<li>新挂载的文件系统，要向VFS提供<strong>一个函数地址列表</strong>。这样才可以让虚拟文件系统调用新挂载的文件系统所提供的功能函数。</li>
+<li>将新文件系统加到<strong>挂载点</strong>，也就是将新文件系统挂载在某个父目录下。</li>
+</ol>
+<p>这里补充一下什么是挂载点，如果用的是Windows系统，当插入一个U盘或移动硬盘时，会发现，在此电脑的界面里，有与C盘、D盘平级的新的盘符出现。所以对于Windows系统而言，新挂载的文件系统，挂载点就是此电脑的界面处，与C盘平级。</p>
+<p>要注意，只有确定了新文件系统挂载的位置，接下来才可以正常的访问和使用新的文件系统。</p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="http://bandit-ljC-1.github.io">liujinC</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="http://bandit-ljc-1.github.io/2024/06/04/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%EF%BC%88%E5%9B%9B%EF%BC%89%E2%80%94%E2%80%94%E6%96%87%E4%BB%B6%E7%AE%A1%E7%90%86/">http://bandit-ljc-1.github.io/2024/06/04/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%EF%BC%88%E5%9B%9B%EF%BC%89%E2%80%94%E2%80%94%E6%96%87%E4%BB%B6%E7%AE%A1%E7%90%86/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://bandit-ljC-1.github.io" target="_blank">无名高手🍭</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/408%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">408学习笔记</a><a class="post-meta__tags" href="/tags/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">操作系统</a></div><div class="post_share"><div class="social-share" data-image="/myphotos/article_cover/11.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2024/06/10/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86%EF%BC%88%E4%BA%94%EF%BC%89%E2%80%94%E2%80%94%E4%B8%AD%E5%A4%AE%E5%A4%84%E7%90%86%E5%99%A8/" title="计算机组成原理（五）——中央处理器"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/myphotos/article_cover/7.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">计算机组成原理（五）——中央处理器</div></div></a></div><div class="next-post pull-right"><a href="/2024/06/04/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%EF%BC%88%E4%B8%83%EF%BC%89%E2%80%94%E2%80%94%E6%8E%92%E5%BA%8F/" title="数据结构（七）——排序"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/myphotos/article_cover/6.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">数据结构（七）——排序</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2024/03/22/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%EF%BC%88%E4%B8%80%EF%BC%89%E2%80%94%E2%80%94%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F%E6%A6%82%E8%BF%B0/" title="操作系统（一）——计算机系统概述"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/myphotos/article_cover/3.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2024-03-22</div><div class="title">操作系统（一）——计算机系统概述</div></div></a></div><div><a href="/2024/05/18/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%EF%BC%88%E4%B8%89%EF%BC%89%E2%80%94%E2%80%94%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86/" title="操作系统（三）——内存管理"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/myphotos/article_cover/8.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2024-05-18</div><div class="title">操作系统（三）——内存管理</div></div></a></div><div><a href="/2024/04/09/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%EF%BC%88%E4%BA%8C%EF%BC%89%E2%80%94%E2%80%94%E8%BF%9B%E7%A8%8B%E4%B8%8E%E7%BA%BF%E7%A8%8B/" title="操作系统（二）——进程与线程"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/myphotos/article_cover/5.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2024-04-09</div><div class="title">操作系统（二）——进程与线程</div></div></a></div><div><a href="/2024/06/10/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%EF%BC%88%E4%BA%94%EF%BC%89%E2%80%94%E2%80%94%E8%BE%93%E5%85%A5%E8%BE%93%E5%87%BA%EF%BC%88IO%EF%BC%89%E7%AE%A1%E7%90%86/" title="操作系统（五）——输入&#x2F;输出（I&#x2F;O）管理"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/myphotos/article_cover/13.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2024-06-10</div><div class="title">操作系统（五）——输入&#x2F;输出（I&#x2F;O）管理</div></div></a></div><div><a href="/2024/03/07/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%EF%BC%88%E4%B8%80%EF%BC%89%E2%80%94%E2%80%94%E7%BA%BF%E6%80%A7%E8%A1%A8/" title="数据结构（一）——线性表"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/myphotos/article_cover/3.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2024-03-07</div><div class="title">数据结构（一）——线性表</div></div></a></div><div><a href="/2024/04/09/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%EF%BC%88%E4%B8%89%EF%BC%89%E2%80%94%E2%80%94%E4%B8%B2/" title="数据结构（三）——串"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/myphotos/article_cover/8.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2024-04-09</div><div class="title">数据结构（三）——串</div></div></a></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/myphotos/avatar.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">liujinC</div><div class="author-info__description"></div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">29</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">8</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">3</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://home.liujinc.cn"><i class="fab fa-github"></i><span>网站主页</span></a><div class="card-info-social-icons is-center"><a class="social-icon faa-parent animated-hover" href="/myphotos/WeChat.png" target="_blank" title="微信"><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon-weixin"></use></svg></a><a class="social-icon faa-parent animated-hover" href="/myphotos/QQ.jpg" target="_blank" title="QQ"><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon-QQ"></use></svg></a><a class="social-icon faa-parent animated-hover" href="https://space.bilibili.com/1941048387?spm_id_from=333.1007.0.0" target="_blank" title="B站"><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon-bilibili"></use></svg></a><a class="social-icon faa-parent animated-hover" href="https://blog.csdn.net/qq_63040545?spm=1000.2115.3001.5343" target="_blank" title="CSDN"><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon-csdn"></use></svg></a><a class="social-icon faa-parent animated-hover" href="https://github.com/Bandit-ljC-1" target="_blank" title="GitHub"><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon-github1"></use></svg></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">今年18岁傍50岁富婆，来年50岁包18岁姑娘。</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%EF%BC%88%E5%9B%9B%EF%BC%89%E2%80%94%E2%80%94%E6%96%87%E4%BB%B6%E7%AE%A1%E7%90%86"><span class="toc-text">操作系统（四）——文件管理</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-%E6%96%87%E4%BB%B6%E7%AE%A1%E7%90%86%E5%9F%BA%E7%A1%80"><span class="toc-text">1. 文件管理基础</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-%E6%96%87%E4%BB%B6%E7%9A%84%E9%80%BB%E8%BE%91%E7%BB%93%E6%9E%84"><span class="toc-text">2. 文件的逻辑结构</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#2-1-%E6%96%87%E4%BB%B6%E7%9A%84%E9%80%BB%E8%BE%91%E7%BB%93%E6%9E%84%E7%9F%A5%E8%AF%86%E6%80%BB%E8%A7%88"><span class="toc-text">2.1 文件的逻辑结构知识总览</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-2-%E6%97%A0%E7%BB%93%E6%9E%84%E6%96%87%E4%BB%B6"><span class="toc-text">2.2 无结构文件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-3-%E6%9C%89%E7%BB%93%E6%9E%84%E6%96%87%E4%BB%B6"><span class="toc-text">2.3 有结构文件</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#2-3-1-%E6%9C%89%E7%BB%93%E6%9E%84%E6%96%87%E4%BB%B6%E6%A6%82%E5%BF%B5"><span class="toc-text">2.3.1 有结构文件概念</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-3-2-%E9%A1%BA%E5%BA%8F%E6%96%87%E4%BB%B6"><span class="toc-text">2.3.2 顺序文件</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-3-3-%E7%B4%A2%E5%BC%95%E6%96%87%E4%BB%B6"><span class="toc-text">2.3.3 索引文件</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-3-4-%E7%B4%A2%E5%BC%95%E9%A1%BA%E5%BA%8F%E6%96%87%E4%BB%B6"><span class="toc-text">2.3.4 索引顺序文件</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-4-%E6%96%87%E4%BB%B6%E7%9A%84%E9%80%BB%E8%BE%91%E7%BB%93%E6%9E%84%E5%B0%8F%E7%BB%93"><span class="toc-text">2.4 文件的逻辑结构小结</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-%E6%96%87%E4%BB%B6%E7%9A%84%E7%89%A9%E7%90%86%E7%BB%93%E6%9E%84"><span class="toc-text">3. 文件的物理结构</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#3-1-%E6%96%87%E4%BB%B6%E7%9A%84%E7%89%A9%E7%90%86%E7%BB%93%E6%9E%84%E5%9F%BA%E7%A1%80"><span class="toc-text">3.1 文件的物理结构基础</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-2-%E8%BF%9E%E7%BB%AD%E5%88%86%E9%85%8D"><span class="toc-text">3.2 连续分配</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-3-%E9%93%BE%E6%8E%A5%E5%88%86%E9%85%8D"><span class="toc-text">3.3 链接分配</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-4-%E7%B4%A2%E5%BC%95%E5%88%86%E9%85%8D"><span class="toc-text">3.4 索引分配</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-5-%E6%96%87%E4%BB%B6%E7%9A%84%E7%89%A9%E7%90%86%E7%BB%93%E6%9E%84%E5%B0%8F%E7%BB%93"><span class="toc-text">3.5 文件的物理结构小结</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-%E6%96%87%E4%BB%B6%E7%9B%AE%E5%BD%95"><span class="toc-text">4. 文件目录</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#4-1-%E6%96%87%E4%BB%B6%E7%9B%AE%E5%BD%95%E7%9F%A5%E8%AF%86%E6%80%BB%E8%A7%88"><span class="toc-text">4.1 文件目录知识总览</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-2-%E6%96%87%E4%BB%B6%E6%8E%A7%E5%88%B6%E5%9D%97"><span class="toc-text">4.2 文件控制块</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-3-%E6%96%87%E4%BB%B6%E7%9B%AE%E5%BD%95%E7%BB%93%E6%9E%84"><span class="toc-text">4.3 文件目录结构</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-4-%E7%B4%A2%E5%BC%95%E7%BB%93%E7%82%B9"><span class="toc-text">4.4 索引结点</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-5-%E6%96%87%E4%BB%B6%E7%9B%AE%E5%BD%95%E5%B0%8F%E7%BB%93"><span class="toc-text">4.5 文件目录小结</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-%E6%96%87%E4%BB%B6%E5%AD%98%E5%82%A8%E7%A9%BA%E9%97%B4%E7%AE%A1%E7%90%86"><span class="toc-text">5. 文件存储空间管理</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#5-1-%E5%AD%98%E5%82%A8%E7%A9%BA%E9%97%B4%E7%9A%84%E5%88%92%E5%88%86%E4%B8%8E%E5%88%9D%E5%A7%8B%E5%8C%96"><span class="toc-text">5.1 存储空间的划分与初始化</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-2-%E6%96%87%E4%BB%B6%E5%AD%98%E5%82%A8%E7%A9%BA%E9%97%B4%E7%9A%84%E7%AE%A1%E7%90%86%E6%96%B9%E6%B3%95"><span class="toc-text">5.2 文件存储空间的管理方法</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#5-2-1-%E7%A9%BA%E9%97%B2%E8%A1%A8%E6%B3%95"><span class="toc-text">5.2.1 空闲表法</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#5-2-2-%E7%A9%BA%E9%97%B2%E9%93%BE%E8%A1%A8%E6%B3%95"><span class="toc-text">5.2.2 空闲链表法</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#5-2-3-%E4%BD%8D%E7%A4%BA%E5%9B%BE%E6%B3%95"><span class="toc-text">5.2.3 位示图法</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#5-2-4-%E6%88%90%E7%BB%84%E9%93%BE%E6%8E%A5%E6%B3%95"><span class="toc-text">5.2.4 成组链接法</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-3-%E6%96%87%E4%BB%B6%E7%9A%84%E5%AD%98%E5%82%A8%E7%A9%BA%E9%97%B4%E7%AE%A1%E7%90%86%E5%B0%8F%E7%BB%93"><span class="toc-text">5.3 文件的存储空间管理小结</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#6-%E6%96%87%E4%BB%B6%E7%9A%84%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C"><span class="toc-text">6. 文件的基本操作</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#6-1-%E5%88%9B%E5%BB%BA%E6%96%87%E4%BB%B6"><span class="toc-text">6.1 创建文件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6-2-%E5%88%A0%E9%99%A4%E6%96%87%E4%BB%B6"><span class="toc-text">6.2 删除文件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6-3-%E6%89%93%E5%BC%80%E6%96%87%E4%BB%B6"><span class="toc-text">6.3 打开文件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6-4-%E5%85%B3%E9%97%AD%E6%96%87%E4%BB%B6"><span class="toc-text">6.4 关闭文件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6-5-%E8%AF%BB%E6%96%87%E4%BB%B6"><span class="toc-text">6.5 读文件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6-6-%E5%86%99%E6%96%87%E4%BB%B6"><span class="toc-text">6.6 写文件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6-7-%E6%96%87%E4%BB%B6%E7%9A%84%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C%E5%B0%8F%E7%BB%93"><span class="toc-text">6.7 文件的基本操作小结</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#7-%E6%96%87%E4%BB%B6%E5%85%B1%E4%BA%AB"><span class="toc-text">7. 文件共享</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#7-1-%E7%A1%AC%E9%93%BE%E6%8E%A5"><span class="toc-text">7.1 硬链接</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#7-2-%E8%BD%AF%E9%93%BE%E6%8E%A5"><span class="toc-text">7.2 软链接</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#7-3-%E6%96%87%E4%BB%B6%E5%85%B1%E4%BA%AB%E5%B0%8F%E7%BB%93"><span class="toc-text">7.3 文件共享小结</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#8-%E6%96%87%E4%BB%B6%E4%BF%9D%E6%8A%A4"><span class="toc-text">8. 文件保护</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#8-1-%E5%8F%A3%E4%BB%A4%E4%BF%9D%E6%8A%A4"><span class="toc-text">8.1 口令保护</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#8-2-%E5%8A%A0%E5%AF%86%E4%BF%9D%E6%8A%A4"><span class="toc-text">8.2 加密保护</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#8-3-%E8%AE%BF%E9%97%AE%E6%8E%A7%E5%88%B6"><span class="toc-text">8.3 访问控制</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#8-4-%E6%96%87%E4%BB%B6%E4%BF%9D%E6%8A%A4%E5%B0%8F%E7%BB%93"><span class="toc-text">8.4 文件保护小结</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#9-%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F%E7%9A%84%E5%B1%82%E6%AC%A1%E7%BB%93%E6%9E%84"><span class="toc-text">9. 文件系统的层次结构</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#10-%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F%E7%9A%84%E5%85%A8%E5%B1%80%E7%BB%93%E6%9E%84%EF%BC%88%E5%B8%83%E5%B1%80%EF%BC%89"><span class="toc-text">10. 文件系统的全局结构（布局）</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#10-1-%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F%E5%9C%A8%E5%A4%96%E5%AD%98%E5%BD%93%E4%B8%AD%E7%9A%84%E7%BB%93%E6%9E%84"><span class="toc-text">10.1 文件系统在外存当中的结构</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#10-2-%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F%E5%9C%A8%E5%86%85%E5%AD%98%E5%BD%93%E4%B8%AD%E7%9A%84%E7%BB%93%E6%9E%84"><span class="toc-text">10.2 文件系统在内存当中的结构</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#11-%E8%99%9A%E6%8B%9F%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F"><span class="toc-text">11. 虚拟文件系统</span></a></li></ol></li></ol></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2024 - 2025 By liujinC</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js?v=4.12.0"></script><script src="/js/main.js?v=4.12.0"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0.32/dist/fancybox/fancybox.umd.min.js"></script><script src="https://cdn.jsdelivr.net/npm/instant.page@5.2.0/instantpage.min.js" type="module"></script><script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@17.8.5/dist/lazyload.iife.min.js"></script><script src="https://cdn.jsdelivr.net/npm/node-snackbar@0.1.16/dist/snackbar.min.js"></script><script>function panguFn () {
+  if (typeof pangu === 'object') pangu.autoSpacingPage()
+  else {
+    getScript('https://cdn.jsdelivr.net/npm/pangu@4.0.7/dist/browser/pangu.min.js')
+      .then(() => {
+        pangu.autoSpacingPage()
+      })
+  }
+}
+
+function panguInit () {
+  if (false){
+    GLOBAL_CONFIG_SITE.isPost && panguFn()
+  } else {
+    panguFn()
+  }
+}
+
+document.addEventListener('DOMContentLoaded', panguInit)</script><div class="js-pjax"></div><canvas id="snow"></canvas><script async src="/js/snow.js"></script><canvas id="universe"></canvas><script defer src="/js/universe.js"></script><script defer src="/js/mouse.js"></script><script async src="//at.alicdn.com/t/c/font_4451089_fok8y2foa3.js"></script><script defer type="text/javascript" src="https://cdn1.tianli0.top/npm/sweetalert2@8.19.0/dist/sweetalert2.all.js"></script><script defer src="/js/festival/lunar.js"></script><script defer src="/js/festival/day.js"></script><script async src="/js/fps.js"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="is-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据库加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div id="local-search-results"></div><div id="local-search-stats-wrap"></div></div></div><div id="search-mask"></div><script src="/js/search/local-search.js?v=4.12.0"></script></div></div><!-- hexo injector body_end start --> <script data-pjax>if(document.getElementById('recent-posts') && (location.pathname ==='/'|| '/' ==='all')){
+    var parent = document.getElementById('recent-posts');
+    var child = '<div class="recent-post-item" style="width:100%;height: auto"><div id="catalog_magnet"><div class="magnet_item"><a class="magnet_link" href="http://bandit-ljC-1.github.io/tags/408学习笔记/"><div class="magnet_link_context" style=""><span style="font-weight:500;flex:1">🐱‍👓 路漫漫其修远，我探索不了一点。 (25)</span><span style="padding:0px 4px;border-radius: 8px;"><i class="fas fa-arrow-circle-right"></i></span></div></a></div><div class="magnet_item"><a class="magnet_link" href="http://bandit-ljC-1.github.io/tags/前端/"><div class="magnet_link_context" style=""><span style="font-weight:500;flex:1">🍨 前端UI到转行平面设计 (2)</span><span style="padding:0px 4px;border-radius: 8px;"><i class="fas fa-arrow-circle-right"></i></span></div></a></div><a class="magnet_link_more"  href="http://bandit-ljC-1.github.io/tags" style="flex:1;text-align: center;margin-bottom: 10px;">查看更多...</a></div></div>';
+    console.log('已挂载magnet')
+    parent.insertAdjacentHTML("afterbegin",child)}
+     </script><style>#catalog_magnet{flex-wrap: wrap;display: flex;width:100%;justify-content:space-between;padding: 10px 10px 0 10px;align-content: flex-start;}.magnet_item{flex-basis: calc(50% - 5px);background: #f2f2f2;margin-bottom: 10px;border-radius: 8px;transition: all 0.2s ease-in-out;}.magnet_item:hover{background: #b30070}.magnet_link_more{color:#555}.magnet_link{color:black}.magnet_link:hover{color:white}@media screen and (max-width: 600px) {.magnet_item {flex-basis: 100%;}}.magnet_link_context{display:flex;padding: 10px;font-size:16px;transition: all 0.2s ease-in-out;}.magnet_link_context:hover{padding: 10px 20px;}</style>
+    <style></style><script data-pjax>
+    function butterfly_categories_card_injector_config(){
+      var parent_div_git = document.getElementById('recent-posts');
+      var item_html = '<style>li.categoryBar-list-item{width:32.3%;}.categoryBar-list{max-height: 380px;overflow:auto;}.categoryBar-list::-webkit-scrollbar{width:0!important}@media screen and (max-width: 650px){.categoryBar-list{max-height: 320px;}}</style><div class="recent-post-item" style="height:auto;width:100%;padding:0px;"><div id="categoryBar"><ul class="categoryBar-list"><li class="categoryBar-list-item" style="background:url(/myphotos/article_cover/1.jpg);"> <a class="categoryBar-list-link" href="categories/网页开发/">网页开发</a><span class="categoryBar-list-count">2</span><span class="categoryBar-list-descr">优秀的设计师</span></li><li class="categoryBar-list-item" style="background:url(/myphotos/article_cover/2.jpg);"> <a class="categoryBar-list-link" href="categories/hexo/">hexo</a><span class="categoryBar-list-count">2</span><span class="categoryBar-list-descr">五等分的blog</span></li><li class="categoryBar-list-item" style="background:url(/myphotos/article_cover/3.jpg);"> <a class="categoryBar-list-link" href="categories/学习笔记/">学习笔记</a><span class="categoryBar-list-count">25</span><span class="categoryBar-list-descr">埼玉的成长之路</span></li></ul></div></div>';
+      console.log('已挂载butterfly_categories_card')
+      parent_div_git.insertAdjacentHTML("afterbegin",item_html)
+      }
+    if( document.getElementById('recent-posts') && (location.pathname ==='/'|| '/' ==='all')){
+    butterfly_categories_card_injector_config()
+    }
+  </script><script data-pjax>
+  function butterfly_swiper_injector_config(){
+    var parent_div_git = document.getElementById('recent-posts');
+    var item_html = '<div class="recent-post-item" style="height: auto;width: 100%"><div class="blog-slider swiper-container-fade swiper-container-horizontal" id="swiper_container"><div class="blog-slider__wrp swiper-wrapper" style="transition-duration: 0ms;"><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" href="2024/01/01/Markdown语法/" alt=""><img width="48" height="48" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="myphotos/article_cover/6.jpg" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/></a><div class="blog-slider__content"><span class="blog-slider__code">2024-01-01</span><a class="blog-slider__title" href="2024/01/01/Markdown语法/" alt="">青春男大遇到不会写的Markdown语法</a><div class="blog-slider__text">本文是博主写博客时遇到的一些不会写的Markdown语法，特在此汇总</div><a class="blog-slider__button" href="2024/01/01/Markdown语法/" alt="">详情   </a></div></div><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" href="2024/03/07/数据结构（一）——线性表/" alt=""><img width="48" height="48" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="myphotos/article_cover/3.jpg" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/></a><div class="blog-slider__content"><span class="blog-slider__code">2024-03-07</span><a class="blog-slider__title" href="2024/03/07/数据结构（一）——线性表/" alt="">数据结构（一）——线性表</a><div class="blog-slider__text">本文是数据结构中有关线性表的复习笔记，因此只记录一些重点知识与兄弟们交流，并不适合零基础的兄弟。</div><a class="blog-slider__button" href="2024/03/07/数据结构（一）——线性表/" alt="">详情   </a></div></div><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" href="2024/03/02/基于hexo搭建的个人博客常见问题处理/" alt=""><img width="48" height="48" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="myphotos/article_cover/6.jpg" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/></a><div class="blog-slider__content"><span class="blog-slider__code">2024-03-02</span><a class="blog-slider__title" href="2024/03/02/基于hexo搭建的个人博客常见问题处理/" alt="">基于hexo搭建的个人博客常见问题处理</a><div class="blog-slider__text">该文主要是站长对使用hexo搭建博客时出现的一些问题进行了整理</div><a class="blog-slider__button" href="2024/03/02/基于hexo搭建的个人博客常见问题处理/" alt="">详情   </a></div></div><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" href="2024/02/08/CSS基础语法及应用/" alt=""><img width="48" height="48" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="myphotos/article_cover/6.jpg" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/></a><div class="blog-slider__content"><span class="blog-slider__code">2024-02-08</span><a class="blog-slider__title" href="2024/02/08/CSS基础语法及应用/" alt="">CSS基础语法及应用</a><div class="blog-slider__text">本文主要整理CSS的基本语法，可以搭配HTML5基本语法进行学习</div><a class="blog-slider__button" href="2024/02/08/CSS基础语法及应用/" alt="">详情   </a></div></div><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" href="2024/02/01/HTML5基础语法大全/" alt=""><img width="48" height="48" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="myphotos/article_cover/13.jpg" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/></a><div class="blog-slider__content"><span class="blog-slider__code">2024-02-01</span><a class="blog-slider__title" href="2024/02/01/HTML5基础语法大全/" alt="">HTML5基本语法大全</a><div class="blog-slider__text">本文主要整理了HTML5的基本语法，方便初学者快速入门</div><a class="blog-slider__button" href="2024/02/01/HTML5基础语法大全/" alt="">详情   </a></div></div></div><div class="blog-slider__pagination swiper-pagination-clickable swiper-pagination-bullets"></div></div></div>';
+    console.log('已挂载butterfly_swiper')
+    parent_div_git.insertAdjacentHTML("afterbegin",item_html)
+    }
+  var elist = 'undefined'.split(',');
+  var cpage = location.pathname;
+  var epage = '/';
+  var flag = 0;
+
+  for (var i=0;i<elist.length;i++){
+    if (cpage.includes(elist[i])){
+      flag++;
+    }
+  }
+
+  if ((epage ==='all')&&(flag == 0)){
+    butterfly_swiper_injector_config();
+  }
+  else if (epage === cpage){
+    butterfly_swiper_injector_config();
+  }
+  </script><script defer src="https://npm.elemecdn.com/hexo-butterfly-swiper/lib/swiper.min.js"></script><script defer data-pjax src="https://npm.elemecdn.com/hexo-butterfly-swiper/lib/swiper_init.js"></script><script data-pjax>
+  function butterfly_footer_beautify_injector_config(){
+    var parent_div_git = document.getElementById('footer-wrap');
+    var item_html = '<div id="workboard"></div><p id="ghbdages"><a class="github-badge" target="_blank" href="https://hexo.io/" style="margin-inline:5px" data-title="博客框架为Hexo_v6.2.0" title=""><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img.shields.io/badge/Frame-Hexo-blue?style=flat&amp;logo=hexo" alt=""/></a><a class="github-badge" target="_blank" href="https://butterfly.js.org/" style="margin-inline:5px" data-title="主题版本Butterfly_v4.3.1" title=""><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img.shields.io/badge/Theme-Butterfly-6513df?style=flat&amp;logo=bitdefender" alt=""/></a><a class="github-badge" target="_blank" href="https://vercel.com/" style="margin-inline:5px" data-title="本站采用多线部署，主线路托管于Vercel" title=""><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img.shields.io/badge/Hosted-Vercel-brightgreen?style=flat&amp;logo=Vercel" alt=""/></a><a class="github-badge" target="_blank" href="https://dashboard.4everland.org/" style="margin-inline:5px" data-title="本站采用多线部署，备用线路托管于4EVERLAND" title=""><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img.shields.io/badge/Hosted-4EVERLAND-22DDDD?style=flat&amp;logo=IPFS" alt=""/></a><a class="github-badge" target="_blank" href="https://github.com/" style="margin-inline:5px" data-title="本站项目由Github托管" title=""><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img.shields.io/badge/Source-Github-d021d6?style=flat&amp;logo=GitHub" alt=""/></a><a class="github-badge" target="_blank" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" style="margin-inline:5px" data-title="本站采用知识共享署名-非商业性使用-相同方式共享4.0国际许可协议进行许可" title=""><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img.shields.io/badge/Copyright-BY--NC--SA%204.0-d42328?style=flat&amp;logo=Claris" alt=""/></a></p>';
+    console.log('已挂载butterfly_footer_beautify')
+    parent_div_git.insertAdjacentHTML("beforeend",item_html)
+    }
+  var elist = 'null'.split(',');
+  var cpage = location.pathname;
+  var epage = 'all';
+  var flag = 0;
+
+  for (var i=0;i<elist.length;i++){
+    if (cpage.includes(elist[i])){
+      flag++;
+    }
+  }
+
+  if ((epage ==='all')&&(flag == 0)){
+    butterfly_footer_beautify_injector_config();
+  }
+  else if (epage === cpage){
+    butterfly_footer_beautify_injector_config();
+  }
+  </script><script async src="/js/clock.js"></script><div class="js-pjax"><script async="async">var arr = document.getElementsByClassName('recent-post-item');
+for(var i = 0;i<arr.length;i++){
+    arr[i].classList.add('wow');
+    arr[i].classList.add('animate__zoomIn');
+    arr[i].setAttribute('data-wow-duration', '2s');
+    arr[i].setAttribute('data-wow-delay', '1s');
+    arr[i].setAttribute('data-wow-offset', '100');
+    arr[i].setAttribute('data-wow-iteration', '1');
+  }</script><script async="async">var arr = document.getElementsByClassName('card-widget');
+for(var i = 0;i<arr.length;i++){
+    arr[i].classList.add('wow');
+    arr[i].classList.add('animate__zoomIn');
+    arr[i].setAttribute('data-wow-duration', '');
+    arr[i].setAttribute('data-wow-delay', '');
+    arr[i].setAttribute('data-wow-offset', '');
+    arr[i].setAttribute('data-wow-iteration', '');
+  }</script></div><script defer src="/css/wowjs/wow.min.js"></script><script defer src="/css/wowjs/wow_init.js"></script><!-- hexo injector body_end end --></body></html>

@@ -1,0 +1,642 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>计算机组成原理（七）——输入输出系统 | 无名高手🍭</title><meta name="author" content="liujinC"><meta name="copyright" content="liujinC"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="ffffff"><meta name="description" content="计组的第七章">
+<meta property="og:type" content="article">
+<meta property="og:title" content="计算机组成原理（七）——输入输出系统">
+<meta property="og:url" content="http://bandit-ljc-1.github.io/2024/07/03/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86%EF%BC%88%E4%B8%83%EF%BC%89%E2%80%94%E2%80%94%E8%BE%93%E5%85%A5%E8%BE%93%E5%87%BA%E7%B3%BB%E7%BB%9F/index.html">
+<meta property="og:site_name" content="无名高手🍭">
+<meta property="og:description" content="计组的第七章">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://bandit-ljc-1.github.io/myphotos/article_cover/10.jpg">
+<meta property="article:published_time" content="2024-07-03T14:00:00.000Z">
+<meta property="article:modified_time" content="2024-07-10T04:00:00.000Z">
+<meta property="article:author" content="liujinC">
+<meta property="article:tag" content="408学习笔记">
+<meta property="article:tag" content="计算机组成原理">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://bandit-ljc-1.github.io/myphotos/article_cover/10.jpg"><link rel="shortcut icon" href="/myphotos/icon.png"><link rel="canonical" href="http://bandit-ljc-1.github.io/2024/07/03/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86%EF%BC%88%E4%B8%83%EF%BC%89%E2%80%94%E2%80%94%E8%BE%93%E5%85%A5%E8%BE%93%E5%87%BA%E7%B3%BB%E7%BB%9F/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css?v=4.12.0"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.5.1/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/node-snackbar@0.1.16/dist/snackbar.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0.32/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":true,"top_n_per_article":-1,"unescape":false,"languages":{"hits_empty":"找不到您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: undefined,
+  noticeOutdate: {"limitDay":365,"position":"top","messagePrev":"It has been","messageNext":"days since the last update, the content of the article may be outdated."},
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":230},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: {"chs_to_cht":"你已切换为繁体中文","cht_to_chs":"你已切换为简体中文","day_to_night":"你已切换为深色模式","night_to_day":"你已切换为浅色模式","bgLight":"#49b1f5","bgDark":"#1f1f1f","position":"top-right"},
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid@4.11.0/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyload: true,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '计算机组成原理（七）——输入输出系统',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2024-07-10 12:00:00'
+}</script><script>(win=>{
+      win.saveToLocal = {
+        set: (key, value, ttl) => {
+          if (ttl === 0) return
+          const now = Date.now()
+          const expiry = now + ttl * 86400000
+          const item = {
+            value,
+            expiry
+          }
+          localStorage.setItem(key, JSON.stringify(item))
+        },
+      
+        get: key => {
+          const itemStr = localStorage.getItem(key)
+      
+          if (!itemStr) {
+            return undefined
+          }
+          const item = JSON.parse(itemStr)
+          const now = Date.now()
+      
+          if (now > item.expiry) {
+            localStorage.removeItem(key)
+            return undefined
+          }
+          return item.value
+        }
+      }
+    
+      win.getScript = (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        script.onerror = reject
+        script.onload = script.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          script.onload = script.onreadystatechange = null
+          resolve()
+        }
+
+        Object.keys(attr).forEach(key => {
+          script.setAttribute(key, attr[key])
+        })
+
+        document.head.appendChild(script)
+      })
+    
+      win.getCSS = (url, id = false) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onerror = reject
+        link.onload = link.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          link.onload = link.onreadystatechange = null
+          resolve()
+        }
+        document.head.appendChild(link)
+      })
+    
+      win.activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', 'ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          const now = new Date()
+          const hour = now.getHours()
+          const isNight = hour <= 6 || hour >= 18
+          if (t === undefined) isNight ? activateDarkMode() : activateLightMode()
+          else if (t === 'light') activateLightMode()
+          else activateDarkMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+      const detectApple = () => {
+        if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+          document.documentElement.classList.add('apple')
+        }
+      }
+      detectApple()
+    })(window)</script><link rel="stylesheet" href="/css/custom.css" media="defer" onload="this.media='all'"><link rel="stylesheet" href="/css/light.css" media="defer" onload="this.media='all'"><link rel="stylesheet" href="/css/snow.css"><link rel="stylesheet" href="/css/universe.css"><link rel="stylesheet" href="/css/mouse.css"><link rel="stylesheet" href="//at.alicdn.com/t/c/font_4451089_fok8y2foa3.css" media="defer" onload="this.media='all'"><link rel="stylesheet" href="/css/page_style.css"><span id="fps"></span><link rel="stylesheet" href="/css/pangu_control.css"><div id="myscoll"></div><!-- hexo injector head_end start --><link rel="stylesheet" href="/css/categorybar.css"><link rel="stylesheet" href="https://npm.elemecdn.com/hexo-butterfly-swiper/lib/swiper.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="/css/swiper/swiperstyle.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://unpkg.zhimg.com/hexo-butterfly-footer-beautify@1.0.0/lib/runtime.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="/css/wowjs/animate.min.css" media="print" onload="this.media='screen'"><!-- hexo injector head_end end --><meta name="generator" content="Hexo 6.3.0"></head><body><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/myphotos/avatar.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">29</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">8</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">3</div></a></div><hr class="custom-hr"/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> 列表</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音乐</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 电影</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/comments/"><i class="fa-fw fas fa-envelope-open"></i><span> 留言板</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('/myphotos/article_cover/10.jpg')"><nav id="nav"><span id="blog-info"><a href="/" title="无名高手🍭"><span class="site-name">无名高手🍭</span></a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search" href="javascript:void(0);"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> 列表</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音乐</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 电影</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/comments/"><i class="fa-fw fas fa-envelope-open"></i><span> 留言板</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">计算机组成原理（七）——输入输出系统</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2024-07-03T14:00:00.000Z" title="发表于 2024-07-03 22:00:00">2024-07-03</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2024-07-10T04:00:00.000Z" title="更新于 2024-07-10 12:00:00">2024-07-10</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">学习笔记</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">22.2k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>65分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="计算机组成原理（七）——输入输出系统"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h1 id="计算机组成原理（七）——输入输出系统"><a href="#计算机组成原理（七）——输入输出系统" class="headerlink" title="计算机组成原理（七）——输入输出系统"></a>计算机组成原理（七）——输入输出系统</h1><h2 id="0-引言"><a href="#0-引言" class="headerlink" title="0. 引言"></a>0. 引言</h2><p>本章和操作系统的最后一章有很强的联系，操作系统在探讨输入输出系统的时候更多的是在探讨输入输出系统的软件部分，就是操作系统如何来管理这些输入输出设备。而计组这门课更着重探讨硬件的实现。</p>
+<h2 id="1-输入输出系统和IO控制方式"><a href="#1-输入输出系统和IO控制方式" class="headerlink" title="1. 输入输出系统和IO控制方式"></a>1. 输入输出系统和IO控制方式</h2><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/66a768c6d9c307b7e90f5d77.png" alt="计算机组成原理（七）——输入输出系统——现代计算机结构.png">
+
+<p>现代的计算机大致上可以分为主机和外设两个部分，外设就是所谓的IO设备，I&#x2F;O设备就是可以将数据输入到计算机，或者可以接收计算机输出数据的外部设备。</p>
+<p>下图是常见的IO设备：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/66a768fad9c307b7e90f8eb6.png" alt="计算机组成原理（七）——输入输出系统——常见的IO设备.png">
+
+<p>接下来探讨主机如何与IO设备进行交互：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/66a7692cd9c307b7e90fb51f.png" alt="计算机组成原理（七）——输入输出系统——主机与IO设备交互.png">
+
+<p>如上图是一个单总线的结构，可以看到IO接口的下面会挂着一个一个IO设备。</p>
+<p>现在来说一下什么是IO接口，**<font color=red>I&#x2F;O接口又称I&#x2F;O控制器(I&#x2F;O Controller)、设备控制器，负责协调主机与外部设备之间的数据传输</font>**。</p>
+<p>由于IO设备的种类繁多，因此IO接口的种类也会非常多，因此会制定相应的标准来规定如何设置IO控制器。所以，CPU的厂商想要通过IO控制器来控制某一些具体的设备，只需要遵守制定的IO接口标准，按照标准来IO控制器发出相应的命令。在常用的计算机中，这种IO接口通常就是一块芯片，一般来说会被集成在主板上，然后通过主板上的总线和CPU、内存等进行连接。</p>
+<p>下面可以看一下主板图：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/66a76960d9c307b7e90fe449.png" alt="计算机组成原理（七）——输入输出系统——IO控制器.png">
+
+<p>总之，IO接口是一个电子部件，会被集成在主板上，而IO设备是指看得见摸得着的外部设备。IO设备要和主机进行数据的交互、控制信息的传输，都需要经过IO接口的中转和处理。</p>
+<p>接下来用一个简单的例子说明一下，CPU是如何通过IO接口与某一种外部设备进行交互的：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/66a769bfd9c307b7e9102ea6.png" alt="计算机组成原理（七）——输入输出系统——IO控制方式简介1.png">
+
+<p>假设电脑上连接了一个键盘，然后可以通过上图左下角的获取键盘的输入，当程序执行到scanf的时候，会被卡在这一步，只有等待到键盘有字符输入以后，才会继续向后执行。而程序卡在scanf的地方，就相当于CPU此时正在等待键盘的输入数据，那么CPU应该如何控制键盘的IO操作的完成呢？</p>
+<p>在此之前，先来看一下IO接口的结构，IO接口里面会包含一系列的寄存器，其中数据寄存器用来存放主机要输出到外设的数据或者外设要输入到主机的数据。控制寄存器里存储控制信息，其内容可以直接反映某一个外设具体需要做什么动作。状态寄存器里存储着当前外设的状态，比如当前这个外设是否完成工作，是否处于忙碌状态。</p>
+<p>了解了三个寄存器的大致功能以后，现在看一下CPU在处理scanf的背后做了什么：</p>
+<p>首先，CPU会通过控制总线向IO接口发出读命令，同时可以通过地址总线指明要读的是哪一个设备。另外地址总线还可以用于指明要从这个设备读入的数据应该放到哪一个寄存器。现在对IO设备的读命令已经发出了，那如何判断要读的字符数据有没有被输入呢？</p>
+<p>其中一个比较容易想到的办法是可以让CPU不断轮询检查l&#x2F;O控制器中的“状态寄存器”，检测到状态为“已完成”之后，再从数据寄存器取出输入数据。这种方案意味着CPU需要不断检查状态寄存器，而不能去做其它的事情。这意味着，程序卡在了scanf这一句时，如果一直没有输入，那么CPU就不可以去做其它的事情，其它的后台程序都需要暂停。显然这种方式是很低效的。</p>
+<p>为了解决这个低效的问题，可以采取另一种IO设备的控制方式——程序中断方式。这种方式在等待键盘l&#x2F;O时CPU可以先去执行其他程序，键盘I&#x2F;O完成后I&#x2F;O控制器向CPU发出中断请求，CPU响应中断请求，并取走输入数据。因此，程序中断方式就可以解放CPU的工作时间，CPU不需要再陷入忙等。</p>
+<p>现在介绍的这两种IO控制方式的数据流都是：键盘→IO接口的数据寄存器→数据总线→CPU某寄存器→主存，即键盘通过外部的一个连接线，把数据输入到IO接口内部的数据寄存器当中，然后接下来数据寄存器的内容通过数据总线先传给CPU的某寄存器里，但是对于scanf操作来说，想要输入一个字符，并且把字符赋值给变量i，而程序里定义的变量都是放在主存里的，所以CPU取得刚才输入的字符之后，还需要把刚才取得这个数据把它写入主存。也就是说采用上面的两种IO设备的控制方式(程序查询方式和程序中断方式)，每输入或者每输出一个字，就需要CPU介入一次，CPU需要作为中转站，进行主存和IO设备之间的一个中转。</p>
+<p>接下来再用图示把刚才的过程给捋一遍：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/66a769fed9c307b7e9105e89.png" alt="计算机组成原理（七）——输入输出系统——IO控制方式简介2.png">
+
+<p>采用程序查询方式来控制IO设备的一个流程：首先CPU执行某个程序，当这个程序中间需要进行一次IO操作的时候，会通过IO指令来启动一次数据的读或者写，在IO设备准备数据的这段时间内，CPU会一直忙等，不断的去查询IO接口里面的状态寄存器，直到这次IO操作完成之后，CPU才会继续执行之前的那个程序。</p>
+<p>采用程序中断方式来控制IO设备的一个流程：首先CPU执行某个程序，如果这个程序中间需要进行一次IO操作的时候，那么当这个IO设备在准备数据的过程当中CPU是可以去做其它的事情的，不需要进行忙等，接下来IO操作完成之后，IO接口会向CPU发出一个中断请求，CPU在每一条指令执行的末尾，都会例行的检查，此时有没有中断请求的到来，如果说检测到中断请求的信号，就会转而执行处理中断请求的中断处理程序。当CPU处理完这次中断请求后，就可以回去执行之前的程序，同时也可以发出下一条IO指令，让IO设备继续的输入或者输出一个数据。所以采用程序中断方式，可以使得CPU的忙碌时间变得更多，CPU的利用率可以得到大幅度的提升。</p>
+<p>现在思考一个问题：刚才举得例子键盘，属于一种很慢速的设备，手速再块，一秒钟最多也就敲击5、6次，也就是说每秒钟会给CPU发送五六次中断请求，对于CPU来说，中断的频率不算特别高。那么对于快速IO设备，如“磁盘”，每准备好一个字就给CPU发送一次中断请求，会导致什么问题?</p>
+<p>对于快速IO设备磁盘，如果每准备好一个字就给CPU发送一次中断请求，会导致CPU接收到的中断频率特别高，而每一次中断请求，都会导致CPU需要运行一段中断处理程序，这也会导致CPU利用率下降。</p>
+<p>因此为了让快速的IO设备与主机之间的数据交互更有效率，可以采用DMA控制方式，如下图：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/66a76a2ed9c307b7e9107fe5.png" alt="计算机组成原理（七）——输入输出系统——DMA控制方式.png">
+
+<p>DMA控制方式：主存与高速I&#x2F;O设备之间有一条直接数据通路（DMA总线）。CPU向DMA接口发出“读&#x2F;写”命令，并指明主存地址、磁盘地址、读写数据量等参数。CPU给DMA接口说明了这些参数以后，就可以去做其它的事情，接下来DMA控制器会自动控制磁盘与主存的数据读写，直到完成一整块数据读写（如1KB为一整块）之后，DMA接口才向CPU发出一次中断请求。</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/66a76a5bd9c307b7e9109ff7.png" alt="计算机组成原理（七）——输入输出系统——IO控制方式简介3.png">
+
+<p>引入DMA方式之后，如果此时某个程序需要进行数据的读写，那么CPU会通过IO指令向DMA控制器指明此次要读或者要写的数据存放在哪，应该转存到什么位置，转存多大的数据。发出这个IO指令之后，CPU就可以去做其它的事情，而IO设备可以慢慢的准备这个数据，IO设备准备好的数据会先存到DMA控制器当中，每准备好一个字的内容，DMA控制器就会发出一个DMA请求。接下来DMA控制器会占用一个存取周期，往主存对应位置写入一个字的数据，如果在存取周期内CPU也想要访问主存，CPU就需要先等待DMA写好这个字的数据之后，CPU才可以继续的访存主存。 因为在三总线结构图里可以看到，主存是被CPU和DMA控制器同时共享的，当DMA控制器对主存进行读或者写操作的时候，CPU就不能对主存进行读和写，因此DMA控制器每次往主存里写数据的时候，都需要占用一个存取周期，不过一个存取周期的时间肯定要比CPU执行中断处理程序的时间更短。</p>
+<p>DMA控制器与主存每次传送1个字，每传送1个字需要一个存取周期，而程序中断方式每传送一个字需要一个中断，一个存取周期的时间要比CPU执行中断处理程序的时间更短，DMA方式只有传送完一整块数据后才向CPU发出中断请求，所有DMA方式要比程序中断方式效率高。</p>
+<p>DMA方式对于个人使用的微型计算机已经够用，但是对于某些商用的中型机或大型机，这些机器可能会接上很多的IO设备，所以即使使用DMA方式，每个IO设备传送完一整块的数据都向CPU发出一个中断请求，CPU也需要花费很多时间来处理中断，因此为了让CPU从繁杂的IO设备管理工作当中解脱出来，人们就发明了一种专门用于管理各种IO设备的硬件部件叫做通道。</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/66a76a92d9c307b7e910c6c5.png" alt="计算机组成原理（七）——输入输出系统——通道控制方式1.png">
+
+<p>通道是一种特殊的处理器，但是它的功能没有CPU强大，它可以执行一些特定的通道指令，然后通过通道指令的执行就可以管理各种各样的IO设备，所以引入通道之后，CPU与各种IO接口之间不会再直接的进行交互，这些IO接口的管理工作都是由通道通过IO总线来进行的。</p>
+<p>下面简单说一下通道控制方式的工作原理：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/66a76ac7d9c307b7e910f34d.png" alt="计算机组成原理（七）——输入输出系统——通道控制方式2.png">
+
+<p>通道：可以理解为是“弱鸡版的CPU”，它可以识别并执行一系列通道指令，而通道指令种类、功能通常比较单一。</p>
+<p>CPU、主存和通道可以通过总线进行连接，如果此时CPU想要操作某一个IO设备，那么CPU会通过IO指令给通道指明一个具体的任务，CPU会告诉通道应该处理的IO设备是哪一个，另外当通道管理这个IO设备的时候，应该执行的通道程序被存放在内存的什么位置。接下来通道可以根据CPU的指示，去内存当中一条一条的取出这些通道指令，然后每一条通道指令的执行都会对应着给IO设备发出一个具体的命令。当通道执行完一系列的指令以后，才会向CPU发出一个中断请求，接下来CPU再对中请求进行相应的处理。</p>
+<p>因此，引入通道之后，CPU对IO设备的繁杂的管理工作又可以进一步得到解放。</p>
+<p>对于之前提到的DMA方式来说，只能连续的读入或者写出一整块的数据，每传送完一整块的数据都需要CPU介入。而引入通道之后，对数据的存取位置，到底应该输出到哪些设备或者应该从哪些设备依次的输入，这些控制都可以变得非常灵活，只需要提前编制好通道程序就可以。只有通道完成了这一大堆工作以后，才需要CPU介入一次，这就是通道控制方式。</p>
+<p>接下来看IO系统的组成：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/66a76b15d9c307b7e9112f3f.png" alt="计算机组成原理（七）——输入输出系统——IO系统基本组成.png">
+
+<p>一般来说，I&#x2F;O系统由I&#x2F;O软件和I&#x2F;O硬件两部分构成。IO硬件主要包括的是IO接口和IO设备这两个部分，并且前面也简要说明了主机是如何通过IO接口来控制IO设备的。接下来研究一下IO软件部分。</p>
+<p>IO软件包括驱动程序、用户程序、管理程序、升级补丁等。通常采用I&#x2F;O指令和通道指令实现主机和I&#x2F;O设备的信息交换。</p>
+<p>需要强调的是，IO指令和通道指令是不一样的，IO指令是给CPU执行的，而通道指令是给通道执行的。逻辑上IO指令的结构可以分为操作码、命令码和设备码三个部分，如上图。值得一提的是，命令码这个部分是多变的，甚至命令码部分和具体的IO设备有关，而为了能让发出的IO指令能够正确的指示相应的设备进行正确的动作，因此各个厂商在生产这些设备的时候，都会提供配套的驱动程序。</p>
+<p>而通道程序，即通道指令的序列是提前编制好，然后放在主存里的，所以主存当中即会保存CPU要执行的程序，也会保存通道要执行的通道程序，在含有通道的计算机中，CPU执行I&#x2F;O指令对通道发出命令，然后由通道执行一系列通道指令，代替CPU对l&#x2F;O设备进行管理。</p>
+<p>最后一点需要注意的是，I&#x2F;O指令与普通指令格式略有不同，其中的操作码指明了CPU要对lO接口做什么，而命令码指明了IO接口要对设备做什么，这一点需要注意。</p>
+<p>下面对本部分进行小结：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/66a76b4dd9c307b7e9115533.png" alt="计算机组成原理（七）——输入输出系统——输入输出系统和IO控制方式小结.png">
+
+<h2 id="2-外部设备"><a href="#2-外部设备" class="headerlink" title="2. 外部设备"></a>2. 外部设备</h2><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/66a77b66d9c307b7e91e84c5.png" alt="计算机组成原理（七）——输入输出系统——外部设备知识总览.png">
+
+<p>外部设备可以分为输入设备、输出设备和外存储器设备这三大类，本节学习输入和输出设备。本节重要考点是VRAM的计算，即显存的计算。</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/66a77b98d9c307b7e91eabb9.png" alt="计算机组成原理（七）——输入输出系统——外部设备.png">
+
+<p>外部设备分为输入设备、输出设备和外存设备，其中最为熟悉的应该是输入设备，如下图：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/66a77bd1d9c307b7e91ed768.png" alt="计算机组成原理（七）——输入输出系统——输入设备.png">
+
+<p>键盘是最常用的输入设备，通过它可发出命令或输入数据。每个键相当于一个开关，当按下键时，电信号连通；当松开键时，弹簧把键弹起，电信号断开。</p>
+<p>键盘输入信息可分为3个步骤：①查出按下的是哪个键；②将该键翻译成能被主机接收的编码，如ASCIl码；③将编码传送给主机，这一部分的传送需要使用到上一节提到过的IO接口。</p>
+<p>接下来看鼠标，鼠标是常用的定位输入设备，它把用户的操作与计算机屏幕上的位置信息相联系。常用的鼠标有机械式和光电式两种。</p>
+<p>鼠标的工作原理：当鼠标在平面上移动时，其底部传感器把运动的方向和距离检测出来，从而控制光标做相应运动。</p>
+<p>接下来再看输出设备：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/66a77c21d9c307b7e91f143d.png" alt="计算机组成原理（七）——输入输出系统——显示器1.png">
+
+<p>我们每天都在使用的输出设备就是显示器，根据显示器使用的显示器件的显示原理的不一样，可以把显示器分为阴极射线管显示器，液晶显示器，还有LED显示器。</p>
+<p>如果根据显示器要显示的信息内容不同，把显示器分为字符型显示器、图形显示器和图像显示器。</p>
+<p>接下来重点关注显示器的某一些参数以及性能指标， 大部分的传参数及性能指标上图已经给出，这里重点看一下显示存储器。</p>
+<p>显示存储器就是显存，英文缩写是VRAM，显存当中存放的是接下来要在显示器上面播放的这一帧的图像的信息，是用来刷新显示器图像的，所以也称刷新存储器。为了不断提高刷新图像的信号，必须把一帧图像信息存储在刷新存储器中。其存储容量由图像分辨率和灰度级决定，分辨率越高，灰度级越多，刷新存储器容量越大。</p>
+<p>既然显存里要存放的是一帧图像的信息，那么就可以算出显存至少应该有多大，即至少应该能够存放一帧图像的信息。所以可以得到理论上显存可以达到的最小容量：VRAM容量&#x3D;分辨率×灰度级位数。如果比这个容量还小，那么显示器就没法工作。</p>
+<p>上面算出的是一帧图像的大小，但是显示器是有刷新频率在的，比如60Hz刷新频率的显示器意味着他一秒钟会切换60帧的图像信息，这也意味着在1秒钟内，需要往显存里写入60帧的数据，因此对VRAM的写入速度就会有最低要求，这个最低要求就是VRAM带宽&#x3D;分辨率×灰度级位数×帧频。</p>
+<p>下图是某台电脑显示器参数：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/66a77c72d9c307b7e91f4d57.png" alt="计算机组成原理（七）——输入输出系统——显示器2.png">
+
+<p>从上图可以看到这个显示器的相关参数，VRAM是1536MB；显示器类型是LCD；屏幕分辨率是1440×900；帧缓冲深度是24位彩色，也就是说每一个像素点的信息需要用24个比特来表示。</p>
+<p>所以对上图所示例子的电脑的显示器来说，一帧的大小就是分辨率乘每个像素点的大小，即1440*900*3 B≈3.7MB (一帧的大小即为显存的理论最小值)。如果显示器刷新率&#x3D;60Hz，则显存带宽至少要3.7*60 &#x3D; 222MB&#x2F;S。</p>
+<p>现在产生一个问题，理论上显存最小只需要3.7MB就可以，但是上图的VRAM有1536MB这么大，这是为什么？这是因为，现代计算机中，显存除了作为当前显示帧的缓存，还会用于保存即将渲染的图像数据。</p>
+<p>另一方面，上图电脑是集成显卡，它的显存处写了动态最大值，对于没有独立显卡的计算机来说，通常显存并不是一块单独的专门的存储芯片，而是会从内存里划出一小片控制作为显存。而如果是独立显卡的电脑，那么一般来说，独立显卡的内部也会有一个存储芯片，专门作为显存来使用。</p>
+<p>接下来简单认识一下不同类型的显示器：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/66a77cc0d9c307b7e91f8418.png" alt="计算机组成原理（七）——输入输出系统——显示器3.png">
+
+<p>首先看阴极射线管显示器，如上图，以前的老式电视机采用的就是阴极射线管显示器，这个电视机这么厚重的原因就是，它里面会有一个阴极射线管，如上图右，在电视剧尾部处会有一个电子发射器，电子发射时，两侧会有一系列的电路来控制电子的偏移，当电子打到荧光屏上，就会在显示屏上显示出对应的一些颜色图像。</p>
+<p>下面看液晶显示和LED显示器：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/66a77d13d9c307b7e91fbc89.png" alt="计算机组成原理（七）——输入输出系统——显示器4.png">
+
+<p>LCD和LED显示器表面上看非常类似，但是他们的发光原理不一样，液晶显示器利用液晶的电光效应，由图像信号电压直接控制薄膜晶。LED显示器通过控制半导体发光二极管进行显示，用来显示文字、图形、图像等各种信息。</p>
+<p>LCD和LED这两种发光方式有各自的优缺点，与LCD相比，LED显示器在亮度、功耗、可视角度和刷新速率等方面都更具优势。</p>
+<p>这部分做个了解即可，接下来重点关注一下，阴极射线管显示器在显示不同的信息的时候，显示的原理：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/66a77d80d9c307b7e92006ad.png" alt="计算机组成原理（七）——输入输出系统——阴极射线管显示器.png">
+
+<p>首先，当显示器只用于显示字符信息的时候，这个显示器就是一种字符显示器，显示字符的方法以点阵为基础。点阵是指由m×n个点组成的阵列。点阵的多少取决于显示字符的质量和字符窗口的大小。字符窗口是指每个字符在屏幕上所占的点数，它包括字符显示点阵和字符间隔。</p>
+<p>这里补充一个字形码的概念：如上图右下，中文汉字“你”可以用如图的点阵信息来表示，每一个像素点的亮或者灭可以用二进制的0和1来表示，这样一堆的0和1就描述了中文字符“你”该如何显示，把描述中文字符显示形状的二进制码称为字形码，也可以叫字母码。</p>
+<p>接下来看一下阴极射线管显示器显示字符的原理：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/66a9fcb2d9c307b7e914f5da.png" alt="计算机组成原理（七）——输入输出系统——阴极射线管显示器0.png">
+
+<p>如上图下，通过接口电路的处理，可以把键盘输入的信息或者主机想要显示的一些字符信息，先把这些字符的ASCLL码写入到显存里面。接下来在阴极射线管控制器的控制下，显存里的这些字符会一个一个的用电信号的方式发送给字符发生器，在字符发生器内部，除了控制电路之外，也会有一个ROM用来存放每一个ASCLL码所对应的字形码。接下来根据字符的ASCLL码和CRT的控制信息选中某一个字符的字形码，所存的ROM存储单元。接下来把字符信息送到输出缓冲寄存器里，然后再通过另一个电路的控制把这个字形的信息通过电子往外射的方式，把其给射出去，然后在屏幕上打出字符的样子。</p>
+<p>接下来再看图形显示器：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/66a77e1fd9c307b7e9207389.png" alt="计算机组成原理（七）——输入输出系统——阴极射线管显示器2.png">
+
+<p>图形显示器了解一下即可，这里要注意一点，图形显示器和图像显示器是不同的概念，图形显示器一般来说就是用于显示一系列的矢量图形。图像显示器就是电脑手机的显示器，可以显示丰富多彩的图像信息。</p>
+<p>另外，对于图形显示器来说，按扫描方式不同可分为光栅扫描显示器和随机扫描显示器。</p>
+<p>接下来看另一个大家比较熟悉的输出设备——打印机：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/66a77e65d9c307b7e920a25a.png" alt="计算机组成原理（七）——输入输出系统——打印机1.png">
+
+<p>打印机按印字原理不同，可以分为击打式打印机和非击打式打印机。值得注意的是，击打式打印机常用于机打发票或银行回执单等，因为击打式打印机的防伪性很好。所以即使击打式打印机的噪声大，速度慢，但其依然没有被淘汰。</p>
+<p>打印机按工作方式不同可分为串行打印机和行式打印机。</p>
+<p>接下来看打印机按工作方式分类：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/66a77e8ed9c307b7e920be89.png" alt="计算机组成原理（七）——输入输出系统——打印机2.png">
+
+<p>上图已经详细给出按工作方式分类情况，这里不再过的阐述。</p>
+<p>下面对本节内容进行一个小结：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/66a77ec7d9c307b7e920e473.png" alt="计算机组成原理（七）——输入输出系统——外部设备小结.png">
+
+<h2 id="3-IO接口"><a href="#3-IO接口" class="headerlink" title="3. IO接口"></a>3. IO接口</h2><p>通过之前的了解，已经知道了IO接口有什么作用，IO接口在系统当中处于什么位置，本部分会把之前学习的知识进一步细化，首先会分析IO接口的作用，然后会补充IO接口的结构以及详细的工作原理，再然后会介绍IO端口相关概念，最后会简要的了解IO接口的分类。</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/66a78063d9c307b7e921eea8.png" alt="计算机组成原理（七）——输入输出系统——主机与IO设备的交互.png">
+
+
+
+<p>在前面说过，I&#x2F;o接口，又称I&#x2F;O控制器(I&#x2F;O Controller)、设备控制器，负责协调主机与外部设备之间的数据传输。</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/66a7808ed9c307b7e92211d9.png" alt="计算机组成原理（七）——输入输出系统——IO接口的作用.png">
+
+<p>CPU和外设之间的速度差距是很大的，所以在IO接口里需要有一个数据寄存器来充当一个缓冲的作用。这是IO接口的第一个功能。</p>
+<p>另外，IO接口还需要给CPU反馈设备的状态，所以IO接口需要监测连接到它上面的各种外设，一旦外设状态出现变化，就需要修改状态寄存器相关的内容。接下来CPU就可以通过查状态寄存器来获取各种外设的工作情况。这是IO接口的第二个功能，就是要对各种外设的错误信息和工作状态信息进行一个监测。</p>
+<p>接下来，IO接口收到CPU发来的各种命令以后，需要给相应的IO设备发出对应的控制信号，另外为了让各种外设能够和主机之间相互协调配合着工作，所以IO接口也需要通过控制总线来接收CPU发来的时钟信号，根据时钟信号决定每一步应该做什么。因此IO接口的第三个功能就是控制和定时。</p>
+<p>很多设备输入和输出数据时，都是串行的输出的，但是CPU通过数据总线取数据时，很多系统是采用并行的方式来进行数据的传输，因此IO接口就要实现数据格式的转化。这是IO接口的第四个功能。</p>
+<p>上面所说的所有功能，最终都是为了实现主机和设备之间的通信，主机通过IO接口和IO设备通信，这就是IO接口在系统当中的作用。</p>
+<p>接下来把IO接口的内部进一步细化：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/66a780dad9c307b7e9224a1b.png" alt="计算机组成原理（七）——输入输出系统——IO接口.png">
+
+<p>如上图，是IO接口内部进一步细化的示意图，可以看到，之前画的数据缓冲寄存器、状态寄存器、控制寄存器都存在里面。</p>
+<p>首先看一下上图IO接口左面，主机侧的部位，这里就是IO接口用系统总线和CPU、主存进行连接的地方。这里会有一个小问题，有的教材会说主机侧数据的传输方式只能是并行传输，这句话既正确也不正确，这是因为在2000年之前，很多系统总线都是采用并行传输的方式来设计，所以在很多编写比较早的教材里会说主机侧只能采用并行传输。但是在2000年之后，总线技术很多都从并行向串行转换，所以现在的系统当中，主机侧的数据传输也有可能是串行传输的。</p>
+<p>接下来看另一侧，设备侧。这一侧就是通过一些插座和外部的设备进行连接，和外部设备的数据传输方式，既有可能是串行，也有可能是并行。</p>
+<p>另外，从上图可以看到，IO接口的右边写了很多的外设界面控制逻辑，也就是说这样的一个IO接口，可以同时连接多个外部设备。</p>
+<p>下面看一个实际的USB控制器的芯片图，它的中间芯片就是IO接口芯片：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/66a78115d9c307b7e92276f4.png" alt="计算机组成原理（七）——输入输出系统——IO接口1.png">
+
+<p>接下来看一下IO接口的工作原理：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/66a7814cd9c307b7e922a68a.png" alt="计算机组成原理（七）——输入输出系统——IO接口工作原理.png">
+
+<p>首先，要明确，CPU是连接在左侧，外部设备是连接在右侧。</p>
+<p>假设CPU要操控打印机进行打印任务，那首先，CPU需要把打印机所对应的命令（一串二进制码）给输入到控制寄存器里，输入一个字的信息。由于这个字是用来发出具体的命令，因此这个字称为命令字。</p>
+<p>发出了命令以后，在IO控制逻辑的指挥下，就会根据CPU发过来的命令字去给对应的设备发出一系列的控制信号，用这样的方式来启动打印机。</p>
+<p>接下来CPU需要从状态寄存器里读取状态字，用这种方式来确定设备此时是否已经就绪。</p>
+<p>打印机就绪以后，CPU需要通过数据总线往数据缓冲寄存器里写入想要打印的数据，然后再在控制逻辑电路操控之下，把这些数据逐个输入到打印机当中。打印机完成工作以后，就可以给IO接口进行一个状态的反馈，当IO接口检测到设备的状态已完成之后，就会修改状态寄存器里面相应的比特位，这样的话，CPU就可以通过状态寄存器来得知这个IO操作的完成。</p>
+<p>之前说过CPU可以用不断轮询检查的方法来检查状态寄存器，也就是轮询检查IO状态的完成。还有一种比较优秀的方法，也可以通过控制线给CPU发送一个中断请求信号，当CPU检测到中断信号的时候，再来对中断进行处理。</p>
+<p>接下来解释一个问题，就是上图中为什么把状态寄存器和控制寄存器写在一起。通过前面的描述可以看到，当CPU要控制一个设备进行输入或者输出操作的时候，一定是CPU先向设备发送一个命令，因此可以先把命令的信息放到控制寄存器里，当IO控制逻辑取出这一条命令以后，控制寄存器就空闲了，接下来没有必要让命令字一直存放在控制寄存器里。另一个方面，IO控制逻辑启动了设备的工作之后，设备需要随时给CPU返回一些工作的状态，因此同样是刚才的寄存器，就可以把其重复利用，可以把设备的状态信息，工作的完成情况这些存放在同一个寄存器里。<strong>所以，由于控制寄存器、状态寄存器在使用时间上是错开的，因此有的I&#x2F;O接口中可将二者合二为一。</strong></p>
+<p><strong>在IO接口内部，可由CPU访问的寄存器，通常把它们称为IO端口。</strong>比如数据寄存器就会称为数据端口，状态寄存器就称为状态端口等。由于IO接口内部会有多个寄存器，因此CPU在对这些端口的数据进行读和写的时候，就需要指明它要读写的是哪一个端口，所以这就是地址线的作用。CPU会通过地址线，来指明要往哪个寄存器里读数据或者写数据。</p>
+<p>另外，IO总线包含地址线、数据线和控制线，地址线是用来指明CPU要读写的是哪一个端口。接下来还需要通过控制总线来发出读写的命令，用于指明对这个IO端口到底是要读还是写。除此之外，之前还说过，控制总线还会用于给CPU返回中断请求信号。而对于数据线来说，CPU要输出的数据或从外设输入的主机的数据，都会通过数据线进行传送。除了传递输入输出的数据外，数据总线也会用于传输状态字和命令字(控制字)相关的信息。</p>
+<p>这里要补充一点，数据线还会用于传输中断类型号，比如设备完成工作会发送一个中断请求，设备故障也会发送一个中断请求，但这两种中断请求的中断信号类型肯定是不一样的，所以为了让CPU知道当前的中断请求到底怎么处理，所以也需要通过数据总线再结合状态寄存器里的内容，给CPU反馈一个具体的中断类型号，让CPU知道接下来应该怎么处理。</p>
+<p>接下来再说一个容易产生疑惑的地方，IO接口可以接多个设备，那么CPU要操作的是哪一个设备呢，对于设备的选择信息是怎么传递的呢。可以有两种解决方案。</p>
+<p>第一种方案，在有的系统中，地址线除了指明CPU要读写的寄存器之外，有可能被用于指明具体的设备编号，但是设备编号和寄存器的编号需要分开进行两次传输。还有一些系统会让连接的每一个外设都有一个与之对应的一组数据寄存器、状态寄存器和控制寄存器。所以如果有两组外设，就需要设置两组IO端口，两组IO端口就会有四个相互独立的寄存器，CPU对不同的寄存器进行读和写就相当于对不同的设备进行操作。</p>
+<p>接下来对接口和端口进行一个分析：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/66a78188d9c307b7e922d307.png" alt="计算机组成原理（七）——输入输出系统——接口与端口.png">
+
+<p>IO端口是IO接口内部的寄存器，由于接口内部会有多个端口，那么为了标明CPU要访问的是哪一个寄存器，因此就需要给这些端口进行一个编址。</p>
+<p>CPU对于不同端口的操作是不一样的，对于数据端口既有可能读也有可能写，对于控制端口只有可能写，而对于状态端口只有可能读。</p>
+<p>接下来看一下IO端口的编址：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/66a781d2d9c307b7e9230d6a.png" alt="计算机组成原理（七）——输入输出系统——统一编址和独立编址.png">
+
+<p>IO端口的编址有两种方式，一种是统一编址，另一种是独立编址。</p>
+<p>统一编址就是IO端口的地址和内存的地址是一整套的东西，如上图左，比如说内存占据0~N-1这些地址，然后从N这个地址往后，就是被IO端口给占用了，因此地址译码器可以根据地址的信号来确定当前要访问的到底是内存的某一个单元，还是要访问IO控制器里面的某一个IO端口。对于这种方式，任何可以访存的指令都可以用于访问IO端口，比如LOAD指令。很多RISC指令机器中，都会采用这种统一编址的方式。</p>
+<p>独立编址就是IO端口的地址和内存的地址是相互独立的，如上图右，独立编址由于地址空间会出现重复的，所以为了进行区分，需要设置一些专门的IO指令访存IO端口。</p>
+<p>接下来对这两种方式的优缺点进行一个对比：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/66a783bbd9c307b7e9247f47.png" alt="计算机组成原理（七）——输入输出系统——IO端口及其编址.png">
+
+<p>上图对于两者的对比很全面，这里就不再阐述，如有不明白之处，可以跳转链接（20分07秒~25分20秒）：<a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1ps4y1d73V?p=82&vd_source=7fb4b255ed876969a742738d7b84f461">7.2_IO接口</a>。</p>
+<p>接下来看IO接口的类型：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/66a783e3d9c307b7e9249ad8.png" alt="计算机组成原理（七）——输入输出系统——IO接口的类型.png">
+
+<p>这里很简单，但需要再次提醒一点，很多教材都说数据在主机一侧总是并行传送的这句话是有点过时的，在现在并不完全正确。如果有所遗忘，建议回顾一下本节IO接口内部结构细化的地方。</p>
+<p>下面对本节内容进行一个小结：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/66a7840dd9c307b7e924b854.png" alt="计算机组成原理（七）——输入输出系统——IO接口小结.png">
+
+<h2 id="4-程序查询方式"><a href="#4-程序查询方式" class="headerlink" title="4. 程序查询方式"></a>4. 程序查询方式</h2><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/66a78474d9c307b7e92524d8.png" alt="计算机组成原理（七）——输入输出系统——本章总览.png">
+
+<p>从本节开始，进入IO控制方式的研究，在本节先重点研究程序查询方式。</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/66a784a5d9c307b7e9254c2e.png" alt="计算机组成原理（七）——输入输出系统——IO方式的简介.png">
+
+<p>如上图，是在之前学习过程中所接触到的一个示意图。对于程序查询方式来说，CPU启动一个IO操作之后，比如启动读操作，那么当IO设备在准备数据的时候，CPU会不断的轮询检查IO接口当中的状态是否已经完成，当发现IO设备的数据输入已经完成之后，CPU才会去IO接口当中取走数据。在IO设备准备数据的过程当中，CPU是不可以干其他的事情的，它需要一直不断的检查这个IO接口的状态。</p>
+<p>接下来把刚才说的两个过程给细化一下，CPU查询IO设备的状态，当IO设备的状态变成已完成的状态之后，CPU就可以进行数据的传送，也就是从IO接口的数据缓冲寄存器里取走数据，取到CPU内部的某一个寄存器当中，用这样的方式传输一个字的内容，然后CPU才可以继续往后执行。</p>
+<p>为了让模糊的描述变得更具体，接下来结合x86架构当中的两条IO指令来解释一下CPU是如何通过这样的IO指令，完成字符的打印的。</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/66a784f2d9c307b7e92585ad.png" alt="计算机组成原理（七）——输入输出系统——程序查询方式.png">
+
+<p>假设CPU此时要打印3个字符，那么为了控制IO设备，会用到这样的两条x86指令集里的IO指令，如上图左上，一条叫IN，就是把lO端口Rs的数据输入到CPU寄存器Rd。一条叫OUT，把CPU寄存器Rs的数据输出到IO端口Rd。</p>
+<p>现在假设数据缓冲寄存器地址是R<sub>n</sub>，状态&#x2F;控制寄存器的地址是R<sub>n+1</sub>，然后CPU内部会有两个通用寄存器分别是R0和R1。现在来看一下如何打印输出3个字符。</p>
+<p>首先肯定要确定，要打印输出的3个字符存在什么地方，比如说存在主存里，那么可以先把这3个字符弄到CPU的寄存器里，比如说寄存器0放a这个字符，寄存器1放b这个字符，然后第三个寄存器放c这个字符。总之，要打印输出的数据，有可能本身就存在寄存器当中，也有可能是存放在主存里的，如果是存放在主存里，只需要进行一次读主存的操作，就可以先从主存里把这一次要打印输出的字符读到CPU的某一个寄存器当中。</p>
+<p>假设此时先要打印的是字符a，那首先CPU要向打印机发出打印的一个命令字，即用OUT输出这个IO指令。比如说经过打印机的驱动程序的处理，已经把启动打印的命令字放到寄存器R1里，那么接下来应该把R1里的命令字输出到R<sub>n+1</sub>这个端口处，所以只需要用一个输出的指令就可以完成操作。因为上一小节说过，所有的IO端口都有一个地址，CPU通过地址线指明此时要输出的IO端口地址是R<sub>n+1</sub>，然后再通过控制线，指明此次是要对这个IO端口进行写操作，然后要写的命令字数据只需要通过数据线传过来就可以。所以通过OUT这个指令，就可以对打印机发出打印的命令。</p>
+<p>但是现在，打印机的打印命令只是被放到了IO端口里面，接下IO控制逻辑电路需要根据CPU发过来的命令信号，通过控制线给打印机发送相应的控制信号，打印机收到这个命令之后，就可以开始启动。</p>
+<p>当打印机启动的工作完成之后，会通过状态线，给IO接口进行一个反馈，IO接口发现打印机启动操作已经完成，那么同样是IO逻辑电路，会把打印机的就绪的状态信息存到R<sub>n+1</sub>这个状态寄存器里，所以之前这个寄存器本来是用来存放命令字的，但是由于命令字已经发出了，所以这个寄存器里面的命令字就不需要再保存了。</p>
+<p>现在这个打印机的就绪状态，已经被放入到状态寄存器里了，对于CPU来说，如果它采用的是程序查询方式，那就意味着当这个CPU通过刚才的OUT指令发出打印的请求之后，CPU会一直轮询的，通过数据线来检查状态寄存器是否已经变成了就绪状态，那这个轮询检查的操作是如何实现的呢，就是用IN指令来进行的。</p>
+<p>CPU可以不断的输入IN指令，比如说通过IN指令把R<sub>n+1</sub>这个寄存器的值给输入到CPU的R0，然后CPU再来测试取得的状态信息是否已经就绪。如果说打印机启动速度比较慢，那么CPU可能会取好多次状态，每一次都发现还没有就绪，这也是程序轮询方式的弊端。</p>
+<p>接下来再次看到打印机的就绪状态，已经被放入到状态寄存器里了这个地方，同样的CPU这次的轮询检查，通过IN指令就可以发现打印机此时是处于就绪状态，已经准备好可以输出一个字符，因此CPU接下来就可以给打印机输出第一个字符的信息。</p>
+<p>刚刚假设打印输出a、b、c这样的三个字符，那么首先CPU会通过地址线指明此次要操作的这个端口是R<sub>n</sub>这个端口，然后控制线指明这次是要往这个IO端口里面写入数据，同时通过数据线把a这个字符的信息打到数据线上，那么这三个信号就会导致a这个字符的数据被写入到数据缓冲寄存器当中。现在第一个字符已经到位，接下来会由IO控制逻辑把这个字符的信息通过数据线输出给打印机，同时也会发出相应的控制信号。当打印机在打印字符的时候，会处于忙碌状态，直到字符的打印工作完成之后，它又会通过状态线给IO接口反馈打印已完成的信号。IO接口会把状态寄存器再次改为就绪状态。CPU检测到就绪状态以后，就会往数据缓冲寄存器里冲入第二个字符的信息。接下来同理，最后abc这三个字符都已经输出完成之后，打印机最后一次给IO接口进行反馈，同样的，在IO控制逻辑电路的帮助下，会把状态再次改为就绪态。而对于CPU来说，当它第三次检测到这个打印机的打印动作完成以后，就意味着它要打印输出的三个字符就已经完成。当打印工作全部完成以后，CPU就可以给打印机发出一个停机的指令。接下来在IO控制逻辑的帮助下，停机的信号同样会被传给打印机，打印机的工作就此停止。这就是用程序查询方式打印三个字符的例子。</p>
+<p>最后说一个注意点，上图的IO接口的内部构造并不是通用的，它只是在逻辑上描述了至少应该包含这样的一些部分，但实际当中的IO接口有可能还会包含更多的，更复杂的一些寄存器。</p>
+<p>下面用流程图的方式把程序查询方式的过程给总结一遍：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/66a78520d9c307b7e925a9ae.png" alt="计算机组成原理（七）——输入输出系统——程序查询方式流程图.png">
+
+<p>从流程图中可以看到，程序查询方式有踏步的现象，并且CPU与I&#x2F;O是串行工作的，IO设备在干工作的时候，CPU一直在检查。IO设备工作完成之后，再次就绪以后，CPU才可以传下次数据，资源利用率很低。</p>
+<p>程序查询方式是早期的计算机里采用的一种IO控制方式，它的IO接口设计起来比较简单。但缺点也很明显，CPU需要花费大量时间来等待。</p>
+<p>下面以一道例题的形式，来感受一下这部分在大题里可能出现的考察形式：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/66a7855ed9c307b7e925d6f3.png" alt="计算机组成原理（七）——输入输出系统——程序查询方式例题.png">
+
+<p>题目讲解跳转视频(15分钟~23分钟)：<a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1ps4y1d73V?p=83&vd_source=7fb4b255ed876969a742738d7b84f461">7.3_1_程序查询方式</a>。</p>
+<p>下面对本节内容进行一个小结：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/66a78581d9c307b7e925f32f.png" alt="计算机组成原理（七）——输入输出系统——程序查询方式小结.png">
+
+<h2 id="5-中断的作用和原理"><a href="#5-中断的作用和原理" class="headerlink" title="5. 中断的作用和原理"></a>5. 中断的作用和原理</h2><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/66a785bad9c307b7e9262109.png" alt="计算机组成原理（七）——输入输出系统——中断的作用和原理知识总览.png">
+
+<p> 上图为本节知识总览，下面首先来了解一下什么是中断：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/66a785e8d9c307b7e926451a.png" alt="计算机组成原理（七）——输入输出系统——中断的基本概念.png">
+
+<p>程序中断是指在计算机执行现行程序的过程中，出现某些急需处理的异常情况或特殊请求，CPU暂时中止现行程序，而转去对这些异常情况或特殊请求进行处理，在处理完毕后CPU又自动返回到现行程序的断点处，继续执行原程序。</p>
+<p>看上图左边的一列，可以理解为主存的地址，在主存里会保存要执行的一系列指令。经过之前的学习可以知道，CPU执行指令序列的方式，就是会用一个PC程序计数器，指向当前要执行的那条指令的一个存放地址，然后取出这条指令之后，会让PC的值自动加1，指向下一条应该执行的指令。因此正常情况下，CPU对指令的执行一定是顺序执行的，除非遇到跳转指令或者函数调用之类的情况，否则指令的执行流一定是一条一条往下执行的。</p>
+<p>但是有一个问题，那就是即使遇到跳转指令或函数调用一类的指令，接下来CPU执行的指令序列依然属于同一个进程，这也就意味着，如果一个进程的指令序列开始上CPU运行了，那么这个进程就会一直霸占着CPU。但是结合平时的使用经验可以发现，电脑里会同时运行很多的进程，并且除了当前正在运行的程序之外，CPU还会处理一些外部设备发来的信号，因此CPU如果只能按照顺序的方式来执行某一个特定程序的指令序列，那么CPU就永远无法响应用户给计算机发出的一系列请求。所以为了解决这个问题，就引入了中断系统。正常情况下，CPU依然是顺序的执行这些指令序列，但是如果计算机实现了中断系统，那么就意味着CPU每执行完一条指令之后，在这个指令周期的末尾都会例行的检查此时是否有某一种中断请求信号需要处理。如果此时有中断请求信号需要处理，那么CPU会暂时改变自己的指令执行流，会转而执行另一段中断服务程序，当执行完中断服务程序以后，才会回到刚才的程序继续往后执行。</p>
+<p>中断请求的类型是多种多样的，比如说键盘敲击产生的中断请求和打印机输出完成这个中断请求，这两个中断请求的处理一定是不一样的，所以对于不同的中断请求，需要用不同的中断服务程序进行处理，因此CPU如何响应一个中断信号呢？</p>
+<p>首先，像键盘、鼠标、打印机等等这一类的IO设备或者也有可能是某些时钟部件，会向CPU发送一个中断请求信号，把这种可以产生中断请求信号的部件称为中断源。</p>
+<p>CPU在每个指令周期的末尾都会例行的检查是否有中断请求信号需要处理，如果检测到中断请求信号，那么就需要对这个信号进行一个响应。首先，CPU会判断自己当前的状态是否可以响应中断，有的时候CPU会不想理这些中断请求信号，比如说执行了关中断指令之后，CPU就会暂时不理睬这些中断信号，所以首先需要判断CPU当前的状态是否处于关中断的状态，如果处于关中断状态，那么就暂时不会响应任何中断信号；如果此时需要响应中断信号，那么就需要进行中断判优，中断判优做的事情就是如果同时有好几个中断信号都需要响应，那么会判断各个中断源的优先级是怎么样的，然后CPU会优先响应优先级更高的中断源发来的中断信号，经过中断判优之后，就可以确定接下来要响应的是哪一个中断请求信号。</p>
+<p>刚刚说过，不同的中断请求信号对应的中断服务程序是不一样的，因此接下来要对这个中段进行处理的时候，首先需要通过中断隐指令的帮助，把CPU的指令执行流转移到正确的中断服务程序，然后接下来CPU就可以执行这一个中断服务程序。</p>
+<p>现在思考一个问题，刚刚提到关中断的指令，如果CPU执行了关中断的指令，就意味着接下来CPU不会响应任何一个中断请求信号，那么CPU是如何判断自己当前是否处于关中断的状态呢？</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/66a78637d9c307b7e9268431.png" alt="计算机组成原理（七）——输入输出系统——中断请求的分类.png">
+
+<p>对于CPU如何判断自己当前是否处于关中断的状态这个问题，其方法很简单，关中断这个状态信息会被记录在PSW这个程序状态字寄存器里。上图下给出了8086这个芯片的PSW位的每一个位的名字，其中IF代表的是关中断的标志位。当IF&#x3D;1时，表示开中断状态；当IF&#x3D;0时，表示关中断状态。</p>
+<p>当CPU执行关中断指令之后，任何的中断请求信号暂时都不会被响应，但是也有一些很特别的，优先级很高的这种中断信号必须被响应，这种中断信号就是非屏蔽中断，比如关机掉电，即使CPU处于关中断状态，但关机的中断信号也会被响应。与非屏蔽中断对应的就是可屏蔽中断，也就是在关中断状态下不会被响应的中断信号，而外部设备发来的中断请求信号基本上都是可屏蔽中断，由于本章探讨的就是IO外部设备，所以接下来如果没有特别说明，当提到中断的时候指的就是可屏蔽中断。</p>
+<p>接下来思考一个问题，当CPU处于开中断状态，当它检测到一个中断请求信号的时候，应该如何判断这个中断请求信号到底是哪一个IO设备发过来的呢？为了解决这个问题，可以设置一个中断请求的标记寄存器，如下图：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/66a7867cd9c307b7e926b2eb.png" alt="计算机组成原理（七）——输入输出系统——中断请求的标记.png">
+
+<p>可以看到，中断请求的标记寄存器是由一个一个触发器来组成的，当某一个IO设备所对应的触发器的这一个比特为1时，就意味着此时有来自于这个IO设备的中断请求需要被处理，所以当CPU检测到中断请求信号的时候，只需要看一下中断请求的标记寄存器里哪些比特是1，就可以知道接下来要处理的中断是哪个。</p>
+<p>之前说过，对于来自CPU外部的中断，也就是来自于各种IO设备的这些中断，CPU会统一的在每一条指令执行阶段结束之前，去检查此时有没有中断请求信号以及判断这个中断请求信号是哪些部件发过来的，只有CPU检测到中断请求信号并未此时处于开中断状态，才会去响应这个中断信号。之前在第五章说过的指令执行的四个阶段中(取指、间址、执行、中断)，中断阶段就是用来检查中断请求标志寄存器，判断中断信号的。</p>
+<p>现在问题又出现了，有的时候CPU可能会同时收到多个部件发过来的中断请求信号，那么到底应该先响应哪一个部件的中断请求呢？这就是中断判优要解决的问题。</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/66a786b3d9c307b7e926d867.png" alt="计算机组成原理（七）——输入输出系统——中断判优的实现.png">
+
+<p>中断判优可以通过硬件实现也可以通过软件实现。</p>
+<p>首先看一下如何用硬件实现中断的判优，刚才说过，中断请求标志寄存器里记录了哪些中断请求信号需要被处理，那么可以用如上图左下的电路来实现硬件排队器。最左边的中断源所对应的信号是优先级最高的一个信号，然后越往右优先级越低，这也就意味着当多个中断请求信号同时到来的时候，CPU会优先响应最左边的最高优先级的中断源发来的中断请求信号。</p>
+<p>这里说下在硬件实现中断的判优中，CPU会优先响应最左边的最高优先级的中断源发来的中断请求信号原理，看上图左下，假设现在所有中断源都同时发来中断请求信号，对于最左边这个电路，输入一个1，经过非门处理变为0，然后这个0再经过一次非门处理变为1输出，所以第一个中断源所对应的输出信号就是1。另一方面，第一个经过非门处理变为0的信号还会作为第二个与门的一个输入，然后与优先级稍低的第二个设备发来的请求信号相与，得到结果1，这个1再作为最后非门的输入，最后的输出就是0。因此如果优先级更高的中断源也发来一个中断请求信号，那么只有第一个中断源所对应的输出信号会是1，那么对于优先级更低的三和四同理，会受高优先级中断源信号影响，输出0。</p>
+<p>接下来说一下软件判优的方法，软件的方法就是按照优先级递减的顺序，检查中断请求标志寄存器里的二进制比特位，直到发现第一个二进制的1，就可以决定接下来优先处理这个中断信号，这就是程序查询的方式。</p>
+<p>显然用软件的方式进行判断的速度要比用硬件慢的多，所以现在的计算机当中通常都是用硬件排队器来实现中断的判优的。</p>
+<p>接下来看一下如何设计多个中断源的优先级排序：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/66a786f2d9c307b7e927025d.png" alt="计算机组成原理（七）——输入输出系统——中断判优的优先级设置.png">
+
+<p>上图是中断优先级的设计原则，这部分记忆就好，没有需要阐释的地方。</p>
+<p>下面来看一下中断处理过程：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/66a78728d9c307b7e9272868.png" alt="计算机组成原理（七）——输入输出系统——中断处理过程.png">
+
+<p>根据前面的研究，已经解决了多个中断信号到来时，先处理哪一个中断信号的问题，接下来根据选中的中断请求信号，需要找到与这个中断请求信号相对应的中断服务程序，也就是要找到中断服务程序的入口地址，所以接下来看一下这部分如何实现。</p>
+<p>首先，CPU执行指令的时候，会让PC的值不断的加一，所以当CPU执行了K这条指令之后，PC继续加1指向K+1的位置。现在K这条指令执行结束之后，CPU发现了一个中断请求信号，接下来CPU就需要执行这个中断请求信号对应的中断服务程序，这就意味着，需要把PC的值指向这个中断服务程序的第一条指令。原本下一条应该执行的指令是K+1，但是现在这个中断事件导致程序执行流发生了改变，所以当处理完中断之后，CPU应该回到以前的位置，即让PC的值恢复到K+1处。因此，在执行中断服务程序之前，在PC还未改变的时候，需要把PC的值先给保留下来，只有把PC的值保存下来，那么在中断结束之后，才可以恢复PC以前的值，这个工作可以交给所谓的中断隐指令来执行。</p>
+<p>中断隐指令并不是一条具体的指令，而是CPU检测到中断信号之后，会自动来执行的一系列动作。下面来看一下中断隐指令会做些什么。</p>
+<p>首先第一点，会保存原程序PC的值，就是要把K+1这个值给保存下来，以便处理完中断以后可以恢复到以前的程序继续往后执行。</p>
+<p>第二点，中断隐指令还需要让PC指向中断服务程序的第一条指令，即修改PC的值，这些动作都是CPU在检测到中断信号之后，自动执行的一系列动作。</p>
+<p>接下来把中断隐指令所需要做的事情再给细化一下，就是CPU检测到某一个中断信号之后会做以下一系列的事情：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/66a7875dd9c307b7e92753b6.png" alt="计算机组成原理（七）——输入输出系统——中断隐指令.png">
+
+<p>第一步，首先会关中断，因为接下来保存程序断点是很重要的一件事情，必须保证能一气呵成，所以执行了关中断以后就可以保存断点，也就是把PC的值给保存下来，那这里就产生了第一个问题，PC的值应该保存到什么地方？</p>
+<p>通常来说，PC的值可以放到堆栈里面，就是操作系统会有一个内核堆栈区，把PC的值放到内核堆栈里，这是比较常见的处理方式。而堆栈是主存的某一片区域，所以除了用主存里的堆栈保存以外，也可以用其它的一些特定的存储单元来存储。总之，只要能保证PC的值可以存的进去，还能取得回来就可以。</p>
+<p>当程序运行的断点保存完了以后，就可以把PC的值指向中断服务程序的第一条指令，也就是引出中断服务程序。这里产生了第二个问题，如何确定某一个中断信号所对应的中断服务程序的起始地址呢？</p>
+<p>这个问题可以用两种方式来解决，同样的分为硬件和软件两种思路，接下来重点探讨硬件实现思路，即硬件向量法。</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/66a787a7d9c307b7e9278567.png" alt="计算机组成原理（七）——输入输出系统——硬件向量法.png">
+
+<p>硬件向量法的做法是这样的，首先可以给每个中断请求信号进行一个编号，比如上图的12H、13H、14H等，可以看到在主存里面与这些中断请求号对应的主存单元里，保存了一个JMP无条件转移指令，这个无条件转移指令指明了当前这个中断请求所对应的中断服务程序的入口地址。我们经常把指向中断服务程序起始地址的地址信息称为中断向量。</p>
+<p>来说一下硬件向量法的整体工作过程，之前说过，可以用硬件排队器来实现中断判优，中断判优会导致只有一个中断信号所对应的输出线会输出1，然后其它的输出线都是0。那么可以把之前排队器的输出作为中断向量地址形成部件电路的输入，然后经过中断向量地址形成部件电路的处理以后，会把所对应的某一个信号映射为某一个向量地址。如上图左，比如说排队器输出结果只有第二个是1，那么经过中断向量地址形成部件以后，输出的结果是16进制的13H，这个向量地址指向了当前这个中断请求信号所对应的中断向量的存储地址。接下来再根据这个中断向量就可以找到与这个中断请求信号相对应的中断处理程序。这就是用硬件来确定某一个中断请求信号所对应的中断服务程序的一个方法。这里需要注意区分向量地址和中断向量这两个概念。</p>
+<p>这里补充一点，中断向量地址形成部件输出的向量地址还有一个名字叫做中断类型号。</p>
+<p>现在思考一个问题，既然13H这个中断类型号所对应的服务程序入口地址是300这个地址，那么为什么不让硬件电路直接输出300这个地址信息？事实上，这种方案也可以实现，但是中断服务程序有可能需要被修改，比如打印机所对应的中断服务程序只占了200<del>299这些地址，但如果它变长了直接占了200</del>399，那这样的话显示器所对应的地址只能从400开始往后存放，所以一旦修改了中断服务程序，就意味着要再来修改这个硬件电路，这显然不科学。</p>
+<p>到这里，就已经找到了中断处理程序的入口地址，并且让PC的值指向了它的第一条指令，接下来就应该执行这个中断服务程序，那么这些中断服务程序又需要做什么事情呢？</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/66a787dfd9c307b7e927ab11.png" alt="计算机组成原理（七）——输入输出系统——中断服务程序.png">
+
+<p>首先有一些事情是公共的，必须做的事情。第一步是保护现场，就是要保护之前运行的程序的一些CPU环境，这样才能保证之前运行的程序在中断处理完了以后，能够接着之前得到的中间结果继续往后运算。通常来说，要保存的现场环境就是各种各样的寄存器的值，可以把这些寄存器的值压到系统堆栈里，也可以使用特定的存储单元保存。</p>
+<p>接下来第二步就是中断服务，这部分是中断服务的主体部分，这部分要做的事情千差万别，需要根据具体的中断信号执行对应的中断服务。</p>
+<p>第三步就需要恢复现场，在中断服务结束以后，需要把之前运行的程序的环境给复位，也就是要从之前压入的堆栈栈顶弹出各种寄存器的值。</p>
+<p>第四步是中断返回，通过中断返回指令回到原程序断点处，即从堆栈栈顶弹出PC之前的值K+1，然后赋值给PC。</p>
+<p>最后，用一个流程图对中断处理的过程进行一个小结，如下图右：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/66a788afd9c307b7e9283e66.png" alt="计算机组成原理（七）——输入输出系统——总结中断处理过程.png">
+
+<h2 id="6-多重中断"><a href="#6-多重中断" class="headerlink" title="6. 多重中断"></a>6. 多重中断</h2><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/66a78900d9c307b7e92880ec.png" alt="计算机组成原理（七）——输入输出系统——多重中断.png">
+
+<p>所谓多重中断指的就是在执行某一个中断服务程序时，这个中断服务程序的执行还有可能再被中断，所以又开始了更深层次的套娃。</p>
+<p>为了实现多重中断，可以看一下之前提出的上图右的方案需要进行什么样的改进。之前说中断隐指令处需要先关中断，然后在最后整个中断服务程序结束之后，才开中断，这种方式就意味着中间整个过程是不可以再被中断的。</p>
+<p>因此要想实现多重中断，当中断隐指令处理完一系列动作之后，中断服务程序在保存了之前那个程序的运行现场以及保存了屏蔽字之后，需要执行一个开中断指令，如下图：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/66a7893ed9c307b7e928afab.png" alt="计算机组成原理（七）——输入输出系统——单重中断与多重中断.png">
+
+<p>在保存了之前那个程序的运行现场以及保存了屏蔽字之后插入一个开中断指令，就意味着接下来执行中断服务程序的过程当中，有可能再次被中断，所以就可以实现多重中断。</p>
+<p>现在思考一个问题，为什么要把开中断指令放在保护现场的后面呢？</p>
+<p>中断服务程序在保存以前的主程序的运行现场的时候，这个事情的背后也是在执行一系列的指令，也就是要把主程序所对应的各种寄存器的值压入栈里这样的一些指令。如果把开中断这条指令安排在保护现场的前边，就意味着主程序的现场可能只保留了一半，然后又被新的中断程序给中断掉了。这就有可能导致主程序以前的运行现场丢失，所以只有保护完以前那个主程序的现场以后，才可以打开中断，保护现场这个动作必须是一气呵成的。恢复现场的动作也是一样的，必须保证一气呵成，所以要在恢复现场之前，要先关中断。</p>
+<p>支持多重中断的系统相比于单重中断的系统来说，区别就是增加了额外增加了一组开关中断指令。除了这两条指令外，还可以看到一个东西叫屏蔽字。接下来看一下屏蔽字是什么？</p>
+<p>屏蔽字的全称叫做中断屏蔽字，它用于屏蔽某些中断。一个系统里可能出现各种各样的中断请求信号，比如此时上图的中断服务程序3，它在处理DMA控制器发来的中断请求，按照多重中断的性质，在处理DMA中断请求的时候，中间如果再来一个，比如说来自于键盘的中断请求信号，就得进入更深一级的中断处理，但这显然是不科学的，因为中断请求信号是有优先级的，应该优先搞定高速的设备发来的中断信号，然后再响应低速的设备发来的中断信号。所以当CPU在处理某一个中断信号的时候，就需要一个屏蔽字，来指明接下来哪些中断请求应该被屏蔽，这就是中断屏蔽字的作用。</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/66a7899ed9c307b7e928f663.png" alt="计算机组成原理（七）——输入输出系统——中断屏蔽技术1.png">
+
+<p>如上图左，是上一节说的排队器实现中断信号的判优，就是会优先响应优先级更高的一些中断请求的信号，那在这个排队器的基础上进行一个改造，就可以得到一个具备中断屏蔽功能的硬件电路，如上图右。</p>
+<p>但是注意，它们的作用是有区别的，左边的硬件排队器是收到多个中断请求时，只响应其中的一个，是固定优先级的，即各个中断请求信号之间的优先级顺序是固定不变的。而上图右这种增加了屏蔽功能之后，就可以更灵活，更动态的来调节各种中断之间的一个优先级。每个中断源都会有一个与之相对应的中断屏蔽字，这个中断屏蔽字会由很多个比特来组成。中断屏蔽字指明了当CPU在处理这个中断源发来的中断请求的时候，应该屏蔽掉其它的哪些中断源的中断请求。</p>
+<p>举个例子，假设硬件排队器的最右边是一个键盘的中断请求信号，最左边是优先级最高的DMA控制器的中断请求信号，所以基于上图左的硬件排队器，当二者同时发出中断请求的时候，CPU一定是优先响应DMA控制器。另外，当CPU在处理键盘发来的中断请求的时候，如果紧接着就接收到了DMA发来的中断请求，那么键盘所对应的中断处理程序又会被DMA再次的中断。</p>
+<p>如果想要避免这个问题，只需要给键盘这个中断源设置一个与之对应的中断屏蔽字，如下图右，所有的比特位都设为1，当比特位设为1的时候，就意味着与这个比特位相对应的中断源不可以把当前这个中断处理程序给打断。所以左边的1 2 3三个中断源的优先级都比键盘的中断源优先级更高，但是如果给键盘设置了一个屏蔽字，四个全1的话，那么可以看下，MASK头上有个横，意思就是先取反。那么最后经过取反、与非门处理以后的信号就如下图右所示，可以看到输出0，这就意味着与键盘相对应的中断服务程序，不可以再被中断。</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/66a78a9dd9c307b7e929b3df.png" alt="计算机组成原理（七）——输入输出系统——中断屏蔽技术2.png">
+
+<p>一般来说，如果给某一个比特位设置为1，那就意味着需要屏蔽与这个比特位对应的那个中断源发来的中断请求信号，另外刚才说过，每个中断源对应一个屏蔽字，用这样的方式可以很灵活地实现多重中断。显然一个中断源的优先级要搞得很高很高，就可以给这个中断源设置更多的1。还需要注意的是，每一个屏蔽字当中至少需要有一个1，也就是至少需要屏蔽自身的中断。</p>
+<p>接下来看下这部分在考题里会如何进行考察（习题讲解8分25秒~12分50秒：<a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1ps4y1d73V?p=85&vd_source=7fb4b255ed876969a742738d7b84f461">7.3_3_多重中断</a>）：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/66a78acbd9c307b7e929d57d.png" alt="计算机组成原理（七）——输入输出系统——中断屏蔽技术3.png">
+
+<p>接下来对中断系统这部分的内容进行小结：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/66a78b00d9c307b7e929fc9b.png" alt="计算机组成原理（七）——输入输出系统——中断系统小结.png">
+
+<h2 id="7-程序中断方式"><a href="#7-程序中断方式" class="headerlink" title="7. 程序中断方式"></a>7. 程序中断方式</h2><p>本节研究一下，引入了中断系统之后，如何控制IO设备的读写工作。下面直接根据下图进行解释。</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/66a78b59d9c307b7e92a3f29.png" alt="计算机组成原理（七）——输入输出系统——程序中断方式.png">
+
+<p>首先CPU是正在运行某一个程序，这个程序有可能需要使用到外部设备，比如说要从外部设备输入一个字符的数据。那么首先需要通过IO指令，向IO设备发出启动输入相关的命令，然后接下来外部设备就可以去准备CPU想要的数据和信息。</p>
+<p>在外部设备准备数据的过程当中，CPU可以继续执行之前的那个程序。当IO设备完成了工作之后，它会给CPU发送一个中断请求信号，假设CPU之前运行的那条指令地址是K，在K这条指令运行周期的末尾检测到了中断请求信号，接下来就要对中断请求信号进行处理。当CPU处理完中断请求以后，就会返回到K+1这条指令。</p>
+<p>这里复习一下中断处理的过程，首先需要用中断隐指令完成一系列的操作，即关中断、保存PC值和引出中断服务程序。接下来CPU就可以转向执行中断服务程序。在中断服务程序当中，首先需要保护以前的这个程序的运行现场，保护好现场以后就开始对中断信号进行处理。在这个过程中，CPU取走了外部设备准备好的第一个数据，接下来CPU可以继续给外部设备发送IO指令，让它接着输入第二个数据。接下来CPU就可以恢复之前程序的运行现场。在外部设备准备下一个数据的时候，CPU可以继续的往后执行后续的指令，直到外设准备好下一个数据，再次给CPU发送中断请求信号。然后再重复刚才的过程。</p>
+<p>引入了中断机制以后，CPU就可以和设备并行的工作。</p>
+<p>下面看一下这部分会如何考察，题目讲解跳转4分20秒~11分20秒：<a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1ps4y1d73V?p=86&vd_source=7fb4b255ed876969a742738d7b84f461">7.3_4_程序中断方式</a>。</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/66a78b90d9c307b7e92a7572.png" alt="计算机组成原理（七）——输入输出系统——程序中断方式例题.png">
+
+<p>下面是本节内容的小结：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/66a78bb2d9c307b7e92a95cc.png" alt="计算机组成原理（七）——输入输出系统——程序中断方式小结回顾.png">
+
+<h2 id="8-DMA方式"><a href="#8-DMA方式" class="headerlink" title="8. DMA方式"></a>8. DMA方式</h2><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/66a78bdcd9c307b7e92ab357.png" alt="计算机组成原理（七）——输入输出系统——三种IO控制方式.png">
+
+<p>对于程序中断方式来说，每一次IO设备准备好一个字的数据，CPU就需要运行一次中断服务程序，把这个字的数据转存到主存当中，所以对于那些速度很快的IO设备来说，采用这种中断方式，就会使得CPU执行中断服务程序的时间开销会很大，效率会很低，所以提出了DMA方式。</p>
+<p>采用DMA这种控制方式，需要有一个专门的DMA控制器，DMA控制器也是一种IO控制器(也就是IO接口) ，但是这种IO接口可以控制数据传输的过程。</p>
+<p>下面就来研究一下DMA控制器：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/66a78c07d9c307b7e92ad133.png" alt="计算机组成原理（七）——输入输出系统——DMA控制器1.png">
+
+<p>首先需要明确的是DMA控制器通常是用来控制某一些块设备，就是以块为单位进行读写的设备，比如磁盘就是一种很典型的块设备，所以上图以磁盘为例。</p>
+<p>假设现在CPU想要读入一个磁盘的一整块数据，那么如果采用DMA控制方式，就意味着CPU可以向DMA控制器指明这一次要执行的是输入操作还是输出操作。</p>
+<p>假设这次执行的是输入操作，指明方向是从IO设备输入数据到主存当中，接下来还要指明要传输多少个数据，比如说可以以字或字节为单位。接下来由于数据的输入是要把整块的数据从磁盘给读到主存里，所以CPU需要给DMA控制器指明这个数据输入到主存里面，应该存放到主存的什么地址。除此以外，还需要指明要输入的数据在磁盘里的位置。</p>
+<p>DMA控制器现在已经知道了要输入的数据在哪，输入之后应该存放在什么位置，接下来假设这次要输入的一整块数据只有5个字，那么DMA控制器就需要进行一个计数，就是要计算当前已经传了多少个数字，接下来还需要再传几个字。由于要传输5个字，所以上图里的要传几个字处要填上5，然后再分别指明主存读写地址和外存读写地址。</p>
+<p>接下来磁盘的数据是一个字一个字丢给DMA控制器的，所以DMA控制器里还需要有一个数据缓冲寄存器，用来接收磁盘传过来的一个字的数据，每收到一个字之后，DMA控制器就可以根据它里面保存的主存读写地址，把这一整个字的内容通过系统总线传给主存。第一个字传输完成以后，DMA控制器的计数器就会减一，同时主存和外存的读写地址都会后移一位。接下来的工作过程同理，直到DMA控制器的计数器减到0以后，就意味着整块数据的传输就结束了。</p>
+<p>接下来把DMA控制器一个字一个字传送的过程中，发生的一些事情给细化一下：</p>
+<p>首先DMA控制器需要接收磁盘发来的DMA控制请求，所谓DMA请求就是磁盘给它传了一个字之后，就会给它一个DMA请求。当DMA控制器收到DMA请求以后，由于需要把这一个字的数据通过系统总线写入到主存，所以需要先跟CPU发出总线请求。CPU对DMA控制器的总线使用请求给出一个响应，把总线的使用权分配给DMA控制器之后，DMA控制器就可以接管这个系统总线的控制权，然后就进入DMA周期，所谓DMA周期，在本例里指的就是要把这一个字的内容通过系统总线写到主存里面，这样的一个动作就要一个DMA周期。注意，这部分的操作是在把数据传送给主存之前发生的一些事情，接下来才是正式的进入到DMA操作的周期。</p>
+<p>通过总线传递数据的过程是这样的，首先DMA控制器里面记录了当前要写入主存的地址信息和要读入的一整个字的大小信息，当把字写入主存以后，主存的地址会自动加上一个字的大小。另外除了修改主存读写地址之外，传送完字以后，计数器会减1。接下来DMA控制器会往主存写入一个数据，DMA控制器会通过系统总线给主存发出写的命令，所以DMA控制器需要能够控制外设和主存之间的传送方向。除了读写的命令之外，DMA控制器还会根据它里面记录的地址信息，把地址打到系统总线的地址总线上，再把一整个字的数据打到数据总线上，这样就可以对主存执行写操作，就可以完成数据的传送。这就是数据传送过程当中，DMA控制器会做的事情。</p>
+<p>通过上面的方式，DMA控制器就可以一个字一个字的把一整块的数据陆续地传送完成，等这一整块的数据都传送完成之后，还需要向CPU报告工作的完成，这个报告的方式就是通过一个中断信号来执行的。</p>
+<p>上图为了方便理解，只在DMA控制器里画出了一些比较重要的寄存器，接下来再把DMA控制器的内部结构进行一个细化，如下图：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/66a78c4ad9c307b7e92b07b6.png" alt="计算机组成原理（七）——输入输出系统——DMA控制器2.png">
+
+<p>接下来看下DMA控制器里面东西有什么作用：</p>
+<p>首先看控制&#x2F;状态逻辑，这个是一些时序电路，用来完成一系列控制动作。</p>
+<p>接下来看DMA请求触发器，触发器的作用就是保存二进制的0和1，如果设备输入完一整个字的数据之后，会把DMA请求触发器改为1，表示已经完成一个字的输入，当DMA请求触发器改为1之后，控制逻辑相关的电路就可以收到高电平的信号，于是控制电路就可以知道接下来应该把输入的数据放到主存里，这就是DMA请求触发器的作用。</p>
+<p>接下来看主存地址计数器，这个地方用来存放主存的读写地址。</p>
+<p>再看传送长度计数器，用来记录传送数据的长度，当计数溢出时，数据即传送完毕，自动发中断请求信号。</p>
+<p>下面看数据缓冲寄存器，这个前面已经接触过，用来暂存每次传送的数据。</p>
+<p>最后再看中断机构，当一个数据块传送完毕后触发中断机构，向CPU提出中断请求。</p>
+<p>现在注意这样的一个问题：DMA控制器和主存的数据交换是通过系统总线进行的，所以当DMA控制器正在通过系统总线传送数据的过程，这个过程当中，如果CPU也想使用系统总线，也想访问主存，那CPU需要暂停等待，直到DMA的数据传送结束之后，才会把总线的使用权让回给CPU。</p>
+<p>接下来结合流程图看一下DMA的传送过程：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/66a78c84d9c307b7e92b3589.png" alt="计算机组成原理（七）——输入输出系统——DMA传送过程.png">
+
+<p>  首先预处理阶段，CPU会向DMA控制器指明接下来要读或者写的数据应该存放在主存的什么位置，设备的地址是什么，要传送多少个数据，然后就可以启动IO设备。</p>
+<p>接下来会由DMA控制器控制着数据的传送过程，而对于CPU来说，它可以继续执行之前的程序。如果此时要输入一个数据，设备首先会把数据冲入到DR寄存器里，同时向DMA触发器发出一个高电平信号，让其变为1。当控制逻辑检测到DMA请求，就会像CPU申请总线的控制权。如果此时系统总线可以让给DMA控制器使用的话，CPU就会给它一个反馈信号。现在DMA控制器就获得了总线的控制权，就可以通过控制线、地址线和数据线这些给主存发出读或者写命令，由于上图给的是数据输入的例子，所以应该是给主存发送一个写的命令，同时把数据缓冲寄存器里的信息打到数据线上，然后把主存的地址信息打到地址线上，这样就完成了一个字的数据传输。数据传输完以后，需要让主存的地址自动的后移，同时也需要修改长度计数器，这就是一个字的传输。传输完多个字以后，长度计数器就会发生溢出，溢出信号就会传送给中断机构，中断机构检测到溢出信号以后，会向CPU发出中断请求，接下CPU再对DMA的中断信号进行一个处理。</p>
+<p>这里需要注意一点，DMA请求和DMA中断请求是不一样的东西，发送DMA请求时意味着要和主存传送一个字的数据，而发送DMA中断请求的时候，意味着一整块的数据传输已经完成。</p>
+<p>数据传输完成之后，CPU收到中断请求就会进行后处理，也就是运行相应的中断服务程序，然后做DMA结束的处理。做完这些之后，CPU继续去执行主程序。</p>
+<p>下面把刚才分析的过程用流程图总结一下，如下图：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/66a78ca8d9c307b7e92b5053.png" alt="计算机组成原理（七）——输入输出系统——DMA传送过程流程.png">
+
+<p>现在思考这样的一个问题，当DMA控制器在传送数据的过程中，需要不断的占用系统总线，如果说系统总线是被CPU管理的，那由CPU来决定到底要不要把系统总线的使用权分配给DMA控制器就可以了，也就是说只要CPU把系统总线的控制权分配给DMA控制器，那么DMA控制器就可以正常的访问主存，因为系统总线分配给DMA控制权就意味着CPU暂时不能访问主存(CPU和主存之间的交互也需要通过系统总线进行)。所以对于之前的结构图来说，到底要让谁使用主存，这个问题完全是由CPU来控制的，但是现在换一种总线的连接方式，就是之前提出的三总线连接方式，如下图左上：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/66a78cd9d9c307b7e92b7964.png" alt="计算机组成原理（七）——输入输出系统——DMA方式特点.png">
+
+<p>可以看到，主存和DMA接口之间会专门用一个DMA总线来进行交互，然后CPU和主存之间会专门用一个主存总线来交互，在这种情况下，DMA控制器想要访问主存，只需要通过DMA总线即可，而DMA总线的使用权总是归DMA接口所有，已经不再是CPU说了算。</p>
+<p>所以采用三总线结构，就意味着有可能会出现CPU也想访问主存，然后DMA控制器也想访问主存的情况。如果主存不是双端口的主存，同一时刻只能支持一个访问请求，那么对这个主存的访问请求应该先满足CPU还是先满足DMA控制器呢，这就成了一个问题，可以通过下图的三种方案来解决CPU与DMA的访存冲突：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/66a78d0cd9c307b7e92ba456.png" alt="计算机组成原理（七）——输入输出系统——DMA传送方式.png">
+
+<p>首先第一种方式，停止CPU访问主存，就是DMA控制器传送一整块的数据的时候，整个传送的过程当中，主存的使用权会完全分配给DMA控制器，这也就意味着DMA控制器传送一整块的数据过程当中，CPU就没办法从主存里边取走指令，这样就会导致CPU整个运行完全停滞。所以这种方式简单粗暴，相应的控制方式也很简单，但不能发挥CPU对主存的利用率，同时也会使CPU的工作进度必须停滞，这就和引入DMA控制器的初衷相互违背了。</p>
+<p>接下来看第二种方式，DMA与CPU交替访存，看上图第二个就很好理解这种方式，主存的工作时间会被分为两个阶段，第一段给DMA使用，第二段给CPU使用。采用这种方式就不需要进行总线的使用权申请，因为时间片的划分是规定死的，所以控制起来也很简单，不过这种方式控制电路逻辑要比第一种复杂，并且这种简单的传送方式未必能够很好地利用主存的读写性能。比如说CPU对主存的访问可能是很频繁的，每一个给CPU分配的主存访问时间，CPU都会使用到，而对于DMA控制器来说，由于它需要等待外部设备输入一个字，输入完一个字之后才会去进行一次访存，所以对于DMA控制器来说，给它分配的这些保存时间可能用不到，所以这种方式对主存的利用率也不太好。</p>
+<p>接下来看第三种方式，周期挪用，这里的周期指的是主存的存取周期，在这种方式下主存的工作时间的分配变得更加自由。由于DMA和CPU都有可能访存，因此可能会出现这样的三种情况，第一种当DMA想访存主存时，CPU不访问主存；第二种当DMA想访存主存时，CPU正在访问主存；第三种当DMA想访存主存时，CPU也要访问主存。</p>
+<p>当DMA想访存主存时，CPU不访问主存时，DMA直接访存就可以。</p>
+<p>当DMA想访存主存时，CPU正在访问主存，此时CPU的存取周期还没有结束，那么DMA控制器就需要等待CPU的这次存取结束之后，再去访问主存。</p>
+<p>当DMA想访存主存时，CPU也要访问主存，这种情况下会优先让DMA控制器进行访存，原因是如果不及时把DMA控制器里的数据缓冲寄存器里的数据写到主存里，那么外部设备继续往里面冲入数据，就有可能导致数据的丢失。</p>
+<p>上面这三种方案就是用来解决DMA和CPU的缓冲冲突。</p>
+<p>下面结合之前的学习再把DMA控制器的特点进行一个总结，如下图右，这里很简单就不过多叙述：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/66a78cd9d9c307b7e92b7964.png" alt="计算机组成原理（七）——输入输出系统——DMA方式特点.png">
+
+<p>最后把DMA方式与中断方式进行一个对比：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/66a78d4ad9c307b7e92bd39e.png" alt="计算机组成原理（七）——输入输出系统——DMA方式与中断方式.png">
+
+<p>下面对本节内容进行小结：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/66a78d72d9c307b7e92bf392.png" alt="计算机组成原理（七）——输入输出系统——DMA方式小结回顾.png"></article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="http://bandit-ljC-1.github.io">liujinC</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="http://bandit-ljc-1.github.io/2024/07/03/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86%EF%BC%88%E4%B8%83%EF%BC%89%E2%80%94%E2%80%94%E8%BE%93%E5%85%A5%E8%BE%93%E5%87%BA%E7%B3%BB%E7%BB%9F/">http://bandit-ljc-1.github.io/2024/07/03/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86%EF%BC%88%E4%B8%83%EF%BC%89%E2%80%94%E2%80%94%E8%BE%93%E5%85%A5%E8%BE%93%E5%87%BA%E7%B3%BB%E7%BB%9F/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://bandit-ljC-1.github.io" target="_blank">无名高手🍭</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/408%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">408学习笔记</a><a class="post-meta__tags" href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86/">计算机组成原理</a></div><div class="post_share"><div class="social-share" data-image="/myphotos/article_cover/10.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="next-post pull-full"><a href="/2024/06/30/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86%EF%BC%88%E5%85%AD%EF%BC%89%E2%80%94%E2%80%94%E6%80%BB%E7%BA%BF/" title="计算机组成原理（六）——总线"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/myphotos/article_cover/9.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">计算机组成原理（六）——总线</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2024/04/10/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86%EF%BC%88%E4%B8%89%EF%BC%89%E2%80%94%E2%80%94%E5%AD%98%E5%82%A8%E7%B3%BB%E7%BB%9F/" title="计算机组成原理（三）——存储系统"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/myphotos/article_cover/5.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2024-04-10</div><div class="title">计算机组成原理（三）——存储系统</div></div></a></div><div><a href="/2024/04/05/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86%EF%BC%88%E4%BA%8C%EF%BC%89%E2%80%94%E2%80%94%E6%95%B0%E6%8D%AE%E7%9A%84%E8%A1%A8%E7%A4%BA%E5%92%8C%E8%BF%90%E7%AE%97/" title="计算机组成原理（二）——数据的表示和运算"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/myphotos/article_cover/6.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2024-04-05</div><div class="title">计算机组成原理（二）——数据的表示和运算</div></div></a></div><div><a href="/2024/03/26/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86%EF%BC%88%E4%B8%80%EF%BC%89%E2%80%94%E2%80%94%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F%E6%A6%82%E8%BF%B0/" title="计算机组成原理（一）——计算机系统概述"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/myphotos/article_cover/9.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2024-03-26</div><div class="title">计算机组成原理（一）——计算机系统概述</div></div></a></div><div><a href="/2024/06/30/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86%EF%BC%88%E5%85%AD%EF%BC%89%E2%80%94%E2%80%94%E6%80%BB%E7%BA%BF/" title="计算机组成原理（六）——总线"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/myphotos/article_cover/9.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2024-06-30</div><div class="title">计算机组成原理（六）——总线</div></div></a></div><div><a href="/2024/06/10/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86%EF%BC%88%E4%BA%94%EF%BC%89%E2%80%94%E2%80%94%E4%B8%AD%E5%A4%AE%E5%A4%84%E7%90%86%E5%99%A8/" title="计算机组成原理（五）——中央处理器"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/myphotos/article_cover/7.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2024-06-10</div><div class="title">计算机组成原理（五）——中央处理器</div></div></a></div><div><a href="/2024/04/24/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86%EF%BC%88%E5%9B%9B%EF%BC%89%E2%80%94%E2%80%94%E6%8C%87%E4%BB%A4%E7%B3%BB%E7%BB%9F/" title="计算机组成原理（四）——指令系统"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/myphotos/article_cover/11.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2024-04-24</div><div class="title">计算机组成原理（四）——指令系统</div></div></a></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/myphotos/avatar.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">liujinC</div><div class="author-info__description"></div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">29</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">8</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">3</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://home.liujinc.cn"><i class="fab fa-github"></i><span>网站主页</span></a><div class="card-info-social-icons is-center"><a class="social-icon faa-parent animated-hover" href="/myphotos/WeChat.png" target="_blank" title="微信"><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon-weixin"></use></svg></a><a class="social-icon faa-parent animated-hover" href="/myphotos/QQ.jpg" target="_blank" title="QQ"><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon-QQ"></use></svg></a><a class="social-icon faa-parent animated-hover" href="https://space.bilibili.com/1941048387?spm_id_from=333.1007.0.0" target="_blank" title="B站"><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon-bilibili"></use></svg></a><a class="social-icon faa-parent animated-hover" href="https://blog.csdn.net/qq_63040545?spm=1000.2115.3001.5343" target="_blank" title="CSDN"><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon-csdn"></use></svg></a><a class="social-icon faa-parent animated-hover" href="https://github.com/Bandit-ljC-1" target="_blank" title="GitHub"><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon-github1"></use></svg></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">今年18岁傍50岁富婆，来年50岁包18岁姑娘。</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86%EF%BC%88%E4%B8%83%EF%BC%89%E2%80%94%E2%80%94%E8%BE%93%E5%85%A5%E8%BE%93%E5%87%BA%E7%B3%BB%E7%BB%9F"><span class="toc-text">计算机组成原理（七）——输入输出系统</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#0-%E5%BC%95%E8%A8%80"><span class="toc-text">0. 引言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-%E8%BE%93%E5%85%A5%E8%BE%93%E5%87%BA%E7%B3%BB%E7%BB%9F%E5%92%8CIO%E6%8E%A7%E5%88%B6%E6%96%B9%E5%BC%8F"><span class="toc-text">1. 输入输出系统和IO控制方式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-%E5%A4%96%E9%83%A8%E8%AE%BE%E5%A4%87"><span class="toc-text">2. 外部设备</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-IO%E6%8E%A5%E5%8F%A3"><span class="toc-text">3. IO接口</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-%E7%A8%8B%E5%BA%8F%E6%9F%A5%E8%AF%A2%E6%96%B9%E5%BC%8F"><span class="toc-text">4. 程序查询方式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-%E4%B8%AD%E6%96%AD%E7%9A%84%E4%BD%9C%E7%94%A8%E5%92%8C%E5%8E%9F%E7%90%86"><span class="toc-text">5. 中断的作用和原理</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#6-%E5%A4%9A%E9%87%8D%E4%B8%AD%E6%96%AD"><span class="toc-text">6. 多重中断</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#7-%E7%A8%8B%E5%BA%8F%E4%B8%AD%E6%96%AD%E6%96%B9%E5%BC%8F"><span class="toc-text">7. 程序中断方式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#8-DMA%E6%96%B9%E5%BC%8F"><span class="toc-text">8. DMA方式</span></a></li></ol></li></ol></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2024 - 2025 By liujinC</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js?v=4.12.0"></script><script src="/js/main.js?v=4.12.0"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0.32/dist/fancybox/fancybox.umd.min.js"></script><script src="https://cdn.jsdelivr.net/npm/instant.page@5.2.0/instantpage.min.js" type="module"></script><script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@17.8.5/dist/lazyload.iife.min.js"></script><script src="https://cdn.jsdelivr.net/npm/node-snackbar@0.1.16/dist/snackbar.min.js"></script><script>function panguFn () {
+  if (typeof pangu === 'object') pangu.autoSpacingPage()
+  else {
+    getScript('https://cdn.jsdelivr.net/npm/pangu@4.0.7/dist/browser/pangu.min.js')
+      .then(() => {
+        pangu.autoSpacingPage()
+      })
+  }
+}
+
+function panguInit () {
+  if (false){
+    GLOBAL_CONFIG_SITE.isPost && panguFn()
+  } else {
+    panguFn()
+  }
+}
+
+document.addEventListener('DOMContentLoaded', panguInit)</script><div class="js-pjax"></div><canvas id="snow"></canvas><script async src="/js/snow.js"></script><canvas id="universe"></canvas><script defer src="/js/universe.js"></script><script defer src="/js/mouse.js"></script><script async src="//at.alicdn.com/t/c/font_4451089_fok8y2foa3.js"></script><script defer type="text/javascript" src="https://cdn1.tianli0.top/npm/sweetalert2@8.19.0/dist/sweetalert2.all.js"></script><script defer src="/js/festival/lunar.js"></script><script defer src="/js/festival/day.js"></script><script async src="/js/fps.js"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="is-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据库加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div id="local-search-results"></div><div id="local-search-stats-wrap"></div></div></div><div id="search-mask"></div><script src="/js/search/local-search.js?v=4.12.0"></script></div></div><!-- hexo injector body_end start --> <script data-pjax>if(document.getElementById('recent-posts') && (location.pathname ==='/'|| '/' ==='all')){
+    var parent = document.getElementById('recent-posts');
+    var child = '<div class="recent-post-item" style="width:100%;height: auto"><div id="catalog_magnet"><div class="magnet_item"><a class="magnet_link" href="http://bandit-ljC-1.github.io/tags/408学习笔记/"><div class="magnet_link_context" style=""><span style="font-weight:500;flex:1">🐱‍👓 路漫漫其修远，我探索不了一点。 (25)</span><span style="padding:0px 4px;border-radius: 8px;"><i class="fas fa-arrow-circle-right"></i></span></div></a></div><div class="magnet_item"><a class="magnet_link" href="http://bandit-ljC-1.github.io/tags/前端/"><div class="magnet_link_context" style=""><span style="font-weight:500;flex:1">🍨 前端UI到转行平面设计 (2)</span><span style="padding:0px 4px;border-radius: 8px;"><i class="fas fa-arrow-circle-right"></i></span></div></a></div><a class="magnet_link_more"  href="http://bandit-ljC-1.github.io/tags" style="flex:1;text-align: center;margin-bottom: 10px;">查看更多...</a></div></div>';
+    console.log('已挂载magnet')
+    parent.insertAdjacentHTML("afterbegin",child)}
+     </script><style>#catalog_magnet{flex-wrap: wrap;display: flex;width:100%;justify-content:space-between;padding: 10px 10px 0 10px;align-content: flex-start;}.magnet_item{flex-basis: calc(50% - 5px);background: #f2f2f2;margin-bottom: 10px;border-radius: 8px;transition: all 0.2s ease-in-out;}.magnet_item:hover{background: #b30070}.magnet_link_more{color:#555}.magnet_link{color:black}.magnet_link:hover{color:white}@media screen and (max-width: 600px) {.magnet_item {flex-basis: 100%;}}.magnet_link_context{display:flex;padding: 10px;font-size:16px;transition: all 0.2s ease-in-out;}.magnet_link_context:hover{padding: 10px 20px;}</style>
+    <style></style><script data-pjax>
+    function butterfly_categories_card_injector_config(){
+      var parent_div_git = document.getElementById('recent-posts');
+      var item_html = '<style>li.categoryBar-list-item{width:32.3%;}.categoryBar-list{max-height: 380px;overflow:auto;}.categoryBar-list::-webkit-scrollbar{width:0!important}@media screen and (max-width: 650px){.categoryBar-list{max-height: 320px;}}</style><div class="recent-post-item" style="height:auto;width:100%;padding:0px;"><div id="categoryBar"><ul class="categoryBar-list"><li class="categoryBar-list-item" style="background:url(/myphotos/article_cover/1.jpg);"> <a class="categoryBar-list-link" href="categories/网页开发/">网页开发</a><span class="categoryBar-list-count">2</span><span class="categoryBar-list-descr">优秀的设计师</span></li><li class="categoryBar-list-item" style="background:url(/myphotos/article_cover/2.jpg);"> <a class="categoryBar-list-link" href="categories/hexo/">hexo</a><span class="categoryBar-list-count">2</span><span class="categoryBar-list-descr">五等分的blog</span></li><li class="categoryBar-list-item" style="background:url(/myphotos/article_cover/3.jpg);"> <a class="categoryBar-list-link" href="categories/学习笔记/">学习笔记</a><span class="categoryBar-list-count">25</span><span class="categoryBar-list-descr">埼玉的成长之路</span></li></ul></div></div>';
+      console.log('已挂载butterfly_categories_card')
+      parent_div_git.insertAdjacentHTML("afterbegin",item_html)
+      }
+    if( document.getElementById('recent-posts') && (location.pathname ==='/'|| '/' ==='all')){
+    butterfly_categories_card_injector_config()
+    }
+  </script><script data-pjax>
+  function butterfly_swiper_injector_config(){
+    var parent_div_git = document.getElementById('recent-posts');
+    var item_html = '<div class="recent-post-item" style="height: auto;width: 100%"><div class="blog-slider swiper-container-fade swiper-container-horizontal" id="swiper_container"><div class="blog-slider__wrp swiper-wrapper" style="transition-duration: 0ms;"><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" href="2024/01/01/Markdown语法/" alt=""><img width="48" height="48" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="myphotos/article_cover/6.jpg" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/></a><div class="blog-slider__content"><span class="blog-slider__code">2024-01-01</span><a class="blog-slider__title" href="2024/01/01/Markdown语法/" alt="">青春男大遇到不会写的Markdown语法</a><div class="blog-slider__text">本文是博主写博客时遇到的一些不会写的Markdown语法，特在此汇总</div><a class="blog-slider__button" href="2024/01/01/Markdown语法/" alt="">详情   </a></div></div><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" href="2024/03/07/数据结构（一）——线性表/" alt=""><img width="48" height="48" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="myphotos/article_cover/3.jpg" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/></a><div class="blog-slider__content"><span class="blog-slider__code">2024-03-07</span><a class="blog-slider__title" href="2024/03/07/数据结构（一）——线性表/" alt="">数据结构（一）——线性表</a><div class="blog-slider__text">本文是数据结构中有关线性表的复习笔记，因此只记录一些重点知识与兄弟们交流，并不适合零基础的兄弟。</div><a class="blog-slider__button" href="2024/03/07/数据结构（一）——线性表/" alt="">详情   </a></div></div><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" href="2024/03/02/基于hexo搭建的个人博客常见问题处理/" alt=""><img width="48" height="48" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="myphotos/article_cover/6.jpg" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/></a><div class="blog-slider__content"><span class="blog-slider__code">2024-03-02</span><a class="blog-slider__title" href="2024/03/02/基于hexo搭建的个人博客常见问题处理/" alt="">基于hexo搭建的个人博客常见问题处理</a><div class="blog-slider__text">该文主要是站长对使用hexo搭建博客时出现的一些问题进行了整理</div><a class="blog-slider__button" href="2024/03/02/基于hexo搭建的个人博客常见问题处理/" alt="">详情   </a></div></div><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" href="2024/02/08/CSS基础语法及应用/" alt=""><img width="48" height="48" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="myphotos/article_cover/6.jpg" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/></a><div class="blog-slider__content"><span class="blog-slider__code">2024-02-08</span><a class="blog-slider__title" href="2024/02/08/CSS基础语法及应用/" alt="">CSS基础语法及应用</a><div class="blog-slider__text">本文主要整理CSS的基本语法，可以搭配HTML5基本语法进行学习</div><a class="blog-slider__button" href="2024/02/08/CSS基础语法及应用/" alt="">详情   </a></div></div><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" href="2024/02/01/HTML5基础语法大全/" alt=""><img width="48" height="48" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="myphotos/article_cover/13.jpg" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/></a><div class="blog-slider__content"><span class="blog-slider__code">2024-02-01</span><a class="blog-slider__title" href="2024/02/01/HTML5基础语法大全/" alt="">HTML5基本语法大全</a><div class="blog-slider__text">本文主要整理了HTML5的基本语法，方便初学者快速入门</div><a class="blog-slider__button" href="2024/02/01/HTML5基础语法大全/" alt="">详情   </a></div></div></div><div class="blog-slider__pagination swiper-pagination-clickable swiper-pagination-bullets"></div></div></div>';
+    console.log('已挂载butterfly_swiper')
+    parent_div_git.insertAdjacentHTML("afterbegin",item_html)
+    }
+  var elist = 'undefined'.split(',');
+  var cpage = location.pathname;
+  var epage = '/';
+  var flag = 0;
+
+  for (var i=0;i<elist.length;i++){
+    if (cpage.includes(elist[i])){
+      flag++;
+    }
+  }
+
+  if ((epage ==='all')&&(flag == 0)){
+    butterfly_swiper_injector_config();
+  }
+  else if (epage === cpage){
+    butterfly_swiper_injector_config();
+  }
+  </script><script defer src="https://npm.elemecdn.com/hexo-butterfly-swiper/lib/swiper.min.js"></script><script defer data-pjax src="https://npm.elemecdn.com/hexo-butterfly-swiper/lib/swiper_init.js"></script><script data-pjax>
+  function butterfly_footer_beautify_injector_config(){
+    var parent_div_git = document.getElementById('footer-wrap');
+    var item_html = '<div id="workboard"></div><p id="ghbdages"><a class="github-badge" target="_blank" href="https://hexo.io/" style="margin-inline:5px" data-title="博客框架为Hexo_v6.2.0" title=""><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img.shields.io/badge/Frame-Hexo-blue?style=flat&amp;logo=hexo" alt=""/></a><a class="github-badge" target="_blank" href="https://butterfly.js.org/" style="margin-inline:5px" data-title="主题版本Butterfly_v4.3.1" title=""><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img.shields.io/badge/Theme-Butterfly-6513df?style=flat&amp;logo=bitdefender" alt=""/></a><a class="github-badge" target="_blank" href="https://vercel.com/" style="margin-inline:5px" data-title="本站采用多线部署，主线路托管于Vercel" title=""><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img.shields.io/badge/Hosted-Vercel-brightgreen?style=flat&amp;logo=Vercel" alt=""/></a><a class="github-badge" target="_blank" href="https://dashboard.4everland.org/" style="margin-inline:5px" data-title="本站采用多线部署，备用线路托管于4EVERLAND" title=""><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img.shields.io/badge/Hosted-4EVERLAND-22DDDD?style=flat&amp;logo=IPFS" alt=""/></a><a class="github-badge" target="_blank" href="https://github.com/" style="margin-inline:5px" data-title="本站项目由Github托管" title=""><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img.shields.io/badge/Source-Github-d021d6?style=flat&amp;logo=GitHub" alt=""/></a><a class="github-badge" target="_blank" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" style="margin-inline:5px" data-title="本站采用知识共享署名-非商业性使用-相同方式共享4.0国际许可协议进行许可" title=""><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img.shields.io/badge/Copyright-BY--NC--SA%204.0-d42328?style=flat&amp;logo=Claris" alt=""/></a></p>';
+    console.log('已挂载butterfly_footer_beautify')
+    parent_div_git.insertAdjacentHTML("beforeend",item_html)
+    }
+  var elist = 'null'.split(',');
+  var cpage = location.pathname;
+  var epage = 'all';
+  var flag = 0;
+
+  for (var i=0;i<elist.length;i++){
+    if (cpage.includes(elist[i])){
+      flag++;
+    }
+  }
+
+  if ((epage ==='all')&&(flag == 0)){
+    butterfly_footer_beautify_injector_config();
+  }
+  else if (epage === cpage){
+    butterfly_footer_beautify_injector_config();
+  }
+  </script><script async src="/js/clock.js"></script><div class="js-pjax"><script async="async">var arr = document.getElementsByClassName('recent-post-item');
+for(var i = 0;i<arr.length;i++){
+    arr[i].classList.add('wow');
+    arr[i].classList.add('animate__zoomIn');
+    arr[i].setAttribute('data-wow-duration', '2s');
+    arr[i].setAttribute('data-wow-delay', '1s');
+    arr[i].setAttribute('data-wow-offset', '100');
+    arr[i].setAttribute('data-wow-iteration', '1');
+  }</script><script async="async">var arr = document.getElementsByClassName('card-widget');
+for(var i = 0;i<arr.length;i++){
+    arr[i].classList.add('wow');
+    arr[i].classList.add('animate__zoomIn');
+    arr[i].setAttribute('data-wow-duration', '');
+    arr[i].setAttribute('data-wow-delay', '');
+    arr[i].setAttribute('data-wow-offset', '');
+    arr[i].setAttribute('data-wow-iteration', '');
+  }</script></div><script defer src="/css/wowjs/wow.min.js"></script><script defer src="/css/wowjs/wow_init.js"></script><!-- hexo injector body_end end --></body></html>

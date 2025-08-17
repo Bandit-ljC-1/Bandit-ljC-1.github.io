@@ -1,0 +1,635 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>计算机组成原理（四）——指令系统 | 无名高手🍭</title><meta name="author" content="liujinC"><meta name="copyright" content="liujinC"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="ffffff"><meta name="description" content="计组的第四章">
+<meta property="og:type" content="article">
+<meta property="og:title" content="计算机组成原理（四）——指令系统">
+<meta property="og:url" content="http://bandit-ljc-1.github.io/2024/04/24/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86%EF%BC%88%E5%9B%9B%EF%BC%89%E2%80%94%E2%80%94%E6%8C%87%E4%BB%A4%E7%B3%BB%E7%BB%9F/index.html">
+<meta property="og:site_name" content="无名高手🍭">
+<meta property="og:description" content="计组的第四章">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://bandit-ljc-1.github.io/myphotos/article_cover/11.jpg">
+<meta property="article:published_time" content="2024-04-24T07:20:00.000Z">
+<meta property="article:modified_time" content="2024-05-03T10:31:00.000Z">
+<meta property="article:author" content="liujinC">
+<meta property="article:tag" content="408学习笔记">
+<meta property="article:tag" content="计算机组成原理">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://bandit-ljc-1.github.io/myphotos/article_cover/11.jpg"><link rel="shortcut icon" href="/myphotos/icon.png"><link rel="canonical" href="http://bandit-ljc-1.github.io/2024/04/24/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86%EF%BC%88%E5%9B%9B%EF%BC%89%E2%80%94%E2%80%94%E6%8C%87%E4%BB%A4%E7%B3%BB%E7%BB%9F/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css?v=4.12.0"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.5.1/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/node-snackbar@0.1.16/dist/snackbar.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0.32/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":true,"top_n_per_article":-1,"unescape":false,"languages":{"hits_empty":"找不到您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: undefined,
+  noticeOutdate: {"limitDay":365,"position":"top","messagePrev":"It has been","messageNext":"days since the last update, the content of the article may be outdated."},
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":230},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: {"chs_to_cht":"你已切换为繁体中文","cht_to_chs":"你已切换为简体中文","day_to_night":"你已切换为深色模式","night_to_day":"你已切换为浅色模式","bgLight":"#49b1f5","bgDark":"#1f1f1f","position":"top-right"},
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid@4.11.0/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyload: true,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '计算机组成原理（四）——指令系统',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2024-05-03 18:31:00'
+}</script><script>(win=>{
+      win.saveToLocal = {
+        set: (key, value, ttl) => {
+          if (ttl === 0) return
+          const now = Date.now()
+          const expiry = now + ttl * 86400000
+          const item = {
+            value,
+            expiry
+          }
+          localStorage.setItem(key, JSON.stringify(item))
+        },
+      
+        get: key => {
+          const itemStr = localStorage.getItem(key)
+      
+          if (!itemStr) {
+            return undefined
+          }
+          const item = JSON.parse(itemStr)
+          const now = Date.now()
+      
+          if (now > item.expiry) {
+            localStorage.removeItem(key)
+            return undefined
+          }
+          return item.value
+        }
+      }
+    
+      win.getScript = (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        script.onerror = reject
+        script.onload = script.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          script.onload = script.onreadystatechange = null
+          resolve()
+        }
+
+        Object.keys(attr).forEach(key => {
+          script.setAttribute(key, attr[key])
+        })
+
+        document.head.appendChild(script)
+      })
+    
+      win.getCSS = (url, id = false) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onerror = reject
+        link.onload = link.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          link.onload = link.onreadystatechange = null
+          resolve()
+        }
+        document.head.appendChild(link)
+      })
+    
+      win.activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', 'ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          const now = new Date()
+          const hour = now.getHours()
+          const isNight = hour <= 6 || hour >= 18
+          if (t === undefined) isNight ? activateDarkMode() : activateLightMode()
+          else if (t === 'light') activateLightMode()
+          else activateDarkMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+      const detectApple = () => {
+        if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+          document.documentElement.classList.add('apple')
+        }
+      }
+      detectApple()
+    })(window)</script><link rel="stylesheet" href="/css/custom.css" media="defer" onload="this.media='all'"><link rel="stylesheet" href="/css/light.css" media="defer" onload="this.media='all'"><link rel="stylesheet" href="/css/snow.css"><link rel="stylesheet" href="/css/universe.css"><link rel="stylesheet" href="/css/mouse.css"><link rel="stylesheet" href="//at.alicdn.com/t/c/font_4451089_fok8y2foa3.css" media="defer" onload="this.media='all'"><link rel="stylesheet" href="/css/page_style.css"><span id="fps"></span><link rel="stylesheet" href="/css/pangu_control.css"><div id="myscoll"></div><!-- hexo injector head_end start --><link rel="stylesheet" href="/css/categorybar.css"><link rel="stylesheet" href="https://npm.elemecdn.com/hexo-butterfly-swiper/lib/swiper.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="/css/swiper/swiperstyle.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://unpkg.zhimg.com/hexo-butterfly-footer-beautify@1.0.0/lib/runtime.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="/css/wowjs/animate.min.css" media="print" onload="this.media='screen'"><!-- hexo injector head_end end --><meta name="generator" content="Hexo 6.3.0"></head><body><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/myphotos/avatar.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">29</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">8</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">3</div></a></div><hr class="custom-hr"/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> 列表</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音乐</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 电影</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/comments/"><i class="fa-fw fas fa-envelope-open"></i><span> 留言板</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('/myphotos/article_cover/11.jpg')"><nav id="nav"><span id="blog-info"><a href="/" title="无名高手🍭"><span class="site-name">无名高手🍭</span></a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search" href="javascript:void(0);"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> 列表</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音乐</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 电影</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/comments/"><i class="fa-fw fas fa-envelope-open"></i><span> 留言板</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">计算机组成原理（四）——指令系统</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2024-04-24T07:20:00.000Z" title="发表于 2024-04-24 15:20:00">2024-04-24</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2024-05-03T10:31:00.000Z" title="更新于 2024-05-03 18:31:00">2024-05-03</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">学习笔记</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">12.8k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>38分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="计算机组成原理（四）——指令系统"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h1 id="计算机组成原理（四）——指令系统"><a href="#计算机组成原理（四）——指令系统" class="headerlink" title="计算机组成原理（四）——指令系统"></a>计算机组成原理（四）——指令系统</h1><p>写在开头：在第一章计算机组成的系统里，我们说过控制器有两个功能，第一种功能就是控制器去解析各种各样的指令，然后根据不同的指令去指挥其他部件来协调着工作，所以这一章，重点探讨控制器需要支持的指令如何设计。下一章重点探讨控制器如何协调着不同的部件来配合着工作。</p>
+<h2 id="1-指令系统"><a href="#1-指令系统" class="headerlink" title="1. 指令系统"></a>1. 指令系统</h2><h3 id="1-1-指令格式"><a href="#1-1-指令格式" class="headerlink" title="1.1 指令格式"></a>1.1 指令格式</h3><h4 id="1-1-1-指令的定义"><a href="#1-1-1-指令的定义" class="headerlink" title="1.1.1 指令的定义"></a>1.1.1 指令的定义</h4><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/6628b4cf0ea9cb1403cb9b41.png" alt="计算机组成原理（四）——指令系统——指令的定义.png">
+
+<h4 id="1-1-2-指令的格式"><a href="#1-1-2-指令的格式" class="headerlink" title="1.1.2 指令的格式"></a>1.1.2 指令的格式</h4><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/6628b5f10ea9cb1403cdd82b.png" alt="计算机组成原理（四）——指令系统——指令的格式.png">
+
+<p>指令由操作码（OP）和地址码（A）组成，操作码决定着用户要干什么，地址码决定着对谁干，所以根据不同的操作码，对应的地址码的数目也可能出现变化。如加减运算指令，就需要两个地址码，而停机指令，就不需要地址码。</p>
+<p>根据一条指令可能包含几个地址码，可以将指令分为零地址指令、一地址指令、二地址指令、三地址指令、四地址指令等。</p>
+<h4 id="1-1-3-零地址指令"><a href="#1-1-3-零地址指令" class="headerlink" title="1.1.3 零地址指令"></a>1.1.3 零地址指令</h4><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/6628b9790ea9cb1403d41bb1.png" alt="计算机组成原理（四）——指令系统——零地址指令.png">
+
+<p>零地址指令，顾名思义，这类指令只需要给出一个操作码，而不需要给地址码。像空操作、停机、关中断等指令都是零地址指令。</p>
+<p>这里有一类比较特殊，就是堆栈计算机，两个操作数隐含在栈顶和次栈顶，计算结果压回栈顶。这里以数据结构里学的后缀表达式为例，如图，先把A压入栈，再把B压入栈，当扫描到运算符时，就代表着扫描到零地址指令，将栈顶与次栈顶元素出栈做运算，运算完再压回栈。在这段过程中，扫描到一个运算符就相当于扫描到了一个零地址指令，而操作数隐含在栈里，并非显示指明。</p>
+<h4 id="1-1-4-一地址指令"><a href="#1-1-4-一地址指令" class="headerlink" title="1.1.4 一地址指令"></a>1.1.4 一地址指令</h4><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/6628bc5d0ea9cb1403da5a49.png" alt="计算机组成原理（四）——指令系统——一地址指令.png">
+
+<p>一地址指令有两种情况：</p>
+<p>第一种，只需要单操作数，指令OP(A<sub>1</sub>) -&gt; A<sub>1</sub>的含义是从 A<sub>1</sub>地址上取出数据，经过OP操作（即操作运算）后，再把数据存入 A<sub>1</sub>地址内。完成这样的一条指令要经历3次访存，第一次从主存里取出地址，第二次从主存里取出该地址上的数据，第三次，将操作以后的数据写入该地址里。</p>
+<p>第二种，虽然需要两个操作数，但其中一个操作数隐含在某个寄存器里。这里以隐含在ACC里为例，指令(ACC)OP( A<sub>1</sub>) -&gt; ACC的含义是取出ACC寄存器里的数据与 A<sub>1</sub>地址里的数据，两个操作数进行OP操作，操作果写入ACC寄存器。这条指令执行过程中经历2次访存，第一次，从主存里取出 A<sub>1</sub>地址，第二次， 从主存里取出 A<sub>1</sub>地址里的数据。注意，放到ACC里是不需要访问主存的，因为ACC在运算器里而不是在主存里。</p>
+<h4 id="1-1-5-二、三地址指令"><a href="#1-1-5-二、三地址指令" class="headerlink" title="1.1.5 二、三地址指令"></a>1.1.5 二、三地址指令</h4><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/6628bf130ea9cb1403dfa959.png" alt="计算机组成原理（四）——指令系统——二、三地址指令.png">
+
+<p><strong>二地址指令常用于需要两个操作数的算数运算、逻辑运算相关指令。</strong></p>
+<p>指令(A<sub>1</sub>)OP(A<sub>2</sub>) -&gt; A<sub>1</sub>的含义是取出A<sub>1</sub>和A<sub>2</sub>地址上的操作数进行OP运算，运算结果存入A<sub>1</sub>地址。这里A<sub>1</sub>也称为目的操作数，A<sub>2</sub>也称为源操作数。</p>
+<p>对于二地址指令，完成一条指令需要访存4次，第一次，取出A<sub>1</sub>和A<sub>2</sub>地址；第二次读A<sub>1</sub>地址上数据；第三次读A<sub>2</sub>地址上数据，第四次将数据写入A<sub>1</sub>地址内。</p>
+<p><strong>三地址指令也常用于需要两个操作数的算数运算、逻辑运算相关指令。</strong></p>
+<p>指令(A<sub>1</sub>)OP(A<sub>2</sub>) -&gt; A<sub>1</sub>的含义是取出A<sub>1</sub>和A<sub>2</sub>地址上的操作数进行OP运算，运算结果存入A<sub>1</sub>地址。这里A<sub>1</sub>也称为目的操作数，A<sub>2</sub>也称为源操作数。</p>
+<p>对于三地址指令，完成一条指令需要访存4次，第一次，取出A<sub>1</sub>和A<sub>2</sub>地址；第二次读A<sub>1</sub>地址上数据；第三次读A<sub>2</sub>地址上数据，第四次将数据写入A<sub>3</sub>地址内。</p>
+<p>到这里可以发现三地址指令和二地址指令基本一致，不同的点在于最后写入数据的地方，三地址指令明确规定了最后要把数据写到哪个地址上。</p>
+<h4 id="1-1-6-四地址指令"><a href="#1-1-6-四地址指令" class="headerlink" title="1.1.6 四地址指令"></a>1.1.6 四地址指令</h4><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/6628bfa60ea9cb1403e0ca72.png" alt="计算机组成原理（四）——指令系统——四地址指令.png">
+
+<p>四地址指令又和三地址指令一样，所以这里说下不同的地方，四地址指令比三地址指令多了一个地址A<sub>4</sub>，这个地址指向下一条指令，在第一章里，我们说过每条指令结束以后，PC会自加1，在四地址指令里，PC不是自加1，而是指向A<sub>4</sub>地址上指令。</p>
+<p>到这里可以思考一个问题，地址码的位数会产生什么影响呢？</p>
+<p>一个n位地址码，说明它的直接寻址范围是2<sup>n</sup>，所以一个地址码位数越长，说明它的寻址范围、寻址能力也就越强。</p>
+<p>若规定指令总长度固定不变，则地址码数量越多，每个地址码的位数就越短，寻址能力就越差。	</p>
+<h4 id="1-1-7-按指令长度对指令分类"><a href="#1-1-7-按指令长度对指令分类" class="headerlink" title="1.1.7 按指令长度对指令分类"></a>1.1.7 按指令长度对指令分类</h4><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/6628c05e0ea9cb1403e23c93.png" alt="计算机组成原理（四）——指令系统——按指令长度分类.png">
+
+<p>对于指令字长，首先要区分指令字长、机器字长和存储字长的概念。</p>
+<p>根据指令字长还可以将指令分为半字长指令、单字长指令、双字长指令，这里的指令长度指的是机器字长的几倍。显然，指令字长会影响机器取指令的时间。</p>
+<p>有的计算机系统中，所以指令的长度都相等，采用这种策略的指令系统称为定长指令字结构系统。</p>
+<p>而有的计算机系统中，所以指令的长度不一定相等，采用这种策略的指令系统称为变长指令字结构系统。</p>
+<h4 id="1-1-8-按操作码长度对指令分类"><a href="#1-1-8-按操作码长度对指令分类" class="headerlink" title="1.1.8 按操作码长度对指令分类"></a>1.1.8 按操作码长度对指令分类</h4><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/6628c0cd0ea9cb1403e2ff64.png" alt="计算机组成原理（四）——指令系统——按操作码长度分类.png">
+
+<p>按操作码长，可将指令分为定长操作码和可变长操作码。</p>
+<p>对于定长操作码来说，控制器的译码电路设计简单，但灵活性不够；而可变长操作码，控制器的译码电路设计复杂，但灵活性高。</p>
+<p>对于定长操作码，如果操作码长n位，则可以确定可以设计2<sup>n</sup>条指令；但对于可变长操作码来说，指令条数不好确定。</p>
+<p>将定长指令字结构和可变长操作码相结合，可以扩展操作码，即不同地址数的指令使用不同长度的操作码。</p>
+<h4 id="1-1-9-按操作类型分类"><a href="#1-1-9-按操作类型分类" class="headerlink" title="1.1.9 按操作类型分类"></a>1.1.9 按操作类型分类</h4><p>​	</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/6628c1640ea9cb1403e40f92.png" alt="计算机组成原理（四）——指令系统——按操作类型分类.png">
+
+<h4 id="1-1-10-指令格式小结"><a href="#1-1-10-指令格式小结" class="headerlink" title="1.1.10 指令格式小结"></a>1.1.10 指令格式小结</h4><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/6628c18d0ea9cb1403e45ed9.png" alt="计算机组成原理（四）——指令系统——指令格式小结.png">
+
+<h3 id="1-2-扩展操作码指令格式"><a href="#1-2-扩展操作码指令格式" class="headerlink" title="1.2 扩展操作码指令格式"></a>1.2 扩展操作码指令格式</h3><p><strong>在这部分介绍的扩展操作码指令格式采用的是<font color=red>定长指令字结构和可变长操作码相结合</font>。</strong></p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/6628cb6a0ea9cb1403f7cce1.png" alt="计算机组成原理（四）——指令系统——扩展操作码.png">
+
+<p>扩展操作码的步骤如上，假设指令字长为16位，每个地址码占4位。如果设计三地址指令就意味着地址码要占12位，操作码要占4位。这样三地址指令最多可以设置2<sup>4</sup>&#x3D;16条，但要还想设计二地址指令就至少要留出一条1111充当扩展操作码用，也就是说最多只能有15条三地址指令。</p>
+<p>对于二地址指令也一样，二地址指令由于要扩展一地址指令，也需要空出1111 1111充当扩展操作码。</p>
+<p>一地址同理，留出1111 1111 1111充当零地址扩展操作码。</p>
+<p>上面是扩展操作码的其中一种设计方法，即从多地址一步一步向少地址扩展，下面还会说另一种扩展操作码的设计方式。</p>
+<p>在设计扩展操作码指令格式时，必须注意以下两点：</p>
+<ol>
+<li><font color=red><strong>不允许短码是长码的前缀</strong></font>，即短操作码不能与长操作码的前面部分的代码相同。如上面的例子，三地址指令操作码的前缀是0000~1110是短地址，而二地址操作码的前面是1111开头，如果三地址前面也是1111，则无法区分三地址和二地址。这里和数据结构里哈夫曼树编码如出一辙。</li>
+<li>各指令的操作码一定不能重复。</li>
+</ol>
+<p>通常情况下，对使用频率较高的指令，分配较短的操作码；对使用频率较低的指令，分配较长的操作码，从而尽可能减少指令译码和分析的时间。</p>
+<p>下面是扩展操作码的另一种设计方式，就是根据各地址指令有多少条，从而设计出合理的扩展操作码。</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/6628cd040ea9cb1403fabd69.png" alt="计算机组成原理（四）——指令系统——扩展操作码的另一种设计方式.png">
+
+<p>这里可以总结出一条规律，设地址长度为n，上一层留出m种状态，下一层可扩展出m×2<sup>n</sup>种状态。</p>
+<p>结合本部分操作码的扩展，下面对操作码进行一个小结：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/6628d2ac0ea9cb1403048017.png" alt="计算机组成原理（四）——指令系统——指令操作码.png">
+
+<p>扩展操作码相较于定长操作码，由于指令操作码长度的不确定，所以在指令字长有限的情况下，仍具备丰富的指令种类。但定长操作码相较于扩展操作码，由于操作码字段长的确定性，所以其对计算机硬件要求较低，同时也能具备更高的指令译码和识别速度。</p>
+<h2 id="2-指令的寻址方式"><a href="#2-指令的寻址方式" class="headerlink" title="2. 指令的寻址方式"></a>2. 指令的寻址方式</h2><p>寻址方式是指寻找指令或操作数有效地址的方式，即确定本条指令的数据地址及下一条待执行指令的地址的方法。寻址方式分为指令寻址和数据寻址两大类。</p>
+<p><strong>寻找下一条将要执行的指令地址称为指令寻址；寻找本条指令的数据地址称为数据寻址。</strong></p>
+<h3 id="2-1-指令寻址"><a href="#2-1-指令寻址" class="headerlink" title="2.1 指令寻址"></a>2.1 指令寻址</h3><p>指令寻址方式有两种：一种是顺序寻址方式，另一种是跳跃寻址方式。</p>
+<h4 id="2-1-1-顺序寻址"><a href="#2-1-1-顺序寻址" class="headerlink" title="2.1.1 顺序寻址"></a>2.1.1 顺序寻址</h4><p>顺序寻址就是通过**程序计数器PC加1<font color=red>（1条指令的长度）</font>**，自动形成下一条指令的地址。</p>
+<p>这里注意标红处，PC加1，这里的1是指一条指令长度，主存编码的不同或指令结构的不同，都会影响指令的长度，所以这里的1要理解为1条指令的长度。</p>
+<p>下面举几个例子加深一下印象：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/662f68bd0ea9cb1403d7b797.png" alt="计算机组成原理（四）——指令系统——指令寻址按字编址.png">
+
+<p>上面是指令字长&#x3D;存储字长&#x3D;2B，主存按<font color=red><strong>字</strong></font>编址的情况。这个时候一条指令占一行，即长度为1个字，因为按字编址，所以每一行的起始地址只需加1，所以PC+1。</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/662f696c0ea9cb1403d90c3b.png" alt="计算机组成原理（四）——指令系统——指令寻址按字节编址.png">
+
+<p>上面是指令字长&#x3D;存储字长&#x3D;2B，主存按<font color=red><strong>字节</strong></font>编址的情况。这个时候一条指令仍占一行，即长度为1个字，但是因为按字节编址，所以每一行其实是两个字节，对应下来每一行的起始地址需要加2，所以PC+2。</p>
+<p>不难看出，上面两个例子都是定长指令结构，下面看一下变长指令字结构。</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/662f90520ea9cb140327e9ef.png" alt="计算机组成原理（四）——指令系统——变长指令字结构.png">
+
+<p>上面的指令系统采用变长指令字结构，这里的指令字长就不在是固定的，所以上图右边的指令字长&#x3D;存储字长&#x3D;16bit&#x3D;2B可忽略。主存按字节编址。这个时候读入一个字，CPU要根据其操作码判断这条指令的总字节数n，然后再修改PC的值。</p>
+<p>由于CPU每次只读一行，即1个字，所有指令如果有几个字的话，CPU可能还要进行多次访存，才能把指令读完。</p>
+<p>补充一下，这里CPU根据操作码判断指令长度，具体怎么判断的，王道没有说，我去查了一下，大体可分为以下五步：</p>
+<ol>
+<li><strong>预取指令</strong>：CPU从内存或缓存中预取一定数量的字节，这些字节可能包含一条或多条指令。</li>
+<li><strong>解析操作码</strong>：CPU开始分析预取的字节，寻找操作码。由于操作码的长度是可变的，CPU需要逐个字节地进行解析，直到确定完整的操作码。</li>
+<li><strong>查找指令长度</strong>：一旦操作码被识别，CPU会查阅其内部的指令集表或类似的数据结构，以确定与该操作码相关联的指令长度。这个表通常包含了所有可能的操作码及其对应的指令长度信息。</li>
+<li><strong>计算总字节数</strong>：基于查找到的指令长度，CPU可以计算出这条指令的总字节数。这可能涉及读取额外的字节来确定操作数的数量和长度，因为指令的总字节数不仅包括操作码本身，还可能包括操作数和其他附加信息。</li>
+<li><strong>更新程序计数器</strong>：最后，CPU会根据计算出的指令总字节数来更新程序计数器（PC）的值，以便指向下一条指令的起始地址。</li>
+</ol>
+<h4 id="2-1-2-跳跃寻址"><a href="#2-1-2-跳跃寻址" class="headerlink" title="2.1.2 跳跃寻址"></a>2.1.2 跳跃寻址</h4><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/662f93160ea9cb14032dde60.png" alt="计算机组成原理（四）——指令系统——跳跃寻址.png">
+
+<p>跳跃寻址，顾名思义，就是指由本条指令给出下条指令地址的计算方式，指令之间执行的不是顺序关系，不能通过PC+1的方式来查找下一条执行的指令。跳跃寻找需要通过转移类指令实现。如上图，在主存的第四个存储块里，存储着JMP 7的指令，JMP就是无条件跳转指令，此时PC不应该加1指向4，而应该指向7，这就是跳跃寻址。</p>
+<h4 id="2-1-3-指令寻址小结"><a href="#2-1-3-指令寻址小结" class="headerlink" title="2.1.3 指令寻址小结"></a>2.1.3 指令寻址小结</h4><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/662f943b0ea9cb1403307e68.png" alt="计算机组成原理（四）——指令系统——指令寻址小结.png">
+
+<p>注意，每一条指令的执行都分为取指令和执行指令两个过程，如果题目里要计算访存次数，注意是从取指令开始，还是只算执行指令。</p>
+<h3 id="2-2-数据寻址"><a href="#2-2-数据寻址" class="headerlink" title="2.2 数据寻址"></a>2.2 数据寻址</h3><h4 id="2-2-1-数据寻址基本概念"><a href="#2-2-1-数据寻址基本概念" class="headerlink" title="2.2.1 数据寻址基本概念"></a>2.2.1 数据寻址基本概念</h4><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/662f9e1a0ea9cb140347980e.png" alt="计算机组成原理（四）——指令系统——数据寻址.png">
+
+<p>数据寻址，就是确定本条指令的地址码指明的真实地址，但是注意，数据寻址的方式有多种，所以，对于同一个指令，在不同寻址方法里有不同的意思；同样，查找同一个地址，也有不同的指令描述方法。</p>
+<p>下面给出数据寻址的多种方法：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/662f9ef50ea9cb1403497cfe.png" alt="计算机组成原理（四）——指令系统——数据寻址方法.png">
+
+<p>上面是数据寻址常用的10种方法，为了区分使用的是何种方式，我们要在原指令结构里添加几个比特位做寻址特征字段，用来表示使用的是何种方法。</p>
+<p>从上图的指令结构里，不难发现，我们把最后一个地址码字段具象化为形式地址字段(A)。所以这里也稍微讲一下什么是形式地址。</p>
+<p>形式地址(A)：指令中的地址码字段并不代表操作数的真实地址，这种地址称为形式地址(A)。形式地址结合寻址方式，可以计算出操作数在存储器中的真实地址，这种地址称为有效地址(EA)。</p>
+<p>下面来具体说一下几种寻址方式，为了方便说明，假设下面所有的寻址方式的指令字长&#x3D;机器字长&#x3D;存储字长。</p>
+<h4 id="2-2-2-直接寻找"><a href="#2-2-2-直接寻找" class="headerlink" title="2.2.2 直接寻找"></a>2.2.2 直接寻找</h4><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/662fa0c50ea9cb14034d7b77.png" alt="计算机组成原理（四）——指令系统——直接寻址.png">
+
+<h4 id="2-2-3-间接寻址"><a href="#2-2-3-间接寻址" class="headerlink" title="2.2.3 间接寻址"></a>2.2.3 间接寻址</h4><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/662fa13c0ea9cb14034e837a.png" alt="计算机组成原理（四）——指令系统——间接寻址.png">
+
+<p>这里说一下两次间址，就是根据形式地址去主存里找到的该地址上的数据，并不是操作数，而是操作数在主存里的地址，需要通过这个地址，再去主存里找操作数。一般情况下，两次及多次间址会在主存里的每一条数据前留一个比特位用来判断根据当前存储单元存储的数据找到的是操作数还是操作数的地址，如果为1说明根据这个存储单元里的数据找到的是存储在主存里的操作数的地址，如果为0说明根据这个存储单元里的数据找到的是存储在主存里的操作数，具体可以参考上图的两次间址。</p>
+<p>通过间接寻址可以扩大寻址范围，而通过多次间址，可以将寻址范围以几何级数的方式扩大到很大。</p>
+<h4 id="2-2-4-寄存器寻址"><a href="#2-2-4-寄存器寻址" class="headerlink" title="2.2.4 寄存器寻址"></a>2.2.4 寄存器寻址</h4><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/662fa31f0ea9cb140352a532.png" alt="计算机组成原理（四）——指令系统——寄存器寻址.png">
+
+<p>寄存器寻址和直接寻址一样，只不过操作数不是存储在主存里而是存储在寄存器内。</p>
+<h4 id="2-2-5-寄存器间接寻址"><a href="#2-2-5-寄存器间接寻址" class="headerlink" title="2.2.5 寄存器间接寻址"></a>2.2.5 寄存器间接寻址</h4><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/662facae0ea9cb14036a95cd.png" alt="计算机组成原理（四）——指令系统——寄存器间接寻址.png">
+
+<h4 id="2-2-6-隐含寻址"><a href="#2-2-6-隐含寻址" class="headerlink" title="2.2.6 隐含寻址"></a>2.2.6 隐含寻址</h4><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/662facf30ea9cb14036b3380.png" alt="计算机组成原理（四）——指令系统——隐含寻址.png">
+
+<h4 id="2-2-7-立即寻址"><a href="#2-2-7-立即寻址" class="headerlink" title="2.2.7 立即寻址"></a>2.2.7 立即寻址</h4><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/662fad3d0ea9cb14036bde57.png" alt="计算机组成原理（四）——指令系统——立即寻址.png">
+
+<p>立即寻址要与直接寻址区分开来，立即寻址把要读的操作数直接写在指令的形式地址字段，而直接寻址，要通过形式地址去找操作数存储的位置。</p>
+<h4 id="2-2-8-基址寻址"><a href="#2-2-8-基址寻址" class="headerlink" title="2.2.8 基址寻址"></a>2.2.8 基址寻址</h4><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/662fae0a0ea9cb14036da438.png" alt="计算机组成原理（四）——指令系统——基址寻址.png">
+
+<p>基址寻址，用大白话来说，就是以程序在主存里存储的起始地址为基准，根据这个基准去找有效地址。</p>
+<p>基址寻址需要基址寄存器，基址寄存器可以是专用寄存器BR，也可以是通用寄存器。</p>
+<p>如果使用专用寄存器，则专用寄存器里存储程序的首地址，想找到操作数，就需要通过基地址加上偏移量来查找，即BR里存储的基地址加上A里存储的形式地址得到有效地址。</p>
+<p>但是有的CPU里没有基址寄存器，就会使用某一个通用寄存器作为基址寄存器。这个时候，就需要多花费几个比特位来确定哪个通用寄存器作为基址寄存器。剩下的具体查找操作数的方式与专用寄存器一样，只需要把专用寄存器改成通用寄存器即可。</p>
+<p>这里面要思考一个问题，要用几个bit指明寄存器，这就需要根据寄存器总数判断，如果有8个通用寄存器，就需要3个bit位。</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/662fb1f30ea9cb1403768f6a.png" alt="计算机组成原理（四）——指令系统——基址寻址的作用.png">
+
+<p>由于程序存储在主存里的起始地址并不一定是0，可以是10,100或1000等等，所以可以用基址寻址的方式来确定操作数的位置，这样即使改动整段程序的存储位置，也只需要更改基址寄存器里存储的基地址，而不需要更改大片操作数地址。</p>
+<p>对于基址寻址还有以下几个事项需要注意一下：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/662fb3270ea9cb14037937fb.png" alt="计算机组成原理（四）——指令系统——基址寻址的注意事项.png">
+
+<h4 id="2-2-9-变址寻址"><a href="#2-2-9-变址寻址" class="headerlink" title="2.2.9 变址寻址"></a>2.2.9 变址寻址</h4><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/662fb37e0ea9cb140379ef1c.png" alt="计算机组成原理（四）——指令系统——变址寻址.png">
+
+<p>变址寻址，就是用指令中的形式地址作为基准，然后每次改动变址寄存器里的值，再通过变址寄存器和形式地址相加得到有效地址。</p>
+<p>这里可能有些难以理解，可以参考下面变址寻址的作用里的例子，结合理解。</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/662fb4260ea9cb14037b5515.png" alt="计算机组成原理（四）——指令系统——变址寻址作用.png">
+
+<p>从上面的例子里可以看到，主存单元2里，地址码上存储数组a的首位a[0]的形式地址，在执行循环时，可以通过改变IX里的值，来改变存储单元2里的地址码上的形式地址，这样就可以用简短的几行指令，实现重复的循环操作。如果这里采用基址寻址，则需要增加很多行来执行数组的加法操作。</p>
+<p>可以说变址寻址的最大作用就是循环的应用。</p>
+<p>这里有个知识需要补充一下，就是主存地址4的地方，这个地方是比较(IX)与立即寻址10谁大，但是注释里写的比较方式确是比较10-(IX)，这个地方可能会有疑惑，所以补充一下这个地方硬件层面实现的方式：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/662fb89d0ea9cb140387d3b9.png" alt="计算机组成原理（四）——指令系统——硬件如何实现数的比较.png">
+
+<p>下面看一下变址寻址的注意点：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/662fb6250ea9cb140382370b.png" alt="计算机组成原理（四）——指令系统——变址寻址的注意点.png">
+
+<p>这里再拓展一下复合寻址的概念：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/662fb6690ea9cb140382d0ae.png" alt="计算机组成原理（四）——指令系统——符合寻址.png">
+
+<p>所谓复合寻址，就是将多种寻址方式结合，上面给出的例子是基址和变址的复合寻址，这个时候要先根据基址去找到程序地址然后计算基于起始地址的实际形式地址存储位置，再根据形式地址去找到使用变址寻址的方式找到有效地址。总结下来，就一个公式：EA&#x3D;(IX)+((BR)+A)。</p>
+<p>注意，复合寻址很容易被考到，不能死寂，要学会理解，考试时应具体问题具体分析。</p>
+<h4 id="2-2-10-相对寻址"><a href="#2-2-10-相对寻址" class="headerlink" title="2.2.10 相对寻址"></a>2.2.10 相对寻址</h4><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/662fb8d80ea9cb140388561d.png" alt="计算机组成原理（四）——指令系统——相对寻址.png">
+
+<p>相对寻址就是基于当前PC的值加上形式地址A而形成操作数的有效地址。</p>
+<p>注意这里PC在取完指令以后，会自动+1指向下一条指令的地址，这时候执行本条指令，但PC指的是下一条指令，所以形式地址相对的应当是下一条指令地址的偏移量，而不是当前指令地址的偏移量。</p>
+<p>接下来看一下相对寻址的作用：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/662fba840ea9cb14038bf516.png" alt="计算机组成原理（四）——指令系统——相对寻址作用.png">
+
+<p>上图是与上面复合寻址同样的例子，可以看到for循环在程序中是按顺序一连串存储的，随着程序的扩充，这段执行循环的指令地址向后移动，如果还是按照基址寻址的方式来处理，那条件跳转指令让循环从头开始的地址码也要改动，可以发现使用基地址寻址，只要循环指令的第一步地址改动，就需要改动条件跳转指令的地址码才可再次指向正确位置。相较之下，相对寻址的优越性就体现出来了，只要运行到条件跳转处，就基于当前PC值进行偏移，这样即使整段循环指令的开始地址再怎么改动，也不用改动跳转到开始处的地址。</p>
+<p>下面是对相对寻址的一个小总结：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/662fbe570ea9cb14039434e9.png" alt="计算机组成原理（四）——指令系统——相对寻址注意事项.png">
+
+<h4 id="2-2-11-堆栈寻址"><a href="#2-2-11-堆栈寻址" class="headerlink" title="2.2.11 堆栈寻址"></a>2.2.11 堆栈寻址</h4><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/662fbed90ea9cb14039546dc.png" alt="计算机组成原理（四）——指令系统——堆栈寻址.png">
+
+<p>堆栈寻址就是用寄存器组里一块特定的按“后进先出”原则管理的存储区存储数据，然后用堆栈指针SP来指向栈顶。栈里存储着每条指令的操作数，执行指令时，直接从栈顶取出每一条指令的操作数，所以，操作数也可以看成隐式的存储在栈里。</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/662fbf4e0ea9cb14039631c5.png" alt="计算机组成原理（四）——指令系统——软堆栈.png">
+
+<p>前面所说的是硬堆栈，即把操作数存在寄存器里这样成本太高，所以又发明了软堆栈，即在主存里划分一段存储空间用栈表示，然后把数据存储到主存的栈里。</p>
+<h4 id="2-2-12-数据寻址小结"><a href="#2-2-12-数据寻址小结" class="headerlink" title="2.2.12 数据寻址小结"></a>2.2.12 数据寻址小结</h4><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/662fbf850ea9cb1403969b21.png" alt="计算机组成原理（四）——指令系统——数据寻址小结.png">
+
+<h2 id="3-程序的机器级代码表示"><a href="#3-程序的机器级代码表示" class="headerlink" title="3. 程序的机器级代码表示"></a>3. 程序的机器级代码表示</h2><h3 id="3-1-引言"><a href="#3-1-引言" class="headerlink" title="3.1 引言"></a>3.1 引言</h3><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/6631b05d0ea9cb14034713c0.png" alt="计算机组成原理（四）——指令系统——高级&汇编&机器语言.png">
+
+<p>我们用高级语言写的程序经过编译器会翻译成汇编语言的程序，而汇编语言的程序经过汇编器会翻译成机器语言程序。机器语言是由二进制的0、1组成，可以直接交由CPU执行。</p>
+<p>高级语言当中的一条代码可能会对应好几个汇编语言指令，而汇编语言指令和机器语言指令之间是一一对应的关系。</p>
+<p><strong><font color=red>汇编语言指令表示的代码和机器语言表示的代码都属于机器级代码。</font></strong></p>
+<p>机器级代码是2022年考研大纲新增考点，重点关注x86语言，如果考到其它语言，卷子上是会提供注释的。</p>
+<p>其余可能的考点以及掌握程度参考上图。</p>
+<h3 id="3-2-x86汇编语言指令基础"><a href="#3-2-x86汇编语言指令基础" class="headerlink" title="3.2 x86汇编语言指令基础"></a>3.2 x86汇编语言指令基础</h3><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/6631b2c00ea9cb14034bc680.png" alt="计算机组成原理（四）——指令系统——x86基础.png">
+
+<p>一条指令有改变程序执行流和处理数据两个功能。</p>
+<p>现在先看第二个功能，一条指令要处理数据，那这个指令有两部分构成，首先是操作码，其次是地址码。操作码说明了要对这个数据进行什么处理，地址码说明了数据在什么地方。而数据存储的地方有三个：寄存器、主存、指令。</p>
+<p>一条指令要处理的数据在寄存器里，那如何解决在指令当中指明数据在哪这个问题呢？很简单，只要给出寄存器名字即可，所以我们需要知道基于x86架构下的CPU有哪些寄存器。</p>
+<p>一条指令要处理的数据在主存里，那如何解决在指令当中指明数据在哪这个问题呢？同理，只要给出主存地址即可，但是不同的存储类型占用不同的存储大小的存储空间，所以我们还需要知道基于x86架构下的CPU是怎么在指令中指明读写长度的。</p>
+<p>一条指令要处理的数据在指令里，只要直接在指令里写要操作的数即可，也就是立即寻址。</p>
+<p>下面以MOV指令为例，对指令要处理的数据分别在寄存器、主存和指令里进行读写演示：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/6631b5460ea9cb1403510c7d.png" alt="计算机组成原理（四）——指令系统——x86操作举例.png">
+
+<p>通过上面的MOV指令示例，我们可以清晰的看到汇编语言指令是如何对存储在寄存器、主存和指令里的数据进行操作的。</p>
+<p>如果是数据存储在寄存器里，直接写寄存器名即可；如果是数据存储在主存里，要在主存地址外加中括号，前面可以注明读写长度，如果不注明，会默认为32bit；如果是数据存储在指令里，直接写立即数就行。</p>
+<p>主存地址和立即数我们都知道，但是在x86架构里，寄存器有哪些我们还不是很清楚，所以下面说一下x86架构下的寄存器：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/6631b6780ea9cb1403535845.png" alt="计算机组成原理（四）——指令系统——x86寄存器.png">
+
+<p>如图是x86下的寄存器，<font color=red><strong>每个寄存器的长度是32bit</strong></font>。</p>
+<p><strong><font color=green>EAX、EBX、ECX、EDX是通用寄存器。</font></strong></p>
+<p><strong><font color=blue>ESI、EDI是变址寄存器。</font></strong></p>
+<p><strong><font color=purple>EBP、ESP是堆栈寄存器。</font></strong></p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/6631b7c00ea9cb1403560518.png" alt="计算机组成原理（四）——指令系统——x86通用寄存器的16bit使用.png">
+
+<p>对于x86寄存器里的通用寄存器，我们可以只使用用低16位，如上图，但是变址寄存器和堆栈寄存器只能固定使用32bit。</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/6631b8320ea9cb140356d8d5.png" alt="计算机组成原理（四）——指令系统——x86通用寄存器的8bit使用.png">
+
+<p>当然，也可以更灵活的使用通用寄存器，即只使用8bit，如上图。</p>
+<p>为了考试时能更能正确的认识各指令的含义，下面多给出一些例子（需要能看懂下面每一条指令）：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/6631b8800ea9cb1403576b0b.png" alt="计算机组成原理（四）——指令系统——x86指令使用例子.png">
+
+<p>下面对x86汇编语言基础做个总结：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/6631b8e00ea9cb1403581c07.png" alt="计算机组成原理（四）——指令系统——x86基础总结.png">
+
+<h3 id="3-3-常用的x86汇编语言指令"><a href="#3-3-常用的x86汇编语言指令" class="headerlink" title="3.3 常用的x86汇编语言指令"></a>3.3 常用的x86汇编语言指令</h3><h4 id="3-3-4-常见的算数运算指令"><a href="#3-3-4-常见的算数运算指令" class="headerlink" title="3.3.4 常见的算数运算指令"></a>3.3.4 常见的算数运算指令</h4><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/6631d9820ea9cb14039ae023.png" alt="计算机组成原理（四）——指令系统——常见的算数运算指令.png">
+
+<p>乘法和除法指令有两种指令，前面不带i的是无符号数的运算，有i的是有符号数的运算。</p>
+<p>在除法里，可以看汇编指令后仅有一个操作数，这个操作数代表除数，而被除数会被提前放到edx:eax里，所以除法指令的被除数是采用了隐含寻找，在进行除法指令时，会默认被除数已经被放到了edx和eax两个寄存器当中。</p>
+<p>这里对edx:eax解释一下，在进行除法运算之前，需要把被除数进行位扩展，比如32bit被除数除32bit除数，需要先把被除数扩展为64bit，用64bit被除数除32bit除数，而放64bit被除数就需要两个寄存器。更高的32bit放到edx，更低的32bit放到eax。最后运算的结果，商会放在eax，余数会放到edx。（这里如果有疑问的，可以去第二章看下除法运算的过程。）</p>
+<p>这里再补充一点吗，<font color=red><strong>在x86汇编语言当中，不允许两个操作数都来自主存</strong></font>。</p>
+<h4 id="3-3-5-常见的逻辑运算指令"><a href="#3-3-5-常见的逻辑运算指令" class="headerlink" title="3.3.5 常见的逻辑运算指令"></a>3.3.5 常见的逻辑运算指令</h4><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/6631dc400ea9cb1403a32427.png" alt="计算机组成原理（四）——指令系统——常见的逻辑运算指令.png">
+
+<h4 id="3-3-6-其它指令"><a href="#3-3-6-其它指令" class="headerlink" title="3.3.6 其它指令"></a>3.3.6 其它指令</h4><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/6631dc760ea9cb1403a38e97.png" alt="计算机组成原理（四）——指令系统——其它指令.png">
+
+<h3 id="3-4-AT-T格式和Intel格式"><a href="#3-4-AT-T格式和Intel格式" class="headerlink" title="3.4 AT&amp;T格式和Intel格式"></a>3.4 AT&amp;T格式和Intel格式</h3><p>前面所学x86汇编语言格式全是intel格式，但还有一种各大教材常见的格式AT&amp;T，为了以防考试使用AT&amp;T格式，这部分补充一下AT&amp;T格式的x86汇编语言。</p>
+<p>Intel格式是windows常用的格式，而AT&amp;T格式则是Unix和Linux常用的格式。</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/6631ddaa0ea9cb1403a5f24b.png">
+
+<p>mov eax,[ebx+ecx*32+4]可能比较难以理解，但这个汇编程序计算地址其实很常用，下面解释一下：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/6631e0a80ea9cb1403ac80e1.png" alt="计算机组成原理（四）——指令系统——地址计算.png">
+
+<p>对这个计算地址的方式其实就可以看成，对结构体的使用。假设我们定义了一个学生信息结构体，然后创建一个数组来保存学生信息，数组的首地址存放在eax寄存器里，每个学生结构体大小占32B。现在要找第4个学生的信息，就是找到数组下标为3的起始地址。因为数组是按顺序存储的，所以下标为3的数组起始地址为变址*3（变址数据存储在ecx寄存器里，该变址寄存器里的数据表示是数组第几个元素），如上图。假设结构体里按顺序存储着学生姓名年龄等信息，每个信息占4B，现在要想查找该学生的年龄，就要再数组下标为3的起始地址处在偏移4B才可找到学生年龄信息的起始地址。</p>
+<p>所以mov eax,[ebx+ecx*32+4]这个指令按照上述例子就可以理解为，从数组存放的起始地址ebx处，通过ecx*32+4找到第四个学生的年龄信息，然后把找到的数据放到eax寄存器里。</p>
+<p>由此可见，在进行项目开发时，像mov eax,[ebx+ecx*32+4]这样计算地址的指令是很常见的。</p>
+<h3 id="3-5-选择语句的机器级表示"><a href="#3-5-选择语句的机器级表示" class="headerlink" title="3.5 选择语句的机器级表示"></a>3.5 选择语句的机器级表示</h3><h4 id="3-5-1-无条件跳转指令"><a href="#3-5-1-无条件跳转指令" class="headerlink" title="3.5.1 无条件跳转指令"></a>3.5.1 无条件跳转指令</h4><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/6631e3b20ea9cb1403b330b4.png" alt="计算机组成原理（四）——指令系统——选择语句.png">
+
+<p><font color=blue><strong>先补充一个知识点，在x86处理器中，程序计数器PC也常被称为IP(寄存器)，如果做题时看到题目里说IP寄存器，要知道IP就是程序计数器PC。</strong></font></p>
+<p>如图，选择语句就是我们C语言中常用的选择判断句，根据选择语句的逻辑执行顺序可以看出，里面包含很多跳跃性执行指令，而我们正常执行指令时，PC只会自动1，这显然无法实现选择语句。这个时候就要借助一个可以实现PC跳跃性指向的指令——jmp指令。</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/6631e5660ea9cb1403b73f0e.png" alt="计算机组成原理（四）——指令系统——无条件转移指令.png">
+
+<p>据上图，当PC执行到108时，先从主存里取出jmp 128指令，此时PC+1指向下一条指令起始地址112，但是执行jmp 128时，会发现是jmp指令，此时PC要无条件指向128处准备执行指令8。当然，这个是把操作数放在指令里的，也可以把操作数放在主存和寄存器里，可以参考上图右下角。</p>
+<p>但是，如果只能通过指定地址的方式来确定PC的指向的话，如果更改了这段程序在主存里的位置，那jmp后跟的操作数也要更改，这对程序员来说，无疑是很难受的，所以，就有了下面的标号法。</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/6631eef30ea9cb1403cd41b4.png" alt="计算机组成原理（四）——指令系统——无条件转移指令的标号.png">
+
+<p>jmp后面可以跟着一个标号，当执行jmp指令时，会跳到标号处，这样无论程序地址怎么改，只要逻辑不变，都能顺利执行。</p>
+<p>如上图将jmp 116改成jmp NEXT（这里的标号为NEXT，并非只能是NEXT，可以程序员自己定义），这样PC依然会指向mov ecx,eax，但是当该段程序地址更改时，就不需要改动jmp后的跳转位置。</p>
+<p>这里有一点注意一下，jmp指令跳转到标号处，并不是PC指向标号，而是PC指向标号位置的第一条指令。如上图jmp NEXT执行以后，PC不是指向NEXT，而是指向mov ecx,eax。这种方法很类似于C语言里的goto语句。</p>
+<h4 id="3-5-2-条件跳转指令"><a href="#3-5-2-条件跳转指令" class="headerlink" title="3.5.2 条件跳转指令"></a>3.5.2 条件跳转指令</h4><p>除了jmp指令，汇编语言还提供了一些执行复杂过程的条件转移指令。如下：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/6631f0a90ea9cb1403d11deb.png" alt="计算机组成原理（四）——指令系统——条件转移指令.png">
+
+<p>条件转移指令jxxx（这里的jxxx是代指，代指je、jne等以j开头的条件转移指令），常与cmp指令一起使用。</p>
+<p>使用的方式如上图最下面，先使用cmp指令做判断，然后使用条件转移指令jxxx，根据判断结果做出对应操作。</p>
+<p>具体的使用方法可以结合下面的图：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/6631f1550ea9cb1403d2a54c.png" alt="计算机组成原理（四）——指令系统——条件转移指令示例1.png">
+
+<p>这里使用汇编语言写的条件跳转指令，他的else逻辑部分在前if逻辑在后，与我们C语言的执行顺序相反，但是效果一样，如果想要和C语言的执行顺序一样，也可以参考如下图的写法：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/6631f1da0ea9cb1403d3c22b.png" alt="计算机组成原理（四）——指令系统——条件转移指令示例2.png">
+
+<p>从这个例子里可以看出，对于同一段高级语言写的程序，他的汇编程序写法并不是固定的，对于我个人来说，我更偏向第一种写法，这样写可以很大程度上避免因为更改判断条件不完全而出错的问题。</p>
+<p>接下里，看下下面的这道真题：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/6631f29a0ea9cb1403d53d48.png" alt="计算机组成原理（四）——指令系统——真题.png">
+
+<p>通过上面对汇编语言的学习，这道题里有很多指令我们都可以看出是什么意思，即使不知道的，也可以结合题目提供的程序猜出意思，这是我们考试时必须要具备的能力。</p>
+<p>对于这道题，有一点要说一下，汇编程序员在写汇编指令时，一般都会以函数名作为标号，标注该函数指令的起始地址。所以在题目里有这么一段汇编程序jie f1+35h，看似操作数使用的16进制的立即数，实则是指在函数的起始地址上偏移35h，因为这段函数的名字为f1，所以这里的f1代表着该函数的起始地址。</p>
+<h4 id="3-5-3-扩展——cmp指令执行的底层原理"><a href="#3-5-3-扩展——cmp指令执行的底层原理" class="headerlink" title="3.5.3 扩展——cmp指令执行的底层原理"></a>3.5.3 扩展——cmp指令执行的底层原理</h4><p>在2.2.9变址寻址里，已经初步介绍过cmp指令的执行原理，这部分对其再进行一个细化：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/6631f4180ea9cb1403d8636e.png" alt="计算机组成原理（四）——指令系统——cmp指令执行的底层原理.png">
+
+<p>cmp指令的执行，本质是两个数进行减法运算并生成标志位的过程，两个数的运算通过ALU进行（减法运算的详细过程可以参考第二章），计算得到的标志位会被放到程序状态寄存器PSW中。其余的指令执行相关操作时，会去程序状态寄存器里查询标志位，进而推出自己该执行何种操作。</p>
+<p>上图左上给出了intel的8086CPU里的16bit程序状态寄存器，其中第0bit存储CF标志位，第6bit存储ZF标志位，第7bit存储SF标志位，第11bit存储OF标志位。条件转移指令jxxx执行时，会去查询这些标志位，进而确定该不该执行跳转操作。</p>
+<p>由于1个CPU通常只有1个PSW程序状态寄存器，所以每次运算的标志位都会放到该PSW里，将上次运算的结果覆盖掉，所以cmp指令后通常会跟着jxxx指令，这是为了防止中间出现其他的运算将标志位覆盖掉，导致jxxx判断的不是原本cmp指令执行的结果。</p>
+<h3 id="3-6-循环语句的机器级表示"><a href="#3-6-循环语句的机器级表示" class="headerlink" title="3.6 循环语句的机器级表示"></a>3.6 循环语句的机器级表示</h3><p>循环语句的机器级表示和条件跳转语句的机器级表示都一样，都是借助jxxx指令的跳转特性来实现。有了条件跳转的机器级表示基础，来实现循环语句的机器级表示是件很容易的事情。</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/6631f7520ea9cb1403e1336d.png" alt="计算机组成原理（四）——指令系统——jxxx实现循环.png"> 
+
+<p>除了上面所说的jmp结合cmp的方式实现循环以外，我们还可以通过特地的指令实现循环，比如loop指令。</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/6631fc4e0ea9cb1403eba934.png" alt="计算机组成原理（四）——指令系统——loop实现循环.png">
+
+<p>与jxxx指令不同，看到jxxx的第一反应，这是个分支结构，并不一定是循环，但看到loop指令，大家的第一感就应该是循环的执行。</p>
+<p>如上图的for循环程序，可以通过loop实现，loop指令就等价于先令ecx寄存器里的数据执行自减操作，再与0比较，若不等于0，则跳转到程序的开始处。</p>
+<p>注意，loop指令是一些列操作的集合，所以它也规定了所使用的寄存器ecx，换句话说，loop指令是对ecx进行操作的，所以要用loop执行实现循环时，要把判断数据放到ecx寄存器里。</p>
+<p>loop指令同jmp指令一样，也有许多扩展形式loopx，可以参考上图左下角。</p>
+<p>从这里，不难看出，x86语言有很多种，我们是不可能花费大量时间去把所有语言学完，这就要求我们具备在考试时如果遇到不会的汇编指令，要能根据程序推出指令的含义的能力。</p>
+<h3 id="3-7-函数调用的机器级表示"><a href="#3-7-函数调用的机器级表示" class="headerlink" title="3.7 函数调用的机器级表示"></a>3.7 函数调用的机器级表示</h3><h4 id="3-7-1-call和ret指令"><a href="#3-7-1-call和ret指令" class="headerlink" title="3.7.1 call和ret指令"></a>3.7.1 call和ret指令</h4><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/6631fe4a0ea9cb1403efb6b6.png" alt="计算机组成原理（四）——指令系统——函数调用.png">
+
+<p>上面是我们基于高级语言视角实现函数调用的运行过程，就是通过开辟一段函数调用栈空间，通过不断往里入栈出栈函数的栈帧实现函数的调用。函数的栈帧的含义可以看上图底部。</p>
+<p>下面，着眼与caller和add函数看一下汇编语言视角是如何执行的。</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/6631feee0ea9cb1403f12aab.png" alt="计算机组成原理（四）——指令系统——call和ret.png">
+
+<p>函数的调用在汇编语言视角使用call和ret指令。</p>
+<p>在caller函数里使用call指令调用add函数，在add函数里使用ret指令返回caller函数，然后caller继续往下执行。这里就有一个问题，在汇报语言执行函数调用过程中，是如何返回到原先调用的地方，然后继续往下执行的，这里就牵扯到对IP保存的问题。</p>
+<p>以上图为例，当取出call add指令时，IP+1会指向下一条指令，即mov [ebp-4],eax，此时执行call add指令发现是函数调用，这时PC会指向add函数起始处，并将add函数栈帧压入栈，但为了保证等会执行完add指令，能正确回到mov [ebp-4],eax处，就要求在将add压入栈前，先将PC指向mov [ebp-4],eax处的值压入栈里，这个值我们称之为IP旧值，也是add函数执行完返回的地址。当add函数执行完以后，就add函数出栈，此时再将IP旧值出栈，PC就会重新指向mov [ebp-4],eax处。</p>
+<p>在上面，我们只说了函数怎么过去怎么回来的问题，但实际中，我们还会执行传递参数，使用函数里的数据等操作。所以，接下来要考虑一下，如何传递参数？如何访问栈帧里的数据？栈帧内可能包含哪些内容？</p>
+<h4 id="3-7-2-如何访问栈帧"><a href="#3-7-2-如何访问栈帧" class="headerlink" title="3.7.2 如何访问栈帧"></a>3.7.2 如何访问栈帧</h4><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/6632077f0ea9cb140305c15b.png" alt="计算机组成原理（四）——指令系统——栈的画法原因.png">
+
+<p>先解释一下，为什么在画函数调用栈时不是像数据结构里一样，把栈底画在下面而是把栈底画在上面。</p>
+<p>在32位系统中，系统会为每个进程分配一个4GB的虚拟地址空间，地址范围从0000 0000~FFFF FFFF，总共4GB。高地址的1GB属于操作系统内核区。而低地址的3GB可以由用户进行使用，而函数调用栈的栈底在C000 0000处，栈顶在地址变小的方向，因此大多数教材在画函数调用栈时会把栈底画在上面，栈顶画在下面，因为上面是高地址方向，下面是低地址方向。</p>
+<p>知道了函数调用栈为什么把栈底画在上面以后，接下来看一下如何用汇编语言操作栈里的数据。</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/663209730ea9cb140309e504.png" alt="计算机组成原理（四）——指令系统——ESP和EBP.png">
+
+<p>在x86里，我们学过有两个堆栈寄存器EBP和ESP，EBP里存储当前栈帧帧的底部地址，ESP里存储当前栈帧的顶部地址。在EBP和ESP之间，就是当前栈帧的范围。</p>
+<p>上图展示的是caller函数的栈帧，采用x86系统，默认栈里以4字节为操作单位。EBP和ESP两个寄存器里存储的本质上就是内存地址。所以我们可以通过EBP和ESP对栈里的数据进行操作。</p>
+<p>下面看一下如何对栈帧里数据进行操作：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/66320cae0ea9cb1403111282.png" alt="计算机组成原理（四）——指令系统——PUSH和POP.png">
+
+<p>上面是通过push和pop指令对栈帧里数据进行操作，由于esp指向栈顶，在低地址，所以入栈时，需要让esp减去一个栈的操作单位长度再入栈（相当于扩充一个操作长度的存储空间，才能让数据入栈）；出栈时，需要先把数据出栈再让esp加上一个栈的操作单位长度（相数据出栈以后，释放数据的存储空间）。</p>
+<p>上图里对栈的操作单位是4B，所以push和pop指令偏移的地址应是4B的倍数，入栈时先让esp-4再入栈；出栈时先出栈再让esp+4。</p>
+<p>除此以外，还可以以ebp和esp为基准，通过对两个ebp和esp的偏移，可以访问其他元素的数据，比如上图左下的例子push[ebp+8]和pop[ebp+8]就是以ebp为基准，访问向上8个偏移量处的数据。</p>
+<p>除了使用push和pop指令外，还可以通过mov指令访问栈帧里数据，如下。</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/66320f890ea9cb140316dbe9.png" alt="计算机组成原理（四）——指令系统——mov访问栈.png">
+
+<p>使用mov指令和push与pop不同，push与pop只能将数据放入栈顶或从栈顶取出，但是mov指令可以对栈内每一个操作单位的数据进行读写操作。</p>
+<p>下面对如何访问栈帧进行一个小结：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/6632104e0ea9cb14031893be.png" alt="计算机组成原理（四）——指令系统——访问栈帧数据小结.png">
+
+<h4 id="3-7-3-如何切换栈帧"><a href="#3-7-3-如何切换栈帧" class="headerlink" title="3.7.3 如何切换栈帧"></a>3.7.3 如何切换栈帧</h4><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/66325ae60ea9cb1403c63807.png" alt="计算机组成原理（四）——指令系统——函数调用切换栈帧.png">
+
+<p>函数调用时，会先执行push ebp和mov ebp,esp指令(这两指令合一起等价于enter指令)，将上一层函数的栈帧基址保存下来，并设置当前函数的栈帧基址。</p>
+<p>看上图的例子，caller函数调用add函数时，执行call指令，call指令我们都知道，会将IP旧址压入栈里，此时esp指向IP旧址处。调用add以后，会执行enter指令，先将ebp值入栈，即把caller栈帧基址记录下来，再让ebp指向esp处，确定了add函数的基址。</p>
+<p>同理，我们在caller函数，发现他的基址处也存储着上一层函数的栈帧基址。这个栈帧基址的作用是为了保证我们执行完当前被调用的函数以后，能正确的回到上一个函数。而每个函数调用的最后，又都存储着IP旧址，为了保证PC能接下继续运行。</p>
+<p>所以，<font color=red><strong>每个函数调用栈帧里，都必有上一层函数栈帧基址和IP旧址</strong></font>。</p>
+<p>上面是关于函数调用时，如何切换。下面看一下函数返回时，如何切换。</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/66325d5a0ea9cb1403cb405d.png" alt="计算机组成原理（四）——指令系统——函数返回切换栈帧.png">
+
+<p>函数返回时，使用mov esp,ebp和pop ebp指令切换栈帧，即让当前栈帧的栈顶指向栈底，此时栈顶就指向上一层函数栈帧基址，然后让栈顶所指元素出栈并放到ebp里，即将上一层函数栈帧基址出栈，并让ebp指向上一层栈帧基址。此时esp经过出栈操作，会自动进行偏移1个操作长度，指向上一层函数的IP旧值。可以参考下面该例继续运行的结果：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/66325eda0ea9cb1403ce6ada.png" alt="计算机组成原理（四）——指令系统——函数返回切换栈帧举例.png">
+
+<p>mov esp,ebp和pop ebp等价于leave指令。</p>
+<p>当ebp和esp执行leave指令以后，就再次指向caller函数的栈底和栈顶。此时add函数再次执行ret指令，就会出栈IP旧值，让PC指向caller里调用指令之后的下一条指令。</p>
+<p>上面就是我们切换栈帧的过程，下面看一下如何传递参数和返回值。</p>
+<h4 id="3-7-4-如何传递参数和返回值"><a href="#3-7-4-如何传递参数和返回值" class="headerlink" title="3.7.4 如何传递参数和返回值"></a>3.7.4 如何传递参数和返回值</h4><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/66325ff80ea9cb1403d08719.png" alt="计算机组成原理（四）——指令系统——栈帧内包含的内容.png">
+
+<p>通过前面的学习，我们知道，一个栈帧内部肯定会包含上一层栈帧基址和IP返回旧值。但是除了包含这两个以后，栈帧里还会包含局部变量和调用参数。<strong>通常会将局部变量集中存储在栈帧底层区域，而将调用参数集中存储在栈帧顶部区域。</strong></p>
+<p>如上图，caller函数的调用栈里，就包含了上一层栈帧基址、局部变量、调用参数和IP旧值。通过观察不难发现，在caller函数里，越早定义的变量，其存储在栈帧里就越靠近栈顶。而在调用参数时，在参数列表里越靠前的参数也越靠近栈顶。</p>
+<p>除了这些以外，我们还可以发现，caller函数的栈帧里，还有一段空间未使用，这是因为x86系统将每个栈帧大小设置为16B的整数倍，所以当函数栈帧内区域用不完时，就会出现空闲未使用区域。</p>
+<p>单独把栈帧拿出来，可以看到栈帧内部结构如下：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/6632619a0ea9cb1403d46fb4.png" alt="计算机组成原理（四）——指令系统——栈帧内包含的内容详细.png">
+
+<p>从上图可以知道，栈帧一定有上一层栈帧基址和IP返回地址。其余的区域如局部变量和调用参数等，都不一定存在，具体原因上图也已给出。</p>
+<p>下面看一下如何传参：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/663262730ea9cb1403d65e01.png" alt="计算机组成原理（四）——指令系统——传参.png">
+
+<p>在前面我们说过，一般将局部变量存储在栈帧底层，将调用参数放在栈帧顶层，所以可以通过使用ebp和esp的偏移来实现传参。</p>
+<p>我们可以参考上面的例子，先看caller的汇编指令，他先把temp1和temp2放到ebp-12和ebp-8两个局部变量存储处，然后再把他两的值放到参数调用处，这里发现，在把变量temp2从ebp-8放到esp+4处使用了eax寄存器做中转，即先用mov eax,[ebp-8]，再使用mov [esp+4],eax，那为什么不直接使用mov[esp+4],[ebp-8]呢？原因就是我们前面说过，在x86里mov后面不能跟两个存储在主存里的操作数，所以需要寄存器做中转。</p>
+<p>上图中在caller里调用函数add，执行到add eax,edx处，最后将edx里的数据放到eax里是因为，我们通常使用eax作为函数返回结果的寄存器，所以一个函数如果有返回值，我们通常都要将他放入eax寄存器里。</p>
+<p>函数返回值的执行可以参考下图的上例继续运行：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/6632653c0ea9cb1403dc8154.png" alt="计算机组成原理（四）——指令系统——传返回值.png">
+
+<p>当add函数执行完add eax,edx以后就会执行leave指令，然后ret指令回到caller函数里，我们会发现，caller函数里直接使用mov [ebp-4],eax指令，读取函数的返回值，也就是说，我们将被调用函数的返回值放到eax寄存器里，当回到上一级函数以后，可以直接通过读取eax寄存器里的值，获得函数返回函数。</p>
+<p>下面对这部分内容来个小结：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/663267510ea9cb1403e21c1a.png" alt="计算机组成原理（四）——指令系统——函数调用的机器表示.png">
+
+<p>上面可以作为阅读汇编代码的一个分析框架，涵盖了函数调用的全部过程，需要注意一点，由于有时候函数里面已经使用寄存器存储了数据，这个时候调用函数，被调用的函数可能会覆盖上一层函数的寄存器值，所以对于上一层函数，如果有些寄存器里数据需要保存的，可以保存在栈帧里，然后等函数调用执行完以后，可以通过栈帧复原。</p>
+<h4 id="3-7-5-函数调用小结"><a href="#3-7-5-函数调用小结" class="headerlink" title="3.7.5 函数调用小结"></a>3.7.5 函数调用小结</h4><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/663268250ea9cb1403e3ca8b.png" alt="计算机组成原理（四）——指令系统——函数调用小结.png">
+
+<p>写在最后，这部分有关函数调用的东西，里面牵扯到很多动态执行的过程，所以光看文字理解不了的，可以看一下视频，这里把视频贴在下面：</p>
+<p><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1ps4y1d73V?p=56&vd_source=7fb4b255ed876969a742738d7b84f461">4.3_6_1_Call和ret指令(函数调用的机器级表示)_哔哩哔哩_bilibili</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1ps4y1d73V?p=57&vd_source=7fb4b255ed876969a742738d7b84f461">4.3_6_2_如何访问栈帧(函数调用的机器级表示)_哔哩哔哩_bilibili</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1ps4y1d73V?p=58&vd_source=7fb4b255ed876969a742738d7b84f461">4.3_6_3_如何切换栈帧(函数调用的机器级表示)_哔哩哔哩_bilibili</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1ps4y1d73V?p=59&vd_source=7fb4b255ed876969a742738d7b84f461">4.3_6_4_如何传递参数和返回值(函数调用的机器级表示)_哔哩哔哩_bilibili</a></p>
+<h2 id="4-CISC和RISC"><a href="#4-CISC和RISC" class="headerlink" title="4. CISC和RISC"></a>4. CISC和RISC</h2><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/6634b49f0ea9cb1403a2eeb2.png" alt="计算机组成原理（四）——指令系统——CISC和RISC.png">
+
+<p>CISC的设计思想就是一条指令完成一个复杂的基本功能。</p>
+<p>RISC的设计思想则是一条指令完成一个基本“动作”，多条指令组合完成一个复杂的基本功能。</p>
+<p>相较于RICS，CISC由于提供许多复杂的基本功能，所以CISC对应的电路设计起来也复杂的多。</p>
+<p>随着CISC指令集越来越多，越来越复杂，有人就发现了80-20规律。在复杂指令集系统当中，有很多指令可能被使用的频率非常低，并且这些功能复杂的指令可以通过软件由多条功能简单的指令实现。但是硬件与软件不一样，硬件对于这些复杂指令可能要设计很多复杂的硬件电路来实现，这可能会导致成本迅速上升。</p>
+<p>如上图下，站在硬件角度觉得例子，CISC思路会提供所有的复杂指令，但RICS思路只会提供普通的整数加减乘指令，然后由这些简单指令去实现矩阵的加减乘。</p>
+<p>由于许多复杂指令通过硬件实现起来很困难，所以就采用存储程序的思想，由一个比较通用的电路配合存储部件完成一条指令，这就是微程序的概念(微程序的内容会在下一章，即第五章详细介绍)。</p>
+<p>RISC技术只提供简单指令，所以电路设计相对简单，功耗低，被广泛应用于手机、平板等。此外，RISC只提供简单指令，所以这些指令执行时间都差不多，这个特性很容易实现并行技术和流水线技术（并行和流水线的含义也会在第五章细说）。</p>
+<p>下面对CISC和RISC做一个对比：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/6634b8320ea9cb1403ae8f67.png" alt="计算机组成原理（四）——指令系统——CISC和RISC对比.png">
+
+<p>这里有几点要说明一下，在CISC系统里，指令访存是没有限制的，但是在RISC里，只有Load&#x2F;Store指令可以进行访存操作。所以对于下面这个我们经常使用的例子来说，因为乘法指令可以直接访问主存，所以该系统一定是CISC复杂指令系统。</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic.imgdb.cn/item/6634b8dc0ea9cb1403b0130f.png" alt="计算机组成原理（四）——指令系统——CISC系统.png">
+
+<p>由上面这个例子也可以看出，CISC可以把需要相乘的数取到某一寄存器紧接着就完成乘法操作，不会过多占用寄存器。而对于RISC来说，执行乘法指令，一定要先把数据读到某一个寄存器然后再用一条乘法指令对两个寄存器的值进行相乘操作。所以CISC的通用寄存器数量较少，而RISC的通用寄存器数量多。</p>
+<p>这里还留下几个术语，什么是控制方式，什么是指令流水线，什么是微程序控制，什么是组合逻辑控制，这些知识会在第五章介绍。</p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="http://bandit-ljC-1.github.io">liujinC</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="http://bandit-ljc-1.github.io/2024/04/24/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86%EF%BC%88%E5%9B%9B%EF%BC%89%E2%80%94%E2%80%94%E6%8C%87%E4%BB%A4%E7%B3%BB%E7%BB%9F/">http://bandit-ljc-1.github.io/2024/04/24/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86%EF%BC%88%E5%9B%9B%EF%BC%89%E2%80%94%E2%80%94%E6%8C%87%E4%BB%A4%E7%B3%BB%E7%BB%9F/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://bandit-ljC-1.github.io" target="_blank">无名高手🍭</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/408%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">408学习笔记</a><a class="post-meta__tags" href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86/">计算机组成原理</a></div><div class="post_share"><div class="social-share" data-image="/myphotos/article_cover/11.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2024/04/24/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%EF%BC%88%E5%9B%9B%EF%BC%89%E2%80%94%E2%80%94%E7%BD%91%E7%BB%9C%E5%B1%82/" title="计算机网络（四）——网络层"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/myphotos/article_cover/12.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">计算机网络（四）——网络层</div></div></a></div><div class="next-post pull-right"><a href="/2024/04/15/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%EF%BC%88%E5%9B%9B%EF%BC%89%E2%80%94%E2%80%94%E6%A0%91%E4%B8%8E%E4%BA%8C%E5%8F%89%E6%A0%91/" title="数据结构（四）——树与二叉树"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/myphotos/article_cover/7.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">数据结构（四）——树与二叉树</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2024/07/03/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86%EF%BC%88%E4%B8%83%EF%BC%89%E2%80%94%E2%80%94%E8%BE%93%E5%85%A5%E8%BE%93%E5%87%BA%E7%B3%BB%E7%BB%9F/" title="计算机组成原理（七）——输入输出系统"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/myphotos/article_cover/10.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2024-07-03</div><div class="title">计算机组成原理（七）——输入输出系统</div></div></a></div><div><a href="/2024/04/10/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86%EF%BC%88%E4%B8%89%EF%BC%89%E2%80%94%E2%80%94%E5%AD%98%E5%82%A8%E7%B3%BB%E7%BB%9F/" title="计算机组成原理（三）——存储系统"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/myphotos/article_cover/5.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2024-04-10</div><div class="title">计算机组成原理（三）——存储系统</div></div></a></div><div><a href="/2024/04/05/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86%EF%BC%88%E4%BA%8C%EF%BC%89%E2%80%94%E2%80%94%E6%95%B0%E6%8D%AE%E7%9A%84%E8%A1%A8%E7%A4%BA%E5%92%8C%E8%BF%90%E7%AE%97/" title="计算机组成原理（二）——数据的表示和运算"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/myphotos/article_cover/6.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2024-04-05</div><div class="title">计算机组成原理（二）——数据的表示和运算</div></div></a></div><div><a href="/2024/03/26/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86%EF%BC%88%E4%B8%80%EF%BC%89%E2%80%94%E2%80%94%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F%E6%A6%82%E8%BF%B0/" title="计算机组成原理（一）——计算机系统概述"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/myphotos/article_cover/9.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2024-03-26</div><div class="title">计算机组成原理（一）——计算机系统概述</div></div></a></div><div><a href="/2024/06/30/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86%EF%BC%88%E5%85%AD%EF%BC%89%E2%80%94%E2%80%94%E6%80%BB%E7%BA%BF/" title="计算机组成原理（六）——总线"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/myphotos/article_cover/9.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2024-06-30</div><div class="title">计算机组成原理（六）——总线</div></div></a></div><div><a href="/2024/06/10/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86%EF%BC%88%E4%BA%94%EF%BC%89%E2%80%94%E2%80%94%E4%B8%AD%E5%A4%AE%E5%A4%84%E7%90%86%E5%99%A8/" title="计算机组成原理（五）——中央处理器"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/myphotos/article_cover/7.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2024-06-10</div><div class="title">计算机组成原理（五）——中央处理器</div></div></a></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/myphotos/avatar.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">liujinC</div><div class="author-info__description"></div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">29</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">8</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">3</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://home.liujinc.cn"><i class="fab fa-github"></i><span>网站主页</span></a><div class="card-info-social-icons is-center"><a class="social-icon faa-parent animated-hover" href="/myphotos/WeChat.png" target="_blank" title="微信"><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon-weixin"></use></svg></a><a class="social-icon faa-parent animated-hover" href="/myphotos/QQ.jpg" target="_blank" title="QQ"><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon-QQ"></use></svg></a><a class="social-icon faa-parent animated-hover" href="https://space.bilibili.com/1941048387?spm_id_from=333.1007.0.0" target="_blank" title="B站"><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon-bilibili"></use></svg></a><a class="social-icon faa-parent animated-hover" href="https://blog.csdn.net/qq_63040545?spm=1000.2115.3001.5343" target="_blank" title="CSDN"><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon-csdn"></use></svg></a><a class="social-icon faa-parent animated-hover" href="https://github.com/Bandit-ljC-1" target="_blank" title="GitHub"><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon-github1"></use></svg></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">今年18岁傍50岁富婆，来年50岁包18岁姑娘。</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86%EF%BC%88%E5%9B%9B%EF%BC%89%E2%80%94%E2%80%94%E6%8C%87%E4%BB%A4%E7%B3%BB%E7%BB%9F"><span class="toc-text">计算机组成原理（四）——指令系统</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-%E6%8C%87%E4%BB%A4%E7%B3%BB%E7%BB%9F"><span class="toc-text">1. 指令系统</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-1-%E6%8C%87%E4%BB%A4%E6%A0%BC%E5%BC%8F"><span class="toc-text">1.1 指令格式</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-1-1-%E6%8C%87%E4%BB%A4%E7%9A%84%E5%AE%9A%E4%B9%89"><span class="toc-text">1.1.1 指令的定义</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#1-1-2-%E6%8C%87%E4%BB%A4%E7%9A%84%E6%A0%BC%E5%BC%8F"><span class="toc-text">1.1.2 指令的格式</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#1-1-3-%E9%9B%B6%E5%9C%B0%E5%9D%80%E6%8C%87%E4%BB%A4"><span class="toc-text">1.1.3 零地址指令</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#1-1-4-%E4%B8%80%E5%9C%B0%E5%9D%80%E6%8C%87%E4%BB%A4"><span class="toc-text">1.1.4 一地址指令</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#1-1-5-%E4%BA%8C%E3%80%81%E4%B8%89%E5%9C%B0%E5%9D%80%E6%8C%87%E4%BB%A4"><span class="toc-text">1.1.5 二、三地址指令</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#1-1-6-%E5%9B%9B%E5%9C%B0%E5%9D%80%E6%8C%87%E4%BB%A4"><span class="toc-text">1.1.6 四地址指令</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#1-1-7-%E6%8C%89%E6%8C%87%E4%BB%A4%E9%95%BF%E5%BA%A6%E5%AF%B9%E6%8C%87%E4%BB%A4%E5%88%86%E7%B1%BB"><span class="toc-text">1.1.7 按指令长度对指令分类</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#1-1-8-%E6%8C%89%E6%93%8D%E4%BD%9C%E7%A0%81%E9%95%BF%E5%BA%A6%E5%AF%B9%E6%8C%87%E4%BB%A4%E5%88%86%E7%B1%BB"><span class="toc-text">1.1.8 按操作码长度对指令分类</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#1-1-9-%E6%8C%89%E6%93%8D%E4%BD%9C%E7%B1%BB%E5%9E%8B%E5%88%86%E7%B1%BB"><span class="toc-text">1.1.9 按操作类型分类</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#1-1-10-%E6%8C%87%E4%BB%A4%E6%A0%BC%E5%BC%8F%E5%B0%8F%E7%BB%93"><span class="toc-text">1.1.10 指令格式小结</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-2-%E6%89%A9%E5%B1%95%E6%93%8D%E4%BD%9C%E7%A0%81%E6%8C%87%E4%BB%A4%E6%A0%BC%E5%BC%8F"><span class="toc-text">1.2 扩展操作码指令格式</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-%E6%8C%87%E4%BB%A4%E7%9A%84%E5%AF%BB%E5%9D%80%E6%96%B9%E5%BC%8F"><span class="toc-text">2. 指令的寻址方式</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#2-1-%E6%8C%87%E4%BB%A4%E5%AF%BB%E5%9D%80"><span class="toc-text">2.1 指令寻址</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#2-1-1-%E9%A1%BA%E5%BA%8F%E5%AF%BB%E5%9D%80"><span class="toc-text">2.1.1 顺序寻址</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-1-2-%E8%B7%B3%E8%B7%83%E5%AF%BB%E5%9D%80"><span class="toc-text">2.1.2 跳跃寻址</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-1-3-%E6%8C%87%E4%BB%A4%E5%AF%BB%E5%9D%80%E5%B0%8F%E7%BB%93"><span class="toc-text">2.1.3 指令寻址小结</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-2-%E6%95%B0%E6%8D%AE%E5%AF%BB%E5%9D%80"><span class="toc-text">2.2 数据寻址</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#2-2-1-%E6%95%B0%E6%8D%AE%E5%AF%BB%E5%9D%80%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5"><span class="toc-text">2.2.1 数据寻址基本概念</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-2-2-%E7%9B%B4%E6%8E%A5%E5%AF%BB%E6%89%BE"><span class="toc-text">2.2.2 直接寻找</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-2-3-%E9%97%B4%E6%8E%A5%E5%AF%BB%E5%9D%80"><span class="toc-text">2.2.3 间接寻址</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-2-4-%E5%AF%84%E5%AD%98%E5%99%A8%E5%AF%BB%E5%9D%80"><span class="toc-text">2.2.4 寄存器寻址</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-2-5-%E5%AF%84%E5%AD%98%E5%99%A8%E9%97%B4%E6%8E%A5%E5%AF%BB%E5%9D%80"><span class="toc-text">2.2.5 寄存器间接寻址</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-2-6-%E9%9A%90%E5%90%AB%E5%AF%BB%E5%9D%80"><span class="toc-text">2.2.6 隐含寻址</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-2-7-%E7%AB%8B%E5%8D%B3%E5%AF%BB%E5%9D%80"><span class="toc-text">2.2.7 立即寻址</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-2-8-%E5%9F%BA%E5%9D%80%E5%AF%BB%E5%9D%80"><span class="toc-text">2.2.8 基址寻址</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-2-9-%E5%8F%98%E5%9D%80%E5%AF%BB%E5%9D%80"><span class="toc-text">2.2.9 变址寻址</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-2-10-%E7%9B%B8%E5%AF%B9%E5%AF%BB%E5%9D%80"><span class="toc-text">2.2.10 相对寻址</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-2-11-%E5%A0%86%E6%A0%88%E5%AF%BB%E5%9D%80"><span class="toc-text">2.2.11 堆栈寻址</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-2-12-%E6%95%B0%E6%8D%AE%E5%AF%BB%E5%9D%80%E5%B0%8F%E7%BB%93"><span class="toc-text">2.2.12 数据寻址小结</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-%E7%A8%8B%E5%BA%8F%E7%9A%84%E6%9C%BA%E5%99%A8%E7%BA%A7%E4%BB%A3%E7%A0%81%E8%A1%A8%E7%A4%BA"><span class="toc-text">3. 程序的机器级代码表示</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#3-1-%E5%BC%95%E8%A8%80"><span class="toc-text">3.1 引言</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-2-x86%E6%B1%87%E7%BC%96%E8%AF%AD%E8%A8%80%E6%8C%87%E4%BB%A4%E5%9F%BA%E7%A1%80"><span class="toc-text">3.2 x86汇编语言指令基础</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-3-%E5%B8%B8%E7%94%A8%E7%9A%84x86%E6%B1%87%E7%BC%96%E8%AF%AD%E8%A8%80%E6%8C%87%E4%BB%A4"><span class="toc-text">3.3 常用的x86汇编语言指令</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#3-3-4-%E5%B8%B8%E8%A7%81%E7%9A%84%E7%AE%97%E6%95%B0%E8%BF%90%E7%AE%97%E6%8C%87%E4%BB%A4"><span class="toc-text">3.3.4 常见的算数运算指令</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-3-5-%E5%B8%B8%E8%A7%81%E7%9A%84%E9%80%BB%E8%BE%91%E8%BF%90%E7%AE%97%E6%8C%87%E4%BB%A4"><span class="toc-text">3.3.5 常见的逻辑运算指令</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-3-6-%E5%85%B6%E5%AE%83%E6%8C%87%E4%BB%A4"><span class="toc-text">3.3.6 其它指令</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-4-AT-T%E6%A0%BC%E5%BC%8F%E5%92%8CIntel%E6%A0%BC%E5%BC%8F"><span class="toc-text">3.4 AT&amp;T格式和Intel格式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-5-%E9%80%89%E6%8B%A9%E8%AF%AD%E5%8F%A5%E7%9A%84%E6%9C%BA%E5%99%A8%E7%BA%A7%E8%A1%A8%E7%A4%BA"><span class="toc-text">3.5 选择语句的机器级表示</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#3-5-1-%E6%97%A0%E6%9D%A1%E4%BB%B6%E8%B7%B3%E8%BD%AC%E6%8C%87%E4%BB%A4"><span class="toc-text">3.5.1 无条件跳转指令</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-5-2-%E6%9D%A1%E4%BB%B6%E8%B7%B3%E8%BD%AC%E6%8C%87%E4%BB%A4"><span class="toc-text">3.5.2 条件跳转指令</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-5-3-%E6%89%A9%E5%B1%95%E2%80%94%E2%80%94cmp%E6%8C%87%E4%BB%A4%E6%89%A7%E8%A1%8C%E7%9A%84%E5%BA%95%E5%B1%82%E5%8E%9F%E7%90%86"><span class="toc-text">3.5.3 扩展——cmp指令执行的底层原理</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-6-%E5%BE%AA%E7%8E%AF%E8%AF%AD%E5%8F%A5%E7%9A%84%E6%9C%BA%E5%99%A8%E7%BA%A7%E8%A1%A8%E7%A4%BA"><span class="toc-text">3.6 循环语句的机器级表示</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-7-%E5%87%BD%E6%95%B0%E8%B0%83%E7%94%A8%E7%9A%84%E6%9C%BA%E5%99%A8%E7%BA%A7%E8%A1%A8%E7%A4%BA"><span class="toc-text">3.7 函数调用的机器级表示</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#3-7-1-call%E5%92%8Cret%E6%8C%87%E4%BB%A4"><span class="toc-text">3.7.1 call和ret指令</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-7-2-%E5%A6%82%E4%BD%95%E8%AE%BF%E9%97%AE%E6%A0%88%E5%B8%A7"><span class="toc-text">3.7.2 如何访问栈帧</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-7-3-%E5%A6%82%E4%BD%95%E5%88%87%E6%8D%A2%E6%A0%88%E5%B8%A7"><span class="toc-text">3.7.3 如何切换栈帧</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-7-4-%E5%A6%82%E4%BD%95%E4%BC%A0%E9%80%92%E5%8F%82%E6%95%B0%E5%92%8C%E8%BF%94%E5%9B%9E%E5%80%BC"><span class="toc-text">3.7.4 如何传递参数和返回值</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-7-5-%E5%87%BD%E6%95%B0%E8%B0%83%E7%94%A8%E5%B0%8F%E7%BB%93"><span class="toc-text">3.7.5 函数调用小结</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-CISC%E5%92%8CRISC"><span class="toc-text">4. CISC和RISC</span></a></li></ol></li></ol></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2024 - 2025 By liujinC</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js?v=4.12.0"></script><script src="/js/main.js?v=4.12.0"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0.32/dist/fancybox/fancybox.umd.min.js"></script><script src="https://cdn.jsdelivr.net/npm/instant.page@5.2.0/instantpage.min.js" type="module"></script><script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@17.8.5/dist/lazyload.iife.min.js"></script><script src="https://cdn.jsdelivr.net/npm/node-snackbar@0.1.16/dist/snackbar.min.js"></script><script>function panguFn () {
+  if (typeof pangu === 'object') pangu.autoSpacingPage()
+  else {
+    getScript('https://cdn.jsdelivr.net/npm/pangu@4.0.7/dist/browser/pangu.min.js')
+      .then(() => {
+        pangu.autoSpacingPage()
+      })
+  }
+}
+
+function panguInit () {
+  if (false){
+    GLOBAL_CONFIG_SITE.isPost && panguFn()
+  } else {
+    panguFn()
+  }
+}
+
+document.addEventListener('DOMContentLoaded', panguInit)</script><div class="js-pjax"></div><canvas id="snow"></canvas><script async src="/js/snow.js"></script><canvas id="universe"></canvas><script defer src="/js/universe.js"></script><script defer src="/js/mouse.js"></script><script async src="//at.alicdn.com/t/c/font_4451089_fok8y2foa3.js"></script><script defer type="text/javascript" src="https://cdn1.tianli0.top/npm/sweetalert2@8.19.0/dist/sweetalert2.all.js"></script><script defer src="/js/festival/lunar.js"></script><script defer src="/js/festival/day.js"></script><script async src="/js/fps.js"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="is-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据库加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div id="local-search-results"></div><div id="local-search-stats-wrap"></div></div></div><div id="search-mask"></div><script src="/js/search/local-search.js?v=4.12.0"></script></div></div><!-- hexo injector body_end start --> <script data-pjax>if(document.getElementById('recent-posts') && (location.pathname ==='/'|| '/' ==='all')){
+    var parent = document.getElementById('recent-posts');
+    var child = '<div class="recent-post-item" style="width:100%;height: auto"><div id="catalog_magnet"><div class="magnet_item"><a class="magnet_link" href="http://bandit-ljC-1.github.io/tags/408学习笔记/"><div class="magnet_link_context" style=""><span style="font-weight:500;flex:1">🐱‍👓 路漫漫其修远，我探索不了一点。 (25)</span><span style="padding:0px 4px;border-radius: 8px;"><i class="fas fa-arrow-circle-right"></i></span></div></a></div><div class="magnet_item"><a class="magnet_link" href="http://bandit-ljC-1.github.io/tags/前端/"><div class="magnet_link_context" style=""><span style="font-weight:500;flex:1">🍨 前端UI到转行平面设计 (2)</span><span style="padding:0px 4px;border-radius: 8px;"><i class="fas fa-arrow-circle-right"></i></span></div></a></div><a class="magnet_link_more"  href="http://bandit-ljC-1.github.io/tags" style="flex:1;text-align: center;margin-bottom: 10px;">查看更多...</a></div></div>';
+    console.log('已挂载magnet')
+    parent.insertAdjacentHTML("afterbegin",child)}
+     </script><style>#catalog_magnet{flex-wrap: wrap;display: flex;width:100%;justify-content:space-between;padding: 10px 10px 0 10px;align-content: flex-start;}.magnet_item{flex-basis: calc(50% - 5px);background: #f2f2f2;margin-bottom: 10px;border-radius: 8px;transition: all 0.2s ease-in-out;}.magnet_item:hover{background: #b30070}.magnet_link_more{color:#555}.magnet_link{color:black}.magnet_link:hover{color:white}@media screen and (max-width: 600px) {.magnet_item {flex-basis: 100%;}}.magnet_link_context{display:flex;padding: 10px;font-size:16px;transition: all 0.2s ease-in-out;}.magnet_link_context:hover{padding: 10px 20px;}</style>
+    <style></style><script data-pjax>
+    function butterfly_categories_card_injector_config(){
+      var parent_div_git = document.getElementById('recent-posts');
+      var item_html = '<style>li.categoryBar-list-item{width:32.3%;}.categoryBar-list{max-height: 380px;overflow:auto;}.categoryBar-list::-webkit-scrollbar{width:0!important}@media screen and (max-width: 650px){.categoryBar-list{max-height: 320px;}}</style><div class="recent-post-item" style="height:auto;width:100%;padding:0px;"><div id="categoryBar"><ul class="categoryBar-list"><li class="categoryBar-list-item" style="background:url(/myphotos/article_cover/1.jpg);"> <a class="categoryBar-list-link" href="categories/网页开发/">网页开发</a><span class="categoryBar-list-count">2</span><span class="categoryBar-list-descr">优秀的设计师</span></li><li class="categoryBar-list-item" style="background:url(/myphotos/article_cover/2.jpg);"> <a class="categoryBar-list-link" href="categories/hexo/">hexo</a><span class="categoryBar-list-count">2</span><span class="categoryBar-list-descr">五等分的blog</span></li><li class="categoryBar-list-item" style="background:url(/myphotos/article_cover/3.jpg);"> <a class="categoryBar-list-link" href="categories/学习笔记/">学习笔记</a><span class="categoryBar-list-count">25</span><span class="categoryBar-list-descr">埼玉的成长之路</span></li></ul></div></div>';
+      console.log('已挂载butterfly_categories_card')
+      parent_div_git.insertAdjacentHTML("afterbegin",item_html)
+      }
+    if( document.getElementById('recent-posts') && (location.pathname ==='/'|| '/' ==='all')){
+    butterfly_categories_card_injector_config()
+    }
+  </script><script data-pjax>
+  function butterfly_swiper_injector_config(){
+    var parent_div_git = document.getElementById('recent-posts');
+    var item_html = '<div class="recent-post-item" style="height: auto;width: 100%"><div class="blog-slider swiper-container-fade swiper-container-horizontal" id="swiper_container"><div class="blog-slider__wrp swiper-wrapper" style="transition-duration: 0ms;"><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" href="2024/01/01/Markdown语法/" alt=""><img width="48" height="48" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="myphotos/article_cover/6.jpg" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/></a><div class="blog-slider__content"><span class="blog-slider__code">2024-01-01</span><a class="blog-slider__title" href="2024/01/01/Markdown语法/" alt="">青春男大遇到不会写的Markdown语法</a><div class="blog-slider__text">本文是博主写博客时遇到的一些不会写的Markdown语法，特在此汇总</div><a class="blog-slider__button" href="2024/01/01/Markdown语法/" alt="">详情   </a></div></div><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" href="2024/03/07/数据结构（一）——线性表/" alt=""><img width="48" height="48" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="myphotos/article_cover/3.jpg" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/></a><div class="blog-slider__content"><span class="blog-slider__code">2024-03-07</span><a class="blog-slider__title" href="2024/03/07/数据结构（一）——线性表/" alt="">数据结构（一）——线性表</a><div class="blog-slider__text">本文是数据结构中有关线性表的复习笔记，因此只记录一些重点知识与兄弟们交流，并不适合零基础的兄弟。</div><a class="blog-slider__button" href="2024/03/07/数据结构（一）——线性表/" alt="">详情   </a></div></div><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" href="2024/03/02/基于hexo搭建的个人博客常见问题处理/" alt=""><img width="48" height="48" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="myphotos/article_cover/6.jpg" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/></a><div class="blog-slider__content"><span class="blog-slider__code">2024-03-02</span><a class="blog-slider__title" href="2024/03/02/基于hexo搭建的个人博客常见问题处理/" alt="">基于hexo搭建的个人博客常见问题处理</a><div class="blog-slider__text">该文主要是站长对使用hexo搭建博客时出现的一些问题进行了整理</div><a class="blog-slider__button" href="2024/03/02/基于hexo搭建的个人博客常见问题处理/" alt="">详情   </a></div></div><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" href="2024/02/08/CSS基础语法及应用/" alt=""><img width="48" height="48" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="myphotos/article_cover/6.jpg" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/></a><div class="blog-slider__content"><span class="blog-slider__code">2024-02-08</span><a class="blog-slider__title" href="2024/02/08/CSS基础语法及应用/" alt="">CSS基础语法及应用</a><div class="blog-slider__text">本文主要整理CSS的基本语法，可以搭配HTML5基本语法进行学习</div><a class="blog-slider__button" href="2024/02/08/CSS基础语法及应用/" alt="">详情   </a></div></div><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" href="2024/02/01/HTML5基础语法大全/" alt=""><img width="48" height="48" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="myphotos/article_cover/13.jpg" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/></a><div class="blog-slider__content"><span class="blog-slider__code">2024-02-01</span><a class="blog-slider__title" href="2024/02/01/HTML5基础语法大全/" alt="">HTML5基本语法大全</a><div class="blog-slider__text">本文主要整理了HTML5的基本语法，方便初学者快速入门</div><a class="blog-slider__button" href="2024/02/01/HTML5基础语法大全/" alt="">详情   </a></div></div></div><div class="blog-slider__pagination swiper-pagination-clickable swiper-pagination-bullets"></div></div></div>';
+    console.log('已挂载butterfly_swiper')
+    parent_div_git.insertAdjacentHTML("afterbegin",item_html)
+    }
+  var elist = 'undefined'.split(',');
+  var cpage = location.pathname;
+  var epage = '/';
+  var flag = 0;
+
+  for (var i=0;i<elist.length;i++){
+    if (cpage.includes(elist[i])){
+      flag++;
+    }
+  }
+
+  if ((epage ==='all')&&(flag == 0)){
+    butterfly_swiper_injector_config();
+  }
+  else if (epage === cpage){
+    butterfly_swiper_injector_config();
+  }
+  </script><script defer src="https://npm.elemecdn.com/hexo-butterfly-swiper/lib/swiper.min.js"></script><script defer data-pjax src="https://npm.elemecdn.com/hexo-butterfly-swiper/lib/swiper_init.js"></script><script data-pjax>
+  function butterfly_footer_beautify_injector_config(){
+    var parent_div_git = document.getElementById('footer-wrap');
+    var item_html = '<div id="workboard"></div><p id="ghbdages"><a class="github-badge" target="_blank" href="https://hexo.io/" style="margin-inline:5px" data-title="博客框架为Hexo_v6.2.0" title=""><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img.shields.io/badge/Frame-Hexo-blue?style=flat&amp;logo=hexo" alt=""/></a><a class="github-badge" target="_blank" href="https://butterfly.js.org/" style="margin-inline:5px" data-title="主题版本Butterfly_v4.3.1" title=""><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img.shields.io/badge/Theme-Butterfly-6513df?style=flat&amp;logo=bitdefender" alt=""/></a><a class="github-badge" target="_blank" href="https://vercel.com/" style="margin-inline:5px" data-title="本站采用多线部署，主线路托管于Vercel" title=""><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img.shields.io/badge/Hosted-Vercel-brightgreen?style=flat&amp;logo=Vercel" alt=""/></a><a class="github-badge" target="_blank" href="https://dashboard.4everland.org/" style="margin-inline:5px" data-title="本站采用多线部署，备用线路托管于4EVERLAND" title=""><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img.shields.io/badge/Hosted-4EVERLAND-22DDDD?style=flat&amp;logo=IPFS" alt=""/></a><a class="github-badge" target="_blank" href="https://github.com/" style="margin-inline:5px" data-title="本站项目由Github托管" title=""><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img.shields.io/badge/Source-Github-d021d6?style=flat&amp;logo=GitHub" alt=""/></a><a class="github-badge" target="_blank" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" style="margin-inline:5px" data-title="本站采用知识共享署名-非商业性使用-相同方式共享4.0国际许可协议进行许可" title=""><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img.shields.io/badge/Copyright-BY--NC--SA%204.0-d42328?style=flat&amp;logo=Claris" alt=""/></a></p>';
+    console.log('已挂载butterfly_footer_beautify')
+    parent_div_git.insertAdjacentHTML("beforeend",item_html)
+    }
+  var elist = 'null'.split(',');
+  var cpage = location.pathname;
+  var epage = 'all';
+  var flag = 0;
+
+  for (var i=0;i<elist.length;i++){
+    if (cpage.includes(elist[i])){
+      flag++;
+    }
+  }
+
+  if ((epage ==='all')&&(flag == 0)){
+    butterfly_footer_beautify_injector_config();
+  }
+  else if (epage === cpage){
+    butterfly_footer_beautify_injector_config();
+  }
+  </script><script async src="/js/clock.js"></script><div class="js-pjax"><script async="async">var arr = document.getElementsByClassName('recent-post-item');
+for(var i = 0;i<arr.length;i++){
+    arr[i].classList.add('wow');
+    arr[i].classList.add('animate__zoomIn');
+    arr[i].setAttribute('data-wow-duration', '2s');
+    arr[i].setAttribute('data-wow-delay', '1s');
+    arr[i].setAttribute('data-wow-offset', '100');
+    arr[i].setAttribute('data-wow-iteration', '1');
+  }</script><script async="async">var arr = document.getElementsByClassName('card-widget');
+for(var i = 0;i<arr.length;i++){
+    arr[i].classList.add('wow');
+    arr[i].classList.add('animate__zoomIn');
+    arr[i].setAttribute('data-wow-duration', '');
+    arr[i].setAttribute('data-wow-delay', '');
+    arr[i].setAttribute('data-wow-offset', '');
+    arr[i].setAttribute('data-wow-iteration', '');
+  }</script></div><script defer src="/css/wowjs/wow.min.js"></script><script defer src="/css/wowjs/wow_init.js"></script><!-- hexo injector body_end end --></body></html>
