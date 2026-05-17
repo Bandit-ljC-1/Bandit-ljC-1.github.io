@@ -81,3 +81,33 @@ svg.icon {
   background: #3ecdf1;
   color: #f2f2f2;
 }
+
+/* 全屏视频背景 - 仅 PC 夜间模式显示 */
+#bg-video {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  object-fit: cover;
+  z-index: -1;
+  opacity: 0.9;
+}
+
+/* 只有 PC + 夜间模式 → 播放视频 */
+@media (min-width: 769px) {
+  [data-theme="dark"] #bg-video {
+    display: block;
+  }
+  [data-theme="dark"] #web_bg {
+    background: none !important;
+  }
+}
+
+/* 手机端永远不显示视频 */
+@media (max-width: 768px) {
+  #bg-video {
+    display: none !important;
+  }
+}
