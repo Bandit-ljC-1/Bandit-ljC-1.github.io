@@ -146,3 +146,16 @@ svg.icon {
     display: none !important;
   }
 }
+
+
+/* 强制让 悬浮文章 显示在 分类磁贴 上方 */
+#recent-posts > .recent-post-item {
+  display: flex;
+  flex-direction: column;
+}
+#recent-posts > .recent-post-item > .swiper{
+  order: 1;
+}
+#recent-posts > .recent-post-item > .categoryBar{
+  order: 2;
+}
